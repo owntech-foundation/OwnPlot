@@ -1,31 +1,181 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8">
-    <title>Hello World!!</title>
-    <style>
-        table { border-collapse: collapse; }
-        table, th, td { border: 1px solid black; }
-    </style>
-</head>
+    <title>Hello World!</title>
 
-<body>
-    <h1>Hello World!</h1>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
-    We are using Node.js <span id="node-version"></span>, Chromium <span id="chrome-version"></span>, Electron <span id="electron-version"></span>, and Serialport <span id="serialport-version"></span>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <div id="error"></div>
-    <div id="ports"></div>
-    <div id="received"></div>
 
-    <select name="AvailablePorts" id="AvailablePorts">
-      <option value="placeholder">---</option>
-    </select>
-    <div id="testports"></div>
+    <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
-</body>
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css">
+    <link rel="stylesheet" href="style.css">
 
-<script src="./renderer.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vuex"></script>
+
+  </head>
+
+  <body>
+
+    <div class="pane pane-main p-3">
+
+
+
+        <div id="app-title">
+          <h5>
+            {{productName||name}}
+            <div class="small text-muted" style="font-size: .9rem;">{{description}}</div>
+          </h5>
+        </div>
+
+        <hr>
+
+        <div id="app-inbox-menu" class="p-3"></div>
+
+        <div class="p-3">
+
+           <h5><i class="fa fa-inbox fa-1x text-secondary"></i> Products <span class="badge badge-danger">10,000</span></h5>
+
+          <div class="m-3">
+            <i class="fa fa-inbox text-secondary"></i> Construction <span class="badge badge-secondary">87%</span>
+          </div>
+
+          <div class="m-3">
+            <i class="fa fa-inbox text-secondary"></i> Sales <span class="badge badge-secondary">9,000</span>
+          </div>
+
+        </div>
+
+
+
+    </div>
+
+    <div class="pane pane-list p-3">
+
+      <div id="app-inbox" class="p-3"></div>
+
+      <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+        <div id="accordion" class="mb-3" role="tablist" aria-multiselectable="true">
+          <div class="card">
+            <div class="card-header" role="tab" id="headingOne">
+              <h5 class="mb-0">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Collapsible Group Item #1
+                </a>
+              </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+              <div class="card-block p-3">
+
+                <div id="app"></div>
+
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" role="tab" id="headingTwo">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Collapsible Group Item #2
+                </a>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+              <div class="card-block p-3">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" role="tab" id="headingThree">
+              <h5 class="mb-0">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Collapsible Group Item #3
+                </a>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+              <div class="card-block p-3">
+                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+
+
+                <ul class="list-group mb-3">
+                  <li class="list-group-item active"> Node.js <script>document.write(process.versions.node)</script> </li>
+                  <li class="list-group-item"> Chromium <script>document.write(process.versions.chrome)</script> </li>
+                  <li class="list-group-item"> Electron <script>document.write(process.versions.electron)</script> </li>
+                  <li class="list-group-item"> jQuery 3.1.1.slim </li>
+                  <li class="list-group-item"> Vue <script>document.write(Vue.version)</script> </li>
+                </ul>
+
+                <form id="emitter-example-form" class="bg-faded p-3">
+                  <div class="form-group row">
+                    <label class="col-sm-12 col-form-label">Event Emitter Example</label>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleSelect1">Select Event</label>
+                    <select class="form-control" id="event-name-select">
+                      <option>background-color</option>
+                      <option>foreground-color</option>
+                    </select>
+                  </div>
+                  <div class="form-group row">
+                    <label for="example-color-input" class="col-2 col-form-label">Select Color</label>
+                    <div class="col-10">
+                      <input class="form-control" type="color" value="#297ce8" id="example-color-input">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Emit</button>
+                </form>
+
+
+    </div>
+
+    <div class="pane pane-data p-3">
+
+      <div class="card">
+        <img class="card-img-top" src="https://unsplash.it/200/300" alt="Card image cap">
+        <div class="card-block p-3">
+          <h4 class="card-title">Card title</h4>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+
+
+
+  </body>
+
+  <script>
+    // You can also require other files to run in this process
+
+    require('./renderer.js');
+
+  </script>
 
 </html>
