@@ -50,16 +50,48 @@ async function printSerialPort(){
 	await SerialPort.list
 }
 
-function listPorts() {
-	if (checkPorts()) {
-		listSerialPorts();
-	}
-  setTimeout(listPorts, 2000);
-}
-
+// function listPorts() {
+// 	if (checkPorts()) {
+// 		listSerialPorts();
+// 	}
+//   setTimeout(listPorts, 2000);
+// }
 
 // Set a timeout that will check for new serialPorts every 2 seconds.
 // This timeout reschedules itself.
-setTimeout(listPorts, 2000);
+// setTimeout(listPorts, 2000);
 
-listSerialPorts()
+//listSerialPorts()
+
+const port = new SerialPort({
+	path: '/dev/cu.usbmodem101',
+	baudRate: 115200,
+})
+
+const separator = 58;
+const endCom = [13, 10];
+let prevPendingData = [];
+let currentData = [];
+port.on("open", function() {
+	console.log("-- Connection opened --");
+	port.on("data", function(data) {
+		if (0) //(data[data.length - 2 ] == endCom[0] && data[data.length - 2] == endCom[1])) {
+		{
+			prevPendingData.push(data);
+		}
+		else
+		{
+			let dataSerial = [];
+			let dataStart = 0;
+			for (let i = 0; i < data.length; i++) {
+				if (data[i] == separator || (data[i] == endCom[0] && data[i + 1] == endCom[1]))
+				{
+					dataSerial.push(data.slice(dataStart, i));
+					dataStart = i + 1;
+				}
+			}
+			dataSerialBuff = dataSerial;
+		}
+		console.log(data);
+	});
+});

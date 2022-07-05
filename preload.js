@@ -8,6 +8,5 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${dependency}-version`, process.versions[dependency])
   }
 
-  
-  document.getElementById('serialport-version').innerText = require('serialport/package').version
+  //document.getElementById('serialport-version').innerText = require('serialport/package').version
 })
