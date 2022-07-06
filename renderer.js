@@ -8,9 +8,9 @@ let prevPorts
 
 async function checkPorts(){
 	await SerialPort.list().then((ports) => {
-		console.log("==== ports showdown ====")
-		console.log(prevPorts)
-		console.log(ports)
+		// console.log("==== ports showdown ====")
+		// console.log(prevPorts)
+		// console.log(ports)
 		if (prevPorts == ports) {
 			console.log("false")
 			return false;
@@ -23,12 +23,11 @@ async function checkPorts(){
 async function listSerialPorts(){
   await SerialPort.list().then((ports, err) => {
     if(err) {
-      document.getElementById('error').textContent = err.message
+      document.getElementById('#error').textContent = err.message
       return
     } else {
       document.getElementById('error').textContent = ''
     }
-    console.log('ports', ports);
 
     if (ports.length === 0) {
       document.getElementById('error').textContent = 'No ports discovered'
@@ -37,12 +36,21 @@ async function listSerialPorts(){
     tableHTML = tableify(ports)
     document.getElementById('ports').innerHTML = tableHTML
 
-	lpHTML = ""
-	ports.forEach(p => {
-		lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>')
-	});
+	// ports.forEach(p => {
+	// });
 
-	document.getElementById('AvailablePorts').innerHTML = lpHTML;
+	if (availableSerialPortsLenght !=  ports.length) {
+		console.log("Ports changed !")
+		lpHTML = ""
+		availableSerialPortsLenght = ports.length;
+		ports.forEach(p => {
+			lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>')
+		});
+		document.getElementById('AvailablePorts').innerHTML = lpHTML;
+	}
+
+
+	//
   })
 }
 
@@ -50,18 +58,17 @@ async function printSerialPort(){
 	await SerialPort.list
 }
 
-// function listPorts() {
-// 	if (checkPorts()) {
-// 		listSerialPorts();
-// 	}
-//   setTimeout(listPorts, 2000);
-// }
+function listPorts() {
+	if (checkPorts()) {
+		listSerialPorts();
+	}
+  setTimeout(listPorts, 2000);
+}
 
 // Set a timeout that will check for new serialPorts every 2 seconds.
 // This timeout reschedules itself.
-// setTimeout(listPorts, 2000);
-
-//listSerialPorts()
+setTimeout(listPorts, 2000);
+listSerialPorts()
 
 const port = new SerialPort({
 	path: '/dev/cu.usbserial-1220',
@@ -78,18 +85,18 @@ let currentData = [];
 port.on("open", function() {
 	console.log("-- Connection opened --");
 	port.on("data", function(data) {
-		console.log("========================");
+		//console.log("========================");
 
 		currentData = [];
 		currentData = data;
-		console.log(currentData);
+		//console.log(currentData);
 
 		if (currentData[currentData.length - 2 ] != endCom[0] || currentData[currentData.length - 1 ] != endCom[1])
 		{
-			console.log("Packet not complete");
+			//console.log("Packet not complete");
 			pendingData = currentData; //add the prev pendingdata
-			console.log("Pending data :");
-			console.log(pendingData);
+			//console.log("Pending data :");
+			//console.log(pendingData);
 		}
 		else
 		{
@@ -106,7 +113,7 @@ port.on("open", function() {
 			}
 			dataSerialBuff = dataSerial;
 		}
-		console.log("data :");
-		console.log(data);
+		//console.log("data :");
+		//console.log(data);
 	});
 });

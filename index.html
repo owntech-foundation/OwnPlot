@@ -123,15 +123,17 @@
 	
 			<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
+			<div id="error"></div>
+			<div id="ports"></div>
+			<div id="received"></div>
 			<div class="input-group mb-3">
-				<label class="input-group-text" for="inputGroupSelect01">Options</label>
-				<select class="form-select" id="inputGroupSelect01">
-					<option selected>Choose...</option>
-					<option value="1">One</option>
-					<option value="2">Two</option>
-					<option value="3">Three</option>
+				<label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
+				<select class="form-select" id="AvailablePorts" name="AvailablePorts">
+					<option selected>Select a port...</option>
 				</select>
-				<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-scissors"></i></span>
+			</div>
+			<div class="input-group mb-3">
+				<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
 				<input type="text" id="separator" name="separator" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
 			</div>
 		</main>
@@ -143,6 +145,9 @@
 		separator: ':',
 		port: ""
 	}
+
+	var availableSerialPortsLenght = 0;
+
 
 	$(document).ready(function(){
 		separatorField = $("#separator")
