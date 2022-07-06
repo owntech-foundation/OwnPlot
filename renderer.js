@@ -36,9 +36,6 @@ async function listSerialPorts(){
     tableHTML = tableify(ports)
     document.getElementById('ports').innerHTML = tableHTML
 
-	// ports.forEach(p => {
-	// });
-
 	if (availableSerialPortsLenght !=  ports.length) {
 		console.log("Ports changed !")
 		lpHTML = ""
@@ -48,9 +45,6 @@ async function listSerialPorts(){
 		});
 		document.getElementById('AvailablePorts').innerHTML = lpHTML;
 	}
-
-
-	//
   })
 }
 
