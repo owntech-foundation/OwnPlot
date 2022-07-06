@@ -64,27 +64,41 @@ async function printSerialPort(){
 //listSerialPorts()
 
 const port = new SerialPort({
-	path: '/dev/cu.usbmodem101',
+	path: '/dev/cu.usbserial-1220',
 	baudRate: 115200,
 })
 
-const separator = 58;
+
+//const separator = 58; //:
 const endCom = [13, 10];
-let prevPendingData = [];
+let pendingData = [];
 let currentData = [];
+
+//TODO: finish the pending packet thing
 port.on("open", function() {
 	console.log("-- Connection opened --");
 	port.on("data", function(data) {
-		if (0) //(data[data.length - 2 ] == endCom[0] && data[data.length - 2] == endCom[1])) {
+		console.log("========================");
+
+		currentData = [];
+		currentData = data;
+		console.log(currentData);
+
+		if (currentData[currentData.length - 2 ] != endCom[0] || currentData[currentData.length - 1 ] != endCom[1])
 		{
-			prevPendingData.push(data);
+			console.log("Packet not complete");
+			pendingData = currentData; //add the prev pendingdata
+			console.log("Pending data :");
+			console.log(pendingData);
 		}
 		else
 		{
-			let dataSerial = [];
+			pendingData = []; //flush the pending data buffer
+			let dataSerial = []; //flush dataSerial buffer
 			let dataStart = 0;
 			for (let i = 0; i < data.length; i++) {
-				if (data[i] == separator || (data[i] == endCom[0] && data[i + 1] == endCom[1]))
+				if (data[i] == configSerialPlot.separator.charCodeAt(0) ||
+				(data[i] == endCom[0] && data[i + 1] == endCom[1]))
 				{
 					dataSerial.push(data.slice(dataStart, i));
 					dataStart = i + 1;
@@ -92,6 +106,7 @@ port.on("open", function() {
 			}
 			dataSerialBuff = dataSerial;
 		}
+		console.log("data :");
 		console.log(data);
 	});
 });
