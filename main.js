@@ -1,3 +1,11 @@
+/**
+ * @ Author: Guillaume Arthaud
+ * @ Email: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-06-28 14:52:52
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-07-08 16:52:29
+ */
+
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')

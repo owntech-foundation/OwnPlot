@@ -1,3 +1,11 @@
+<!--
+ * @ Author: Guillaume Arthaud
+ * @ Email: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-07-05 14:01:57
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-07-08 18:11:24
+-->
+
 <!DOCTYPE html>
 <html>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -16,7 +24,10 @@
 
     <link rel="stylesheet" href="dashboard.css">
 
-	<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Company name</a>
+	<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">
+		<!-- TODO: change the logo w/ a transparent one. maybe change the nav bar too -->
+		<img src="./assets/Owntech_logo_turquoise.png" alt="" height="50em">
+	</a>
 	<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
 	<span class="navbar-toggler-icon"></span>
 	</button>
@@ -30,82 +41,7 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-		<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-			<div class="position-sticky pt-3">
-			<ul class="nav flex-column">
-				<li class="nav-item">
-				<a class="nav-link active" aria-current="page" href="#">
-					<span data-feather="home" class="align-text-bottom"></span>
-					Dashboard
-				</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file" class="align-text-bottom"></span>
-					Orders
-				</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="shopping-cart" class="align-text-bottom"></span>
-					Products
-				</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="users" class="align-text-bottom"></span>
-					Customers
-				</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="bar-chart-2" class="align-text-bottom"></span>
-					Reports
-				</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="layers" class="align-text-bottom"></span>
-					Integrations
-				</a>
-				</li>
-			</ul>
-	
-			<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-				<span>Saved reports</span>
-				<a class="link-secondary" href="#" aria-label="Add a new report">
-				<span data-feather="plus-circle" class="align-text-bottom"></span>
-				</a>
-			</h6>
-			<ul class="nav flex-column mb-2">
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Current month
-				</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Last quarter
-				</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Social engagement
-				</a>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" href="#">
-					<span data-feather="file-text" class="align-text-bottom"></span>
-					Year-end sale
-				</a>
-				</li>
-			</ul>
-			</div>
-		</nav>
-	
+
 		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 			<h1 class="h2">Dashboard</h1>
@@ -120,7 +56,7 @@
 				</button>
 			</div>
 			</div>
-	
+
 			<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
 			<div id="error"></div>
@@ -136,20 +72,23 @@
 				<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
 				<input type="text" id="separator" name="separator" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
 			</div>
+			<button type="button" class="btn btn-warning" data-bs-toggle="button" id="pauseBtn">non init</button>
+
 		</main>
 		</div>
 	</div>
 	<script>
-	
+
 	var configSerialPlot = {
 		separator: ':',
 		port: ""
 	}
-
+	
+	var availableSerialPorts = []
 	var availableSerialPortsLenght = 0;
 
-
 	$(document).ready(function(){
+		pauseBtn($('#pauseBtn'))
 		separatorField = $("#separator")
 		separatorField.val(configSerialPlot.separator);
 		separatorField.on('input',function(e){
@@ -158,12 +97,35 @@
 			}
 		});
 
+		$('#AvailablePorts option').filter(function(i, e) {
+			console.log($(e).text())
+		})
+
+		$('#pauseBtn').click(function()
+		{
+			if($(this).attr('aria-pressed') === "true"){ 
+				runBtn(this);
+			} else { 
+				pauseBtn(this);
+			}
+		});
 		
 	});
-
-
-	function randomScalingFactor() {
-		return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
+	
+	function pauseBtn(elem) {
+		$(elem).html('<i class="fa-solid fa-pause"></i>&nbsp;Paused');
+		$(elem).removeClass('btn-success');
+		$(elem).addClass('btn-warning');
+		$(elem).data('aria-pressed', 'true');
+		myChart.options.scales.xAxes[0].realtime.pause = true;
+	}
+	
+	function runBtn(elem) {
+		$(elem).html('<i class="fa-solid fa-running"></i>&nbsp;Running');
+		$(elem).removeClass('btn-warning');
+		$(elem).addClass('btn-success');
+		$(elem).attr('aria-pressed', 'false');
+		myChart.options.scales.xAxes[0].realtime.pause = false;		
 	}
 
 	let dataSerialBuff = [];
@@ -202,7 +164,7 @@
 				labels: ['Red'],
 				datasets: [{
 					index: 0,
-					label: 'Dataset 1 (linear interpolation)',
+					label: 'Dataset 1',
 					backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
 					borderColor: chartColors.red,
 					fill: false,
@@ -210,7 +172,7 @@
 					data: []
 				},{
 					index: 1,
-					label: 'Dataset 2 (linear interpolation)',
+					label: 'Dataset 2',
 					backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
 					borderColor: chartColors.blue,
 					fill: false,
@@ -218,7 +180,7 @@
 					data: []
 				},{
 					index: 2,
-					label: 'Dataset 3 (linear interpolation)',
+					label: 'Dataset 3',
 					backgroundColor: color(chartColors.green).alpha(0.5).rgbString(),
 					borderColor: chartColors.green,
 					fill: false,
@@ -234,7 +196,8 @@
 							duration: 20000,
 							refresh: 200,
 							delay: 100,
-							onRefresh: onRefresh
+							onRefresh: onRefresh,
+							pause: true
 						}
 					}],
 					yAxes: [{
