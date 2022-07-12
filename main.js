@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-06-28 14:52:52
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-08 16:52:29
+ * @ Modified time: 2022-07-12 12:22:49
  */
 
 const { app, BrowserWindow } = require('electron')
@@ -17,8 +17,8 @@ let mainWindow
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1000,
+        height: 800,
         icon: __dirname + '/Icon/Icon.icns', //ico on widows icns on macos
         backgroundColor: "#ccc",
         webPreferences: {
