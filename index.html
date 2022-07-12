@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-05 14:01:57
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-11 13:22:57
+ * @ Modified time: 2022-07-12 18:54:42
 -->
 
 <!DOCTYPE html>
@@ -81,14 +81,14 @@
 
 	var configSerialPlot = {
 		separator: ':',
-		port: ""
+		path: ""
 	}
 	
 	var availableSerialPorts = []
 	var availableSerialPortsLenght = 0;
 
 	$(document).ready(function(){
-		pauseBtn($('#pauseBtn'))
+		noPortBtn($('#pauseBtn'))
 		separatorField = $("#separator")
 		separatorField.val(configSerialPlot.separator);
 		separatorField.on('input',function(e){
@@ -97,10 +97,13 @@
 			}
 		});
 
-		$('#AvailablePorts option').filter(function(i, e) {
-			console.log($(e).text())
-		})
-
+		$("#AvailablePorts").change(function(){
+			var selectedPort = $(this).children("option:selected").val();
+			configSerialPlot.path = selectedPort;
+			openPort();
+			runBtn($('#pauseBtn'));
+		});
+	
 		$('#pauseBtn').click(function()
 		{
 			if($(this).attr('aria-pressed') === "true"){ 

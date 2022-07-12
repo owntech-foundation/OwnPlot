@@ -9,9 +9,9 @@
     "serialport": "^10.4.0",
     "tableify": "^1.1.1"
   },
-  "name": "my-electron-app2",
+  "name": "OwnPlot",
   "version": "1.0.0",
-  "description": "test prgm",
+  "description": "OwnTech's Serial Plotter",
   "main": "main.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",
@@ -111,7 +111,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
-  "author": "guigur",
+  "author": "Guillaume Arthaud",
   "license": "MIT",
   "config": {
     "forge": {

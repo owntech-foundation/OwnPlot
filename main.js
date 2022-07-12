@@ -3,12 +3,22 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-06-28 14:52:52
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-12 12:22:49
+ * @ Modified time: 2022-07-12 15:16:55
  */
 
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
+
+const iconUrl = url.format({
+    pathname: path.join(__dirname, '/assets/Icon.icns'),
+    protocol: 'file:',
+    slashes: true
+});
+
+// const image = electron.nativeImage.createFromPath(
+//     app.getAppPath() + "/test.icns");
+// app.dock.setIcon(image);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -19,7 +29,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1000,
         height: 800,
-        icon: __dirname + '/Icon/Icon.icns', //ico on widows icns on macos
+        icon: __dirname + '/assets/Icon.icns',
         backgroundColor: "#ccc",
         webPreferences: {
             nodeIntegration: true, // to allow require
