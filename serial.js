@@ -3,26 +3,27 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-08 17:03:07
+ * @ Modified time: 2022-07-12 11:11:59
  */
 
 const { SerialPort } = require('serialport')
+const tableify = require('tableify');
 let prevPorts
 
-async function checkPorts(){
-await SerialPort.list().then((ports) => {
-	// console.log("==== ports showdown ====")
-	// console.log(prevPorts)
-	// console.log(ports)
-	if (prevPorts == ports) {
-		console.log("false")
-		return false;
-	}
-	prevPorts = ports;
-	return true;
-})
+//Check if ports changed from the last time
+//If it's the first time this function is executed, 
+//then it will count as a port changed
+async function checkPortsChanged(){
+	await SerialPort.list().then((ports) => {
+		if (prevPorts == ports) {
+			return false;
+		}
+		prevPorts = ports;
+		return true;
+	})
 }
 
+//Everytime a port change, this code is executed
 async function listSerialPorts(){
 	await SerialPort.list().then((ports, err) => {
 		if(err) {
@@ -53,14 +54,12 @@ async function listSerialPorts(){
 	})
 }
 
-async function printSerialPort(){
-	await SerialPort.list
-}
-
-
+//list ports loop
 function listPorts() {
-	if (checkPorts()) {
+	if (checkPortsChanged()) {
 		listSerialPorts();
 	}
 	setTimeout(listPorts, 2000);
 }
+
+listPorts();

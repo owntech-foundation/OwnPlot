@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-05 14:01:57
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-08 18:11:24
+ * @ Modified time: 2022-07-11 13:22:57
 -->
 
 <!DOCTYPE html>
@@ -112,22 +112,6 @@
 		
 	});
 	
-	function pauseBtn(elem) {
-		$(elem).html('<i class="fa-solid fa-pause"></i>&nbsp;Paused');
-		$(elem).removeClass('btn-success');
-		$(elem).addClass('btn-warning');
-		$(elem).data('aria-pressed', 'true');
-		myChart.options.scales.xAxes[0].realtime.pause = true;
-	}
-	
-	function runBtn(elem) {
-		$(elem).html('<i class="fa-solid fa-running"></i>&nbsp;Running');
-		$(elem).removeClass('btn-warning');
-		$(elem).addClass('btn-success');
-		$(elem).attr('aria-pressed', 'false');
-		myChart.options.scales.xAxes[0].realtime.pause = false;		
-	}
-
 	let dataSerialBuff = [];
 	let indexData = 0;
 
@@ -155,7 +139,6 @@
 		grey: 'rgb(201, 203, 207)'
 	};
 	var color = Chart.helpers.color;
-
 
 		const ctx = document.getElementById('myChart').getContext('2d');
 		const myChart = new Chart(ctx, {
@@ -211,5 +194,8 @@
 		});
 		</script>
 		<script src="./renderer.js"></script>
+		<script src="./serial.js"></script>
+		<script src="./plotter.js"></script>
+
 </body>
 </html>
