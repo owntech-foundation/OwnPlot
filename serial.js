@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-12 18:48:11
+ * @ Modified time: 2022-07-13 12:30:58
  */
 
 const { SerialPort } = require('serialport')
@@ -48,7 +48,7 @@ async function listSerialPorts(){
 			availableSerialPortsLenght = ports.length;
 			availableSerialPorts = ports //copy of array to access anywhere
 			ports.forEach(p => {
-				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>')
+				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
 			});
 			document.getElementById('AvailablePorts').innerHTML = lpHTML;
 		}
@@ -70,6 +70,7 @@ function openPort() {
 		path: configSerialPlot.path,
 		baudRate: 115200,
 	});
+	//TODO: do something about the ressource busy thing
 	console.log(port);
 	openPortRoutine();
 }

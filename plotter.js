@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-12 18:57:35
+ * @ Modified time: 2022-07-13 12:15:09
  */
 
 function pauseBtn(elem) {
