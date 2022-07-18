@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-13 12:30:58
+ * @ Modified time: 2022-07-18 17:56:58
  */
 
 const { SerialPort } = require('serialport')
@@ -44,7 +44,7 @@ async function listSerialPorts(){
 		if (availableSerialPortsLenght !=  ports.length) {
 			console.log("Ports changed !")
 			console.log(ports)
-			lpHTML = ""
+			lpHTML = '<option value="default" selected>Select a port...</option>';
 			availableSerialPortsLenght = ports.length;
 			availableSerialPorts = ports //copy of array to access anywhere
 			ports.forEach(p => {
