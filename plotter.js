@@ -13,7 +13,7 @@ function pauseBtn(elem) {
 	$(elem).removeClass('disabled');
 	$(elem).addClass('btn-warning');
 	$(elem).attr('aria-pressed', 'true');
-	$(elem).attr('aria-disabled', 'false');
+	$(elem).attr('aria-disabled', 'true');
 	myChart.options.scales.xAxes[0].realtime.pause = true;
 }
 
@@ -36,5 +36,24 @@ function noPortBtn(elem) {
 	$(elem).addClass('disabled');
 	$(elem).attr('aria-pressed', 'true');
 	$(elem).attr('aria-disabled', 'true');
-	myChart.options.scales.xAxes[0].realtime.pause = true;	
+}
+
+function openPortBtn(elem) {
+	$(elem).html('Port opened');
+	$(elem).removeClass('btn-warning');
+	$(elem).removeClass('btn-secondary');
+	$(elem).removeClass('disabled');
+	$(elem).addClass('btn-success');
+	$(elem).attr('aria-pressed', 'false');
+	$(elem).css("visibility","visible");
+}
+
+function closePortBtn(elem) {
+	$(elem).html('Port closed');
+	$(elem).removeClass('btn-success');
+	$(elem).removeClass('btn-secondary');
+	$(elem).removeClass('disabled');
+	$(elem).addClass('btn-warning');
+	$(elem).attr('aria-pressed', 'true');
+	$(elem).css("visibility","visible");
 }

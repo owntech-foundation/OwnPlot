@@ -41,7 +41,7 @@ async function listSerialPorts(){
 		tableHTML = tableify(ports)
 		document.getElementById('ports').innerHTML = tableHTML
 
-		if (availableSerialPortsLenght !=  ports.length) {
+		if (availableSerialPortsLength !=  ports.length) {
 			console.log("Ports changed !")
 			console.log(ports)
 			lpHTML = '<option value="default" selected>Select a port...</option>';
