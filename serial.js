@@ -41,11 +41,11 @@ async function listSerialPorts(){
 		tableHTML = tableify(ports)
 		document.getElementById('ports').innerHTML = tableHTML
 
-		if (availableSerialPortsLenght !=  ports.length) {
+		if (availableSerialPortsLength !=  ports.length) {
 			console.log("Ports changed !")
 			console.log(ports)
 			lpHTML = ""
-			availableSerialPortsLenght = ports.length;
+			availableSerialPortsLength = ports.length;
 			availableSerialPorts = ports //copy of array to access anywhere
 			ports.forEach(p => {
 				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
