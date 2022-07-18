@@ -12,7 +12,7 @@ function pauseBtn(elem) {
 	$(elem).removeClass('btn-secondary');
 	$(elem).removeClass('disabled');
 	$(elem).addClass('btn-warning');
-	$(elem).data('aria-pressed', 'true');
+	$(elem).attr('aria-pressed', 'true');
 	$(elem).attr('aria-disabled', 'false');
 	myChart.options.scales.xAxes[0].realtime.pause = true;
 }
