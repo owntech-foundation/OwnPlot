@@ -37,3 +37,9 @@ If you are using Windows, we recommand the use of git bash https://www.git-scm.c
 A window should be opened with OwnPlot.
 
 If you are experiencing problems during the install, please post an issue and report the problem. This will greatly help us improve the user experience.
+
+Build for your plateform
+========================
+
+Simply run `npm run make` \
+The `.exe` / `.app` / `.deb` / `.rpm` file can be found in the `out` folder.
