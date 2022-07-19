@@ -105,7 +105,9 @@
 				configSerialPlot.path = selectedPort;
 				openPort();
 				closePortBtn($('#openPortBtn'));
+				//pause btn is unclickable while port is closed
 				pauseBtn($('#pauseBtn'));
+				$('#pauseBtn').addClass('disabled');
 			} else {
 				$('#openPortBtn').css("visibility","hidden");
 				noPortBtn($('#pauseBtn'));
@@ -130,7 +132,9 @@
 				runBtn('#pauseBtn');
 				openPortBtn(this);
 			} else {
+				//pause btn is unclickable while port is closed
 				pauseBtn('#pauseBtn');
+				$('#pauseBtn').addClass('disabled');
 				closePortBtn(this);
 			}
 		});
