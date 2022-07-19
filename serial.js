@@ -45,7 +45,7 @@ async function listSerialPorts(){
 			console.log("Ports changed !")
 			console.log(ports)
 			lpHTML = '<option value="default" selected>Select a port...</option>';
-			availableSerialPortsLenght = ports.length;
+			availableSerialPortsLength = ports.length;
 			availableSerialPorts = ports //copy of array to access anywhere
 			ports.forEach(p => {
 				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');

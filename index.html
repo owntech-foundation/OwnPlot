@@ -99,9 +99,9 @@
 		});
 
 		$("#AvailablePorts").change(function(){
-			if(availableSerialPortsLength > 0 && selectedPort != "default"){
-				var selectedPort = $(this).children("option:selected").val();
-				
+			var selectedPort = $(this).children("option:selected").val();
+			console.log(availableSerialPortsLength);
+			if(availableSerialPortsLength > 0 && selectedPort != "default"){				
 				configSerialPlot.path = selectedPort;
 				openPort();
 				closePortBtn($('#openPortBtn'));
