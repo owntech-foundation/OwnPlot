@@ -3,12 +3,13 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-06-28 14:52:52
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-12 15:16:55
+ * @ Modified time: 2022-07-19 16:48:15
  */
 
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
+const ejse = require('ejs-electron')
 
 const iconUrl = url.format({
     pathname: path.join(__dirname, '/assets/Icon.icns'),
@@ -24,6 +25,13 @@ const iconUrl = url.format({
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+//ejse.data('username', 'Some Guy') //this is how we send data
+
+// app.on('ready', () => {
+//     mainWindow = new BrowserWindow()
+//     mainWindow.loadURL('file://' + __dirname + '/index.ejs')
+// })
+
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
@@ -38,15 +46,7 @@ function createWindow() {
         }
     })
 
-    // and load the index.html of the app.
-    mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-    }))
-
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.loadURL('file://' + __dirname + '/index.ejs')
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {

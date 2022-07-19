@@ -1,0 +1,42 @@
+<%- include('template/header', {username: username}); %>
+<div class="row">
+	<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+		<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+		<h1 class="h2">Dashboard</h1>
+		<div class="btn-toolbar mb-2 mb-md-0">
+			<div class="btn-group me-2">
+			<button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+			<button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+			</div>
+			<button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+			<span data-feather="calendar" class="align-text-bottom"></span>
+			This week
+			</button>
+		</div>
+		</div>
+
+		<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+
+		<div id="error"></div>
+		<div id="ports"></div>
+		<div id="received"></div>
+		<div class="input-group mb-3">
+			<label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
+			<select class="form-select" id="AvailablePorts" name="AvailablePorts">
+			</select>
+		</div>
+		<div class="input-group mb-3">
+			<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
+			<input type="text" id="separator" name="separator" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+		</div>
+		<button type="button" class="btn" aria-pressed="true" id="pauseBtn">non init</button>
+		<button type="button" class="btn btn-warning" aria-pressed="true" id="openPortBtn">Close the port</button>
+
+	</main>
+</div>
+<script src="./index.js"></script>
+<script src="./renderer.js"></script>
+<script src="./serial.js"></script>
+<script src="./plotter.js"></script>
+<%- include('template/footer', {username: username}); %>
+<% ejse.stopListening() %>

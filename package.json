@@ -33,6 +33,7 @@
     "define-properties": "^1.1.4",
     "detect-node": "^2.1.0",
     "duplexer3": "^0.1.4",
+    "ejs-electron": "^2.1.1",
     "electron-squirrel-startup": "^1.0.0",
     "encodeurl": "^1.0.2",
     "end-of-stream": "^1.4.4",
