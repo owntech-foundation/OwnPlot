@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-05 14:01:57
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-13 12:33:42
+ * @ Modified time: 2022-07-18 17:58:14
 -->
 
 <!DOCTYPE html>
@@ -65,7 +65,6 @@
 			<div class="input-group mb-3">
 				<label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
 				<select class="form-select" id="AvailablePorts" name="AvailablePorts">
-					<option selected>Select a port...</option>
 				</select>
 			</div>
 			<div class="input-group mb-3">
@@ -100,8 +99,9 @@
 		});
 
 		$("#AvailablePorts").change(function(){
-			if(availableSerialPortsLength > 0){
-				var selectedPort = $(this).children("option:selected").val();
+			var selectedPort = $(this).children("option:selected").val();
+			console.log(availableSerialPortsLength);
+			if(availableSerialPortsLength > 0 && selectedPort != "default"){				
 				configSerialPlot.path = selectedPort;
 				openPort();
 				closePortBtn($('#openPortBtn'));
