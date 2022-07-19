@@ -100,10 +100,8 @@
 
 		$("#AvailablePorts").change(function(){
 			var selectedPort = $(this).children("option:selected").val();
-			console.log(availableSerialPortsLength);
 			if(availableSerialPortsLength > 0 && selectedPort != "default"){				
 				configSerialPlot.path = selectedPort;
-				openPort();
 				closePortBtn($('#openPortBtn'));
 				//pause btn is unclickable while port is closed
 				pauseBtn($('#pauseBtn'));
@@ -116,14 +114,7 @@
 	
 		$('#pauseBtn').click(function()
 		{
-			if($(this).attr('aria-pressed') === "true"){
-				//make the runing mode impossible if the port is closed
-				if($('#openPortBtn').attr('aria-pressed') === "false"){
-					runBtn(this);
-				}
-			} else { 
-				pauseBtn(this);
-			}
+			pauseBtn(this);
 		});
 
 		$('#openPortBtn').click(function()
@@ -135,6 +126,8 @@
 				//pause btn is unclickable while port is closed
 				pauseBtn('#pauseBtn');
 				$('#pauseBtn').addClass('disabled');
+				console.log("-- Connection closed --");
+				port.close();
 				closePortBtn(this);
 			}
 		});

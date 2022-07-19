@@ -6,10 +6,10 @@
  * @ Modified time: 2022-07-18 17:56:58
  */
 
-const { SerialPort } = require('serialport')
+const { SerialPort } = require('serialport');
 const tableify = require('tableify');
-let prevPorts
-let port
+let prevPorts;
+let port;
 
 //Check if ports changed from the last time
 //If it's the first time this function is executed, 
