@@ -6,6 +6,8 @@
  * @ Modified time: 2022-07-13 12:15:09
  */
 
+const { proto } = require("once");
+
 function pauseBtn(elem) {
 	$(elem).html('<i class="fa-solid fa-pause"></i>&nbsp;Paused');
 	$(elem).removeClass('btn-success');

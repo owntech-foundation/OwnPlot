@@ -114,7 +114,11 @@
 	
 		$('#pauseBtn').click(function()
 		{
-			pauseBtn(this);
+			if($(this).attr('aria-pressed') === "true"){
+				runBtn(this);
+			} else {
+				pauseBtn(this);
+			}
 		});
 
 		$('#openPortBtn').click(function()
