@@ -1,11 +1,11 @@
-
 var configSerialPlot = {
 	separator: ':',
 	path: ""
 }
 
-var availableSerialPorts = []
+var availableSerialPorts = [];
 var availableSerialPortsLength = 0;
+let selectedPort;
 
 $(document).ready(function(){
 	$('#openPortBtn').css("visibility","hidden"); //hide the run button as no port is chosen
@@ -19,13 +19,17 @@ $(document).ready(function(){
 	});
 
 	$("#AvailablePorts").change(function(){
-		var selectedPort = $(this).children("option:selected").val();
-		console.log(availableSerialPortsLength);
+		selectedPort = $(this).children("option:selected").val();
 		if(availableSerialPortsLength > 0 && selectedPort != "default"){				
-			configSerialPlot.path = selectedPort;
-			openPort();
-			closePortBtn($('#openPortBtn'));
-			pauseBtn($('#pauseBtn'));
+			if(selectedPort != configSerialPlot.path){
+				closePortBtn($('#openPortBtn'));
+				//pause btn is unclickable while port is closed
+				pauseBtn($('#pauseBtn'));
+				$('#pauseBtn').addClass('disabled');
+			} else {
+				openPortBtn($('#openPortBtn'));
+				runBtn($('#pauseBtn'));
+			}
 		} else {
 			$('#openPortBtn').css("visibility","hidden");
 			noPortBtn($('#pauseBtn'));
@@ -35,29 +39,38 @@ $(document).ready(function(){
 	$('#pauseBtn').click(function()
 	{
 		if($(this).attr('aria-pressed') === "true"){
-			//make the runing mode impossible if the port is closed
-			if($('#openPortBtn').attr('aria-pressed') === "false"){
-				runBtn(this);
-			}
-		} else { 
+			runBtn(this);
+		} else {
 			pauseBtn(this);
 		}
 	});
 
 	$('#openPortBtn').click(function()
 	{
-		if($(this).attr('aria-pressed') === "true"){ 
-			runBtn('#pauseBtn');
-			openPortBtn(this);
+		if($(this).attr('aria-pressed') === "true"){
+			//Close the last port before opening a new one, and clear the chart
+			if(port){
+				if(port.isOpen){
+					port.close();
+					console.log("-- Connection closed on port " + port.path + " --");
+				}
+			}
+			configSerialPlot.path = selectedPort;
+			openPort();
+			flushChart(myChart);
 		} else {
+			//pause btn is unclickable while port is closed
 			pauseBtn('#pauseBtn');
+			$('#pauseBtn').addClass('disabled');
+			port.close();
+			console.log("-- Connection closed on port " + port.path + " --");
 			closePortBtn(this);
 		}
 	});
 
 });
 
-let dataSerialBuff = [];
+var dataSerialBuff = [];
 let indexData = 0;
 
 function getSerialData(index) {
@@ -71,6 +84,12 @@ function onRefresh(chart) {
 			x: now,
 			y: getSerialData(dataset.index)
 		});
+	});
+}
+
+function flushChart(chart){
+	chart.data.datasets.forEach((dataset) => {
+		dataset.data.splice(0,1000);
 	});
 }
 
