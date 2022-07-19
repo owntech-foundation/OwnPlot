@@ -41,7 +41,6 @@ function noPortBtn(elem) {
 }
 
 function openPortBtn(elem) {
-	openPort();
 	$(elem).html('Port opened');
 	$(elem).removeClass('btn-warning');
 	$(elem).removeClass('btn-secondary');
