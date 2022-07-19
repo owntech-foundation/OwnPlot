@@ -83,15 +83,15 @@ let currentData = [];
 function openPortRoutine(){
 	if (typeof port !== 'undefined')
 	{
-		console.log("port exist");
+		//console.log("port exist");
 		//TODO: finish the pending packet thing
 		port.open(function (err) {
 			if (err) {
-			  return console.log('Error opening port: ', err.message)
+			  return console.log('Error opening port: ', err.message);
 			}
 		});
 		port.on('open', function() {
-			console.log("-- Connection opened --");
+			console.log("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
 			runBtn('#pauseBtn');
 		});
