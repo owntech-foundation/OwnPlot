@@ -69,9 +69,9 @@ function openPort() {
 		port = new SerialPort({
 		path: configSerialPlot.path,
 		baudRate: 115200,
+		autoOpen: false,
 	});
 	//TODO: do something about the ressource busy thing
-	console.log(port);
 	openPortRoutine();
 }
 
@@ -85,39 +85,47 @@ function openPortRoutine(){
 	{
 		console.log("port exist");
 		//TODO: finish the pending packet thing
-		port.on("open", function() {
+		port.open(function (err) {
+			if (err) {
+			  return console.log('Error opening port: ', err.message)
+			}
+		});
+		port.on('open', function() {
 			console.log("-- Connection opened --");
-			port.on("data", function(data) {
-				//console.log("========================");
-				currentData = [];
-				currentData = data;
-				//console.log(currentData);
+			openPortBtn('#openPortBtn');
+			runBtn('#pauseBtn');
+		});
 
-				if (currentData[currentData.length - 2 ] != endCom[0] || currentData[currentData.length - 1 ] != endCom[1])
-				{
-					//console.log("Packet not complete");
-					pendingData = currentData; //add the prev pendingdata
-					//console.log("Pending data :");
-					//console.log(pendingData);
-				}
-				else
-				{
-					pendingData = []; //flush the pending data buffer
-					let dataSerial = []; //flush dataSerial buffer
-					let dataStart = 0;
-					for (let i = 0; i < data.length; i++) {
-						if (data[i] == configSerialPlot.separator.charCodeAt(0) ||
-						(data[i] == endCom[0] && data[i + 1] == endCom[1]))
-						{
-							dataSerial.push(data.slice(dataStart, i));
-							dataStart = i + 1;
-						}
+		port.on("data", function(data) {
+			//console.log("========================");
+			currentData = [];
+			currentData = data;
+			//console.log(currentData);
+
+			if (currentData[currentData.length - 2 ] != endCom[0] || currentData[currentData.length - 1 ] != endCom[1])
+			{
+				//console.log("Packet not complete");
+				pendingData = currentData; //add the prev pendingdata
+				//console.log("Pending data :");
+				//console.log(pendingData);
+			}
+			else
+			{
+				pendingData = []; //flush the pending data buffer
+				let dataSerial = []; //flush dataSerial buffer
+				let dataStart = 0;
+				for (let i = 0; i < data.length; i++) {
+					if (data[i] == configSerialPlot.separator.charCodeAt(0) ||
+					(data[i] == endCom[0] && data[i + 1] == endCom[1]))
+					{
+						dataSerial.push(data.slice(dataStart, i));
+						dataStart = i + 1;
 					}
-					dataSerialBuff = dataSerial;
 				}
-				//console.log("data :");
-				//console.log(data);
-			});
+				dataSerialBuff = dataSerial;
+			}
+			//console.log("data :");
+			//console.log(data);
 		});
 	}
 }

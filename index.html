@@ -124,8 +124,7 @@
 		$('#openPortBtn').click(function()
 		{
 			if($(this).attr('aria-pressed') === "true"){ 
-				runBtn('#pauseBtn');
-				openPortBtn(this);
+				openPort();
 			} else {
 				//pause btn is unclickable while port is closed
 				pauseBtn('#pauseBtn');
