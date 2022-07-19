@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-18 17:56:58
+ * @ Modified time: 2022-07-19 18:13:00
  */
 
 const { SerialPort } = require('serialport');
@@ -97,28 +97,26 @@ function openPortRoutine(){
 		});
 
 		port.on("data", function(data) {
-			//console.log("========================");
+			let clone = [...data]
 			currentData = [];
-			currentData = data;
-			//console.log(currentData);
-
-			if (currentData[currentData.length - 2 ] != endCom[0] || currentData[currentData.length - 1 ] != endCom[1])
+			currentData = pendingData.concat(clone);
+			pendingData = []; //flush the pending data buffer
+			if (currentData[currentData.length - 2 ] != endCom[0] ||
+				currentData[currentData.length - 1 ] != endCom[1]) //if the last chars are NOT \r \n
 			{
-				//console.log("Packet not complete");
-				pendingData = currentData; //add the prev pendingdata
-				//console.log("Pending data :");
-				//console.log(pendingData);
+				console.log("Packet not complete");
+				pendingData = currentData; //add the prev pendingdat
 			}
 			else
 			{
-				pendingData = []; //flush the pending data buffer
+				console.log(currentData);
 				let dataSerial = []; //flush dataSerial buffer
 				let dataStart = 0;
-				for (let i = 0; i < data.length; i++) {
-					if (data[i] == configSerialPlot.separator.charCodeAt(0) ||
-					(data[i] == endCom[0] && data[i + 1] == endCom[1]))
+				for (let i = 0; i < currentData.length; i++) {
+					if (currentData[i] == configSerialPlot.separator.charCodeAt(0) ||
+					(currentData[i] == endCom[0] && currentData[i + 1] == endCom[1]))
 					{
-						dataSerial.push(data.slice(dataStart, i));
+						dataSerial.push(currentData.slice(dataStart, i));
 						dataStart = i + 1;
 					}
 				}
