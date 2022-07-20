@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-20 17:36:26
+ * @ Modified time: 2022-07-20 17:56:23
  */
 
 const { proto } = require("once");
@@ -78,7 +78,7 @@ function updateTerminal() {
 
 let indexData = 0;
 function getSerialData(index) {
-	if (currentDataBuff.length != 0) {
+	if (currentDataBuff.length != 0 && 	myChart.options.scales.xAxes[0].realtime.pause != true) {
 		if (index == 0) {
 			updateTerminal();
 		}
