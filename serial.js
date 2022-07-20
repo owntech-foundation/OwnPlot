@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-20 12:19:05
+ * @ Modified by: Your name
+ * @ Modified time: 2022-07-19 18:01:29
  */
 
 const { SerialPort } = require('serialport');
@@ -39,16 +39,25 @@ async function listSerialPorts(){
 		}
 
 		tableHTML = tableify(ports)
-		document.getElementById('ports').innerHTML = tableHTML
+		document.getElementById('ports').innerHTML = tableHTML;
 
 		if (availableSerialPortsLength !=  ports.length) {
-			console.log("Ports changed !")
-			console.log(ports)
-			lpHTML = '<option value="default" selected>Select a port...</option>';
+			console.log("Ports changed !");
+			console.log(ports);
+			let lpHTML = '<option value="default" selected>Select a port...</option>';
 			availableSerialPortsLength = ports.length;
-			availableSerialPorts = ports //copy of array to access anywhere
+			availableSerialPorts = ports; //copy of array to access anywhere
 			ports.forEach(p => {
-				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				//if we were on a port when ports changed, we select in the list the current port
+				if (port){
+					if(port.path == p.path){
+						lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+					} else {
+						lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+					}
+				} else {
+					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				}
 			});
 			document.getElementById('AvailablePorts').innerHTML = lpHTML;
 		}
@@ -63,15 +72,12 @@ function listPorts() {
 	setTimeout(listPorts, 2000);
 }
 
-listPorts();
-
 function openPort() {
-		port = new SerialPort({
+	port = new SerialPort({
 		path: configSerialPlot.path,
 		baudRate: 115200,
 		autoOpen: false,
 	});
-	//TODO: do something about the ressource busy thing
 	openPortRoutine();
 }
 
@@ -86,10 +92,20 @@ function openPortRoutine(){
 				return console.log('Error opening port: ', err.message);
 			}
 		});
+
 		port.on('open', function() {
 			console.log("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
 			runBtn('#pauseBtn');
+			flushChart(myChart);
+		});
+
+		port.on('close', () => {
+			pauseBtn('#pauseBtn');
+			$('#pauseBtn').addClass('disabled');
+			console.log("-- Connection closed on port " + port.path + " --");
+			closePortBtn($('#openPortBtn'));
+			listSerialPorts();
 		});
 
 		port.on("data", function(data) {
