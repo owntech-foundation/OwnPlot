@@ -54,18 +54,15 @@ $(function(){
 			if(port){
 				if(port.isOpen){
 					port.close();
-					console.log("-- Connection closed on port " + port.path + " --");
 				}
 			}
 			configSerialPlot.path = selectedPort;
 			openPort();
-			flushChart(myChart);
 		} else {
 			//pause btn is unclickable while port is closed
 			pauseBtn('#pauseBtn');
 			$('#pauseBtn').addClass('disabled');
 			port.close();
-			console.log("-- Connection closed on port " + port.path + " --");
 			closePortBtn(this);
 		}
 	});
