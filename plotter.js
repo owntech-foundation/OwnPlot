@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-20 17:11:23
+ * @ Modified time: 2022-07-20 17:36:26
  */
 
 const { proto } = require("once");
@@ -65,7 +65,7 @@ let dataSerialBuff = [];
 let currentDataBuff = [];
 let terminalSel = $('#terminalPre');
 let countTermLines = 0;
-let maxTermLine = 10;
+let maxTermLine = 50;
 
 function updateTerminal() {
 	terminalSel.prepend('<span>' + currentDataBuff.toString() + '</span>'); //put first on top
