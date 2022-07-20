@@ -81,19 +81,15 @@ function openPort() {
 	openPortRoutine();
 }
 
-//const separator = 58; //:
 const endCom = [13, 10];
-let pendingData = [];
-let currentData = [];
+let pendingData = Buffer.alloc(0);
 
 function openPortRoutine(){
 	if (typeof port !== 'undefined')
 	{
-		//console.log("port exist");
-		//TODO: finish the pending packet thing
 		port.open(function (err) {
 			if (err) {
-			  return console.log('Error opening port: ', err.message);
+				return console.log('Error opening port: ', err.message);
 			}
 		});
 
@@ -113,35 +109,31 @@ function openPortRoutine(){
 		});
 
 		port.on("data", function(data) {
-			//console.log("========================");
-			currentData = [];
-			currentData = data;
-			//console.log(currentData);
+			let currentData = Buffer.concat([pendingData, data]);
+			pendingData = Buffer.alloc(0); //flush the pending data buffer
 
-			if (currentData[currentData.length - 2 ] != endCom[0] || currentData[currentData.length - 1 ] != endCom[1])
+			if (currentData[currentData.length - 2 ] != endCom[0] ||
+				currentData[currentData.length - 1 ] != endCom[1])
 			{
-				//console.log("Packet not complete");
-				pendingData = currentData; //add the prev pendingdata
-				//console.log("Pending data :");
-				//console.log(pendingData);
+				//if the last chars are NOT \r \n
+				//therefore the packet is not complete
+				//we stash the currentdata in pending data
+				pendingData = currentData;
 			}
 			else
 			{
-				pendingData = []; //flush the pending data buffer
 				let dataSerial = []; //flush dataSerial buffer
 				let dataStart = 0;
-				for (let i = 0; i < data.length; i++) {
-					if (data[i] == configSerialPlot.separator.charCodeAt(0) ||
-					(data[i] == endCom[0] && data[i + 1] == endCom[1]))
+				for (let i = 0; i < currentData.length; i++) {
+					if (currentData[i] == configSerialPlot.separator.charCodeAt(0) ||
+					(currentData[i] == endCom[0] && currentData[i + 1] == endCom[1]))
 					{
-						dataSerial.push(data.slice(dataStart, i));
+						dataSerial.push(currentData.slice(dataStart, i));
 						dataStart = i + 1;
 					}
 				}
 				dataSerialBuff = dataSerial;
 			}
-			//console.log("data :");
-			//console.log(data);
 		});
 	}
 }
