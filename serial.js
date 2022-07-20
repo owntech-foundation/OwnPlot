@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-19 18:13:00
+ * @ Modified time: 2022-07-20 12:19:05
  */
 
 const { SerialPort } = require('serialport');
@@ -75,19 +75,15 @@ function openPort() {
 	openPortRoutine();
 }
 
-//const separator = 58; //:
 const endCom = [13, 10];
-let pendingData = [];
-let currentData = [];
+let pendingData = Buffer.alloc(0);
 
 function openPortRoutine(){
 	if (typeof port !== 'undefined')
 	{
-		//console.log("port exist");
-		//TODO: finish the pending packet thing
 		port.open(function (err) {
 			if (err) {
-			  return console.log('Error opening port: ', err.message);
+				return console.log('Error opening port: ', err.message);
 			}
 		});
 		port.on('open', function() {
@@ -97,19 +93,19 @@ function openPortRoutine(){
 		});
 
 		port.on("data", function(data) {
-			let clone = [...data]
-			currentData = [];
-			currentData = pendingData.concat(clone);
-			pendingData = []; //flush the pending data buffer
+			let currentData = Buffer.concat([pendingData, data]);
+			pendingData = Buffer.alloc(0); //flush the pending data buffer
+
 			if (currentData[currentData.length - 2 ] != endCom[0] ||
-				currentData[currentData.length - 1 ] != endCom[1]) //if the last chars are NOT \r \n
+				currentData[currentData.length - 1 ] != endCom[1])
 			{
-				console.log("Packet not complete");
-				pendingData = currentData; //add the prev pendingdat
+				//if the last chars are NOT \r \n
+				//therefore the packet is not complete
+				//we stash the currentdata in pending data
+				pendingData = currentData;
 			}
 			else
 			{
-				console.log(currentData);
 				let dataSerial = []; //flush dataSerial buffer
 				let dataStart = 0;
 				for (let i = 0; i < currentData.length; i++) {
@@ -122,8 +118,6 @@ function openPortRoutine(){
 				}
 				dataSerialBuff = dataSerial;
 			}
-			//console.log("data :");
-			//console.log(data);
 		});
 	}
 }
