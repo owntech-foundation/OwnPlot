@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-18 17:56:58
+ * @ Modified by: Your name
+ * @ Modified time: 2022-07-20 10:45:10
  */
 
 const { SerialPort } = require('serialport');
@@ -48,7 +48,16 @@ async function listSerialPorts(){
 			availableSerialPortsLength = ports.length;
 			availableSerialPorts = ports //copy of array to access anywhere
 			ports.forEach(p => {
-				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				//if we were on a port when ports changed, we select in the list the current port
+				if (port){
+					if(port.path == p.path){
+						lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+					} else {
+						lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+					}
+				} else {
+					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				}
 			});
 			document.getElementById('AvailablePorts').innerHTML = lpHTML;
 		}
