@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Your name
- * @ Modified time: 2022-07-20 10:45:10
+ * @ Modified time: 2022-07-20 11:29:52
  */
 
 const { SerialPort } = require('serialport');
@@ -39,14 +39,14 @@ async function listSerialPorts(){
 		}
 
 		tableHTML = tableify(ports)
-		document.getElementById('ports').innerHTML = tableHTML
+		document.getElementById('ports').innerHTML = tableHTML;
 
 		if (availableSerialPortsLength !=  ports.length) {
-			console.log("Ports changed !")
-			console.log(ports)
-			lpHTML = '<option value="default" selected>Select a port...</option>';
+			console.log("Ports changed !");
+			console.log(ports);
+			let lpHTML = '<option value="default" selected>Select a port...</option>';
 			availableSerialPortsLength = ports.length;
-			availableSerialPorts = ports //copy of array to access anywhere
+			availableSerialPorts = ports; //copy of array to access anywhere
 			ports.forEach(p => {
 				//if we were on a port when ports changed, we select in the list the current port
 				if (port){
@@ -75,12 +75,11 @@ function listPorts() {
 listPorts();
 
 function openPort() {
-		port = new SerialPort({
+	port = new SerialPort({
 		path: configSerialPlot.path,
 		baudRate: 115200,
 		autoOpen: false,
 	});
-	//TODO: do something about the ressource busy thing
 	openPortRoutine();
 }
 
@@ -99,10 +98,20 @@ function openPortRoutine(){
 			  return console.log('Error opening port: ', err.message);
 			}
 		});
+
 		port.on('open', function() {
 			console.log("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
 			runBtn('#pauseBtn');
+			flushChart(myChart);
+		});
+
+		port.on('close', () => {
+			pauseBtn('#pauseBtn');
+			$('#pauseBtn').addClass('disabled');
+			console.log("-- Connection closed on port " + port.path + " --");
+			closePortBtn($('#openPortBtn'));
+			listSerialPorts();
 		});
 
 		port.on("data", function(data) {
