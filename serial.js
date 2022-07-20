@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Your name
- * @ Modified time: 2022-07-20 11:29:52
+ * @ Modified time: 2022-07-19 18:01:29
  */
 
 const { SerialPort } = require('serialport');
@@ -71,8 +71,6 @@ function listPorts() {
 	}
 	setTimeout(listPorts, 2000);
 }
-
-listPorts();
 
 function openPort() {
 	port = new SerialPort({
