@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Your name
- * @ Modified time: 2022-07-19 17:58:17
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-07-20 17:11:23
  */
 
 const { proto } = require("once");
@@ -62,10 +62,29 @@ function closePortBtn(elem) {
 
 
 let dataSerialBuff = [];
-let indexData = 0;
+let currentDataBuff = [];
+let terminalSel = $('#terminalPre');
+let countTermLines = 0;
+let maxTermLine = 10;
 
+function updateTerminal() {
+	terminalSel.prepend('<span>' + currentDataBuff.toString() + '</span>'); //put first on top
+	countTermLines = countTermLines + 1;
+	if (countTermLines > maxTermLine) {
+		terminalSel.children().last().remove();
+		countTermLines = countTermLines - 1;
+	}	
+}
+
+let indexData = 0;
 function getSerialData(index) {
-	return(dataSerialBuff[index]);
+	if (currentDataBuff.length != 0) {
+		if (index == 0) {
+			updateTerminal();
+		}
+		return(dataSerialBuff[index]);
+	}
+
 }
 
 function onRefresh(chart) {
