@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-20 18:30:41
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-07-21 17:56:59
  */
 
 const { SerialPort } = require('serialport');
@@ -108,33 +108,53 @@ function openPortRoutine(){
 			listSerialPorts();
 		});
 
-		port.on("data", function(data) {
-			let currentData = Buffer.concat([pendingData, data]);
-			pendingData = Buffer.alloc(0); //flush the pending data buffer
+		port.on("data", function (data) {
+			let dataSerial = []; //flush dataSerial buffer
+			for (let i=0; i<=data.length-configSerialPlot.nbSize; i+=configSerialPlot.nbSize) {
+				dataSerial.push(readBuf(data, i));
+			}
+			dataSerialBuff = dataSerial;
+			currentDataBuff = data;
+		})
 
-			if (currentData[currentData.length - 2 ] != endCom[0] ||
-				currentData[currentData.length - 1 ] != endCom[1])
-			{
-				//if the last chars are NOT \r \n
-				//therefore the packet is not complete
-				//we stash the currentdata in pending data
-				pendingData = currentData;
-			}
-			else
-			{
-				let dataSerial = []; //flush dataSerial buffer
-				let dataStart = 0;
-				for (let i = 0; i < currentData.length; i++) {
-					if (currentData[i] == configSerialPlot.separator.charCodeAt(0) ||
-					(currentData[i] == endCom[0] && currentData[i + 1] == endCom[1]))
-					{
-						dataSerial.push(currentData.slice(dataStart, i));
-						dataStart = i + 1;
-					}
-				}
-				currentDataBuff = currentData;
-				dataSerialBuff = dataSerial;
-			}
-		});
+		// port.on("data", function(data) {
+		// 	let currentData = Buffer.concat([pendingData, data]);
+		// 	pendingData = Buffer.alloc(0); //flush the pending data buffer
+
+		// 	if (currentData[currentData.length - 2 ] != endCom[0] ||
+		// 		currentData[currentData.length - 1 ] != endCom[1])
+		// 	{
+		// 		//if the last chars are NOT \r \n
+		// 		//therefore the packet is not complete
+		// 		//we stash the currentdata in pending data
+		// 		pendingData = currentData;
+		// 	}
+		// 	else
+		// 	{
+		// 		let dataSerial = []; //flush dataSerial buffer
+		// 		let dataStart = 0;
+		// 		for (let i = 0; i < currentData.length; i++) {
+		// 			if (currentData[i] == configSerialPlot.separator.charCodeAt(0) ||
+		// 			(currentData[i] == endCom[0] && currentData[i + 1] == endCom[1]))
+		// 			{
+		// 				dataSerial.push(currentData.slice(dataStart, i));
+		// 				dataStart = i + 1;
+		// 			}
+		// 		}
+		// 		currentDataBuff = currentData;
+		// 		dataSerialBuff = dataSerial;
+		// 	}
+		// });
+	}
+}
+
+function readBuf(buf, offset){
+	switch (configSerialPlot.nbType) {
+		case "uint8":
+			return buf.readUInt8(offset);
+		case "uint16":
+			return buf.readUInt16LE(offset);
+		default:
+			return buf[offset];
 	}
 }

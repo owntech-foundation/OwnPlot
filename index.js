@@ -1,7 +1,8 @@
 let configSerialPlot = {
 	separator: ':',
 	path: "",
-	nbType: "uint8"
+	nbType: "uint8",
+	nbSize: 2
 }
 
 let availableSerialPorts = [];
@@ -26,6 +27,7 @@ $(function(){
 	let nbTypeField = $("#nbType");
 	nbTypeField.on('change',function(){
 		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
+		console.log("nbType changed to " + configSerialPlot.nbType);
 	});
 
 	$("#AvailablePorts").on('change', function(){
