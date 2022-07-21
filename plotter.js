@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-21 12:24:10
+ * @ Modified time: 2022-07-21 14:59:39
  */
 
 const { auto } = require("@popperjs/core");
@@ -61,15 +61,58 @@ function closePortBtn(elem) {
 	$(elem).css("visibility","visible");
 }
 
+function terminalTimestampBtnEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+}
 
-let dataSerialBuff = []; //for the chart
-let currentDataBuff = []; //for the terminal
+function terminalTimestampBtnDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
+}
+
+let terminalBtnTimestamp = $('#terminalBtnTimestamp');
+let terminalBtnClear =  $('#terminalBtnClear');
 let terminalSel = $('#terminalPre');
+
+$(function() {
+	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
+
+	terminalBtnTimestamp.on('click', function(){
+		if(terminalBtnTimestamp.attr('aria-pressed') === "true"){
+			//if it is enabled then disable it
+			terminalTimestampBtnDisable(terminalBtnTimestamp);
+		} else {
+			terminalTimestampBtnEnable(terminalBtnTimestamp);
+		}
+	});
+
+	terminalBtnClear.on('click', function(){
+		terminalSel.empty();
+		terminalSel.append('<span>terminal cleared</span>');
+		countTermLines = 1;
+	});
+});
+
+let dataSerialBuff = [];
+let currentDataBuff = [];
 let countTermLines = 0;
 let maxTermLine = 50;
 
+function termialTime() {
+	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
+		let now = new Date().toISOString().slice(0, -1)
+		now = now.substring(now.indexOf('T') + 1);
+		return (now + " -> ");
+	} else {
+		return("")
+	}
+}
+
 function updateTerminal() {
-	terminalSel.prepend('<span>' + currentDataBuff.toString() + '</span>'); //put first on top
+	terminalSel.prepend('<span>' + termialTime() + currentDataBuff.toString() + '</span>'); //put first on top
 	countTermLines = countTermLines + 1;
 	if (countTermLines > maxTermLine) {
 		terminalSel.children().last().remove();
@@ -97,11 +140,13 @@ function onRefresh(chart) {
 	});
 }
 
-function flushChart(chart){
+function flushChart(chart) {
 	chart.data.datasets.forEach((dataset) => {
 		dataset.data.splice(0,1000);
 	});
 }
+
+// Chart layout setting //
 
 let chartColors = {
 	red: 'rgb(255, 99, 132)',
