@@ -9,4 +9,6 @@ sips -z 256 256   $1 --out MyIcon.iconset/icon_128x128@2x.png
 cp $1 MyIcon.iconset/icon_256x256.png
 
 iconutil -c icns MyIcon.iconset
+convert $1 -define icon:auto-resize=256,64,48,32,16 Icon.ico
+
 #rm -R MyIcon.iconset
