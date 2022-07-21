@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-20 16:27:16
+ * @ Modified time: 2022-07-20 18:30:41
  */
 
 const { SerialPort } = require('serialport');

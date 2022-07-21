@@ -6,6 +6,7 @@
  * @ Modified time: 2022-07-21 14:59:39
  */
 
+const { auto } = require("@popperjs/core");
 const { proto } = require("once");
 
 function pauseBtn(elem) {
@@ -158,6 +159,29 @@ let chartColors = {
 };
 let color = Chart.helpers.color;
 
+function automaticColorDataset(elemNumber) {
+	let index = (elemNumber - 1) % (Object.keys(chartColors).length);
+	console.log(Object.entries(chartColors).at(index)[1]);
+	console.log(chartColors.red);
+	return (Object.entries(chartColors).at(index)[1]);
+}
+
+function addDataset() {	
+	numberOfDatasets++;
+	let testDataset = {
+		index: numberOfDatasets,
+		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
+		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
+		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
+		fill: false,
+		lineTension: 0,
+		data: []
+	}
+	myChart.data.datasets.push(testDataset);
+}
+
+let numberOfDatasets = 3;
+
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
 	type: 'line',
@@ -174,16 +198,16 @@ const myChart = new Chart(ctx, {
 		},{
 			index: 1,
 			label: 'Dataset 2',
-			backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
-			borderColor: chartColors.blue,
+			backgroundColor: color(chartColors.orange).alpha(0.5).rgbString(),
+			borderColor: chartColors.orange,
 			fill: false,
 			lineTension: 0,
 			data: []
 		},{
 			index: 2,
 			label: 'Dataset 3',
-			backgroundColor: color(chartColors.green).alpha(0.5).rgbString(),
-			borderColor: chartColors.green,
+			backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString(),
+			borderColor: chartColors.yellow,
 			fill: false,
 			lineTension: 0,
 			data: []
