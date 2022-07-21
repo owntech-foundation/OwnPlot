@@ -2,14 +2,14 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-13 12:30:58
+ * @ Modified by: Your name
+ * @ Modified time: 2022-07-19 18:01:29
  */
 
-const { SerialPort } = require('serialport')
+const { SerialPort } = require('serialport');
 const tableify = require('tableify');
-let prevPorts
-let port
+let prevPorts;
+let port;
 
 //Check if ports changed from the last time
 //If it's the first time this function is executed, 
@@ -39,16 +39,25 @@ async function listSerialPorts(){
 		}
 
 		tableHTML = tableify(ports)
-		document.getElementById('ports').innerHTML = tableHTML
+		document.getElementById('ports').innerHTML = tableHTML;
 
-		if (availableSerialPortsLenght !=  ports.length) {
-			console.log("Ports changed !")
-			console.log(ports)
-			lpHTML = ""
-			availableSerialPortsLenght = ports.length;
-			availableSerialPorts = ports //copy of array to access anywhere
+		if (availableSerialPortsLength !=  ports.length) {
+			console.log("Ports changed !");
+			console.log(ports);
+			let lpHTML = '<option value="default" selected>Select a port...</option>';
+			availableSerialPortsLength = ports.length;
+			availableSerialPorts = ports; //copy of array to access anywhere
 			ports.forEach(p => {
-				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				//if we were on a port when ports changed, we select in the list the current port
+				if (port){
+					if(port.path == p.path){
+						lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+					} else {
+						lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+					}
+				} else {
+					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				}
 			});
 			document.getElementById('AvailablePorts').innerHTML = lpHTML;
 		}
@@ -63,61 +72,68 @@ function listPorts() {
 	setTimeout(listPorts, 2000);
 }
 
-listPorts();
-
 function openPort() {
-		port = new SerialPort({
+	port = new SerialPort({
 		path: configSerialPlot.path,
 		baudRate: 115200,
+		autoOpen: false,
 	});
-	//TODO: do something about the ressource busy thing
-	console.log(port);
 	openPortRoutine();
 }
 
-//const separator = 58; //:
 const endCom = [13, 10];
-let pendingData = [];
-let currentData = [];
+let pendingData = Buffer.alloc(0);
 
 function openPortRoutine(){
 	if (typeof port !== 'undefined')
 	{
-		console.log("port exist");
-		//TODO: finish the pending packet thing
-		port.on("open", function() {
-			console.log("-- Connection opened --");
-			port.on("data", function(data) {
-				//console.log("========================");
-				currentData = [];
-				currentData = data;
-				//console.log(currentData);
+		port.open(function (err) {
+			if (err) {
+				return console.log('Error opening port: ', err.message);
+			}
+		});
 
-				if (currentData[currentData.length - 2 ] != endCom[0] || currentData[currentData.length - 1 ] != endCom[1])
-				{
-					//console.log("Packet not complete");
-					pendingData = currentData; //add the prev pendingdata
-					//console.log("Pending data :");
-					//console.log(pendingData);
-				}
-				else
-				{
-					pendingData = []; //flush the pending data buffer
-					let dataSerial = []; //flush dataSerial buffer
-					let dataStart = 0;
-					for (let i = 0; i < data.length; i++) {
-						if (data[i] == configSerialPlot.separator.charCodeAt(0) ||
-						(data[i] == endCom[0] && data[i + 1] == endCom[1]))
-						{
-							dataSerial.push(data.slice(dataStart, i));
-							dataStart = i + 1;
-						}
+		port.on('open', function() {
+			console.log("-- Connection opened on port " + port.path + " --");
+			openPortBtn('#openPortBtn');
+			runBtn('#pauseBtn');
+			flushChart(myChart);
+		});
+
+		port.on('close', () => {
+			pauseBtn('#pauseBtn');
+			$('#pauseBtn').addClass('disabled');
+			console.log("-- Connection closed on port " + port.path + " --");
+			closePortBtn($('#openPortBtn'));
+			listSerialPorts();
+		});
+
+		port.on("data", function(data) {
+			let currentData = Buffer.concat([pendingData, data]);
+			pendingData = Buffer.alloc(0); //flush the pending data buffer
+
+			if (currentData[currentData.length - 2 ] != endCom[0] ||
+				currentData[currentData.length - 1 ] != endCom[1])
+			{
+				//if the last chars are NOT \r \n
+				//therefore the packet is not complete
+				//we stash the currentdata in pending data
+				pendingData = currentData;
+			}
+			else
+			{
+				let dataSerial = []; //flush dataSerial buffer
+				let dataStart = 0;
+				for (let i = 0; i < currentData.length; i++) {
+					if (currentData[i] == configSerialPlot.separator.charCodeAt(0) ||
+					(currentData[i] == endCom[0] && currentData[i + 1] == endCom[1]))
+					{
+						dataSerial.push(currentData.slice(dataStart, i));
+						dataStart = i + 1;
 					}
-					dataSerialBuff = dataSerial;
 				}
-				//console.log("data :");
-				//console.log(data);
-			});
+				dataSerialBuff = dataSerial;
+			}
 		});
 	}
 }
