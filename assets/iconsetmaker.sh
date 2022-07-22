@@ -13,7 +13,7 @@ cp $1 Icon.iconset/icon_1024x1024.png
 iconutil -c icns Icon.iconset
 
 #Windows stuff
-convert $1 -define icon:auto-resize=1024,512,256,64,48,32,16 Icon.ico
+convert $1 -define icon:auto-resize=256,64,48,32,16 Icon.ico
 
 #Linux stuff
 cp $1 Icon.png
