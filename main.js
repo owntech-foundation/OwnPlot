@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-06-28 14:52:52
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-21 16:30:56
+ * @ Modified time: 2022-07-22 12:25:47
  */
 
 const { app, BrowserWindow } = require('electron')
@@ -13,9 +13,16 @@ const ejse = require('ejs-electron')
 
 let icon;
 switch (process.platform) {
-    case 'win32': icon = path.resolve(__dirname, 'img', 'assets/Icon.ico'); break;
-    case 'darwin': icon = path.resolve(__dirname, 'img', 'assets/Icon.icns'); break;
-    case 'linux': icon = path.resolve(__dirname, 'img', 'assets/Icon.png'); break;
+    case 'win32':
+        icon = path.resolve(__dirname, 'assets', 'Icon.ico');
+        break;
+    case 'darwin':
+        icon = path.resolve(__dirname, 'assets', 'Icon.icns');
+        app.dock.setIcon(path.resolve(__dirname, 'assets', 'Icon.png'));
+        break;
+    case 'linux':
+        icon = path.resolve(__dirname, 'assets', 'Icon.png');
+        break;
 }
 
 let mainWindow
