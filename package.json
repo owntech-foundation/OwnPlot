@@ -11,7 +11,7 @@
     "tableify": "^1.1.1"
   },
   "name": "OwnPlot",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "OwnTech's Serial Plotter",
   "main": "main.js",
   "dependencies": {
@@ -117,16 +117,23 @@
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
-  "author": "Guillaume Arthaud",
+  "author": "OwnTech",
+  "contributors": [
+    "Guillaume Arthaud <garthaud@laas.fr>",
+    "Matthias Riffard <mriffard@laas.fr>"
+  ],
+  "bugs": "https://gitlab.laas.fr/garthaud/ownplot/-/issues",
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "assets/Icon"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "my_electron_app2"
+            "name": "OwnPlot"
           }
         },
         {
