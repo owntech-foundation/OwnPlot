@@ -2,10 +2,11 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Your name
- * @ Modified time: 2022-07-19 17:58:17
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-07-21 14:59:39
  */
 
+const { auto } = require("@popperjs/core");
 const { proto } = require("once");
 
 function pauseBtn(elem) {
@@ -60,12 +61,73 @@ function closePortBtn(elem) {
 	$(elem).css("visibility","visible");
 }
 
+function terminalTimestampBtnEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+}
+
+function terminalTimestampBtnDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
+}
+
+let terminalBtnTimestamp = $('#terminalBtnTimestamp');
+let terminalBtnClear =  $('#terminalBtnClear');
+let terminalSel = $('#terminalPre');
+
+$(function() {
+	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
+
+	terminalBtnTimestamp.on('click', function(){
+		if(terminalBtnTimestamp.attr('aria-pressed') === "true"){
+			//if it is enabled then disable it
+			terminalTimestampBtnDisable(terminalBtnTimestamp);
+		} else {
+			terminalTimestampBtnEnable(terminalBtnTimestamp);
+		}
+	});
+
+	terminalBtnClear.on('click', function(){
+		terminalSel.empty();
+		terminalSel.append('<span>terminal cleared</span>');
+		countTermLines = 1;
+	});
+});
 
 let dataSerialBuff = [];
-let indexData = 0;
+let currentDataBuff = [];
+let countTermLines = 0;
+let maxTermLine = 50;
 
+function termialTime() {
+	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
+		let now = new Date().toISOString().slice(0, -1)
+		now = now.substring(now.indexOf('T') + 1);
+		return (now + " -> ");
+	} else {
+		return("")
+	}
+}
+
+function updateTerminal() {
+	terminalSel.prepend('<span>' + termialTime() + currentDataBuff.toString() + '</span>'); //put first on top
+	countTermLines = countTermLines + 1;
+	if (countTermLines > maxTermLine) {
+		terminalSel.children().last().remove();
+		countTermLines = countTermLines - 1;
+	}	
+}
+
+let indexData = 0;
 function getSerialData(index) {
-	return(dataSerialBuff[index]);
+	if (currentDataBuff.length != 0 && 	myChart.options.scales.xAxes[0].realtime.pause != true) {
+		if (index == 0) {
+			updateTerminal();
+		}
+		return(dataSerialBuff[index]);
+	}
 }
 
 function onRefresh(chart) {
@@ -78,12 +140,11 @@ function onRefresh(chart) {
 	});
 }
 
-function flushChart(chart){
+function flushChart(chart) {
 	chart.data.datasets.forEach((dataset) => {
 		dataset.data.splice(0,1000);
 	});
 }
-
 
 // Chart layout setting //
 
@@ -97,6 +158,29 @@ let chartColors = {
 	grey: 'rgb(201, 203, 207)'
 };
 let color = Chart.helpers.color;
+
+function automaticColorDataset(elemNumber) {
+	let index = (elemNumber - 1) % (Object.keys(chartColors).length);
+	console.log(Object.entries(chartColors).at(index)[1]);
+	console.log(chartColors.red);
+	return (Object.entries(chartColors).at(index)[1]);
+}
+
+function addDataset() {	
+	numberOfDatasets++;
+	let testDataset = {
+		index: numberOfDatasets,
+		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
+		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
+		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
+		fill: false,
+		lineTension: 0,
+		data: []
+	}
+	myChart.data.datasets.push(testDataset);
+}
+
+let numberOfDatasets = 3;
 
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
@@ -114,16 +198,16 @@ const myChart = new Chart(ctx, {
 		},{
 			index: 1,
 			label: 'Dataset 2',
-			backgroundColor: color(chartColors.blue).alpha(0.5).rgbString(),
-			borderColor: chartColors.blue,
+			backgroundColor: color(chartColors.orange).alpha(0.5).rgbString(),
+			borderColor: chartColors.orange,
 			fill: false,
 			lineTension: 0,
 			data: []
 		},{
 			index: 2,
 			label: 'Dataset 3',
-			backgroundColor: color(chartColors.green).alpha(0.5).rgbString(),
-			borderColor: chartColors.green,
+			backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString(),
+			borderColor: chartColors.yellow,
 			fill: false,
 			lineTension: 0,
 			data: []
