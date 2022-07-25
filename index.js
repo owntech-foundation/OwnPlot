@@ -1,11 +1,3 @@
-let configSerialPlot = {
-	separator: ':',
-	path: "",
-	nbType: "uint8",
-	nbSize: 2,
-	endianness: 'LE'
-};
-
 let availableSerialPorts = [];
 let availableSerialPortsLength = 0;
 let selectedPort;
@@ -16,47 +8,6 @@ $(function(){
 	noPortBtn($('#pauseBtn'));
 	
 	listPorts();
-
-	let separatorField = $("#separator");
-	separatorField.val(configSerialPlot.separator);
-	separatorField.on('input',function(){
-		if (separatorField.val().length > 0) {
-			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
-		}
-	});
-
-	let nbTypeField = $("#nbType");
-	nbTypeField.on('change',function(){
-		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
-		console.log("nbType changed to " + configSerialPlot.nbType);
-		switch (configSerialPlot.nbType) {
-			case "uint8":
-			case "int8":
-				configSerialPlot.nbSize = 1;
-				break;
-			case "uint16":
-			case "int16":
-				configSerialPlot.nbSize = 2;
-				break;
-			case "uint32":
-			case "int32":
-			case "float":
-				configSerialPlot.nbSize = 4;
-				break;
-			case "double":
-				configSerialPlot.nbSize = 8;
-				break;
-			default:
-				configSerialPlot.nbSize = 1;
-		}
-		console.log("nb size is now " + configSerialPlot.nbSize + " bytes");
-	});
-
-	let endiannessField = $("#endianness");
-	endiannessField.on('change',function(){
-		configSerialPlot.endianness = endiannessField.children("option:selected").val();
-		console.log("endianness changed to " + configSerialPlot.endianness);
-	});
 
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();

@@ -3,13 +3,96 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-25 10:12:18
+ * @ Modified time: 2022-07-25 16:19:41
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 let prevPorts;
 let port;
+
+let separatorField = $("#separator");
+let nbTypeField = $("#nbType");
+let endiannessField = $("#endianness");
+let dataFormatField = $("#dataFormat");
+
+let asciiForm = $("#asciiForm");
+let binaryForm = $("#binaryForm");
+let customForm = $("#customForm");
+
+let configSerialPlot = {
+	dataFormat: 'ascii',
+	separator: ':',
+	path: "",
+	nbType: "uint8",
+	nbSize: 2,
+	endianness: 'LE'
+};
+
+function switchDataForms(){
+	$(asciiForm).hide();
+	$(binaryForm).hide();
+	$(customForm).hide();
+	switch(configSerialPlot.dataFormat){
+		case 'binary':
+			binaryForm.show();
+			break;
+		case 'custom':
+			asciiForm.show();
+			break;
+		case 'ascii':
+		default:
+			asciiForm.show();
+			break;
+	}
+}
+
+$(function(){
+	switchDataForms();
+	dataFormatField.on('change', function(){
+		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
+		switchDataForms();
+		console.log("data format changed to " + configSerialPlot.dataFormat);
+	});
+	
+	separatorField.val(configSerialPlot.separator);
+	separatorField.on('input',function(){
+		if (separatorField.val().length > 0) {
+			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
+		}
+	});
+
+	nbTypeField.on('change',function(){
+		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
+		console.log("nbType changed to " + configSerialPlot.nbType);
+		switch (configSerialPlot.nbType) {
+			case "uint8":
+			case "int8":
+				configSerialPlot.nbSize = 1;
+				break;
+			case "uint16":
+			case "int16":
+				configSerialPlot.nbSize = 2;
+				break;
+			case "uint32":
+			case "int32":
+			case "float":
+				configSerialPlot.nbSize = 4;
+				break;
+			case "double":
+				configSerialPlot.nbSize = 8;
+				break;
+			default:
+				configSerialPlot.nbSize = 1;
+		}
+		console.log("nb size is now " + configSerialPlot.nbSize + " bytes");
+	});
+
+	endiannessField.on('change',function(){
+		configSerialPlot.endianness = endiannessField.children("option:selected").val();
+		console.log("endianness changed to " + configSerialPlot.endianness);
+	});
+});
 
 //Check if ports changed from the last time
 //If it's the first time this function is executed, 
@@ -109,42 +192,71 @@ function openPortRoutine(){
 		});
 
 		port.on("data", function (data) {
-			let dataSerial = []; //flush dataSerial buffer
-			for (let i=0; i<=data.length-configSerialPlot.nbSize; i+=configSerialPlot.nbSize) {
-				dataSerial.push(readBuf(data, i));
+			switch(configSerialPlot.dataFormat){
+				case "binary":
+					bufferizeBinary(data);
+					break;
+				case "custom":
+					bufferizeCustom(data);
+					break;
+				case "ascii":
+				default:
+					bufferizeAscii(data);
+					break;
 			}
-			dataSerialBuff = dataSerial;
-			currentDataBuff = data;
 		})
+	}
+}
 
-		// port.on("data", function(data) {
-		// 	let currentData = Buffer.concat([pendingData, data]);
-		// 	pendingData = Buffer.alloc(0); //flush the pending data buffer
+function bufferizeCustom(data){
+	//TODO: implement custom data format
+}
 
-		// 	if (currentData[currentData.length - 2 ] != endCom[0] ||
-		// 		currentData[currentData.length - 1 ] != endCom[1])
-		// 	{
-		// 		//if the last chars are NOT \r \n
-		// 		//therefore the packet is not complete
-		// 		//we stash the currentdata in pending data
-		// 		pendingData = currentData;
-		// 	}
-		// 	else
-		// 	{
-		// 		let dataSerial = []; //flush dataSerial buffer
-		// 		let dataStart = 0;
-		// 		for (let i = 0; i < currentData.length; i++) {
-		// 			if (currentData[i] == configSerialPlot.separator.charCodeAt(0) ||
-		// 			(currentData[i] == endCom[0] && currentData[i + 1] == endCom[1]))
-		// 			{
-		// 				dataSerial.push(currentData.slice(dataStart, i));
-		// 				dataStart = i + 1;
-		// 			}
-		// 		}
-		// 		currentDataBuff = currentData;
-		// 		dataSerialBuff = dataSerial;
-		// 	}
-		// });
+function bufferizeBinary(data){
+	let currentData = Buffer.concat([data, pendingData]);
+	pendingData = Buffer.alloc(0); //flush the pending data buffer
+
+	let dataSerial = []; //flush dataSerial buffer
+	//we only read data from the port when there is at least one data for each channel
+	//else, the first dataset only gets filled
+	if (currentData.length >= configSerialPlot.nbSize*numberOfDatasets) {
+		for (let i=0; i<=configSerialPlot.nbSize*(numberOfDatasets-1); i+=configSerialPlot.nbSize) {
+			dataSerial.push(readBuf(currentData, i));
+		}
+		dataSerialBuff = dataSerial;
+		currentDataBuff = data;
+	} else {
+		pendingData = currentData;
+	}
+	
+}
+
+function bufferizeAscii(data){
+	let currentData = Buffer.concat([pendingData, data]);
+	pendingData = Buffer.alloc(0); //flush the pending data buffer
+
+	if (currentData[currentData.length - 2 ] != endCom[0] ||
+		currentData[currentData.length - 1 ] != endCom[1])
+	{
+		//if the last chars are NOT \r \n
+		//therefore the packet is not complete
+		//we stash the currentdata in pending data
+		pendingData = currentData;
+	}
+	else
+	{
+		let dataSerial = []; //flush dataSerial buffer
+		let dataStart = 0;
+		for (let i = 0; i < currentData.length; i++) {
+			if (currentData[i] == configSerialPlot.separator.charCodeAt(0) ||
+			(currentData[i] == endCom[0] && currentData[i + 1] == endCom[1]))
+			{
+				dataSerial.push(currentData.slice(dataStart, i));
+				dataStart = i + 1;
+			}
+		}
+		currentDataBuff = currentData;
+		dataSerialBuff = dataSerial;
 	}
 }
 

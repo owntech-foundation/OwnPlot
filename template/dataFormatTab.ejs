@@ -2,34 +2,77 @@
     <span class="input-group-text" id="basic-addon1"># Channels</span>
     <input type="number" class="form-control" value="1" min="0" max="256">
 </div>
-<div class="input-group input-group-sm mb-3">
-    <span class="input-group-text" id="basic-addon1">Frame Size</span>
-    <input type="number" class="form-control" value="1" min="1" max="1000000">
-</div>
-<div class="input-group input-group-sm mb-3">
-	<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
-	<input type="text" id="separator" name="separator" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-</div>
-
 
 <div class="input-group input-group-sm mb-3">
-	<label class="input-group-text" for="inputGroupSelect01">Number Type</label>
-	<select class="form-select" id="nbType" name="nbType">
-        <option value="uint8" selected>uint8</option>
-        <option value="uint16">uint16</option>
-        <option value="uint32">uint32</option>
-        <option value="int8">int8</option>
-        <option value="int16">int16</option>
-        <option value="int32">int32</option>
-        <option value="float">float</option>
-        <option value="double">double</option>
+	<label class="input-group-text" for="inputGroupSelect01">Data Format</label>
+	<select class="form-select" id="dataFormat" name="dataFormat">
+        <option value="ascii" selected>ASCII</option>
+        <option value="binary">binary</option>
+        <option value="custom">custom</option>
     </select>
 </div>
 
-<div class="input-group input-group-sm mb-3">
-	<label class="input-group-text" for="inputGroupSelect01">Endianness</label>
-	<select class="form-select" id="endianness" name="endianness">
-        <option value="LE">Little Endian</option>
-        <option value="BE">Big Endian</option>
-    </select>
+<div id="asciiForm">
+    <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
+        <input type="text" id="separator" name="separator" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+</div>
+
+<div id="binaryForm">
+    <div class="input-group input-group-sm mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Number Type</label>
+        <select class="form-select" id="nbType" name="nbType">
+            <option value="uint8" selected>uint8</option>
+            <option value="uint16">uint16</option>
+            <option value="uint32">uint32</option>
+            <option value="int8">int8</option>
+            <option value="int16">int16</option>
+            <option value="int32">int32</option>
+            <option value="float">float</option>
+            <option value="double">double</option>
+        </select>
+    </div>
+    
+    <div class="input-group input-group-sm mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Endianness</label>
+        <select class="form-select" id="endianness" name="endianness">
+            <option value="LE">Little Endian</option>
+            <option value="BE">Big Endian</option>
+        </select>
+    </div>
+</div>
+
+<div id="customForm" hidden>
+    <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="basic-addon1">Frame Start</span>
+        <input type="text" class="form-control" value="">
+    </div>
+
+    <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="basic-addon1">Frame Size</span>
+        <input type="number" class="form-control" value="1" min="1" max="1000000">
+    </div>
+    
+    <div class="input-group input-group-sm mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Number Type</label>
+        <select class="form-select" id="nbType" name="nbType">
+            <option value="uint8" selected>uint8</option>
+            <option value="uint16">uint16</option>
+            <option value="uint32">uint32</option>
+            <option value="int8">int8</option>
+            <option value="int16">int16</option>
+            <option value="int32">int32</option>
+            <option value="float">float</option>
+            <option value="double">double</option>
+        </select>
+    </div>
+    
+    <div class="input-group input-group-sm mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">Endianness</label>
+        <select class="form-select" id="endianness" name="endianness">
+            <option value="LE">Little Endian</option>
+            <option value="BE">Big Endian</option>
+        </select>
+    </div>
 </div>
