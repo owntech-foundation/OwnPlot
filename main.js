@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-06-28 14:52:52
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-19 16:48:15
+ * @ Modified time: 2022-07-22 12:25:47
  */
 
 const { app, BrowserWindow } = require('electron')
@@ -11,33 +11,28 @@ const path = require('path')
 const url = require('url')
 const ejse = require('ejs-electron')
 
-const iconUrl = url.format({
-    pathname: path.join(__dirname, '/assets/Icon.icns'),
-    protocol: 'file:',
-    slashes: true
-});
+let icon;
+switch (process.platform) {
+    case 'win32':
+        icon = path.resolve(__dirname, 'assets', 'Icon.ico');
+        break;
+    case 'darwin':
+        icon = path.resolve(__dirname, 'assets', 'Icon.icns');
+        app.dock.setIcon(path.resolve(__dirname, 'assets', 'Icon.png'));
+        break;
+    case 'linux':
+        icon = path.resolve(__dirname, 'assets', 'Icon.png');
+        break;
+}
 
-// const image = electron.nativeImage.createFromPath(
-//     app.getAppPath() + "/test.icns");
-// app.dock.setIcon(image);
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-
-//ejse.data('username', 'Some Guy') //this is how we send data
-
-// app.on('ready', () => {
-//     mainWindow = new BrowserWindow()
-//     mainWindow.loadURL('file://' + __dirname + '/index.ejs')
-// })
 
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 1000,
         height: 800,
-        icon: __dirname + '/assets/Icon.icns',
+        icon: icon,
         backgroundColor: "#ccc",
         webPreferences: {
             nodeIntegration: true, // to allow require
