@@ -38,7 +38,7 @@ function switchDataForms(){
 			binaryForm.show();
 			break;
 		case 'custom':
-			asciiForm.show();
+			customForm.show();
 			break;
 		case 'ascii':
 		default:
