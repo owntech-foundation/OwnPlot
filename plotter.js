@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-25 14:49:31
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-07-25 15:54:46
  */
 
 const { auto } = require("@popperjs/core");
@@ -93,6 +93,7 @@ let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnColored = $('#terminalBtnColored');
 let terminalSel = $('#terminalPre');
 
+
 $(function() {
 
 	terminalBtnClear.on('click', function(){
@@ -165,7 +166,7 @@ function updateTerminal() {
 
 let indexData = 0;
 function getSerialData(index) {
-	if (currentDataBuff.length != 0 && 	myChart.options.scales.xAxes[0].realtime.pause != true) {
+	if (myChart.options.scales.xAxes[0].realtime.pause == false) {
 		if (index == 0) {
 			updateTerminal();
 		}
@@ -174,13 +175,15 @@ function getSerialData(index) {
 }
 
 function onRefresh(chart) {
-	let now = Date.now();
-	chart.data.datasets.forEach((dataset) => {
-		dataset.data.push({
-			x: now,
-			y: getSerialData(dataset.index)
+	if(dataSerialBuff.length >= numberOfDatasets){
+		let now = Date.now();
+		chart.data.datasets.forEach(function(dataset) {
+			dataset.data.push({
+				x: now,
+				y: getSerialData(dataset.index)
+			});
 		});
-	});
+	}
 }
 
 function flushChart(chart) {

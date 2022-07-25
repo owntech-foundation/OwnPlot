@@ -1,9 +1,3 @@
-let configSerialPlot = {
-	separator: ':',
-	path: "",
-	nbType: "uint8"
-}
-
 let availableSerialPorts = [];
 let availableSerialPortsLength = 0;
 let selectedPort;
@@ -14,19 +8,6 @@ $(function(){
 	noPortBtn($('#pauseBtn'));
 	
 	listPorts();
-
-	let separatorField = $("#separator");
-	separatorField.val(configSerialPlot.separator);
-	separatorField.on('input',function(){
-		if (separatorField.val().length > 0) {
-			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
-		}
-	});
-
-	let nbTypeField = $("#nbType");
-	nbTypeField.on('change',function(){
-		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
-	});
 
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
