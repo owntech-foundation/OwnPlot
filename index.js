@@ -2,8 +2,9 @@ let configSerialPlot = {
 	separator: ':',
 	path: "",
 	nbType: "uint8",
-	nbSize: 2
-}
+	nbSize: 2,
+	endianness: 'LE'
+};
 
 let availableSerialPorts = [];
 let availableSerialPortsLength = 0;
@@ -28,6 +29,33 @@ $(function(){
 	nbTypeField.on('change',function(){
 		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
 		console.log("nbType changed to " + configSerialPlot.nbType);
+		switch (configSerialPlot.nbType) {
+			case "uint8":
+			case "int8":
+				configSerialPlot.nbSize = 1;
+				break;
+			case "uint16":
+			case "int16":
+				configSerialPlot.nbSize = 2;
+				break;
+			case "uint32":
+			case "int32":
+			case "float":
+				configSerialPlot.nbSize = 4;
+				break;
+			case "double":
+				configSerialPlot.nbSize = 8;
+				break;
+			default:
+				configSerialPlot.nbSize = 1;
+		}
+		console.log("nb size is now " + configSerialPlot.nbSize + " bytes");
+	});
+
+	let endiannessField = $("#endianness");
+	endiannessField.on('change',function(){
+		configSerialPlot.endianness = endiannessField.children("option:selected").val();
+		console.log("endianness changed to " + configSerialPlot.endianness);
 	});
 
 	$("#AvailablePorts").on('change', function(){

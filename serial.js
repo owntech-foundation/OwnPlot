@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-21 17:56:59
+ * @ Modified time: 2022-07-25 10:12:18
  */
 
 const { SerialPort } = require('serialport');
@@ -149,12 +149,47 @@ function openPortRoutine(){
 }
 
 function readBuf(buf, offset){
-	switch (configSerialPlot.nbType) {
-		case "uint8":
-			return buf.readUInt8(offset);
-		case "uint16":
-			return buf.readUInt16LE(offset);
-		default:
-			return buf[offset];
+	if (configSerialPlot.endianness == 'LE') {
+		switch (configSerialPlot.nbType) {
+			case "uint8":
+				return buf.readUInt8(offset);
+			case "uint16":
+				return buf.readUInt16LE(offset);
+			case "uint32":
+				return buf.readUInt32LE(offset);		
+			case "int8":
+				return buf.readInt8LE(offset);		
+			case "int16":
+				return buf.readInt16LE(offset);
+			case "int32":
+				return buf.readInt32LE(offset);
+			case "float":
+				return buf.readFloatLE(offset);
+			case "double":
+				return buf.readDoubleLE(offset);
+			default:
+				return buf[offset];
+		}
+	} else {
+		switch (configSerialPlot.nbType) {
+			case "uint8":
+				return buf.readUInt8(offset);
+			case "uint16":
+				return buf.readUInt16BE(offset);
+			case "uint32":
+				return buf.readUInt32BE(offset);		
+			case "int8":
+				return buf.readInt8BE(offset);		
+			case "int16":
+				return buf.readInt16BE(offset);
+			case "int32":
+				return buf.readInt32BE(offset);
+			case "float":
+				return buf.readFloatBE(offset);
+			case "double":
+				return buf.readDoubleBE(offset);
+			default:
+				return buf[offset];
+		}
 	}
 }
