@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-25 15:54:46
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-07-25 17:37:07
  */
 
 const { auto } = require("@popperjs/core");
@@ -177,7 +177,7 @@ function getSerialData(index) {
 function onRefresh(chart) {
 	if(dataSerialBuff.length >= numberOfDatasets){
 		let now = Date.now();
-		chart.data.datasets.forEach(function(dataset) {
+		chart.data.datasets.forEach((dataset) => {
 			dataset.data.push({
 				x: now,
 				y: getSerialData(dataset.index)
@@ -208,8 +208,6 @@ let color = Chart.helpers.color;
 
 function automaticColorDataset(elemNumber) {
 	let index = (elemNumber - 1) % (Object.keys(chartColors).length);
-	console.log(Object.entries(chartColors).at(index)[1]);
-	console.log(chartColors.red);
 	return (Object.entries(chartColors).at(index)[1]);
 }
 

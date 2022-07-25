@@ -113,7 +113,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron-forge start",
+    "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
