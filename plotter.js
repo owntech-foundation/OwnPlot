@@ -3,10 +3,11 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-21 14:59:39
+ * @ Modified time: 2022-07-25 14:49:31
  */
 
 const { auto } = require("@popperjs/core");
+const { data } = require("jquery");
 const { proto } = require("once");
 
 function pauseBtn(elem) {
@@ -73,13 +74,34 @@ function terminalTimestampBtnDisable(elem) {
 	elem.addClass('btn-warning');
 }
 
-let terminalBtnTimestamp = $('#terminalBtnTimestamp');
+function terminalColorEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+	//<i class="fa-solid fa-droplet"></i>
+}
+
+function terminalColorDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
+	//<i class="fa-solid fa-droplet-slash"></i>
+}
+
 let terminalBtnClear =  $('#terminalBtnClear');
+let terminalBtnTimestamp = $('#terminalBtnTimestamp');
+let terminalBtnColored = $('#terminalBtnColored');
 let terminalSel = $('#terminalPre');
 
 $(function() {
-	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
 
+	terminalBtnClear.on('click', function(){
+		terminalSel.empty();
+		terminalSel.append('<span>terminal cleared</span>');
+		countTermLines = 1;
+	});
+
+	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
 	terminalBtnTimestamp.on('click', function(){
 		if(terminalBtnTimestamp.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
@@ -89,10 +111,14 @@ $(function() {
 		}
 	});
 
-	terminalBtnClear.on('click', function(){
-		terminalSel.empty();
-		terminalSel.append('<span>terminal cleared</span>');
-		countTermLines = 1;
+	terminalColorDisable(terminalBtnColored);
+	terminalBtnColored.on('click', function(){
+		if(terminalBtnColored.attr('aria-pressed') === "true"){
+			//if it is enabled then disable it
+			terminalColorDisable(terminalBtnColored);
+		} else {
+			terminalColorEnable(terminalBtnColored);
+		}
 	});
 });
 
@@ -111,8 +137,25 @@ function termialTime() {
 	}
 }
 
+function terminalColorElems() {
+	let termLine = '';
+	dataSerialBuff.forEach((elem, index) => {
+		termLine+='<span style="color:' + automaticColorDataset(index + 1) + '">' + elem + '</span>';
+		if (index < dataSerialBuff.length - 1) {
+			termLine+= configSerialPlot.separator;
+		}
+	});
+	termLine+='\r\n'.toString();
+	return (termLine);
+}
+
 function updateTerminal() {
-	terminalSel.prepend('<span>' + termialTime() + currentDataBuff.toString() + '</span>'); //put first on top
+	if (terminalBtnColored.attr('aria-pressed') === "true") { //colored
+		terminalSel.prepend('<span>' + termialTime() + terminalColorElems() + '</span>'); //put first on top
+	} else {
+		terminalSel.prepend('<span>' + termialTime() + currentDataBuff.toString() + '</span>'); //put first on top
+
+	}
 	countTermLines = countTermLines + 1;
 	if (countTermLines > maxTermLine) {
 		terminalSel.children().last().remove();
@@ -132,7 +175,7 @@ function getSerialData(index) {
 
 function onRefresh(chart) {
 	let now = Date.now();
-	chart.data.datasets.forEach(function(dataset) {
+	chart.data.datasets.forEach((dataset) => {
 		dataset.data.push({
 			x: now,
 			y: getSerialData(dataset.index)
@@ -155,6 +198,7 @@ let chartColors = {
 	green: 'rgb(75, 192, 192)',
 	blue: 'rgb(54, 162, 235)',
 	purple: 'rgb(153, 102, 255)',
+	greenApple: 'rgb(120, 235,12)',
 	grey: 'rgb(201, 203, 207)'
 };
 let color = Chart.helpers.color;
