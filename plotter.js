@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-26 14:42:35
+ * @ Modified time: 2022-07-26 15:44:49
  */
 
 const { auto } = require("@popperjs/core");
@@ -105,7 +105,7 @@ function onRefresh(chart) {
 
 function flushChart(chart) {
 	chart.data.datasets.forEach((dataset) => {
-		dataset.data.splice(0,1000);
+		dataset.data = [];
 	});
 }
 

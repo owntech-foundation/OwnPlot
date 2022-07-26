@@ -3,13 +3,16 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-26 14:55:10
+ * @ Modified time: 2022-07-26 16:08:26
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 let prevPorts;
 let port;
+let byteSkip = false;
+const endCom = [13, 10];
+let pendingData = Buffer.alloc(0);
 
 let separatorField = $("#separator");
 let nbTypeField = $("#nbType");
@@ -19,6 +22,8 @@ let dataFormatField = $("#dataFormat");
 let asciiForm = $("#asciiForm");
 let binaryForm = $("#binaryForm");
 let customForm = $("#customForm");
+
+let skipByteBtn = $("#skipByteBtn");
 
 let configSerialPlot = {
 	dataFormat: 'ascii',
@@ -148,7 +153,7 @@ async function listSerialPorts(){
 }
 
 //list ports loop
-function listPorts() {
+async function listPorts() {
 	if (checkPortsChanged()) {
 		listSerialPorts();
 	}
@@ -163,9 +168,6 @@ function openPort() {
 	});
 	openPortRoutine();
 }
-
-const endCom = [13, 10];
-let pendingData = Buffer.alloc(0);
 
 function openPortRoutine() {
 	if (typeof port !== 'undefined')
@@ -204,7 +206,11 @@ function openPortRoutine() {
 					bufferizeAscii(data);
 					break;
 			}
-		})
+		});
+
+		skipByteBtn.on('click', () => {
+			byteSkip=true;
+		});
 	}
 }
 
@@ -213,7 +219,11 @@ function bufferizeCustom(data){
 }
 
 function bufferizeBinary(data){
-	let currentData = Buffer.concat([data, pendingData]);
+	let currentData = Buffer.concat([pendingData, data]);
+	if(byteSkip){
+		currentData = currentData.subarray(1, currentData.length);
+		byteSkip=false;
+	}
 	pendingData = Buffer.alloc(0); //flush the pending data buffer
 
 	let dataSerial = []; //flush dataSerial buffer
