@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-25 17:37:07
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-07-26 12:26:48
  */
 
 const { auto } = require("@popperjs/core");
@@ -92,9 +92,25 @@ let terminalBtnClear =  $('#terminalBtnClear');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnColored = $('#terminalBtnColored');
 let terminalSel = $('#terminalPre');
+let nbChannelsInput = $("#nbChannels");
 
+let dataSerialBuff = [];
+let currentDataBuff = [];
+let countTermLines = 0;
+let maxTermLine = 50;
+let numberOfDatasets = 3;
 
 $(function() {
+	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
+	nbChannelsInput.on('input', () => {
+		let nbChannels = nbChannelsInput.val();
+		while(numberOfDatasets < nbChannels){
+			addDataset();
+		}
+		while(numberOfDatasets > nbChannels){
+			removeDataset();
+		}
+	});
 
 	terminalBtnClear.on('click', function(){
 		terminalSel.empty();
@@ -122,11 +138,6 @@ $(function() {
 		}
 	});
 });
-
-let dataSerialBuff = [];
-let currentDataBuff = [];
-let countTermLines = 0;
-let maxTermLine = 50;
 
 function termialTime() {
 	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
@@ -192,6 +203,29 @@ function flushChart(chart) {
 	});
 }
 
+function removeDataset() {
+	myChart.stop();
+	numberOfDatasets--;
+	myChart.data.datasets.pop();
+	myChart.update();
+}
+
+function addDataset() {
+	myChart.stop();
+	numberOfDatasets++;
+	let newDataset = {
+		index: numberOfDatasets,
+		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
+		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
+		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
+		fill: false,
+		lineTension: 0,
+		data: []
+	}
+	myChart.data.datasets.push(newDataset);
+	myChart.update();
+}
+
 // Chart layout setting //
 
 let chartColors = {
@@ -210,22 +244,6 @@ function automaticColorDataset(elemNumber) {
 	let index = (elemNumber - 1) % (Object.keys(chartColors).length);
 	return (Object.entries(chartColors).at(index)[1]);
 }
-
-function addDataset() {	
-	numberOfDatasets++;
-	let testDataset = {
-		index: numberOfDatasets,
-		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
-		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
-		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
-		fill: false,
-		lineTension: 0,
-		data: []
-	}
-	myChart.data.datasets.push(testDataset);
-}
-
-let numberOfDatasets = 3;
 
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
