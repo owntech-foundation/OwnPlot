@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-26 12:26:35
+ * @ Modified time: 2022-07-26 12:33:41
  */
 
 const DataModesEnum = {
@@ -128,10 +128,16 @@ function terminalFormating(isColored, termDataMode) {
 			if (elem < 15) {
 				termLine += "0";
 			}
+			termLine+= elem.toString(16).toUpperCase() + '</span>';
+		} else {
+			termLine+= elem.toString() + '</span>';
 		}
-		termLine+= elem.toString(16).toUpperCase() + " " + '</span>';
 		if (index < dataSerialBuff.length - 1) {
-			termLine+= configSerialPlot.separator;
+			if (termDataMode === DataModesEnum.Hex) {
+				termLine+= " ";
+			} else {
+				termLine+= configSerialPlot.separator;
+			}
 		}
 	});
 	termLine+='\r\n'.toString();
