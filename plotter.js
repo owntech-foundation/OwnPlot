@@ -120,7 +120,7 @@ function addDataset() {
 	myChart.stop();
 	numberOfDatasets++;
 	let newDataset = {
-		index: numberOfDatasets,
+		index: numberOfDatasets-1, //index begins to 0
 		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
 		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
 		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
