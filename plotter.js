@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-26 11:14:52
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-07-26 14:42:35
  */
 
 const { auto } = require("@popperjs/core");
@@ -64,8 +64,24 @@ function closePortBtn(elem) {
 
 let dataSerialBuff = [];
 let currentDataBuff = [];
-
 let indexData = 0;
+let numberOfDatasets = 3;
+
+let nbChannelsInput = $("#nbChannels");
+
+$(() => {
+	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
+	nbChannelsInput.on('input', () => {
+		let nbChannels = nbChannelsInput.val();
+		while(numberOfDatasets < nbChannels){
+			addDataset();
+		}
+		while(numberOfDatasets > nbChannels){
+			removeDataset();
+		}
+	});
+});
+
 function getSerialData(index) {
 	if (myChart.options.scales.xAxes[0].realtime.pause == false) {
 		if (index == 0) {
