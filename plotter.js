@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-26 12:26:48
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-07-26 11:14:52
  */
 
 const { auto } = require("@popperjs/core");
@@ -62,118 +62,8 @@ function closePortBtn(elem) {
 	$(elem).css("visibility","visible");
 }
 
-function terminalTimestampBtnEnable(elem) {
-	elem.attr('aria-pressed', 'true');
-	elem.removeClass('btn-warning');
-	elem.addClass('btn-success');
-}
-
-function terminalTimestampBtnDisable(elem) {
-	elem.attr('aria-pressed', 'false');
-	elem.removeClass('btn-success');
-	elem.addClass('btn-warning');
-}
-
-function terminalColorEnable(elem) {
-	elem.attr('aria-pressed', 'true');
-	elem.removeClass('btn-warning');
-	elem.addClass('btn-success');
-	//<i class="fa-solid fa-droplet"></i>
-}
-
-function terminalColorDisable(elem) {
-	elem.attr('aria-pressed', 'false');
-	elem.removeClass('btn-success');
-	elem.addClass('btn-warning');
-	//<i class="fa-solid fa-droplet-slash"></i>
-}
-
-let terminalBtnClear =  $('#terminalBtnClear');
-let terminalBtnTimestamp = $('#terminalBtnTimestamp');
-let terminalBtnColored = $('#terminalBtnColored');
-let terminalSel = $('#terminalPre');
-let nbChannelsInput = $("#nbChannels");
-
 let dataSerialBuff = [];
 let currentDataBuff = [];
-let countTermLines = 0;
-let maxTermLine = 50;
-let numberOfDatasets = 3;
-
-$(function() {
-	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
-	nbChannelsInput.on('input', () => {
-		let nbChannels = nbChannelsInput.val();
-		while(numberOfDatasets < nbChannels){
-			addDataset();
-		}
-		while(numberOfDatasets > nbChannels){
-			removeDataset();
-		}
-	});
-
-	terminalBtnClear.on('click', function(){
-		terminalSel.empty();
-		terminalSel.append('<span>terminal cleared</span>');
-		countTermLines = 1;
-	});
-
-	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
-	terminalBtnTimestamp.on('click', function(){
-		if(terminalBtnTimestamp.attr('aria-pressed') === "true"){
-			//if it is enabled then disable it
-			terminalTimestampBtnDisable(terminalBtnTimestamp);
-		} else {
-			terminalTimestampBtnEnable(terminalBtnTimestamp);
-		}
-	});
-
-	terminalColorDisable(terminalBtnColored);
-	terminalBtnColored.on('click', function(){
-		if(terminalBtnColored.attr('aria-pressed') === "true"){
-			//if it is enabled then disable it
-			terminalColorDisable(terminalBtnColored);
-		} else {
-			terminalColorEnable(terminalBtnColored);
-		}
-	});
-});
-
-function termialTime() {
-	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
-		let now = new Date().toISOString().slice(0, -1)
-		now = now.substring(now.indexOf('T') + 1);
-		return (now + " -> ");
-	} else {
-		return("")
-	}
-}
-
-function terminalColorElems() {
-	let termLine = '';
-	dataSerialBuff.forEach((elem, index) => {
-		termLine+='<span style="color:' + automaticColorDataset(index + 1) + '">' + elem + '</span>';
-		if (index < dataSerialBuff.length - 1) {
-			termLine+= configSerialPlot.separator;
-		}
-	});
-	termLine+='\r\n'.toString();
-	return (termLine);
-}
-
-function updateTerminal() {
-	if (terminalBtnColored.attr('aria-pressed') === "true") { //colored
-		terminalSel.prepend('<span>' + termialTime() + terminalColorElems() + '</span>'); //put first on top
-	} else {
-		terminalSel.prepend('<span>' + termialTime() + currentDataBuff.toString() + '</span>'); //put first on top
-
-	}
-	countTermLines = countTermLines + 1;
-	if (countTermLines > maxTermLine) {
-		terminalSel.children().last().remove();
-		countTermLines = countTermLines - 1;
-	}	
-}
 
 let indexData = 0;
 function getSerialData(index) {
