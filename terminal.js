@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-26 12:33:41
+ * @ Modified time: 2022-07-26 16:43:00
  */
 
 const DataModesEnum = {
@@ -117,7 +117,6 @@ function termialTime() {
 function terminalFormating(isColored, termDataMode) {
 	let termLine = '';
 	dataSerialBuff.forEach((elem, index) => {
-
 		if (isColored) {
 			termLine+='<span style="color:' + automaticColorDataset(index + 1) + '">';
 		} else {
@@ -128,7 +127,8 @@ function terminalFormating(isColored, termDataMode) {
 			if (elem < 15) {
 				termLine += "0";
 			}
-			termLine+= elem.toString(16).toUpperCase() + '</span>';
+			//the parseint is here to solve compatibility issues with ascii mode
+			termLine+= parseInt(elem.toString()).toString(16).toUpperCase() + '</span>';
 		} else {
 			termLine+= elem.toString() + '</span>';
 		}
@@ -144,19 +144,8 @@ function terminalFormating(isColored, termDataMode) {
 	return (termLine);
 }
 
-// function terminalHex() {
-// 	let termLine = '';
-// 	dataSerialBuff.forEach((elem, index) => {
-// 		termLine += elem.toString(16).toUpperCase() + " ";
-// 	});
-// 	termLine+='\r\n'.toString();
-// 	return (termLine);
-// }
-
 function updateTerminal() {
-
 	terminalSel.prepend('<span>' + termialTime() + terminalFormating(termColor, termDataMode) + '</span>'); //put first on top
-	
 	countTermLines = countTermLines + 1;
 	if (countTermLines > maxTermLine) {
 		terminalSel.children().last().remove();
