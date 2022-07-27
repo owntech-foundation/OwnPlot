@@ -3,13 +3,14 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-26 16:08:26
+ * @ Modified time: 2022-07-27 17:06:21
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 let prevPorts;
 let port;
+
 let byteSkip = false;
 const endCom = [13, 10];
 let pendingData = Buffer.alloc(0);
