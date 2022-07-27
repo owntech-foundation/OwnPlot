@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-27 17:16:35
+ * @ Modified time: 2022-07-27 17:56:04
  */
 
 const { auto } = require("@popperjs/core");
@@ -66,20 +66,19 @@ let dataSerialBuff = [];
 let currentDataBuff = [];
 let indexData = 0;
 let numberOfDatasets = 3;
+const nbMaxDatasets = 20;
 
 let nbChannelsInput = $("#nbChannels");
 
 $(() => {
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
+	nbChannelsInput.attr("max", nbMaxDatasets);
 	nbChannelsInput.on('change', () => {
 		let nbChannels = nbChannelsInput.val();
-		if(nbChannels > nbChannelsInput.attr("max")){
-			nbChannelsInput.attr("value", nbChannelsInput.attr("max")); //TODO : fix this, the value isn't refreshed
-		}
-		while(numberOfDatasets < nbChannels){
+		while(numberOfDatasets < nbChannels && numberOfDatasets < nbMaxDatasets){
 			addDataset();
 		}
-		while(numberOfDatasets > nbChannels){
+		while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
 			removeDataset();
 		}
 	});
