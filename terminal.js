@@ -51,7 +51,7 @@ function terminalDecimalMode(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-default');
-	elem.html('<i class="fa-solid fa-a"></i></i>&nbsp;Decimal mode');
+	elem.html('<i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal mode');
 	termDataMode = DataModesEnum.Decimal;
 }
 
