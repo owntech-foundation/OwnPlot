@@ -3,11 +3,11 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-28 16:27:14
+ * @ Modified time: 2022-07-28 17:00:34
  */
 
 const DataModesEnum = {
-	Ascii: 'Ascii',
+	Decimal: 'Decimal',
 	Hex: 'Hex'
 };
 
@@ -47,12 +47,12 @@ function terminalHexMode(elem) {
 	termDataMode = DataModesEnum.Hex;
 }
 
-function terminalAsciiMode(elem) {
+function terminalDecimalMode(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-default');
-	elem.html('<i class="fa-solid fa-a"></i></i>&nbsp;Ascii mode');
-	termDataMode = DataModesEnum.Ascii;
+	elem.html('<i class="fa-solid fa-a"></i></i>&nbsp;Decimal mode');
+	termDataMode = DataModesEnum.Decimal;
 }
 
 let terminalBtnClear =  $('#terminalBtnClear');
@@ -61,7 +61,7 @@ let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
 let terminalSel = $('#terminalPre');
 let formattedMode = false;
-let termDataMode = DataModesEnum.Ascii;
+let termDataMode = DataModesEnum.Decimal;
 
 let countTermLines = 0;
 let maxTermLine = 50;
@@ -93,11 +93,11 @@ $(function() {
 		}
 	});
 
-	terminalAsciiMode(terminalBtnDataMode);
+	terminalDecimalMode(terminalBtnDataMode);
 	terminalBtnDataMode.on('click', function(){
 		if(terminalBtnDataMode.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
-			terminalAsciiMode(terminalBtnDataMode);
+			terminalDecimalMode(terminalBtnDataMode);
 		} else {
 			terminalHexMode(terminalBtnDataMode);
 		}
@@ -114,40 +114,36 @@ function termialTime() {
 	}
 }
 
-function terminalFormating(onDataset, dataMode) {
+function valueToString(val){
+	let str = "";
+	if (termDataMode === DataModesEnum.Hex) {
+		str+= "0x";
+		if (val < 16) {
+			str += "0";
+		}
+		//the parseint is here to solve compatibility issues with ascii mode
+		str+= parseInt(val.toString()).toString(16).toUpperCase();
+	} else {
+		str+= val.toString();
+	}
+	str+= " ";
+	return str;
+}
+
+function terminalFormating() {
 	let termLine = '';
-	if (onDataset){ //channelled print
+	if (formattedMode){
 		dataSerialBuff.forEach((elem, index) => {
 			termLine+='<span style="color:' + automaticColorDataset(index + 1) + '">';
-			if (dataMode === DataModesEnum.Hex) {
-				termLine+= "0x";
-				if (elem < 16) {
-					termLine += "0";
-				}
-				//the parseint is here to solve compatibility issues with ascii mode
-				termLine+= parseInt(elem.toString()).toString(16).toUpperCase() + '</span>';
-			} else {
-				termLine+= elem.toString() + '</span>';
-			}
-			//add a separator between numbers on a same line
-			if (index < dataSerialBuff.length - 1) {
-				termLine+= " ";
-			}
+			termLine+= valueToString(elem); //takes care of the base (dec or hex)
+			termLine+= '</span>';
 		});
+		termLine = termLine.substring(0,termLine.length - (1+'</span>'.length)) + termLine.substring(termLine.length - ('</span>'.length), termLine.length); //erases the last " " which is useless
 	} else { //raw print
 		rawDataBuff.forEach((elem) => {
-			if (dataMode === DataModesEnum.Hex) {
-				termLine+= "0x";
-				if (elem < 16) {
-					termLine += "0";
-				}
-				//the parseint is here to solve compatibility issues with ascii mode
-				termLine+= parseInt(elem.toString()).toString(16).toUpperCase();
-			} else {
-				termLine+= elem.toString();
-			}
-			termLine+= " ";
+			termLine+= valueToString(elem); //takes care of the base (dec or hex)
 		});
+		termLine = termLine.substring(0,termLine.length - 1); //erases the last " " which is useless
 		rawDataBuff = Buffer.alloc(0);
 	}
 	termLine+='\r\n'.toString();
@@ -159,7 +155,7 @@ function updateTerminal() {
 		if (countTermLines == 0){
 			terminalSel.empty(); //erases the "terminal cleared" on print
 		}
-		terminalSel.prepend('<span>' + termialTime() + terminalFormating(formattedMode, termDataMode) + '</span>'); //put first on top
+		terminalSel.prepend('<span>' + termialTime() + terminalFormating() + '</span>'); //put first on top
 		countTermLines = countTermLines + 1;
 		if (countTermLines > maxTermLine) {
 			terminalSel.children().last().remove();
