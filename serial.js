@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-27 17:06:21
+ * @ Modified time: 2022-07-28 10:32:50
  */
 
 const { SerialPort } = require('serialport');
@@ -12,7 +12,7 @@ let prevPorts;
 let port;
 
 let byteSkip = false;
-const endCom = [13, 10];
+const endCom = [13, 10]; //ascii for \r & \n
 let pendingData = Buffer.alloc(0);
 
 let separatorField = $("#separator");
@@ -131,8 +131,6 @@ async function listSerialPorts(){
 		document.getElementById('ports').innerHTML = tableHTML;
 
 		if (availableSerialPortsLength !=  ports.length) {
-			// console.log("Ports changed !");
-			// console.log(ports);
 			let lpHTML = '<option value="default" selected>Select a port...</option>';
 			availableSerialPortsLength = ports.length;
 			availableSerialPorts = ports; //copy of array to access anywhere
@@ -183,6 +181,7 @@ function openPortRoutine() {
 			console.log("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
 			runBtn('#pauseBtn');
+			enableSend();
 			flushChart(myChart);
 		});
 
@@ -191,6 +190,7 @@ function openPortRoutine() {
 			$('#pauseBtn').addClass('disabled');
 			console.log("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
+			disableSend();
 			listSerialPorts();
 		});
 
