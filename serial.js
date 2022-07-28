@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-28 10:32:50
+ * @ Modified time: 2022-07-28 15:33:37
  */
 
 const { SerialPort } = require('serialport');
@@ -180,14 +180,14 @@ function openPortRoutine() {
 		port.on('open', () => {
 			console.log("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
-			runBtn('#pauseBtn');
+			runBtn('.pauseBtn');
 			enableSend();
 			flushChart(myChart);
 		});
 
 		port.on('close', () => {
-			pauseBtn('#pauseBtn');
-			$('#pauseBtn').addClass('disabled');
+			pauseBtn('.pauseBtn');
+			$('.pauseBtn').addClass('disabled');
 			console.log("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();
@@ -195,6 +195,7 @@ function openPortRoutine() {
 		});
 
 		port.on("data", (data) => {
+			rawDataBuff = data;
 			switch(configSerialPlot.dataFormat){
 				case "binary":
 					bufferizeBinary(data);
@@ -207,6 +208,7 @@ function openPortRoutine() {
 					bufferizeAscii(data);
 					break;
 			}
+			updateTerminal();
 		});
 
 		skipByteBtn.on('click', () => {
@@ -235,7 +237,6 @@ function bufferizeBinary(data){
 			dataSerial.push(readBuf(currentData, i));
 		}
 		dataSerialBuff = dataSerial;
-		currentDataBuff = data;
 	} else {
 		pendingData = currentData;
 	}
@@ -266,7 +267,6 @@ function bufferizeAscii(data){
 				dataStart = i + 1;
 			}
 		}
-		currentDataBuff = currentData;
 		dataSerialBuff = dataSerial;
 	}
 }

@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-26 16:43:00
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-07-28 16:13:33
  */
 
 const DataModesEnum = {
@@ -23,20 +23,20 @@ function terminalTimestampBtnDisable(elem) {
 	elem.addClass('btn-warning');
 }
 
-function terminalColorEnable(elem) {
+function terminalFormattedEnable(elem) {
 	elem.attr('aria-pressed', 'true');
 	elem.removeClass('btn-warning');
 	elem.addClass('btn-success');
-	elem.html('<i class="fa-solid fa-droplet"></i>&nbsp;Colored');
-	termColor = true;
+	elem.html('<i class="fa-solid fa-droplet"></i>&nbsp;Formatted');
+	formattedMode = true;
 }
 
-function terminalColorDisable(elem) {
+function terminalFormattedDisable(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-warning');
 	elem.html('<i class="fa-solid fa-droplet-slash"></i>&nbsp;Raw Data');
-	termColor = false;
+	formattedMode = false;
 }
 
 function terminalHexMode(elem) {
@@ -57,11 +57,14 @@ function terminalAsciiMode(elem) {
 
 let terminalBtnClear =  $('#terminalBtnClear');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
-let terminalBtnColored = $('#terminalBtnColored');
+let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
 let terminalSel = $('#terminalPre');
-let termColor = false;
+let formattedMode = false;
 let termDataMode = DataModesEnum.Ascii;
+
+let countTermLines = 0;
+let maxTermLine = 50;
 
 $(function() {
 	terminalBtnClear.on('click', function(){
@@ -80,13 +83,13 @@ $(function() {
 		}
 	});
 
-	terminalColorDisable(terminalBtnColored);
-	terminalBtnColored.on('click', function(){
-		if(terminalBtnColored.attr('aria-pressed') === "true"){
+	terminalFormattedDisable(terminalBtnFormatted);
+	terminalBtnFormatted.on('click', function(){
+		if(terminalBtnFormatted.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
-			terminalColorDisable(terminalBtnColored);
+			terminalFormattedDisable(terminalBtnFormatted);
 		} else {
-			terminalColorEnable(terminalBtnColored);
+			terminalFormattedEnable(terminalBtnFormatted);
 		}
 	});
 
@@ -101,54 +104,63 @@ $(function() {
 	});
 });
 
-let countTermLines = 0;
-let maxTermLine = 50;
-
 function termialTime() {
 	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
 		let now = new Date().toISOString().slice(0, -1) //time w/ ms
 		now = now.substring(now.indexOf('T') + 1);
 		return (now + " -> ");
 	} else {
-		return("")
+		return("");
 	}
 }
 
-function terminalFormating(isColored, termDataMode) {
+function terminalFormating(onDataset, dataMode) {
 	let termLine = '';
-	dataSerialBuff.forEach((elem, index) => {
-		if (isColored) {
+	if (onDataset){ //channelled print
+		dataSerialBuff.forEach((elem, index) => {
 			termLine+='<span style="color:' + automaticColorDataset(index + 1) + '">';
-		} else {
-			termLine+='<span>';
-		}
-		if (termDataMode === DataModesEnum.Hex) {
-			termLine+= "0x";
-			if (elem < 15) {
-				termLine += "0";
-			}
-			//the parseint is here to solve compatibility issues with ascii mode
-			termLine+= parseInt(elem.toString()).toString(16).toUpperCase() + '</span>';
-		} else {
-			termLine+= elem.toString() + '</span>';
-		}
-		if (index < dataSerialBuff.length - 1) {
-			if (termDataMode === DataModesEnum.Hex) {
-				termLine+= " ";
+			if (dataMode === DataModesEnum.Hex) {
+				termLine+= "0x";
+				if (elem < 16) {
+					termLine += "0";
+				}
+				//the parseint is here to solve compatibility issues with ascii mode
+				termLine+= parseInt(elem.toString()).toString(16).toUpperCase() + '</span>';
 			} else {
-				termLine+= configSerialPlot.separator;
+				termLine+= elem.toString() + '</span>';
 			}
-		}
-	});
+			//add a separator between numbers on a same line
+			if (index < dataSerialBuff.length - 1) {
+				termLine+= " ";
+			}
+		});
+	} else { //raw print
+		rawDataBuff.forEach((elem) => {
+			if (dataMode === DataModesEnum.Hex) {
+				termLine+= "0x";
+				if (elem < 16) {
+					termLine += "0";
+				}
+				//the parseint is here to solve compatibility issues with ascii mode
+				termLine+= parseInt(elem.toString()).toString(16).toUpperCase();
+			} else {
+				termLine+= elem.toString();
+			}
+			termLine+= " ";
+		});
+		rawDataBuff = Buffer.alloc(0);
+	}
 	termLine+='\r\n'.toString();
 	return (termLine);
 }
 
 function updateTerminal() {
-	terminalSel.prepend('<span>' + termialTime() + terminalFormating(termColor, termDataMode) + '</span>'); //put first on top
-	countTermLines = countTermLines + 1;
-	if (countTermLines > maxTermLine) {
-		terminalSel.children().last().remove();
-		countTermLines = countTermLines - 1;
-	}	
+	if(plotOnPause() == false){
+		terminalSel.prepend('<span>' + termialTime() + terminalFormating(formattedMode, termDataMode) + '</span>'); //put first on top
+		countTermLines = countTermLines + 1;
+		if (countTermLines > maxTermLine) {
+			terminalSel.children().last().remove();
+			countTermLines = countTermLines - 1;
+		}
+	}
 }
