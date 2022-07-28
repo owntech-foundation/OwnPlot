@@ -14,7 +14,8 @@ $(() => {
     });
 
     sendBtn.on('click', () => {
-        console.log(sendInput.val());
+        send(sendInput.val());
+        console.log('sent---> ' + sendInput.val());
     });
 });
 
