@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-28 16:13:33
+ * @ Modified time: 2022-07-28 16:27:14
  */
 
 const DataModesEnum = {
@@ -70,7 +70,7 @@ $(function() {
 	terminalBtnClear.on('click', function(){
 		terminalSel.empty();
 		terminalSel.append('<span>terminal cleared</span>');
-		countTermLines = 1;
+		countTermLines = 0;
 	});
 
 	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
@@ -156,6 +156,9 @@ function terminalFormating(onDataset, dataMode) {
 
 function updateTerminal() {
 	if(plotOnPause() == false){
+		if (countTermLines == 0){
+			terminalSel.empty(); //erases the "terminal cleared" on print
+		}
 		terminalSel.prepend('<span>' + termialTime() + terminalFormating(formattedMode, termDataMode) + '</span>'); //put first on top
 		countTermLines = countTermLines + 1;
 		if (countTermLines > maxTermLine) {
