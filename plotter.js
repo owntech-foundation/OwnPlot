@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-26 15:44:49
+ * @ Modified time: 2022-07-27 17:56:04
  */
 
 const { auto } = require("@popperjs/core");
@@ -66,40 +66,43 @@ let dataSerialBuff = [];
 let currentDataBuff = [];
 let indexData = 0;
 let numberOfDatasets = 3;
+const nbMaxDatasets = 20;
 
 let nbChannelsInput = $("#nbChannels");
 
 $(() => {
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
-	nbChannelsInput.on('input', () => {
+	nbChannelsInput.attr("max", nbMaxDatasets);
+	nbChannelsInput.on('change', () => {
 		let nbChannels = nbChannelsInput.val();
-		while(numberOfDatasets < nbChannels){
+		while(numberOfDatasets < nbChannels && numberOfDatasets < nbMaxDatasets){
 			addDataset();
 		}
-		while(numberOfDatasets > nbChannels){
+		while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
 			removeDataset();
 		}
 	});
 });
 
 function getSerialData(index) {
-	if (myChart.options.scales.xAxes[0].realtime.pause == false) {
-		if (index == 0) {
-			updateTerminal();
-		}
-		return(dataSerialBuff[index]);
+	if (index == 0) {
+		updateTerminal();
 	}
+	return(dataSerialBuff[index]);
 }
 
 function onRefresh(chart) {
-	if(dataSerialBuff.length >= numberOfDatasets){
-		let now = Date.now();
-		chart.data.datasets.forEach((dataset) => {
-			dataset.data.push({
-				x: now,
-				y: getSerialData(dataset.index)
+	if (myChart.options.scales.xAxes[0].realtime.pause == false) {
+		if(dataSerialBuff.length >= numberOfDatasets){
+			let now = Date.now();
+			chart.data.datasets.forEach((dataset) => {
+				dataset.data.push({
+					x: now,
+					y: getSerialData(dataset.index)
+				});
 			});
-		});
+		}
+		dataSerialBuff=[]; //flush buffer once read
 	}
 }
 

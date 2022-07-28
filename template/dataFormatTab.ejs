@@ -1,6 +1,6 @@
-<div class="input-group input-group-sm mb-3">
+<div class="input-group input-group-sm mb-3" id="nbChannelDiv">
     <span class="input-group-text" id="basic-addon1"># Channels</span>
-    <input type="number" id="nbChannels" class="form-control" value="3" min="0" max="255">
+    <input type="number" id="nbChannels" class="form-control" value="3" min="0" max="10">
 </div>
 
 <div class="input-group input-group-sm mb-3">
@@ -15,7 +15,7 @@
 <div id="asciiForm">
     <div class="input-group input-group-sm mb-3">
         <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
-        <input type="text" id="separator" name="separator" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        <input type="text" id="separator" name="separator" class="form-control" maxlength=1 aria-describedby="basic-addon1">
     </div>
 </div>
 
@@ -48,7 +48,7 @@
 <div id="customForm">
     <div class="input-group input-group-sm mb-3">
         <span class="input-group-text" id="basic-addon1">Frame Start</span>
-        <input type="text" class="form-control" value="">
+        <input type="text" id="frame-start" class="form-control" value="">
     </div>
 
     <div class="input-group input-group-sm mb-3">
