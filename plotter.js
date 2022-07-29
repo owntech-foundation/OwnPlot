@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-29 12:27:52
+ * @ Modified time: 2022-07-29 16:35:06
  */
 
 const { auto } = require("@popperjs/core");
@@ -85,22 +85,22 @@ $(() => {
 });
 
 function pausePlot(){
-	myChart.options.scales.xAxes[0].realtime.pause = true;
+	myChart.options.scales['x'].realtime.pause = true;
 }
 
 function runPlot(){
-	myChart.options.scales.xAxes[0].realtime.pause = false;
+	myChart.options.scales['x'].realtime.pause = false;
 }
 
 function plotOnPause(){
-	return myChart.options.scales.xAxes[0].realtime.pause;
+	return myChart.options.scales['x'].realtime.pause;
 }
 
 function getSerialData(index) {
 	return(dataSerialBuff[index]);
 }
 
-function onRefresh(chart) {
+function refreshCallback(chart) {
 	if (plotOnPause() == false) {
 		if(dataSerialBuff.length >= numberOfDatasets){
 			let now = Date.now();
@@ -197,22 +197,22 @@ const myChart = new Chart(ctx, {
 	},
 	options: {
 		scales: {
-			xAxes: [{
+			x: {
 				type: 'realtime',
 				realtime: {
 					duration: 20000,
 					refresh: 200,
 					delay: 100,
-					onRefresh: onRefresh,
-					pause: true
+					onRefresh: refreshCallback,
+					pause: false
 				}
-			}],
-			yAxes: [{
+			},
+			y: {
 				scaleLabel: {
 					display: true,
 					labelString: 'value'
 				}
-			}]
-		},
+			}
+		}
 	}
 });
