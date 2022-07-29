@@ -2,12 +2,12 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-26 16:43:00
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-07-28 17:00:34
  */
 
 const DataModesEnum = {
-	Ascii: 'Ascii',
+	Decimal: 'Decimal',
 	Hex: 'Hex'
 };
 
@@ -23,20 +23,20 @@ function terminalTimestampBtnDisable(elem) {
 	elem.addClass('btn-warning');
 }
 
-function terminalColorEnable(elem) {
+function terminalFormattedEnable(elem) {
 	elem.attr('aria-pressed', 'true');
 	elem.removeClass('btn-warning');
 	elem.addClass('btn-success');
-	elem.html('<i class="fa-solid fa-droplet"></i>&nbsp;Colored');
-	termColor = true;
+	elem.html('<i class="fa-solid fa-droplet"></i>&nbsp;Formatted');
+	formattedMode = true;
 }
 
-function terminalColorDisable(elem) {
+function terminalFormattedDisable(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-warning');
 	elem.html('<i class="fa-solid fa-droplet-slash"></i>&nbsp;Raw Data');
-	termColor = false;
+	formattedMode = false;
 }
 
 function terminalHexMode(elem) {
@@ -47,27 +47,30 @@ function terminalHexMode(elem) {
 	termDataMode = DataModesEnum.Hex;
 }
 
-function terminalAsciiMode(elem) {
+function terminalDecimalMode(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-default');
-	elem.html('<i class="fa-solid fa-a"></i></i>&nbsp;Ascii mode');
-	termDataMode = DataModesEnum.Ascii;
+	elem.html('<i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal mode');
+	termDataMode = DataModesEnum.Decimal;
 }
 
 let terminalBtnClear =  $('#terminalBtnClear');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
-let terminalBtnColored = $('#terminalBtnColored');
+let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
 let terminalSel = $('#terminalPre');
-let termColor = false;
-let termDataMode = DataModesEnum.Ascii;
+let formattedMode = false;
+let termDataMode = DataModesEnum.Decimal;
+
+let countTermLines = 0;
+let maxTermLine = 50;
 
 $(function() {
 	terminalBtnClear.on('click', function(){
 		terminalSel.empty();
 		terminalSel.append('<span>terminal cleared</span>');
-		countTermLines = 1;
+		countTermLines = 0;
 	});
 
 	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
@@ -80,29 +83,26 @@ $(function() {
 		}
 	});
 
-	terminalColorDisable(terminalBtnColored);
-	terminalBtnColored.on('click', function(){
-		if(terminalBtnColored.attr('aria-pressed') === "true"){
+	terminalFormattedDisable(terminalBtnFormatted);
+	terminalBtnFormatted.on('click', function(){
+		if(terminalBtnFormatted.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
-			terminalColorDisable(terminalBtnColored);
+			terminalFormattedDisable(terminalBtnFormatted);
 		} else {
-			terminalColorEnable(terminalBtnColored);
+			terminalFormattedEnable(terminalBtnFormatted);
 		}
 	});
 
-	terminalAsciiMode(terminalBtnDataMode);
+	terminalDecimalMode(terminalBtnDataMode);
 	terminalBtnDataMode.on('click', function(){
 		if(terminalBtnDataMode.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
-			terminalAsciiMode(terminalBtnDataMode);
+			terminalDecimalMode(terminalBtnDataMode);
 		} else {
 			terminalHexMode(terminalBtnDataMode);
 		}
 	});
 });
-
-let countTermLines = 0;
-let maxTermLine = 50;
 
 function termialTime() {
 	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
@@ -110,45 +110,56 @@ function termialTime() {
 		now = now.substring(now.indexOf('T') + 1);
 		return (now + " -> ");
 	} else {
-		return("")
+		return("");
 	}
 }
 
-function terminalFormating(isColored, termDataMode) {
+function valueToString(val){
+	let str = "";
+	if (termDataMode === DataModesEnum.Hex) {
+		str+= "0x";
+		if (val < 16) {
+			str += "0";
+		}
+		//the parseint is here to solve compatibility issues with ascii mode
+		str+= parseInt(val.toString()).toString(16).toUpperCase();
+	} else {
+		str+= val.toString();
+	}
+	str+= " ";
+	return str;
+}
+
+function terminalFormating() {
 	let termLine = '';
-	dataSerialBuff.forEach((elem, index) => {
-		if (isColored) {
+	if (formattedMode){
+		dataSerialBuff.forEach((elem, index) => {
 			termLine+='<span style="color:' + automaticColorDataset(index + 1) + '">';
-		} else {
-			termLine+='<span>';
-		}
-		if (termDataMode === DataModesEnum.Hex) {
-			termLine+= "0x";
-			if (elem < 15) {
-				termLine += "0";
-			}
-			//the parseint is here to solve compatibility issues with ascii mode
-			termLine+= parseInt(elem.toString()).toString(16).toUpperCase() + '</span>';
-		} else {
-			termLine+= elem.toString() + '</span>';
-		}
-		if (index < dataSerialBuff.length - 1) {
-			if (termDataMode === DataModesEnum.Hex) {
-				termLine+= " ";
-			} else {
-				termLine+= configSerialPlot.separator;
-			}
-		}
-	});
+			termLine+= valueToString(elem); //takes care of the base (dec or hex)
+			termLine+= '</span>';
+		});
+		termLine = termLine.substring(0,termLine.length - (1+'</span>'.length)) + termLine.substring(termLine.length - ('</span>'.length), termLine.length); //erases the last " " which is useless
+	} else { //raw print
+		rawDataBuff.forEach((elem) => {
+			termLine+= valueToString(elem); //takes care of the base (dec or hex)
+		});
+		termLine = termLine.substring(0,termLine.length - 1); //erases the last " " which is useless
+		rawDataBuff = Buffer.alloc(0);
+	}
 	termLine+='\r\n'.toString();
 	return (termLine);
 }
 
 function updateTerminal() {
-	terminalSel.prepend('<span>' + termialTime() + terminalFormating(termColor, termDataMode) + '</span>'); //put first on top
-	countTermLines = countTermLines + 1;
-	if (countTermLines > maxTermLine) {
-		terminalSel.children().last().remove();
-		countTermLines = countTermLines - 1;
-	}	
+	if(plotOnPause() == false){
+		if (countTermLines == 0){
+			terminalSel.empty(); //erases the "terminal cleared" on print
+		}
+		terminalSel.prepend('<span>' + termialTime() + terminalFormating() + '</span>'); //put first on top
+		countTermLines = countTermLines + 1;
+		if (countTermLines > maxTermLine) {
+			terminalSel.children().last().remove();
+			countTermLines = countTermLines - 1;
+		}
+	}
 }

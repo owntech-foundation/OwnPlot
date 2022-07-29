@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-27 17:56:04
+ * @ Modified time: 2022-07-28 15:38:44
  */
 
 const { auto } = require("@popperjs/core");
@@ -18,7 +18,7 @@ function pauseBtn(elem) {
 	$(elem).addClass('btn-warning');
 	$(elem).attr('aria-pressed', 'true');
 	$(elem).attr('aria-disabled', 'true');
-	myChart.options.scales.xAxes[0].realtime.pause = true;
+	pausePlot();
 }
 
 function runBtn(elem) {
@@ -29,7 +29,7 @@ function runBtn(elem) {
 	$(elem).addClass('btn-success');
 	$(elem).attr('aria-pressed', 'false');
 	$(elem).attr('aria-disabled', 'false');
-	myChart.options.scales.xAxes[0].realtime.pause = false;		
+	runPlot();
 }
 
 function noPortBtn(elem) {
@@ -62,8 +62,8 @@ function closePortBtn(elem) {
 	$(elem).css("visibility","visible");
 }
 
-let dataSerialBuff = [];
-let currentDataBuff = [];
+let dataSerialBuff = Buffer.alloc(0);
+let rawDataBuff = Buffer.alloc(0);
 let indexData = 0;
 let numberOfDatasets = 3;
 const nbMaxDatasets = 20;
@@ -84,15 +84,24 @@ $(() => {
 	});
 });
 
+function pausePlot(){
+	myChart.options.scales.xAxes[0].realtime.pause = true;
+}
+
+function runPlot(){
+	myChart.options.scales.xAxes[0].realtime.pause = false;
+}
+
+function plotOnPause(){
+	return myChart.options.scales.xAxes[0].realtime.pause;
+}
+
 function getSerialData(index) {
-	if (index == 0) {
-		updateTerminal();
-	}
 	return(dataSerialBuff[index]);
 }
 
 function onRefresh(chart) {
-	if (myChart.options.scales.xAxes[0].realtime.pause == false) {
+	if (plotOnPause() == false) {
 		if(dataSerialBuff.length >= numberOfDatasets){
 			let now = Date.now();
 			chart.data.datasets.forEach((dataset) => {

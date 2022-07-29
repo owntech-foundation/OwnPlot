@@ -5,7 +5,7 @@ let selectedPort;
 $(function(){
 
 	$('#openPortBtn').css("visibility","hidden"); //hide the run button as no port is chosen
-	noPortBtn($('#pauseBtn'));
+	noPortBtn($('.pauseBtn'));
 	
 	listPorts();
 
@@ -15,23 +15,23 @@ $(function(){
 			if(selectedPort != configSerialPlot.path){
 				closePortBtn($('#openPortBtn'));
 				//pause btn is unclickable while port is closed
-				pauseBtn($('#pauseBtn'));
-				$('#pauseBtn').addClass('disabled');
+				pauseBtn($('.pauseBtn'));
+				$('.pauseBtn').addClass('disabled');
 			} else {
 				openPortBtn($('#openPortBtn'));
-				runBtn($('#pauseBtn'));
+				runBtn($('.pauseBtn'));
 			}
 		} else {
 			$('#openPortBtn').css("visibility","hidden");
-			noPortBtn($('#pauseBtn'));
+			noPortBtn($('.pauseBtn'));
 		}
 	});
 
-	$('#pauseBtn').on('click', function(){
+	$('.pauseBtn').on('click', function(){
 		if($(this).attr('aria-pressed') === "true"){
-			runBtn(this);
+			runBtn($('.pauseBtn'));
 		} else {
-			pauseBtn(this);
+			pauseBtn($('.pauseBtn'));
 		}
 	});
 
@@ -47,8 +47,8 @@ $(function(){
 			openPort();
 		} else {
 			//pause btn is unclickable while port is closed
-			pauseBtn('#pauseBtn');
-			$('#pauseBtn').addClass('disabled');
+			pauseBtn('.pauseBtn');
+			$('.pauseBtn').addClass('disabled');
 			port.close();
 			closePortBtn(this);
 		}
