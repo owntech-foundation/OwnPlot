@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-28 15:33:37
+ * @ Modified time: 2022-07-29 12:19:20
  */
 
 const { SerialPort } = require('serialport');
@@ -181,6 +181,8 @@ function openPortRoutine() {
 			console.log("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
 			runBtn('.pauseBtn');
+			$('.clearBtn').show();
+			$('.clearBtn').removeClass('disabled');
 			enableSend();
 			flushChart(myChart);
 		});
@@ -188,6 +190,7 @@ function openPortRoutine() {
 		port.on('close', () => {
 			pauseBtn('.pauseBtn');
 			$('.pauseBtn').addClass('disabled');
+			$('.clearBtn').addClass('disabled');
 			console.log("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();

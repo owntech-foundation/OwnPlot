@@ -4,26 +4,28 @@ let selectedPort;
 
 $(function(){
 
-	$('#openPortBtn').css("visibility","hidden"); //hide the run button as no port is chosen
-	noPortBtn($('.pauseBtn'));
+	$('.pauseBtn').hide(); //hide run & clear buttons as no port is chosen
+	$('.clearBtn').hide();
+	noPortBtn($('#openPortBtn'));
 	
 	listPorts();
 
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
-		if(availableSerialPortsLength > 0 && selectedPort != "default"){				
+		if(availableSerialPortsLength > 0 && selectedPort != "default"){
+			$('.pauseBtn').show();
+			$('.clearBtn').show();
 			if(selectedPort != configSerialPlot.path){
 				closePortBtn($('#openPortBtn'));
-				//pause btn is unclickable while port is closed
+				//pause & clear btn are unclickable while port is closed
 				pauseBtn($('.pauseBtn'));
 				$('.pauseBtn').addClass('disabled');
+				$('.clearBtn').addClass('disabled');
 			} else {
 				openPortBtn($('#openPortBtn'));
-				runBtn($('.pauseBtn'));
 			}
 		} else {
-			$('#openPortBtn').css("visibility","hidden");
-			noPortBtn($('.pauseBtn'));
+			noPortBtn($('#openPortBtn'));
 		}
 	});
 
@@ -33,6 +35,11 @@ $(function(){
 		} else {
 			pauseBtn($('.pauseBtn'));
 		}
+	});
+
+	$('.clearBtn').on('click', ()=>{
+		flushChart(myChart);
+		$('.clearBtn').addClass('disabled');
 	});
 
 	$('#openPortBtn').on('click', function(){
