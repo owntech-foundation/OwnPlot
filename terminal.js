@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-28 17:00:34
+ * @ Modified time: 2022-07-29 12:31:06
  */
 
 const DataModesEnum = {
@@ -55,7 +55,7 @@ function terminalDecimalMode(elem) {
 	termDataMode = DataModesEnum.Decimal;
 }
 
-let terminalBtnClear =  $('#terminalBtnClear');
+let terminalclearBtn =  $('#terminalclearBtn');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
@@ -67,7 +67,7 @@ let countTermLines = 0;
 let maxTermLine = 50;
 
 $(function() {
-	terminalBtnClear.on('click', function(){
+	terminalclearBtn.on('click', function(){
 		terminalSel.empty();
 		terminalSel.append('<span>terminal cleared</span>');
 		countTermLines = 0;
@@ -146,17 +146,22 @@ function terminalFormating() {
 		termLine = termLine.substring(0,termLine.length - 1); //erases the last " " which is useless
 		rawDataBuff = Buffer.alloc(0);
 	}
-	termLine+='\r\n'.toString();
+	termLine+='\r\n';
 	return (termLine);
 }
 
 function updateTerminal() {
 	if(plotOnPause() == false){
-		if (countTermLines == 0){
-			terminalSel.empty(); //erases the "terminal cleared" on print
+		let dataString = terminalFormating();
+		// doesn't print empty lines
+		if (dataString !== '\r\n'){
+			if (countTermLines == 0){
+				terminalSel.empty(); //erases the "terminal cleared" on print
+			}
+			terminalSel.prepend('<span>' + termialTime() + dataString + '</span>'); //put first on top
+			countTermLines = countTermLines + 1;
+			$('.clearBtn').removeClass('disabled');
 		}
-		terminalSel.prepend('<span>' + termialTime() + terminalFormating() + '</span>'); //put first on top
-		countTermLines = countTermLines + 1;
 		if (countTermLines > maxTermLine) {
 			terminalSel.children().last().remove();
 			countTermLines = countTermLines - 1;
