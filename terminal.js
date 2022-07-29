@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-29 12:31:06
+ * @ Modified time: 2022-07-29 17:30:45
  */
 
 const DataModesEnum = {
@@ -55,7 +55,7 @@ function terminalDecimalMode(elem) {
 	termDataMode = DataModesEnum.Decimal;
 }
 
-let terminalclearBtn =  $('#terminalclearBtn');
+let clearBtn =  $('.clearBtn');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
@@ -67,7 +67,7 @@ let countTermLines = 0;
 let maxTermLine = 50;
 
 $(function() {
-	terminalclearBtn.on('click', function(){
+	clearBtn.on('click', function(){
 		terminalSel.empty();
 		terminalSel.append('<span>terminal cleared</span>');
 		countTermLines = 0;
