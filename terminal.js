@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-29 12:31:06
+ * @ Modified time: 2022-08-01 10:12:43
  */
 
 const DataModesEnum = {
@@ -55,22 +55,33 @@ function terminalDecimalMode(elem) {
 	termDataMode = DataModesEnum.Decimal;
 }
 
-let terminalclearBtn =  $('#terminalclearBtn');
+let clearBtn =  $('.clearBtn');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
 let terminalSel = $('#terminalPre');
+let termBufSizeInput = $('#termBufSizeInput');
 let formattedMode = false;
 let termDataMode = DataModesEnum.Decimal;
 
 let countTermLines = 0;
-let maxTermLine = 50;
+let termSize = 30;
+let minTermLines = 1;
+let maxTermLine = 500;
 
-$(function() {
-	terminalclearBtn.on('click', function(){
-		terminalSel.empty();
-		terminalSel.append('<span>terminal cleared</span>');
-		countTermLines = 0;
+$(() => {
+	termBufSizeInput.on('change', () => {
+		termSize = termBufSizeInput.val();
+		if(termSize > maxTermLine){
+			termSize = maxTermLine;
+		} else if(termSize < minTermLines){
+			termSize = minTermLines;
+		}
+		changeTerminalSize();
+	});
+
+	clearBtn.on('click', function(){
+		clearTerminal();
 	});
 
 	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
@@ -103,6 +114,19 @@ $(function() {
 		}
 	});
 });
+
+function changeTerminalSize(){
+	while(countTermLines > termSize){
+		terminalSel.children().last().remove();
+		countTermLines = countTermLines - 1;
+	}
+}
+
+function clearTerminal(){
+	terminalSel.empty();
+	terminalSel.append('<span>terminal cleared</span>');
+	countTermLines = 0;
+}
 
 function termialTime() {
 	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
@@ -162,7 +186,7 @@ function updateTerminal() {
 			countTermLines = countTermLines + 1;
 			$('.clearBtn').removeClass('disabled');
 		}
-		if (countTermLines > maxTermLine) {
+		if (countTermLines > termSize) {
 			terminalSel.children().last().remove();
 			countTermLines = countTermLines - 1;
 		}
