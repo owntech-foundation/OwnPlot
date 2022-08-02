@@ -1,0 +1,105 @@
+html {
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+
+  overflow: hidden;
+}
+
+
+.pane.pane-main {
+  background-color: #F0F0F0;
+  border-right: 1px solid #D9D9D9;
+  top:0;
+  bottom:0;
+  left:0;
+  right: 70%;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.pane.pane-list {
+  top:0;
+  bottom:0;
+  left:30%;
+  right:30%;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.pane.pane-data {
+  background-color: #F0F0F0;
+  border-right: 1px solid #D9D9D9;
+  top:0;
+  bottom:0;
+  left:70%;
+  right: 0;
+  position: absolute;
+  overflow-y: auto;
+}
+
+
+
+@media all and (max-width: 500px) and (min-width: 0) {
+
+  .pane.pane-main {
+    display: none;
+  }
+
+
+  .pane.pane-list {
+    display: none;
+  }
+
+
+  .pane.pane-data {
+    left:0;
+    right:0;
+  }
+
+}
+
+@media all and (max-width: 800px) and (min-width: 500px) {
+
+  .pane.pane-main {
+    display: none;
+  }
+
+
+  .pane.pane-list {
+    left:0;
+    right:50%;
+  }
+
+
+  .pane.pane-data {
+    left:50%;
+    right: 0;
+  }
+
+}
+
+
+@media all and (min-width: 800px) {
+
+  .pane.pane-main {
+    left:0;
+    right: 70%;
+  }
+
+
+  .pane.pane-list {
+    left:30%;
+    right:30%;
+  }
+
+
+  .pane.pane-data {
+    left:70%;
+    right: 0;
+  }
+
+}
