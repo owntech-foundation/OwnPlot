@@ -252,16 +252,17 @@ function bufferizeAscii(data){
 		//if the last chars are NOT \r \n
 		//therefore the packet is not complete
 		//we stash the currentdata in pending data
-		let dataSerialBuff = []; //flush dataSerial buffer
+		let dataSerial = []; //flush dataSerial buffer
 		let dataStart = 0;
 		for (let i = 0; i < pendingData.length; i++) {
 			if (pendingData[i] == configSerialPlot.separator.charCodeAt(0) ||
 			(pendingData[i] == endCom[0] && pendingData[i + 1] == endCom[1]))
 			{
-				dataSerialBuff.push(pendingData.slice(dataStart, i));
+				dataSerial.push(pendingData.slice(dataStart, i));
 				dataStart = i + 1;
 			}
 		}
+		dataSerialBuff = dataSerial;
 		pendingData = Buffer.alloc(0);
 	}
 }
