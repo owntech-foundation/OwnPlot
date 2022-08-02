@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-29 16:35:06
+ * @ Modified time: 2022-08-02 11:56:16
  */
 
 const { auto } = require("@popperjs/core");
@@ -71,6 +71,7 @@ const nbMaxDatasets = 20;
 let nbChannelsInput = $("#nbChannels");
 
 $(() => {
+	pausePlot();
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 	nbChannelsInput.attr("max", nbMaxDatasets);
 	nbChannelsInput.on('change', () => {
@@ -109,9 +110,12 @@ function refreshCallback(chart) {
 					x: now,
 					y: getSerialData(dataset.index)
 				});
+				if(dataset.data.size>200){
+					dataset.data= dataset.data.slice(50,index);
+				}
 			});
+			dataSerialBuff=[]; //flush buffer once read
 		}
-		dataSerialBuff=[]; //flush buffer once read
 	}
 }
 
@@ -172,7 +176,7 @@ const myChart = new Chart(ctx, {
 		datasets: [{
 			index: 0,
 			label: 'Dataset 1',
-			backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
+			backgroundColor: automaticColorDataset(1),
 			borderColor: chartColors.red,
 			fill: false,
 			lineTension: 0,
@@ -180,7 +184,7 @@ const myChart = new Chart(ctx, {
 		},{
 			index: 1,
 			label: 'Dataset 2',
-			backgroundColor: color(chartColors.orange).alpha(0.5).rgbString(),
+			backgroundColor: automaticColorDataset(2),
 			borderColor: chartColors.orange,
 			fill: false,
 			lineTension: 0,
@@ -188,7 +192,7 @@ const myChart = new Chart(ctx, {
 		},{
 			index: 2,
 			label: 'Dataset 3',
-			backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString(),
+			backgroundColor: automaticColorDataset(3),
 			borderColor: chartColors.yellow,
 			fill: false,
 			lineTension: 0,

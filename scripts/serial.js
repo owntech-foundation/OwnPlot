@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-07-29 12:19:20
+ * @ Modified time: 2022-08-02 11:53:26
  */
 
 const { SerialPort } = require('serialport');
@@ -225,52 +225,44 @@ function bufferizeCustom(data){
 }
 
 function bufferizeBinary(data){
-	let currentData = Buffer.concat([pendingData, data]);
+	pendingData = Buffer.concat([pendingData, data]);
 	if(byteSkip){
-		currentData = currentData.subarray(1, currentData.length);
+		pendingData = pendingData.subarray(1, currentData.length);
 		byteSkip=false;
 	}
-	pendingData = Buffer.alloc(0); //flush the pending data buffer
 
 	let dataSerial = []; //flush dataSerial buffer
 	//we only read data from the port when there is at least one data for each channel
 	//else, the first dataset only gets filled
-	if (currentData.length >= configSerialPlot.nbSize*numberOfDatasets) {
+	if (pendingData.length >= configSerialPlot.nbSize*numberOfDatasets) {
 		for (let i=0; i<=configSerialPlot.nbSize*(numberOfDatasets-1); i+=configSerialPlot.nbSize) {
-			dataSerial.push(readBuf(currentData, i));
+			dataSerial.push(readBuf(pendingData, i));
 		}
 		dataSerialBuff = dataSerial;
-	} else {
-		pendingData = currentData;
 	}
 	
 }
 
 function bufferizeAscii(data){
-	let currentData = Buffer.concat([pendingData, data]);
-	pendingData = Buffer.alloc(0); //flush the pending data buffer
+	pendingData = Buffer.concat([pendingData, data]);
 
-	if (currentData[currentData.length - 2 ] != endCom[0] ||
-		currentData[currentData.length - 1 ] != endCom[1])
+	if (pendingData[pendingData.length - 2 ] == endCom[0] ||
+		pendingData[pendingData.length - 1 ] == endCom[1])
 	{
 		//if the last chars are NOT \r \n
 		//therefore the packet is not complete
 		//we stash the currentdata in pending data
-		pendingData = currentData;
-	}
-	else
-	{
-		let dataSerial = []; //flush dataSerial buffer
+		let dataSerialBuff = []; //flush dataSerial buffer
 		let dataStart = 0;
-		for (let i = 0; i < currentData.length; i++) {
-			if (currentData[i] == configSerialPlot.separator.charCodeAt(0) ||
-			(currentData[i] == endCom[0] && currentData[i + 1] == endCom[1]))
+		for (let i = 0; i < pendingData.length; i++) {
+			if (pendingData[i] == configSerialPlot.separator.charCodeAt(0) ||
+			(pendingData[i] == endCom[0] && pendingData[i + 1] == endCom[1]))
 			{
-				dataSerial.push(currentData.slice(dataStart, i));
+				dataSerialBuff.push(pendingData.slice(dataStart, i));
 				dataStart = i + 1;
 			}
 		}
-		dataSerialBuff = dataSerial;
+		pendingData = Buffer.alloc(0);
 	}
 }
 
