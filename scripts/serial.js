@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-02 11:53:26
+ * @ Modified time: 2022-08-03 15:35:05
  */
 
 const { SerialPort } = require('serialport');
@@ -14,6 +14,7 @@ let port;
 let byteSkip = false;
 const endCom = [13, 10]; //ascii for \r & \n
 let pendingData = Buffer.alloc(0);
+let timeBuff = [];
 
 let separatorField = $("#separator");
 let nbTypeField = $("#nbType");
@@ -185,6 +186,7 @@ function openPortRoutine() {
 			$('.clearBtn').removeClass('disabled');
 			enableSend();
 			flushChart(myChart);
+			startTime = Date.now();
 		});
 
 		port.on('close', () => {
@@ -198,6 +200,7 @@ function openPortRoutine() {
 		});
 
 		port.on("data", (data) => {
+			timeBuff.push(Date.now());
 			rawDataBuff = data;
 			switch(configSerialPlot.dataFormat){
 				case "binary":
@@ -251,8 +254,8 @@ function bufferizeAscii(data){
 	{
 		//if the last chars are NOT \r \n
 		//therefore the packet is not complete
-		//we stash the currentdata in pending data
-		let dataSerial = []; //flush dataSerial buffer
+		//we stash the pending data
+		let dataSerial = [];
 		let dataStart = 0;
 		for (let i = 0; i < pendingData.length; i++) {
 			if (pendingData[i] == configSerialPlot.separator.charCodeAt(0) ||

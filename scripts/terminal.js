@@ -3,13 +3,12 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-01 10:12:43
+ * @ Modified time: 2022-08-04 11:34:00
  */
 
-const DataModesEnum = {
-	Decimal: 'Decimal',
-	Hex: 'Hex'
-};
+/*
+ *	UI handlers
+ */
 
 function terminalTimestampBtnEnable(elem) {
 	elem.attr('aria-pressed', 'true');
@@ -55,19 +54,31 @@ function terminalDecimalMode(elem) {
 	termDataMode = DataModesEnum.Decimal;
 }
 
+/*
+ *	JQuery selectors
+ */
+
 let clearBtn =  $('.clearBtn');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
 let terminalSel = $('#terminalPre');
 let termBufSizeInput = $('#termBufSizeInput');
-let formattedMode = false;
+
+// -------------------------------------- //
+
+
+const DataModesEnum = {
+	Decimal: 'Decimal',
+	Hex: 'Hex'
+};
 let termDataMode = DataModesEnum.Decimal;
+let formattedMode = false;
 
 let countTermLines = 0;
 let termSize = 30;
-let minTermLines = 1;
-let maxTermLine = 500;
+const minTermLines = 1;
+const maxTermLine = 500;
 
 $(() => {
 	termBufSizeInput.on('change', () => {
@@ -129,13 +140,24 @@ function clearTerminal(){
 }
 
 function termialTime() {
+	let timeStr = "";
 	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
-		let now = new Date().toISOString().slice(0, -1) //time w/ ms
-		now = now.substring(now.indexOf('T') + 1);
-		return (now + " -> ");
-	} else {
-		return("");
+		let dataTime; //we get the time of the last data received
+		if(formattedMode){
+			dataTime = timeBuff[0]; //we get the time of the beginning of the data line as it may be sent in multiple times
+		} else { //raw data
+			dataTime = timeBuff[timeBuff.length-1]; //we get the time of the last data received
+		}
+
+		if(absTimeMode){
+			let dataDate = new Date(dataTime);
+			timeStr = dataDate.getHours() + ':' + dataDate.getMinutes() + ':' + dataDate.getSeconds() + '.' + dataDate.getMilliseconds();
+		} else { //relative time
+			timeStr = elapsedTime(dataTime);
+		}
+		timeStr+= " -> ";
 	}
+	return(timeStr);
 }
 
 function valueToString(val){
