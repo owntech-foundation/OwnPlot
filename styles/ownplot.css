@@ -2,22 +2,25 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-20 17:24:32
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-08-01 11:20:06
  */
 
  /* Terminal */
-#terminalPre {
-	height: 20em;
+ #terminalPre {
+	height: 17em;
 	color: whitesmoke;
 	display: block;
 	background-color: #333;
 	padding: 2px;
 	border: 1px solid #888;
+	margin-top: 1em;
+	resize: vertical;
 }
 
 /* Tabs */
 
 .tab-pane-push {
     margin-top: 1em;
+	margin-bottom: 1em;
 }

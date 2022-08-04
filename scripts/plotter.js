@@ -2,11 +2,12 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-07-21 14:59:39
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-08-04 10:49:06
  */
 
 const { auto } = require("@popperjs/core");
+const { data } = require("jquery");
 const { proto } = require("once");
 
 function pauseBtn(elem) {
@@ -17,7 +18,7 @@ function pauseBtn(elem) {
 	$(elem).addClass('btn-warning');
 	$(elem).attr('aria-pressed', 'true');
 	$(elem).attr('aria-disabled', 'true');
-	myChart.options.scales.xAxes[0].realtime.pause = true;
+	pausePlot();
 }
 
 function runBtn(elem) {
@@ -28,7 +29,7 @@ function runBtn(elem) {
 	$(elem).addClass('btn-success');
 	$(elem).attr('aria-pressed', 'false');
 	$(elem).attr('aria-disabled', 'false');
-	myChart.options.scales.xAxes[0].realtime.pause = false;		
+	runPlot();
 }
 
 function noPortBtn(elem) {
@@ -61,89 +62,88 @@ function closePortBtn(elem) {
 	$(elem).css("visibility","visible");
 }
 
-function terminalTimestampBtnEnable(elem) {
-	elem.attr('aria-pressed', 'true');
-	elem.removeClass('btn-warning');
-	elem.addClass('btn-success');
-}
+let dataSerialBuff = Buffer.alloc(0);
+let rawDataBuff = Buffer.alloc(0);
+let indexData = 0;
+let numberOfDatasets = 3;
+const nbMaxDatasets = 20;
 
-function terminalTimestampBtnDisable(elem) {
-	elem.attr('aria-pressed', 'false');
-	elem.removeClass('btn-success');
-	elem.addClass('btn-warning');
-}
+let nbChannelsInput = $("#nbChannels");
 
-let terminalBtnTimestamp = $('#terminalBtnTimestamp');
-let terminalBtnClear =  $('#terminalBtnClear');
-let terminalSel = $('#terminalPre');
-
-$(function() {
-	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
-
-	terminalBtnTimestamp.on('click', function(){
-		if(terminalBtnTimestamp.attr('aria-pressed') === "true"){
-			//if it is enabled then disable it
-			terminalTimestampBtnDisable(terminalBtnTimestamp);
-		} else {
-			terminalTimestampBtnEnable(terminalBtnTimestamp);
+$(() => {
+	
+	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
+	nbChannelsInput.attr("max", nbMaxDatasets);
+	nbChannelsInput.on('change', () => {
+		let nbChannels = nbChannelsInput.val();
+		while(numberOfDatasets < nbChannels && numberOfDatasets < nbMaxDatasets){
+			addDataset();
 		}
-	});
-
-	terminalBtnClear.on('click', function(){
-		terminalSel.empty();
-		terminalSel.append('<span>terminal cleared</span>');
-		countTermLines = 1;
+		while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
+			removeDataset();
+		}
 	});
 });
 
-let dataSerialBuff = [];
-let currentDataBuff = [];
-let countTermLines = 0;
-let maxTermLine = 50;
-
-function termialTime() {
-	if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
-		let now = new Date().toISOString().slice(0, -1)
-		now = now.substring(now.indexOf('T') + 1);
-		return (now + " -> ");
-	} else {
-		return("")
-	}
+function pausePlot(){
+	myChart.options.scales['x'].realtime.pause = true;
 }
 
-function updateTerminal() {
-	terminalSel.prepend('<span>' + termialTime() + currentDataBuff.toString() + '</span>'); //put first on top
-	countTermLines = countTermLines + 1;
-	if (countTermLines > maxTermLine) {
-		terminalSel.children().last().remove();
-		countTermLines = countTermLines - 1;
-	}	
+function runPlot(){
+	myChart.options.scales['x'].realtime.pause = false;
 }
 
-let indexData = 0;
+function plotOnPause(){
+	return myChart.options.scales['x'].realtime.pause;
+}
+
 function getSerialData(index) {
-	if (currentDataBuff.length != 0 && 	myChart.options.scales.xAxes[0].realtime.pause != true) {
-		if (index == 0) {
-			updateTerminal();
-		}
-		return(dataSerialBuff[index]);
-	}
+	return(dataSerialBuff[index]);
 }
 
-function onRefresh(chart) {
-	let now = Date.now();
-	chart.data.datasets.forEach(function(dataset) {
-		dataset.data.push({
-			x: now,
-			y: getSerialData(dataset.index)
-		});
-	});
+function refreshCallback(chart) {
+	if (plotOnPause() == false) {
+		if(dataSerialBuff.length >= numberOfDatasets){
+			chart.data.datasets.forEach((dataset) => {
+				dataset.data.push({
+					x: timeBuff[0],
+					y: getSerialData(dataset.index)
+				});
+			});
+			dataSerialBuff=[]; //flush buffer once read
+			timeBuff = [];
+		}
+	}
 }
 
 function flushChart(chart) {
 	chart.data.datasets.forEach((dataset) => {
-		dataset.data.splice(0,1000);
+		dataset.data = [];
 	});
+	myChart.update();
+}
+
+function removeDataset() {
+	myChart.stop();
+	numberOfDatasets--;
+	myChart.data.datasets.pop();
+	myChart.update();
+}
+
+function addDataset() {
+	myChart.stop();
+	numberOfDatasets++;
+	let newDataset = {
+		index: numberOfDatasets-1, //index begins to 0
+		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
+		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
+		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
+		fill: false,
+		lineTension: 0,
+		data: []
+	}
+	myChart.data.datasets.push(newDataset);
+	myChart.update();
 }
 
 // Chart layout setting //
@@ -155,32 +155,17 @@ let chartColors = {
 	green: 'rgb(75, 192, 192)',
 	blue: 'rgb(54, 162, 235)',
 	purple: 'rgb(153, 102, 255)',
+	greenApple: 'rgb(120, 235,12)',
 	grey: 'rgb(201, 203, 207)'
 };
 let color = Chart.helpers.color;
 
 function automaticColorDataset(elemNumber) {
 	let index = (elemNumber - 1) % (Object.keys(chartColors).length);
-	console.log(Object.entries(chartColors).at(index)[1]);
-	console.log(chartColors.red);
 	return (Object.entries(chartColors).at(index)[1]);
 }
 
-function addDataset() {	
-	numberOfDatasets++;
-	let testDataset = {
-		index: numberOfDatasets,
-		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
-		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
-		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
-		fill: false,
-		lineTension: 0,
-		data: []
-	}
-	myChart.data.datasets.push(testDataset);
-}
-
-let numberOfDatasets = 3;
+let labelsPrinted;
 
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
@@ -190,7 +175,7 @@ const myChart = new Chart(ctx, {
 		datasets: [{
 			index: 0,
 			label: 'Dataset 1',
-			backgroundColor: color(chartColors.red).alpha(0.5).rgbString(),
+			backgroundColor: automaticColorDataset(1),
 			borderColor: chartColors.red,
 			fill: false,
 			lineTension: 0,
@@ -198,7 +183,7 @@ const myChart = new Chart(ctx, {
 		},{
 			index: 1,
 			label: 'Dataset 2',
-			backgroundColor: color(chartColors.orange).alpha(0.5).rgbString(),
+			backgroundColor: automaticColorDataset(2),
 			borderColor: chartColors.orange,
 			fill: false,
 			lineTension: 0,
@@ -206,7 +191,7 @@ const myChart = new Chart(ctx, {
 		},{
 			index: 2,
 			label: 'Dataset 3',
-			backgroundColor: color(chartColors.yellow).alpha(0.5).rgbString(),
+			backgroundColor: automaticColorDataset(3),
 			borderColor: chartColors.yellow,
 			fill: false,
 			lineTension: 0,
@@ -215,22 +200,40 @@ const myChart = new Chart(ctx, {
 	},
 	options: {
 		scales: {
-			xAxes: [{
+			x: {
 				type: 'realtime',
 				realtime: {
 					duration: 20000,
 					refresh: 200,
 					delay: 100,
-					onRefresh: onRefresh,
+					onRefresh: refreshCallback,
 					pause: true
+				},
+				ticks: {
+					callback: function(value, index, ticks) {
+						if(absTimeMode){
+							return value;
+						}
+						let tickLabel = Math.floor(elapsedTime(ticks[index].value));
+						if(index>0){
+							if(labelsPrinted.includes(tickLabel)){
+								tickLabel = undefined;
+							} else {
+								labelsPrinted.push(tickLabel);
+							}
+						} else {
+							labelsPrinted = [tickLabel,];
+						}
+						return tickLabel;
+                    }
 				}
-			}],
-			yAxes: [{
-				scaleLabel: {
+			},
+			y: {
+				title: {
 					display: true,
 					labelString: 'value'
 				}
-			}]
-		},
+			}
+		}
 	}
 });

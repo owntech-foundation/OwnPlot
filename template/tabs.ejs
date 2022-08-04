@@ -2,7 +2,9 @@
 	<div class="nav nav-tabs" id="nav-tab" role="tablist">
 		<button class="nav-link active" id="nav-port-tab" data-bs-toggle="tab" data-bs-target="#nav-port" type="button" role="tab" aria-controls="nav-port" aria-selected="true">Port</button>
 		<button class="nav-link" id="nav-dataFormat-tab" data-bs-toggle="tab" data-bs-target="#nav-dataFormat" type="button" role="tab" aria-controls="nav-dataFormat" aria-selected="false">Data Format</button>
+		<button class="nav-link" id="nav-dataFormat-tab" data-bs-toggle="tab" data-bs-target="#nav-chartConfig" type="button" role="tab" aria-controls="nav-chartConfig" aria-selected="false">Chart Config</button>
 		<button class="nav-link" id="nav-terminal-tab" data-bs-toggle="tab" data-bs-target="#nav-terminal" type="button" role="tab" aria-controls="nav-terminal" aria-selected="false">Terminal</button>
+		<button class="nav-link" id="nav-command-tab" data-bs-toggle="tab" data-bs-target="#nav-command" type="button" role="tab" aria-controls="nav-command" aria-selected="false">Command</button>
 		<button class="nav-link" id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false">Record</button>
 		<button class="nav-link" id="nav-debug-tab" data-bs-toggle="tab" data-bs-target="#nav-debug" type="button" role="tab" aria-controls="nav-debug" aria-selected="false">Debug</button>
 	</div>
@@ -14,8 +16,14 @@
 	<div class="tab-pane tab-pane-push fade" id="nav-dataFormat" role="tabpanel" aria-labelledby="nav-dataFormat-tab">
 		<%- include('dataFormatTab'); %>
 	</div>
+	<div class="tab-pane tab-pane-push fade" id="nav-chartConfig" role="tabpanel" aria-labelledby="nav-chartConfig-tab">
+		<%- include('chartConfigTab'); %>
+	</div>
 	<div class="tab-pane tab-pane-push fade" id="nav-terminal" role="tabpanel" aria-labelledby="nav-termial-tab">
 		<%- include('terminalTab'); %>
+	</div>
+	<div class="tab-pane tab-pane-push fade" id="nav-command" role="tabpanel" aria-labelledby="nav-command-tab">
+		<%- include('commandTab'); %>
 	</div>
 	<div class="tab-pane tab-pane-push fade" id="nav-record" role="tabpanel" aria-labelledby="nav-record-tab">
 		<%- include('recordTab'); %>
