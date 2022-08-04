@@ -6,15 +6,15 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
     "@electron-forge/maker-zip": "^6.0.0-beta.64",
     "electron": "^19.0.6",
-    "electron-forge": "^5.2.4",
-    "serialport": "^10.4.0",
-    "tableify": "^1.1.1"
+    "electron-forge": "^5.2.4"
   },
   "name": "OwnPlot",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "OwnTech's Serial Plotter",
   "main": "main.js",
   "dependencies": {
+    "serialport": "^10.4.0",
+    "tableify": "^1.1.1",
     "@fortawesome/fontawesome-free": "^6.1.1",
     "boolean": "^3.2.0",
     "bootstrap": "^5.2.0-beta1",

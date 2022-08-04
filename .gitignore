@@ -2,4 +2,6 @@ node_modules
 node_modules/*
 out
 out/*
+dist
+dist/*
 package-lock.json

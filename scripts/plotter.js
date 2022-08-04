@@ -6,7 +6,6 @@
  * @ Modified time: 2022-08-04 10:49:06
  */
 
-const { auto } = require("@popperjs/core");
 const { data } = require("jquery");
 const { proto } = require("once");
 
