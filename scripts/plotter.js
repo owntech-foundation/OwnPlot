@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-02 11:56:16
+ * @ Modified time: 2022-08-04 10:49:06
  */
 
 const { auto } = require("@popperjs/core");
@@ -71,7 +71,7 @@ const nbMaxDatasets = 20;
 let nbChannelsInput = $("#nbChannels");
 
 $(() => {
-	pausePlot();
+	
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 	nbChannelsInput.attr("max", nbMaxDatasets);
 	nbChannelsInput.on('change', () => {
@@ -104,17 +104,14 @@ function getSerialData(index) {
 function refreshCallback(chart) {
 	if (plotOnPause() == false) {
 		if(dataSerialBuff.length >= numberOfDatasets){
-			let now = Date.now();
 			chart.data.datasets.forEach((dataset) => {
 				dataset.data.push({
-					x: now,
+					x: timeBuff[0],
 					y: getSerialData(dataset.index)
 				});
-				if(dataset.data.size>200){
-					dataset.data= dataset.data.slice(50,index);
-				}
 			});
 			dataSerialBuff=[]; //flush buffer once read
+			timeBuff = [];
 		}
 	}
 }
@@ -168,6 +165,8 @@ function automaticColorDataset(elemNumber) {
 	return (Object.entries(chartColors).at(index)[1]);
 }
 
+let labelsPrinted;
+
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
 	type: 'line',
@@ -208,11 +207,29 @@ const myChart = new Chart(ctx, {
 					refresh: 200,
 					delay: 100,
 					onRefresh: refreshCallback,
-					pause: false
+					pause: true
+				},
+				ticks: {
+					callback: function(value, index, ticks) {
+						if(absTimeMode){
+							return value;
+						}
+						let tickLabel = Math.floor(elapsedTime(ticks[index].value));
+						if(index>0){
+							if(labelsPrinted.includes(tickLabel)){
+								tickLabel = undefined;
+							} else {
+								labelsPrinted.push(tickLabel);
+							}
+						} else {
+							labelsPrinted = [tickLabel,];
+						}
+						return tickLabel;
+                    }
 				}
 			},
 			y: {
-				scaleLabel: {
+				title: {
 					display: true,
 					labelString: 'value'
 				}

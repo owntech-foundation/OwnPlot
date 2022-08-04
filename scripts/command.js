@@ -1,5 +1,3 @@
-const { WriteStream } = require("original-fs");
-
 const sendInput = $("#sendInput");
 const sendBtn = $("#sendBtn");
 
