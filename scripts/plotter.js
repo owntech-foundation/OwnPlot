@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-04 10:49:06
+ * @ Modified time: 2022-08-05 15:37:41
  */
 
 const { data } = require("jquery");
