@@ -5,3 +5,5 @@ out/*
 dist
 dist/*
 package-lock.json
+records
+records/*
