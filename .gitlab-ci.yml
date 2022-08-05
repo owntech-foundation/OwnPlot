@@ -1,0 +1,25 @@
+image: electronuserland/builder:wine
+
+stages:
+  - install
+  # - make
+
+cache:
+  paths:
+    - node_modules/
+
+install_dependencies:
+  stage: install
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+# make_app:
+#   stage: make
+#   script:
+#     - npm run make
+#   artifacts:
+#     paths:
+#       - node_modules/
