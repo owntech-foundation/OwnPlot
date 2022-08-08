@@ -3,13 +3,7 @@ const sendBtn = $("#sendBtn");
 
 const encoder = new TextEncoder();
 
-let commandButtons = [
-    {
-        color: "#ff0000",
-        text: "test button",
-        command: "t"
-    }
-];
+let commandButtons = [];
 
 $(() => {
     disableSend();
@@ -31,8 +25,9 @@ $(() => {
 function addCommandButton() {
     let newButton = {
         color: "#ff00ff",
-        text: "test button",
-        command: "t"
+        icon: "fa-solid fa-code",
+        text: "stop button",
+        command: "s"
     }
     commandButtons.push(newButton);
     updateCommandButtons();
@@ -46,8 +41,16 @@ function removeCommandButton(index) {
 function updateCommandButtons() {
     $("#commandButtonContainer").empty();
     commandButtons.forEach((elem, index) => {
-        $("#commandButtonContainer").append('<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" >' + elem.text + '</button>');
+        let iconHtml = "";
+        if (elem.icon != "undefined") {
+            iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;'
+        }
+        $("#commandButtonContainer").append('<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" >' + iconHtml + elem.text + '</button>');
+        $('#cmdBtn-' + index).on('click', function() { //check if port is opened
+            send(elem.command);
+        });
     });
+
 }
 
 async function send(stringToSend){
