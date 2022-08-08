@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-05 15:37:41
+ * @ Modified time: 2022-08-08 15:00:33
  */
 
 const { data } = require("jquery");
@@ -64,7 +64,6 @@ function closePortBtn(elem) {
 let dataSerialBuff = Buffer.alloc(0);
 let rawDataBuff = Buffer.alloc(0);
 let indexData = 0;
-let numberOfDatasets = 3;
 const nbMaxDatasets = 20;
 
 let nbChannelsInput = $("#nbChannels");
@@ -109,8 +108,6 @@ function refreshCallback(chart) {
 					y: getSerialData(dataset.index)
 				});
 			});
-			dataSerialBuff=[]; //flush buffer once read
-			timeBuff = [];
 		}
 	}
 }

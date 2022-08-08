@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-03 15:35:05
+ * @ Modified time: 2022-08-08 15:16:29
  */
 
 const { SerialPort } = require('serialport');
@@ -200,6 +200,7 @@ function openPortRoutine() {
 		});
 
 		port.on("data", (data) => {
+			flushBuff();
 			timeBuff.push(Date.now());
 			rawDataBuff = data;
 			switch(configSerialPlot.dataFormat){
@@ -215,11 +216,19 @@ function openPortRoutine() {
 					break;
 			}
 			updateTerminal();
+			writeToExport(dataSerialBuff);
 		});
 
 		skipByteBtn.on('click', () => {
 			byteSkip=true;
 		});
+	}
+}
+
+function flushBuff(){
+	if(dataSerialBuff.length >= numberOfDatasets){
+		dataSerialBuff = [];
+		timeBuff = [];
 	}
 }
 
@@ -230,7 +239,7 @@ function bufferizeCustom(data){
 function bufferizeBinary(data){
 	pendingData = Buffer.concat([pendingData, data]);
 	if(byteSkip){
-		pendingData = pendingData.subarray(1, currentData.length);
+		pendingData = pendingData.subarray(1, pendingData.length);
 		byteSkip=false;
 	}
 
@@ -242,8 +251,8 @@ function bufferizeBinary(data){
 			dataSerial.push(readBuf(pendingData, i));
 		}
 		dataSerialBuff = dataSerial;
+		pendingData = Buffer.alloc(0);
 	}
-	
 }
 
 function bufferizeAscii(data){
