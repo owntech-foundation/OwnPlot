@@ -1,1 +1,11 @@
-recordTab
+<div class="input-group mb-3" id="recordDiv">
+    <button class="btn btn-success" type="button" id="startRecordBtn"><i class="fa-solid fa-running"></i>&nbsp;Start record</button>
+    <button class="btn btn-warning" type="button" id="pauseRecordBtn"><i class="fa-solid fa-stop"></i>&nbsp;Stop record</button>
+    <button class="btn btn-primary" type="button" id="downloadRecordBtn" disabled><i class="fa-solid fa-file-arrow-down"></i>&nbsp;Download</button>
+</div>
+
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
+    <input type="text" id="recordSeparatorInput" name="separator" class="form-control" maxlength=100 aria-describedby="record separator input" value=",">
+</div>
