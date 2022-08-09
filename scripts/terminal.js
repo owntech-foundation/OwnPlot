@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-04 11:34:00
+ * @ Modified time: 2022-08-09 17:09:55
  */
 
 /*
@@ -62,7 +62,7 @@ let clearBtn =  $('.clearBtn');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
-let terminalSel = $('#terminalPre');
+let terminalSel = $('#terminalData');
 let termBufSizeInput = $('#termBufSizeInput');
 
 // -------------------------------------- //
@@ -150,8 +150,7 @@ function termialTime() {
 		}
 
 		if(absTimeMode){
-			let dataDate = new Date(dataTime);
-			timeStr = dataDate.getHours() + ':' + dataDate.getMinutes() + ':' + dataDate.getSeconds() + '.' + dataDate.getMilliseconds();
+			timeStr = dateToTimeString(new Date(dataTime));
 		} else { //relative time
 			timeStr = elapsedTime(dataTime);
 		}

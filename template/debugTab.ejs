@@ -1,3 +1,18 @@
-<div id="error"></div>
-<div id="ports"></div>
-<div id="received"></div>
+<div id="portInfoDiv">
+    <a data-bs-toggle="collapse" href="#debugPortInfo" role="button" aria-expanded="false" aria-controls="debugPortInfo">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-plug"></i><span style="font-weight:bolder">&nbsp;Port Information</span>
+        </span>
+    </a>
+    <div class="collapse table-responsive" id="debugPortInfo"></div>
+</div>
+
+<div id="debugTerminalDiv">
+    <a data-bs-toggle="collapse" href="#debugTerminal" role="button" aria-expanded="false" aria-controls="debugTerminal">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-solid fa-circle-exclamation"></i><span style="font-weight:bolder">&nbsp;Error Terminal</span>
+        </span>
+    </a>
+    <pre class="collapse terminalPre" id="debugTerminal">
+	</pre>
+</div>

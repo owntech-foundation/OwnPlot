@@ -1,14 +1,31 @@
+const { now } = require("moment");
+
+/* Util */
+function dateToTimeString(date){
+	return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+}
+
+/* Debug */
+const debugTermSel = $("#debugTerminal");
+function printDebugTerminal(err){
+	debugTermSel.prepend('<span>' + dateToTimeString(new Date()) + err + '</span>');
+}
+
+/* Chart */
+
+let numberOfDatasets = 3;
+
+/* Time */
+ 
+let startTime;
+let absTimeMode = true;
 function elapsedTime(endTime){
 	return (endTime - startTime)/1000;
 }
 
-let startTime;
+/* Record */
 
-let absTimeMode = true;
-
-let numberOfDatasets = 3;
-
-const RECORD_MAX_SIZE = Math.pow(10,9);
+const RECORD_MAX_SIZE = Math.pow(10,9); //max 1Go of recorded data
 let recording = false;
 let textToExport = "";
 let recordSeparator = ",";

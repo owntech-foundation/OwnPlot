@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-08 15:16:29
+ * @ Modified time: 2022-08-09 17:18:46
  */
 
 const { SerialPort } = require('serialport');
@@ -118,20 +118,17 @@ async function checkPortsChanged(){
 async function listSerialPorts(){
 	await SerialPort.list().then((ports, err) => {
 		if(err) {
-			document.getElementById('#error').textContent = err.message;
+			printDebugTerminal(err);
 			return;
-		} else {
-			document.getElementById('error').textContent = '';
 		}
 
 		if (ports.length === 0) {
 			document.getElementById('error').textContent = 'No ports discovered';
 		}
 
-		tableHTML = tableify(ports);
-		document.getElementById('ports').innerHTML = tableHTML;
+		if (arraysEqual(availableSerialPorts, ports) == false) {
+			printDebugPortInfo(ports);
 
-		if (availableSerialPortsLength !=  ports.length) {
 			let lpHTML = '<option value="default" selected>Select a port...</option>';
 			availableSerialPortsLength = ports.length;
 			availableSerialPorts = ports; //copy of array to access anywhere
@@ -150,6 +147,16 @@ async function listSerialPorts(){
 			document.getElementById('AvailablePorts').innerHTML = lpHTML;
 		}
 	})
+}
+
+function arraysEqual(firstArr, secondArr){
+	return firstArr.toString() === secondArr.toString();
+}
+
+function printDebugPortInfo(ports){
+	let tableHTML = tableify(ports);
+	tableHTML = "<table class='table table-hover'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7
+	$("#debugPortInfo").html(tableHTML);
 }
 
 //list ports loop
