@@ -121,7 +121,7 @@
     "pack-mac": "electron-builder --mac --universal",
     "pack-linux": "electron-builder --linux --x64 --armv7l --arm64",
     "pack-win": "electron-builder --win --ia32 --x64 --arm64",
-    "pack-test": "electron-builder -wml"
+    "pack-test": "electron-builder -wl"
   },
   "build": {},
   "author": "OwnTech",
