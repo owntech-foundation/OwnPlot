@@ -18,6 +18,7 @@ install_dependencies:
     - main
     - issue_33_targets
   script:
+    - snap install snapcraft --classic  
     - npm install
   artifacts:
     paths:
