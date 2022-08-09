@@ -2,7 +2,9 @@ image: electronuserland/builder:wine
 
 stages:
   - install
-  # - make
+  - pack_mac
+  - pack-win
+  - pack-linux
 
 cache:
   paths:
@@ -10,16 +12,44 @@ cache:
 
 install_dependencies:
   stage: install
+  only:
+    - dev
+    - main
   script:
     - npm install
   artifacts:
     paths:
       - node_modules/
 
-# make_app:
-#   stage: make
-#   script:
-#     - npm run make
-#   artifacts:
-#     paths:
-#       - node_modules/
+pack_mac:
+  stage: pack-mac
+  only:
+    - dev
+    - main
+  script:
+    - npm run pack-mac
+  artifacts:
+    paths:
+      - node_modules/
+
+pack_win:
+  stage: pack-win
+  only:
+    - dev
+    - main
+  script:
+    - npm run pack-mac
+  artifacts:
+    paths:
+      - node_modules/
+
+pack_linux:
+  stage: pack-linux
+  only:
+    - dev
+    - main
+  script:
+    - npm run pack-linux
+  artifacts:
+    paths:
+      - node_modules/
