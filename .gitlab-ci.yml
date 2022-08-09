@@ -2,8 +2,8 @@ image: electronuserland/builder:wine
 
 stages:
   - install
-  - pack-linux
   - pack-test
+  - pack-linux
   - pack-win
   - pack-mac
 
@@ -18,7 +18,6 @@ install_dependencies:
     - main
     - issue_33_targets
   script:
-    - apt install snapd
     - npm install
   artifacts:
     paths:
