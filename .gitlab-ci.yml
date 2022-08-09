@@ -2,7 +2,7 @@ image: electronuserland/builder:wine
 
 stages:
   - install
-  - pack_mac
+  - pack-mac
   - pack-win
   - pack-linux
 
