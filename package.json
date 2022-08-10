@@ -118,12 +118,17 @@
   "scripts": {
     "start": "electron-forge start",
     "make": "electron-forge make",
-    "pack-mac": "electron-builder --mac --universal",
-    "pack-linux": "electron-builder --linux --x64 --armv7l --arm64",
-    "pack-win": "electron-builder --win --ia32 --x64 --arm64",
-    "pack-test": "electron-builder -wl"
+    "pack-clean": "rm -rf dist",
+    "pack-linux": "electron-builder --linux --x64",
+    "pack-win": "electron-builder --win --x64",
+    "pack-mac-uni": "electron-builder --mac --universal",
+    "pack-linux-all": "electron-builder --linux --x64 --armv7l --arm64",
+    "pack-win-all": "electron-builder --win --ia32 --x64 --arm64",
+    "pack-all": "pack-clean; pack-mac-uni; pack-linux-all; pack-win-all"
   },
-  "build": {},
+  "build": {
+    "appId": "com.ownplot.app"
+  },
   "author": "OwnTech",
   "contributors": [
     "Guillaume Arthaud <garthaud@laas.fr>",
