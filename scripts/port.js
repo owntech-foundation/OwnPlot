@@ -9,7 +9,7 @@ $(function(){
 	noPortBtn($('#openPortBtn'));
 	
 	listPorts();
-
+	
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
 		if(availableSerialPortsLength > 0 && selectedPort != "default"){
@@ -62,3 +62,4 @@ $(function(){
 	});
 
 });
+

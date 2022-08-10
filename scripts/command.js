@@ -54,7 +54,11 @@ function updateCommandButtons() {
 }
 
 async function send(stringToSend){
-    await port.write(encoder.encode(stringToSend));
+    await port.write(encoder.encode(stringToSend), (err) => {
+        if (err) {
+            printDebugTerminal(err);
+        }
+       });
 }
 
 function enableSend() {
