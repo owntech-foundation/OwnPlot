@@ -4,6 +4,7 @@ const startRecordBtn = $("#startRecordBtn");
 const pauseRecordBtn = $("#pauseRecordBtn");
 const downloadRecordBtn = $("#downloadRecordBtn");
 const recordSeparatorInput = $("#recordSeparatorInput");
+const nameRecordCheck = $("#nameRecordCheck");
 
 $(()=>{
     pauseRecordBtn.hide();
@@ -29,6 +30,14 @@ $(()=>{
 });
 
 function download(filename) {
+    if(nameRecordCheck[0].checked){
+        textToExport = '\n' + textToExport;
+        for (let index = myChart.data.datasets.length-1; index > 0; index--) {
+            textToExport = ',' + myChart.data.datasets[index].label + textToExport;
+        }
+        textToExport = myChart.data.datasets[0].label + textToExport;
+    }
+
     let downloadLink = document.createElement('a');
     downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToExport));
     downloadLink.setAttribute('download', filename);
