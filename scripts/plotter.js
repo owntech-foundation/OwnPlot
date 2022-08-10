@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-08 15:00:33
+ * @ Modified time: 2022-08-10 18:05:56
  */
 
 const { data } = require("jquery");
@@ -134,7 +134,6 @@ function addDataset() {
 		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
 		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
 		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
-		fill: false,
 		lineTension: 0,
 		data: []
 	}
@@ -172,24 +171,21 @@ const myChart = new Chart(ctx, {
 			index: 0,
 			label: 'Dataset 1',
 			backgroundColor: automaticColorDataset(1),
-			borderColor: chartColors.red,
-			fill: false,
+			borderColor: automaticColorDataset(1),
 			lineTension: 0,
 			data: []
 		},{
 			index: 1,
 			label: 'Dataset 2',
 			backgroundColor: automaticColorDataset(2),
-			borderColor: chartColors.orange,
-			fill: false,
+			borderColor: automaticColorDataset(2),
 			lineTension: 0,
 			data: []
 		},{
 			index: 2,
 			label: 'Dataset 3',
 			backgroundColor: automaticColorDataset(3),
-			borderColor: chartColors.yellow,
-			fill: false,
+			borderColor: automaticColorDataset(3),
 			lineTension: 0,
 			data: []
 		}]
