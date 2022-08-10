@@ -33,9 +33,12 @@ function download(filename) {
     if(nameRecordCheck[0].checked){
         textToExport = '\n' + textToExport;
         for (let index = myChart.data.datasets.length-1; index > 0; index--) {
-            textToExport = ',' + myChart.data.datasets[index].label + textToExport;
+            textToExport = recordSeparator + myChart.data.datasets[index].label + textToExport;
         }
         textToExport = myChart.data.datasets[0].label + textToExport;
+        if(timestampRecordCheck.checked){
+            textToExport = "Time" + recordSeparator + textToExport;
+        }
     }
 
     let downloadLink = document.createElement('a');

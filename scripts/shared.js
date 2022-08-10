@@ -30,30 +30,27 @@ const RECORD_MAX_SIZE = Math.pow(10,9); //max 1Go of recorded data
 let recording = false;
 let textToExport = "";
 let recordSeparator = ",";
-function writeToExport(buf){
+function writeToExport(dataBuf, timeBuff){
 	if(recording){
 		// we write data only if we can get a full line
-		if(upRecordRadio[0].checked){
-			for (let lineIndex = 0; lineIndex < buf.length / numberOfDatasets; lineIndex++) {
-				line = "";
-				for (let datasetIndex = 0; datasetIndex < numberOfDatasets-1; datasetIndex++) {
-					line += buf[lineIndex * numberOfDatasets + datasetIndex] + recordSeparator;
-				}
-				line += buf[(lineIndex + 1) * numberOfDatasets - 1];
-				line += "\n";
-				textToExport = line + textToExport;
+		for (let lineIndex = 0; lineIndex < dataBuf.length / numberOfDatasets; lineIndex++) {
+			let line = "";
+			if(timestampRecordCheck.checked){
+				line = dateToTimeString(new Date(timeBuff[lineIndex])) + recordSeparator;
 			}
-		} else {
-			for (let lineIndex = 0; lineIndex < buf.length / numberOfDatasets; lineIndex++) {
-				for (let datasetIndex = 0; datasetIndex < numberOfDatasets-1; datasetIndex++) {
-					textToExport += buf[lineIndex * numberOfDatasets + datasetIndex] + recordSeparator;
-				}
-				textToExport += buf[(lineIndex + 1) * numberOfDatasets - 1];
-				textToExport += "\n";
+			for (let datasetIndex = 0; datasetIndex < numberOfDatasets-1; datasetIndex++) {
+				line += dataBuf[lineIndex * numberOfDatasets + datasetIndex] + recordSeparator;
+			}
+			line += dataBuf[(lineIndex + 1) * numberOfDatasets - 1];
+			line += "\n";
+			if(upRecordRadio[0].checked){
+				textToExport = line + textToExport;
+			} else {
+				textToExport += line;
 			}
 		}
 		if(textToExport.length > RECORD_MAX_SIZE){
-			$("#pauseRecordBtn").trigger("click");
+			$("#pauseRecordBtn").trigger("click"); //force the stop of the record in case too much data is recorded
 		}
 	}
 }
