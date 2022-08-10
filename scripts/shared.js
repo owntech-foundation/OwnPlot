@@ -8,6 +8,7 @@ let absTimeMode = true;
 
 let numberOfDatasets = 3;
 
+const upRecordRadio = $("#upRecordRadio")
 const RECORD_MAX_SIZE = Math.pow(10,9);
 let recording = false;
 let textToExport = "";
@@ -15,12 +16,24 @@ let recordSeparator = ",";
 function writeToExport(buf){
 	if(recording){
 		// we write data only if we can get a full line
-		for (let line = 0; line < buf.length / numberOfDatasets; line++) {
-			for (let index = 0; index < numberOfDatasets-1; index++) {
-				textToExport += buf[line * numberOfDatasets + index] + recordSeparator;
+		if(upRecordRadio[0].checked){
+			for (let lineIndex = 0; lineIndex < buf.length / numberOfDatasets; lineIndex++) {
+				line = "";
+				for (let datasetIndex = 0; datasetIndex < numberOfDatasets-1; datasetIndex++) {
+					line += buf[lineIndex * numberOfDatasets + datasetIndex] + recordSeparator;
+				}
+				line += buf[(lineIndex + 1) * numberOfDatasets - 1];
+				line += "\n";
+				textToExport = line + textToExport;
 			}
-			textToExport += buf[(line + 1) * numberOfDatasets - 1];
-			textToExport += "\n";
+		} else {
+			for (let lineIndex = 0; lineIndex < buf.length / numberOfDatasets; lineIndex++) {
+				for (let datasetIndex = 0; datasetIndex < numberOfDatasets-1; datasetIndex++) {
+					textToExport += buf[lineIndex * numberOfDatasets + datasetIndex] + recordSeparator;
+				}
+				textToExport += buf[(lineIndex + 1) * numberOfDatasets - 1];
+				textToExport += "\n";
+			}
 		}
 		if(textToExport.length > RECORD_MAX_SIZE){
 			$("#pauseRecordBtn").trigger("click");

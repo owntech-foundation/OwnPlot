@@ -10,9 +10,29 @@
     <input type="text" id="recordSeparatorInput" name="separator" class="form-control" maxlength=100 aria-describedby="record separator input" value=",">
 </div>
 
-<div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="nameRecordCheck">
-    <label class="form-check-label" for="nameRecordCheck">
-        Add label on the first line
-    </label>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="updownRecordRadio" id="downRecordRadio" checked>
+                <label class="form-check-label" for="downRecordRadio">
+                    Old data on top
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="updownRecordRadio" id="upRecordRadio">
+                <label class="form-check-label" for="upRecordRadio">
+                    Early data on top
+                </label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="nameRecordCheck">
+                <label class="form-check-label" for="nameRecordCheck">
+                    Add label on the first line
+                </label>
+            </div>
+        </div>
+    </div>
 </div>
