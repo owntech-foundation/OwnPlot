@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-09 17:18:46
+ * @ Modified time: 2022-08-10 14:10:47
  */
 
 const { SerialPort } = require('serialport');
@@ -223,7 +223,7 @@ function openPortRoutine() {
 					break;
 			}
 			updateTerminal();
-			writeToExport(dataSerialBuff);
+			writeToExport(dataSerialBuff, timeBuff);
 		});
 
 		skipByteBtn.on('click', () => {
