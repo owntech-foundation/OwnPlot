@@ -3,11 +3,12 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-10 14:10:47
+ * @ Modified time: 2022-08-10 17:26:54
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
+const { DataTable } = require('datatables.net');
 let prevPorts;
 let port;
 
@@ -155,8 +156,13 @@ function arraysEqual(firstArr, secondArr){
 
 function printDebugPortInfo(ports){
 	let tableHTML = tableify(ports);
-	tableHTML = "<table class='table table-hover'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7
+	tableHTML = "<table class='table table-hover' id='portTable'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7, we replace it to insert class & id
 	$("#debugPortInfo").html(tableHTML);
+	$("#portTable").DataTable({
+		"paging": false,
+		"searching": false,
+		"info": false
+	});
 }
 
 //list ports loop

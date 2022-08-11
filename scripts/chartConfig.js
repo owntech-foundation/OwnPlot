@@ -1,19 +1,15 @@
-relBtn = $("#relBtn");
-absBtn = $('#absBtn');
-
-absTimeMode = true;
+const relBtn = $("#relBtn");
+const absBtn = $('#absBtn');
 
 function switchRelAbsBtn(){
     if(absTimeMode){
         $(absBtn).hide();
         $(relBtn).show();
         absTimeMode = false;
-        console.log("switched to relative");
     } else {
         $(relBtn).hide();
         $(absBtn).show();
         absTimeMode = true;
-        console.log("switched to absolute");
     }
 }
 
@@ -24,5 +20,7 @@ $(()=>{
 
     $(".relAbsBtn").on('click', ()=>{
         switchRelAbsBtn();
-    })
+    });
+
+    updateLegendTable();
 });
