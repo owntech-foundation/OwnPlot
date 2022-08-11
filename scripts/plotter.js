@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-10 18:05:56
+ * @ Modified time: 2022-08-11 18:14:05
  */
 
 const { data } = require("jquery");
@@ -69,7 +69,6 @@ const nbMaxDatasets = 20;
 let nbChannelsInput = $("#nbChannels");
 
 $(() => {
-	
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 	nbChannelsInput.attr("max", nbMaxDatasets);
 	nbChannelsInput.on('change', () => {
@@ -80,6 +79,7 @@ $(() => {
 		while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
 			removeDataset();
 		}
+		updateLegendTable();
 	});
 });
 
@@ -144,14 +144,26 @@ function addDataset() {
 // Chart layout setting //
 
 let chartColors = {
-	red: 'rgb(255, 99, 132)',
-	orange: 'rgb(255, 159, 64)',
-	yellow: 'rgb(255, 205, 86)',
-	green: 'rgb(75, 192, 192)',
-	blue: 'rgb(54, 162, 235)',
-	purple: 'rgb(153, 102, 255)',
-	greenApple: 'rgb(120, 235,12)',
-	grey: 'rgb(201, 203, 207)'
+	blue: '#304ffe',
+	green: '#64dd17',
+	red: '#ed0202',
+	orangeYellow: '#ffd600',
+	purple: '#aa00ff',
+	blueGreen: '#00bfa5',
+	orange: '#ff6f00',
+	lilac: '#ddcff4',
+	pink: '#ec407a',
+	deepSkyBlue: '#00bfff',
+	deepGreen: '#2e7d32',
+	violet: '#e040fb',
+	darkTurquoise: '#00ced1',
+	brown: '#5d4037',
+	apple: '#00c853',
+	sapphire: '#0f52ba',
+	grey: '#a0bbc4',
+	marroon: '#9e9d24',
+	gold: '#ffa000',
+	anthracite: '#455a64',
 };
 let color = Chart.helpers.color;
 
