@@ -3,13 +3,14 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-12 19:37:39
+ * @ Modified time: 2022-08-12 20:24:55
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 const { DataTable } = require('datatables.net');
 let port;
+let portHaveChanged
 
 let byteSkip = false;
 const endCom = [13, 10]; //ascii for \r & \n
@@ -110,11 +111,11 @@ async function checkPortsChanged(){
 			printDebugTerminal(err);
 			return;
 		}
-		if (availableSerialPorts == updatedPorts || (availableSerialPorts == false && updatedPorts == false)) {
-			return false;
+		if (arraysEqual(availableSerialPorts, updatedPorts)) {
+			portHaveChanged = false;
 		} else {
-		availableSerialPorts = updatedPorts;
-		return true;
+			availableSerialPorts = updatedPorts;
+			portHaveChanged = true;
 		}
 	})
 }
@@ -145,9 +146,9 @@ function listSerialPorts(){
 }
 
 function arraysEqual(firstArr, secondArr){
-	if(firstArr == false && secondArr == false){
+	if((firstArr == false || firstArr == undefined) && (secondArr == false || secondArr == undefined)){
 		return true;
-	} else if (firstArr == false || secondArr == false){
+	} else if ((firstArr == false || firstArr == undefined) || (secondArr == false || secondArr == undefined)){
 		return false;
 	} else {
 		return firstArr.toString() === secondArr.toString();
@@ -167,9 +168,11 @@ function printDebugPortInfo(ports){
 
 //list ports loop
 async function listPorts() {
-	if (checkPortsChanged()) {
-		listSerialPorts();
-	}
+	await checkPortsChanged().then(()=>{
+		if(portHaveChanged){
+			listSerialPorts();
+		}
+	});
 	setTimeout(listPorts, 2000);
 }
 
