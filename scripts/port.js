@@ -1,5 +1,4 @@
-let availableSerialPorts = [];
-let availableSerialPortsLength = 0;
+let availableSerialPorts;
 let selectedPort;
 
 $(function(){
@@ -12,7 +11,7 @@ $(function(){
 	
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
-		if(availableSerialPortsLength > 0 && selectedPort != "default"){
+		if(availableSerialPorts.length > 0 && selectedPort != "default"){
 			$('.pauseBtn').show();
 			$('.clearBtn').show();
 			if(selectedPort != configSerialPlot.path){

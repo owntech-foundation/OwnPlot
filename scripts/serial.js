@@ -3,12 +3,12 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-10 14:10:47
+ * @ Modified time: 2022-08-12 19:37:39
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
-let prevPorts;
+const { DataTable } = require('datatables.net');
 let port;
 
 let byteSkip = false;
@@ -105,58 +105,64 @@ $(function(){
 //If it's the first time this function is executed, 
 //then it will count as a port changed
 async function checkPortsChanged(){
-	await SerialPort.list().then((ports) => {
-		if (prevPorts == ports) {
-			return false;
-		}
-		prevPorts = ports;
-		return true;
-	})
-}
-
-//Everytime a port change, this code is executed
-async function listSerialPorts(){
-	await SerialPort.list().then((ports, err) => {
+	await SerialPort.list().then((updatedPorts, err) => {
 		if(err) {
 			printDebugTerminal(err);
 			return;
 		}
-
-		if (ports.length === 0) {
-			document.getElementById('error').textContent = 'No ports discovered';
-		}
-
-		if (arraysEqual(availableSerialPorts, ports) == false) {
-			printDebugPortInfo(ports);
-
-			let lpHTML = '<option value="default" selected>Select a port...</option>';
-			availableSerialPortsLength = ports.length;
-			availableSerialPorts = ports; //copy of array to access anywhere
-			ports.forEach(p => {
-				//if we were on a port when ports changed, we select in the list the current port
-				if (port) {
-					if(port.path == p.path) {
-						lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
-					} else {
-						lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-					}
-				} else {
-					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-				}
-			});
-			document.getElementById('AvailablePorts').innerHTML = lpHTML;
+		if (availableSerialPorts == updatedPorts || (availableSerialPorts == false && updatedPorts == false)) {
+			return false;
+		} else {
+		availableSerialPorts = updatedPorts;
+		return true;
 		}
 	})
 }
 
+//Everytime a port change, this code is executed
+function listSerialPorts(){
+	if (availableSerialPorts == false || availableSerialPorts == undefined) {
+		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
+	} else {
+		console.log(availableSerialPorts);
+		printDebugPortInfo(availableSerialPorts);
+
+		let lpHTML = '<option value="default" selected>Select a port...</option>';
+		availableSerialPorts.forEach(p => {
+			//if we were on a port when ports changed, we select in the list the current port
+			if (port) {
+				if(port.path == p.path) {
+					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+				} else {
+					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				}
+			} else {
+				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+			}
+		});
+		$('#AvailablePorts').html(lpHTML);
+	}
+}
+
 function arraysEqual(firstArr, secondArr){
-	return firstArr.toString() === secondArr.toString();
+	if(firstArr == false && secondArr == false){
+		return true;
+	} else if (firstArr == false || secondArr == false){
+		return false;
+	} else {
+		return firstArr.toString() === secondArr.toString();
+	}
 }
 
 function printDebugPortInfo(ports){
 	let tableHTML = tableify(ports);
-	tableHTML = "<table class='table table-hover'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7
+	tableHTML = "<table class='table table-hover' id='portTable'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7, we replace it to insert class & id
 	$("#debugPortInfo").html(tableHTML);
+	$("#portTable").DataTable({
+		"paging": false,
+		"searching": false,
+		"info": false
+	});
 }
 
 //list ports loop
