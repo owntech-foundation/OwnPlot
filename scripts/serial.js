@@ -3,14 +3,14 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-10 17:26:54
+ * @ Modified time: 2022-08-16 10:51:42
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 const { DataTable } = require('datatables.net');
-let prevPorts;
 let port;
+let portHaveChanged
 
 let byteSkip = false;
 const endCom = [13, 10]; //ascii for \r & \n
@@ -60,7 +60,6 @@ $(function(){
 	dataFormatField.on('change', function(){
 		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
 		switchDataForms();
-		console.log("data format changed to " + configSerialPlot.dataFormat);
 	});
 	
 	separatorField.val(configSerialPlot.separator);
@@ -72,7 +71,6 @@ $(function(){
 
 	nbTypeField.on('change',function(){
 		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
-		console.log("nbType changed to " + configSerialPlot.nbType);
 		switch (configSerialPlot.nbType) {
 			case "uint8":
 			case "int8":
@@ -93,12 +91,11 @@ $(function(){
 			default:
 				configSerialPlot.nbSize = 1;
 		}
-		console.log("nb size is now " + configSerialPlot.nbSize + " bytes");
+		printDebugTerminal("number size is now " + configSerialPlot.nbSize + " bytes");
 	});
 
 	endiannessField.on('change',function(){
 		configSerialPlot.endianness = endiannessField.children("option:selected").val();
-		console.log("endianness changed to " + configSerialPlot.endianness);
 	});
 });
 
@@ -106,52 +103,52 @@ $(function(){
 //If it's the first time this function is executed, 
 //then it will count as a port changed
 async function checkPortsChanged(){
-	await SerialPort.list().then((ports) => {
-		if (prevPorts == ports) {
-			return false;
-		}
-		prevPorts = ports;
-		return true;
-	})
-}
-
-//Everytime a port change, this code is executed
-async function listSerialPorts(){
-	await SerialPort.list().then((ports, err) => {
+	await SerialPort.list().then((updatedPorts, err) => {
 		if(err) {
 			printDebugTerminal(err);
 			return;
 		}
-
-		if (ports.length === 0) {
-			document.getElementById('error').textContent = 'No ports discovered';
-		}
-
-		if (arraysEqual(availableSerialPorts, ports) == false) {
-			printDebugPortInfo(ports);
-
-			let lpHTML = '<option value="default" selected>Select a port...</option>';
-			availableSerialPortsLength = ports.length;
-			availableSerialPorts = ports; //copy of array to access anywhere
-			ports.forEach(p => {
-				//if we were on a port when ports changed, we select in the list the current port
-				if (port) {
-					if(port.path == p.path) {
-						lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
-					} else {
-						lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-					}
-				} else {
-					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-				}
-			});
-			document.getElementById('AvailablePorts').innerHTML = lpHTML;
+		if (arraysEqual(availableSerialPorts, updatedPorts)) {
+			portHaveChanged = false;
+		} else {
+			availableSerialPorts = updatedPorts;
+			portHaveChanged = true;
 		}
 	})
 }
 
+//Everytime a port change, this code is executed
+function listSerialPorts(){
+	if (availableSerialPorts == false || availableSerialPorts == undefined) {
+		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
+	} else {
+		printDebugPortInfo(availableSerialPorts);
+
+		let lpHTML = '<option value="default" selected>Select a port...</option>';
+		availableSerialPorts.forEach(p => {
+			//if we were on a port when ports changed, we select in the list the current port
+			if (port) {
+				if(port.path == p.path) {
+					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+				} else {
+					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				}
+			} else {
+				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+			}
+		});
+		$('#AvailablePorts').html(lpHTML);
+	}
+}
+
 function arraysEqual(firstArr, secondArr){
-	return firstArr.toString() === secondArr.toString();
+	if((firstArr == false || firstArr == undefined) && (secondArr == false || secondArr == undefined)){
+		return true;
+	} else if ((firstArr == false || firstArr == undefined) || (secondArr == false || secondArr == undefined)){
+		return false;
+	} else {
+		return firstArr.toString() === secondArr.toString();
+	}
 }
 
 function printDebugPortInfo(ports){
@@ -167,9 +164,11 @@ function printDebugPortInfo(ports){
 
 //list ports loop
 async function listPorts() {
-	if (checkPortsChanged()) {
-		listSerialPorts();
-	}
+	await checkPortsChanged().then(()=>{
+		if(portHaveChanged){
+			listSerialPorts();
+		}
+	});
 	setTimeout(listPorts, 2000);
 }
 
@@ -187,12 +186,12 @@ function openPortRoutine() {
 	{
 		port.open((err) => {
 			if (err) {
-				return console.log('Error opening port: ', err.message);
+				return printDebugTerminal('Error opening port: ', err.message);
 			}
 		});
 
 		port.on('open', () => {
-			console.log("-- Connection opened on port " + port.path + " --");
+			printDebugTerminal("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
 			runBtn('.pauseBtn');
 			$('.clearBtn').show();
@@ -205,8 +204,7 @@ function openPortRoutine() {
 		port.on('close', () => {
 			pauseBtn('.pauseBtn');
 			$('.pauseBtn').addClass('disabled');
-			$('.clearBtn').addClass('disabled');
-			console.log("-- Connection closed on port " + port.path + " --");
+			printDebugTerminal("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();
 			listSerialPorts();
