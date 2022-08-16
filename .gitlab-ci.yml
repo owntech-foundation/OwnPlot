@@ -16,9 +16,6 @@ install_dependencies:
     - issue_33_targets
   script:
     - npm install
-  artifacts:
-    paths:
-      - node_modules
 
 pack_linux:
   stage: pack-linux
@@ -30,4 +27,4 @@ pack_linux:
     - npm run pack-linux
   artifacts:
     paths:
-      - node_modules/
+      - dist/
