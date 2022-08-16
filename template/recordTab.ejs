@@ -9,11 +9,17 @@
     <input type="text" class="form-control imperativeRecordSetting" id="recordFileNameInput" maxlength=100 aria-describedby="record file name input" value="">
 </div>
 
-<div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="nameRecordCheck">
-    <label class="form-check-label" for="nameRecordCheck">
-        Add label on the first line
-    </label>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="nameRecordCheck" checked>
+                <label class="form-check-label" for="nameRecordCheck">
+                    Add label on the first line
+                </label>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="input-group mb-3">
@@ -41,11 +47,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="form-check">
-            <input class="form-check-input imperativeRecordSetting" type="checkbox" value="" id="timestampRecordCheck">
-            <label class="form-check-label" for="timestampRecordCheck">
-                Add timestamp
-            </label>
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input imperativeRecordSetting" type="checkbox" value="" id="timestampRecordCheck">
+                <label class="form-check-label" for="timestampRecordCheck">
+                    Add timestamp
+                </label>
+            </div>
         </div>
     </div>
     <div class="row recordTimestampSetupRow">
