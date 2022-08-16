@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-11 18:14:05
+ * @ Modified time: 2022-08-16 15:04:50
  */
 
 const { data } = require("jquery");
@@ -218,7 +218,7 @@ const myChart = new Chart(ctx, {
 						if(absTimeMode){
 							return value;
 						}
-						let tickLabel = Math.floor(elapsedTime(ticks[index].value));
+						let tickLabel = Math.floor(millisecondsElapsed(chartStartTime, ticks[index].value));
 						if(index>0){
 							if(labelsPrinted.includes(tickLabel)){
 								tickLabel = undefined;

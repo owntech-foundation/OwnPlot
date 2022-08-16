@@ -3,14 +3,14 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-16 10:51:42
+ * @ Modified time: 2022-08-16 16:35:00
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 const { DataTable } = require('datatables.net');
 let port;
-let portHaveChanged
+let portHaveChanged;
 
 let byteSkip = false;
 const endCom = [13, 10]; //ascii for \r & \n
@@ -57,6 +57,7 @@ function switchDataForms(){
 
 $(function(){
 	switchDataForms();
+	listSerialPorts();
 	dataFormatField.on('change', function(){
 		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
 		switchDataForms();
@@ -198,7 +199,7 @@ function openPortRoutine() {
 			$('.clearBtn').removeClass('disabled');
 			enableSend();
 			flushChart(myChart);
-			startTime = Date.now();
+			chartStartTime = Date.now();
 		});
 
 		port.on('close', () => {
