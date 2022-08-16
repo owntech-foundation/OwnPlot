@@ -13,6 +13,24 @@
     <div class="row">
         <div class="col">
             <div class="form-check">
+                <input class="form-check-input" type="radio" name="fileExtensionRecordRadio" id="csvRecordRadio" checked>
+                <label class="form-check-label" for="csvRecordRadio">
+                    .csv
+                </label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="fileExtensionRecordRadio" id="txtRecordRadio">
+                <label class="form-check-label" for="txtRecordRadio">
+                    .txt
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="nameRecordCheck" checked>
                 <label class="form-check-label" for="nameRecordCheck">
                     Add label on the first line
@@ -59,17 +77,17 @@
     <div class="row recordTimestampSetupRow">
         <div class="col">
             <div class="form-check">
-                <input class="form-check-input imperativeRecordSetting" type="radio" name="absRelTimestampRecordRadio" id="absoluteTimestampRecordRadio" checked>
-                <label class="form-check-label" for="absoluteTimestampRecordRadio">
-                    Absolute
+                <input class="form-check-input imperativeRecordSetting" type="radio" name="absRelTimestampRecordRadio" id="relativeTimestampRecordRadio" checked>
+                <label class="form-check-label" for="relativeTimestampRecordRadio">
+                    Relative
                 </label>
             </div>
         </div>
         <div class="col">
             <div class="form-check">
-                <input class="form-check-input imperativeRecordSetting" type="radio" name="absRelTimestampRecordRadio" id="relativeTimestampRecordRadio">
-                <label class="form-check-label" for="relativeTimestampRecordRadio">
-                    Relative
+                <input class="form-check-input imperativeRecordSetting" type="radio" name="absRelTimestampRecordRadio" id="absoluteTimestampRecordRadio">
+                <label class="form-check-label" for="absoluteTimestampRecordRadio">
+                    Absolute
                 </label>
             </div>
         </div>

@@ -10,6 +10,7 @@ const absTimestampRecordRadio = $("#absoluteTimestampRecordRadio");
 const relTimestampRecordRadio = $("#relativeTimestampRecordRadio");
 const imperativeRecordSetting = $(".imperativeRecordSetting");
 const recordFileNameInput = $("#recordFileNameInput");
+const csvRecordRadio = $("#csvRecordRadio");
 
 $(()=>{
     pauseRecordBtn.hide();
@@ -71,7 +72,11 @@ function download(filename) {
     }
 
     let downloadLink = document.createElement('a');
-    downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToExport));
+    if(csvRecordRadio[0].checked){
+        downloadLink.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(textToExport));
+    } else {
+        downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToExport));
+    }
     downloadLink.setAttribute('download', filename);
 
     downloadLink.style.display = 'none';
