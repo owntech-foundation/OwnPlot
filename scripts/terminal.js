@@ -179,7 +179,7 @@ function terminalFormating() {
 	let termLine = '';
 	if (formattedMode){
 		dataSerialBuff.forEach((elem, index) => {
-			termLine+='<span style="color:' + automaticColorDataset(index + 1) + '">';
+			termLine+='<span style="color:' + myChart.data.datasets[index].backgroundColor + '">';
 			termLine+= valueToString(elem); //takes care of the base (dec or hex)
 			termLine+= '</span>';
 		});
