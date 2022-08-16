@@ -5,27 +5,56 @@ const pauseRecordBtn = $("#pauseRecordBtn");
 const downloadRecordBtn = $("#downloadRecordBtn");
 const recordSeparatorInput = $("#recordSeparatorInput");
 const nameRecordCheck = $("#nameRecordCheck");
+const recordTimestampSetupRows = $(".recordTimestampSetupRow");
+const absTimestampRecordRadio = $("#absoluteTimestampRecordRadio");
+const relTimestampRecordRadio = $("#relativeTimestampRecordRadio");
+const imperativeRecordSetting = $(".imperativeRecordSetting");
+const recordFileNameInput = $("#recordFileNameInput");
 
 $(()=>{
     pauseRecordBtn.hide();
-    startRecordBtn.on("click", ()=>{
-        startRecordBtn.hide();
+    recordTimestampSetupRows.hide();
+    recordFileNameInput.val(generateFileName());
+
+    startRecordBtn.on("click", function(){
+        $(this).hide();
         pauseRecordBtn.show();
         downloadRecordBtn.attr("disabled", true);
+        imperativeRecordSetting.attr("disabled", true);
         textToExport = ""; // reset recorded data
         recording = true;
+        recordStartTime = new Date();
     });
-    pauseRecordBtn.on("click", ()=>{
-        pauseRecordBtn.hide();
+    pauseRecordBtn.on("click", function(){
+        $(this).hide();
         startRecordBtn.show();
         downloadRecordBtn.attr("disabled", false);
+        imperativeRecordSetting.attr("disabled", false);
         recording = false;
     });
     downloadRecordBtn.on("click", ()=>{
-        download(generateFileName());
+        download(recordFileNameInput.val());
     });
-    recordSeparatorInput.on("input", ()=>{
-        recordSeparator = recordSeparatorInput.val();
+    recordSeparatorInput.on("input", function(){
+        recordSeparator = this.val();
+    });
+    timestampRecordCheck.on('change', function(){
+        if(this.checked){
+            recordTimestampSetupRows.show();
+        } else {
+            recordTimestampSetupRows.hide();
+        }
+    });
+    absTimestampRecordRadio.on('click', ()=>{
+        absTimeRecord = true;
+    });
+    relTimestampRecordRadio.on('click', ()=>{
+        absTimeRecord = false;
+    });
+    recordFileNameInput.on("change", function(){
+        if($(this).val() == ""){
+            $(this).val(generateFileName());
+        }
     });
 });
 
@@ -36,7 +65,7 @@ function download(filename) {
             textToExport = recordSeparator + myChart.data.datasets[index].label + textToExport;
         }
         textToExport = myChart.data.datasets[0].label + textToExport;
-        if(timestampRecordCheck.checked){
+        if(timestampRecordCheck[0].checked){
             textToExport = "Time" + recordSeparator + textToExport;
         }
     }

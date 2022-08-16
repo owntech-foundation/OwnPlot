@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-09 17:09:55
+ * @ Modified time: 2022-08-16 15:04:51
  */
 
 /*
@@ -150,9 +150,9 @@ function termialTime() {
 		}
 
 		if(absTimeMode){
-			timeStr = dateToTimeString(new Date(dataTime));
+			timeStr = dateToPreciseTimeString(new Date(dataTime));
 		} else { //relative time
-			timeStr = elapsedTime(dataTime);
+			timeStr = millisecondsElapsed(chartStartTime, dataTime);
 		}
 		timeStr+= " -> ";
 	}
