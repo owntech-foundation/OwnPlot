@@ -11,13 +11,13 @@ $(() => {
     sendInput.on("keyup", (e) => {
         if (e.key == "Enter") {
             send(sendInput.val());
-            console.log('sent---> ' + sendInput.val());
+            printDebugTerminal('sent---> ' + sendInput.val());
         }
     });
 
     sendBtn.on('click', () => {
         send(sendInput.val());
-        console.log('sent---> ' + sendInput.val());
+        printDebugTerminal('sent---> ' + sendInput.val());
     });
     updateCommandButtons();
 });

@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-12 20:24:55
+ * @ Modified time: 2022-08-16 10:51:42
  */
 
 const { SerialPort } = require('serialport');
@@ -60,7 +60,6 @@ $(function(){
 	dataFormatField.on('change', function(){
 		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
 		switchDataForms();
-		console.log("data format changed to " + configSerialPlot.dataFormat);
 	});
 	
 	separatorField.val(configSerialPlot.separator);
@@ -72,7 +71,6 @@ $(function(){
 
 	nbTypeField.on('change',function(){
 		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
-		console.log("nbType changed to " + configSerialPlot.nbType);
 		switch (configSerialPlot.nbType) {
 			case "uint8":
 			case "int8":
@@ -93,12 +91,11 @@ $(function(){
 			default:
 				configSerialPlot.nbSize = 1;
 		}
-		console.log("nb size is now " + configSerialPlot.nbSize + " bytes");
+		printDebugTerminal("number size is now " + configSerialPlot.nbSize + " bytes");
 	});
 
 	endiannessField.on('change',function(){
 		configSerialPlot.endianness = endiannessField.children("option:selected").val();
-		console.log("endianness changed to " + configSerialPlot.endianness);
 	});
 });
 
@@ -125,7 +122,6 @@ function listSerialPorts(){
 	if (availableSerialPorts == false || availableSerialPorts == undefined) {
 		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
 	} else {
-		console.log(availableSerialPorts);
 		printDebugPortInfo(availableSerialPorts);
 
 		let lpHTML = '<option value="default" selected>Select a port...</option>';
@@ -190,12 +186,12 @@ function openPortRoutine() {
 	{
 		port.open((err) => {
 			if (err) {
-				return console.log('Error opening port: ', err.message);
+				return printDebugTerminal('Error opening port: ', err.message);
 			}
 		});
 
 		port.on('open', () => {
-			console.log("-- Connection opened on port " + port.path + " --");
+			printDebugTerminal("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
 			runBtn('.pauseBtn');
 			$('.clearBtn').show();
@@ -208,8 +204,7 @@ function openPortRoutine() {
 		port.on('close', () => {
 			pauseBtn('.pauseBtn');
 			$('.pauseBtn').addClass('disabled');
-			$('.clearBtn').addClass('disabled');
-			console.log("-- Connection closed on port " + port.path + " --");
+			printDebugTerminal("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();
 			listSerialPorts();
