@@ -5,7 +5,12 @@ function dateToTimeString(date){
 	return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
 }
 function dateToPreciseTimeString(date){
-    return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.' + date.getMilliseconds();
+    let ms = date.getMilliseconds().toString();
+    let str=date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.';
+    for (let index = ms.length; index < 3; index++){
+        str += '0'; //12:23:34.004 instead of 12:23:34.4
+    }
+    return str + ms;
 }
 
 function getIntInString(str){

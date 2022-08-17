@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-16 15:04:51
+ * @ Modified time: 2022-08-17 10:11:56
  */
 
 /*
@@ -178,12 +178,14 @@ function valueToString(val){
 function terminalFormating() {
 	let termLine = '';
 	if (formattedMode){
-		dataSerialBuff.forEach((elem, index) => {
-			termLine+='<span style="color:' + myChart.data.datasets[index].backgroundColor + '">';
-			termLine+= valueToString(elem); //takes care of the base (dec or hex)
-			termLine+= '</span>';
-		});
-		termLine = termLine.substring(0,termLine.length - (1+'</span>'.length)) + termLine.substring(termLine.length - ('</span>'.length), termLine.length); //erases the last " " which is useless
+		if(dataSerialBuff.length >= numberOfDatasets){
+			for (let index = 0; index < numberOfDatasets; index++) {
+				termLine+='<span style="color:' + myChart.data.datasets[index].backgroundColor + '">';
+				termLine+= valueToString(dataSerialBuff[index]); //takes care of the base (dec or hex)
+				termLine+= '</span>';
+			}
+			termLine = termLine.substring(0,termLine.length - (1+'</span>'.length)) + termLine.substring(termLine.length - ('</span>'.length), termLine.length); //erases the last " " which is useless
+		}
 	} else { //raw print
 		rawDataBuff.forEach((elem) => {
 			termLine+= valueToString(elem); //takes care of the base (dec or hex)
