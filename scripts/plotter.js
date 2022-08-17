@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-08-17 14:33:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-08-17 17:55:53
  */
 
 const { data } = require("jquery");
@@ -69,6 +69,7 @@ const nbMaxDatasets = 20;
 let nbChannelsInput = $("#nbChannels");
 
 $(() => {
+	initChart();
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 	nbChannelsInput.attr("max", nbMaxDatasets);
 	nbChannelsInput.on('change', () => {
@@ -131,10 +132,11 @@ function addDataset() {
 	numberOfDatasets++;
 	let newDataset = {
 		index: numberOfDatasets-1, //index begins to 0
-		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
-		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
-		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
+		label: 'Dataset ' + numberOfDatasets,
+		backgroundColor: automaticColorDataset(numberOfDatasets),
+		borderColor: automaticColorDataset(numberOfDatasets),
 		lineTension: 0,
+		showLine: true,
 		data: []
 	}
 	myChart.data.datasets.push(newDataset);
@@ -157,7 +159,7 @@ const chartColors = {
 	deepGreen: '#2e7d32',
 	violet: '#e040fb',
 	darkTurquoise: '#00ced1',
-	brown: '#5d4037',
+	cornsilk: '#fff8dc',
 	apple: '#00c853',
 	sapphire: '#0f52ba',
 	grey: '#a0bbc4',
@@ -165,42 +167,20 @@ const chartColors = {
 	gold: '#ffa000',
 	anthracite: '#455a64',
 };
-let color = Chart.helpers.color;
 
 function automaticColorDataset(elemNumber) {
 	let index = (elemNumber - 1) % (Object.keys(chartColors).length);
 	return (Object.entries(chartColors).at(index)[1]);
 }
 
-let labelsPrinted;
+let timeTicksPrinted;
 
 const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, {
 	type: 'line',
 	data: {
 		labels: ['Red'],
-		datasets: [{
-			index: 0,
-			label: 'Dataset 1',
-			backgroundColor: automaticColorDataset(1),
-			borderColor: automaticColorDataset(1),
-			lineTension: 0,
-			data: []
-		},{
-			index: 1,
-			label: 'Dataset 2',
-			backgroundColor: automaticColorDataset(2),
-			borderColor: automaticColorDataset(2),
-			lineTension: 0,
-			data: []
-		},{
-			index: 2,
-			label: 'Dataset 3',
-			backgroundColor: automaticColorDataset(3),
-			borderColor: automaticColorDataset(3),
-			lineTension: 0,
-			data: []
-		}]
+		datasets: []
 	},
 	options: {
 		scales: {
@@ -224,13 +204,13 @@ const myChart = new Chart(ctx, {
 						}
 						let tickLabel = Math.floor(millisecondsElapsed(chartStartTime, ticks[index].value));
 						if(index>0){
-							if(labelsPrinted.includes(tickLabel)){
+							if(timeTicksPrinted.includes(tickLabel)){
 								tickLabel = undefined;
 							} else {
-								labelsPrinted.push(tickLabel);
+								timeTicksPrinted.push(tickLabel);
 							}
 						} else {
-							labelsPrinted = [tickLabel,];
+							timeTicksPrinted = [tickLabel,];
 						}
 						return tickLabel;
                     }
@@ -260,7 +240,14 @@ const myChart = new Chart(ctx, {
 	}
 });
 
-//unused for now. Keep this code for later to toggle between light and dark mode
+function initChart(){
+	//we add three datasets by default, as there are three channels on the ownTech card
+	addDataset();
+	addDataset();
+	addDataset();
+}
+
+//TODO: unused for now. Keep this code for later to toggle between light and dark mode
 function darkModePlot() {
 	let x = myChart.config.options.scales.x;
 	let y = myChart.config.options.scales.y;
