@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
- * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-17 14:41:35
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-08-17 14:33:24
  */
 
 const { data } = require("jquery");
@@ -205,6 +205,10 @@ const myChart = new Chart(ctx, {
 	options: {
 		scales: {
 			x: {
+				grid: {
+					borderColor: 'white',
+					color: 'rgba(255, 255, 255, 0.5)'
+				},
 				type: 'realtime',
 				realtime: {
 					duration: 20000,
@@ -233,6 +237,10 @@ const myChart = new Chart(ctx, {
 				}
 			},
 			y: {
+				grid: {
+					borderColor: 'white',
+					color: 'rgba(255, 255, 255, 0.5)'
+				},
 				title: {
 					display: true,
 					labelString: 'value'
@@ -251,3 +259,15 @@ const myChart = new Chart(ctx, {
 		}
 	}
 });
+
+//unused for now. Keep this code for later to toggle between light and dark mode
+function darkModePlot() {
+	let x = myChart.config.options.scales.x;
+	let y = myChart.config.options.scales.y;
+	
+	x.grid.borderColor = 'white';
+	y.grid.borderColor = 'white';
+	x.grid.color = 'rgba(255, 255, 255, 0.5)';
+	y.grid.color = 'rgba(255, 255, 255, 0.5)';	
+}
+

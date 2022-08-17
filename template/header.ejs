@@ -2,20 +2,23 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-19 16:03:27
- * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-10 16:50:59
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-08-17 14:30:53
 -->
 
 <!DOCTYPE html>
 <html>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-	<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<meta name="color-scheme" content="light dark">
+
+    <link rel="stylesheet" href="./node_modules/bootstrap-dark-5/dist/css/bootstrap-nightshade.min.css">
 	<link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/fontawesome.css">
 	<link rel="stylesheet" href="./node_modules/code-prettify/styles/desert.css">
 	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 		<script src="./node_modules/@fortawesome/fontawesome-free/js/all.min.js"></script>
 		<script src="./node_modules/jquery/dist/jquery.min.js"></script>
 		<script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="./node_modules/bootstrap-dark-5/dist/js/darkmode.min.js"></script>
 	<script>if (window.module) module = window.module;</script>
 
 	<script src="./node_modules/moment/min/moment.min.js"></script>
@@ -27,20 +30,6 @@
 
     <link rel="stylesheet" href="./styles/dashboard.css">
     <link rel="stylesheet" href="./styles/ownplot.css">
-
-	<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">
-		<!-- TODO: change the logo w/ a transparent one. maybe change the nav bar too -->
-		<img src="./assets/Owntech_logo_turquoise.png" alt="" height="50em">
-	</a>
-	<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<input class="form-control form-control-dark w-100 rounded-0 border-0" type="text" placeholder="Search" aria-label="Search">
-	<div class="navbar-nav">
-		<div class="nav-item text-nowrap">
-			<a class="nav-link px-3" href="#">Sign out</a>
-		</div>
-	</div>
 </header>
 <body>
 	<div class="container-fluid">
