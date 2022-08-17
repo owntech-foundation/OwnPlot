@@ -25,7 +25,7 @@ function printDebugTerminal(err){
 
 /* Chart */
 
-let numberOfDatasets = 3;
+let numberOfDatasets = 0;
 
 /* Time */
  
@@ -92,19 +92,29 @@ function updateLegendTable(){
         table.push({
             index: dataset.index,
             label: dataset.label,
-            color: dataset.backgroundColor
+            color: dataset.backgroundColor,
+            visible: dataset.showLine
         });
     });
+    let nbColumns=Object.keys(table[0]).length;
 
     let tableHTML = tableify(table);
     tableHTML = "<table class='table table-hover' id='legendTable'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7, we replace it to insert class & id
     $("#legendConfigDiv").html(tableHTML);
 
     let boxes = $("#legendTable").find("td");
-    for (let index = 0; index < boxes.length; index += 3) {
-        let labelIndex = (index/3).toFixed();
-        boxes[index+1].innerHTML = '<span style="display:none">' + table[labelIndex].label /*set a hidden span to allow sorting*/ + '</span><input type="text" class="labelInput" id="labelInput' + labelIndex + '" value="' + table[labelIndex].label + '">';
+    for (let index = 0; index < boxes.length; index += nbColumns) { //init table, every row counts 3 columns 
+        let labelIndex = (index/nbColumns).toFixed();
+        boxes[index+1].innerHTML = '<span style="display:none">' + table[labelIndex].label + '</span>'; /*set a hidden span to allow sorting*/ 
+        boxes[index+1].innerHTML += '<input type="text" class="labelInput" id="labelInput' + labelIndex + '" value="' + table[labelIndex].label + '">';
         boxes[index+2].innerHTML = '<input type="color" class="colorInput" id="colorInput' + labelIndex + '" value="' + table[labelIndex].color + '">';
+        if(table[labelIndex].visible){
+            boxes[index+3].innerHTML = '<span style="display:none">1</span>'; /*set a hidden span to allow sorting*/
+            boxes[index+3].innerHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + labelIndex + '" checked></div>';
+        } else {
+            boxes[index+3].innerHTML = '<span style="display:none">0</span>'; /*set a hidden span to allow sorting*/
+            boxes[index+3].innerHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + labelIndex + '"></div>';
+        }
     }
 
     $("#legendTable").DataTable({
@@ -122,6 +132,18 @@ function updateLegendTable(){
     $(".labelInput").on('change', function() {
         let index = getIntInString($(this).attr("id"));
         myChart.data.datasets[index].label = $(this).val();
+        updateLegendTable();
+    });
+
+    $(".datasetVisibleCheck").on('click', function(){
+        let datasetIndex = getIntInString($(this).attr("id"));
+        if(this.checked){
+            myChart.data.datasets[datasetIndex].showLine = true;
+            myChart.data.datasets[datasetIndex].pointRadius = 3;
+        } else {
+            myChart.data.datasets[datasetIndex].showLine = false;
+            myChart.data.datasets[datasetIndex].pointRadius = 0;
+        }
         updateLegendTable();
     });
 }
