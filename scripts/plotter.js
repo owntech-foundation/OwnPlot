@@ -143,7 +143,7 @@ function addDataset() {
 
 // Chart layout setting //
 
-let chartColors = {
+const chartColors = {
 	blue: '#304ffe',
 	green: '#64dd17',
 	red: '#ed0202',
@@ -244,6 +244,16 @@ const myChart = new Chart(ctx, {
 				title: {
 					display: true,
 					labelString: 'value'
+				}
+			}
+		}, 
+		plugins: {
+			legend: {
+				onClick: function(e, legendItem, legend) {
+					$("#legendConfigDiv").collapse("show");
+					$("#nav-chartConfig-tab").trigger('click');
+					$($("#legendTable").find("tr")[legendItem.datasetIndex+1]).find("input")[0].focus();
+					$($("#legendTable").find("tr")[legendItem.datasetIndex+1]).find("input")[0].select();
 				}
 			}
 		}
