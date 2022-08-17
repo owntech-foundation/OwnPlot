@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-06-28 14:52:52
- * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-09 15:12:12
+ * @ Modified by: Guillaume Arthaud
+ * @ Modified time: 2022-08-17 11:41:16
  */
 
 const { app, BrowserWindow } = require('electron');
@@ -30,7 +30,7 @@ let mainWindow;
 function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 1000,
+        width: 800,
         height: 800,
         icon: icon,
         backgroundColor: "#ccc",
