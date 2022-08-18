@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-16 16:35:00
+ * @ Modified time: 2022-08-18 16:19:23
  */
 
 const { SerialPort } = require('serialport');
@@ -139,16 +139,6 @@ function listSerialPorts(){
 			}
 		});
 		$('#AvailablePorts').html(lpHTML);
-	}
-}
-
-function arraysEqual(firstArr, secondArr){
-	if((firstArr == false || firstArr == undefined) && (secondArr == false || secondArr == undefined)){
-		return true;
-	} else if ((firstArr == false || firstArr == undefined) || (secondArr == false || secondArr == undefined)){
-		return false;
-	} else {
-		return firstArr.toString() === secondArr.toString();
 	}
 }
 
