@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-08 15:06:14
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-18 16:19:23
+ * @ Modified time: 2022-08-19 15:14:45
  */
 
 const { SerialPort } = require('serialport');
@@ -24,7 +24,7 @@ let dataFormatField = $("#dataFormat");
 
 let asciiForm = $("#asciiForm");
 let binaryForm = $("#binaryForm");
-let customForm = $("#customForm");
+//let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
 
@@ -40,14 +40,14 @@ let configSerialPlot = {
 function switchDataForms(){
 	$(asciiForm).hide();
 	$(binaryForm).hide();
-	$(customForm).hide();
+	//$(customForm).hide();
 	switch(configSerialPlot.dataFormat){
 		case 'binary':
 			binaryForm.show();
 			break;
-		case 'custom':
-			customForm.show();
-			break;
+		// case 'custom':
+		// 	customForm.show();
+		// 	break;
 		case 'ascii':
 		default:
 			asciiForm.show();
@@ -186,7 +186,7 @@ function openPortRoutine() {
 			openPortBtn('#openPortBtn');
 			runBtn('.pauseBtn');
 			$('.clearBtn').show();
-			$('.clearBtn').removeClass('disabled');
+			$('.clearBtn').prop('disabled', false);
 			enableSend();
 			flushChart(myChart);
 			chartStartTime = Date.now();
@@ -194,7 +194,7 @@ function openPortRoutine() {
 
 		port.on('close', () => {
 			pauseBtn('.pauseBtn');
-			$('.pauseBtn').addClass('disabled');
+			$('.pauseBtn').prop('disabled', true);
 			printDebugTerminal("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();
@@ -209,9 +209,9 @@ function openPortRoutine() {
 				case "binary":
 					bufferizeBinary(data);
 					break;
-				case "custom":
-					bufferizeCustom(data);
-					break;
+				// case "custom":
+				// 	bufferizeCustom(data);
+				// 	break;
 				case "ascii":
 				default:
 					bufferizeAscii(data);

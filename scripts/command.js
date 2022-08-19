@@ -62,11 +62,11 @@ async function send(stringToSend){
 }
 
 function enableSend() {
-    sendInput.attr("disabled", false);
-    sendBtn.attr("disabled", false);
+    sendInput.prop("disabled", false);
+    sendBtn.prop("disabled", false);
 }
 
 function disableSend() {
-    sendInput.attr("disabled", true);
-    sendBtn.attr("disabled", true);
+    sendInput.prop("disabled", true);
+    sendBtn.prop("disabled", true);
 }

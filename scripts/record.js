@@ -20,8 +20,8 @@ $(()=>{
     startRecordBtn.on("click", function(){
         $(this).hide();
         pauseRecordBtn.show();
-        downloadRecordBtn.attr("disabled", true);
-        imperativeRecordSetting.attr("disabled", true);
+        downloadRecordBtn.prop("disabled", true);
+        imperativeRecordSetting.prop("disabled", true);
         textToExport = ""; // reset recorded data
         recording = true;
         recordStartTime = new Date();
@@ -29,8 +29,8 @@ $(()=>{
     pauseRecordBtn.on("click", function(){
         $(this).hide();
         startRecordBtn.show();
-        downloadRecordBtn.attr("disabled", false);
-        imperativeRecordSetting.attr("disabled", false);
+        downloadRecordBtn.prop("disabled", false);
+        imperativeRecordSetting.prop("disabled", false);
         recording = false;
     });
     downloadRecordBtn.on("click", ()=>{

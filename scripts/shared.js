@@ -152,7 +152,7 @@ function updateLegendTable(){
 		"info": false,
 	});
     
-    $(".colorInput").on('change', function() {
+    $(".colorInput").on('input', function() {
         let datasetIndex = getIntInString($(this).attr("id"));
         myChart.data.datasets[datasetIndex].backgroundColor = $(this).val();
         myChart.data.datasets[datasetIndex].borderColor = $(this).val();
@@ -183,7 +183,6 @@ function updateLegendTable(){
     $(".pointSizeInput").on('change', function(){
         let datasetIndex = getIntInString($(this).attr("id"));
         myChart.data.datasets[datasetIndex].pointRadius = parseInt($(this).val());
-        updateLegendTable();
     });
 
     $(".lineStyleSelect").on('change', function(){
@@ -196,6 +195,5 @@ function updateLegendTable(){
     $(".lineSizeInput").on('change', function(){
         let datasetIndex = getIntInString($(this).attr("id"));
         myChart.data.datasets[datasetIndex].lineBorderWidth = parseInt($(this).val());
-        updateLegendTable();
     });
 }
