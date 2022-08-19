@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-17 17:55:53
+ * @ Modified time: 2022-08-19 11:04:38
  */
 
 const { data } = require("jquery");
@@ -127,6 +127,14 @@ function removeDataset() {
 	myChart.update();
 }
 
+const lineStylesEnum = {
+	full: [],
+	short: [1, 1],
+	medium: [10, 10],
+	long: [20, 5],
+	alternate: [15, 3, 3, 3]
+};
+
 function addDataset() {
 	myChart.stop();
 	numberOfDatasets++;
@@ -136,8 +144,13 @@ function addDataset() {
 		backgroundColor: automaticColorDataset(numberOfDatasets),
 		borderColor: automaticColorDataset(numberOfDatasets),
 		lineTension: 0,
-		showLine: true,
-		data: []
+		hidden: false,
+		data: [],
+		pointStyle: 'circle',
+		pointRadius: 3,
+		lineStyle: 'full',
+		lineBorderDash: lineStylesEnum[this.lineStyle],
+		lineBorderWidth: 3,
 	}
 	myChart.data.datasets.push(newDataset);
 	myChart.update();
@@ -226,9 +239,15 @@ const myChart = new Chart(ctx, {
 					labelString: 'value'
 				}
 			}
-		}, 
+		},
 		plugins: {
 			legend: {
+				labels: {
+					//replace the default colored box which border was linked to the dash pattern of the dataset (it was ugly)
+					usePointStyle: true,
+					pointStyle: 'rect',
+					pointStyleWidth: 30
+				},
 				onClick: function(e, legendItem, legend) {
 					$("#legendConfigDiv").collapse("show");
 					$("#nav-chartConfig-tab").trigger('click');
