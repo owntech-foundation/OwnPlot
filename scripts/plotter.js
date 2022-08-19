@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-19 11:04:38
+ * @ Modified time: 2022-08-19 13:07:16
  */
 
 const { data } = require("jquery");
@@ -13,10 +13,9 @@ function pauseBtn(elem) {
 	$(elem).html('<i class="fa-solid fa-pause"></i>&nbsp;Paused');
 	$(elem).removeClass('btn-success');
 	$(elem).removeClass('btn-secondary');
-	$(elem).removeClass('disabled');
 	$(elem).addClass('btn-warning');
-	$(elem).attr('aria-pressed', 'true');
-	$(elem).attr('aria-disabled', 'true');
+	$(elem).attr('aria-pressed', true);
+	$(elem).prop("disabled", false);
 	pausePlot();
 }
 
@@ -24,10 +23,9 @@ function runBtn(elem) {
 	$(elem).html('<i class="fa-solid fa-running"></i>&nbsp;Running');
 	$(elem).removeClass('btn-warning');
 	$(elem).removeClass('btn-secondary');
-	$(elem).removeClass('disabled');
 	$(elem).addClass('btn-success');
-	$(elem).attr('aria-pressed', 'false');
-	$(elem).attr('aria-disabled', 'false');
+	$(elem).attr('aria-pressed', false);
+	$(elem).prop("disabled", false);
 	runPlot();
 }
 
@@ -36,29 +34,27 @@ function noPortBtn(elem) {
 	$(elem).removeClass('btn-warning');
 	$(elem).removeClass('btn-success');
 	$(elem).addClass('btn-secondary');
-	$(elem).addClass('disabled');
-	$(elem).attr('aria-pressed', 'true');
-	$(elem).attr('aria-disabled', 'true');
+	$(elem).prop('disabled', true);
 }
 
 function openPortBtn(elem) {
 	$(elem).html('Port opened');
 	$(elem).removeClass('btn-warning');
 	$(elem).removeClass('btn-secondary');
-	$(elem).removeClass('disabled');
 	$(elem).addClass('btn-success');
-	$(elem).attr('aria-pressed', 'false');
-	$(elem).css("visibility","visible");
+	$(elem).attr('aria-pressed', false);
+	$(elem).prop('disabled', false);
+	$(elem).show();
 }
 
 function closePortBtn(elem) {
 	$(elem).html('Port closed');
 	$(elem).removeClass('btn-success');
 	$(elem).removeClass('btn-secondary');
-	$(elem).removeClass('disabled');
 	$(elem).addClass('btn-warning');
-	$(elem).attr('aria-pressed', 'true');
-	$(elem).css("visibility","visible");
+	$(elem).attr('aria-pressed', true);
+	$(elem).prop('disabled', false);
+	$(elem).show();
 }
 
 let dataSerialBuff = Buffer.alloc(0);

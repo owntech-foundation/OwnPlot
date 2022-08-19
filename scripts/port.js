@@ -2,9 +2,6 @@ let availableSerialPorts;
 let selectedPort;
 
 $(function(){
-
-	$('.pauseBtn').hide(); //hide run & clear buttons as no port is chosen
-	$('.clearBtn').hide();
 	noPortBtn($('#openPortBtn'));
 	
 	listPorts();
@@ -12,14 +9,12 @@ $(function(){
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
 		if(availableSerialPorts.length > 0 && selectedPort != "default"){
-			$('.pauseBtn').show();
-			$('.clearBtn').show();
 			if(selectedPort != configSerialPlot.path){
 				closePortBtn($('#openPortBtn'));
 				//pause & clear btn are unclickable while port is closed
 				pauseBtn($('.pauseBtn'));
-				$('.pauseBtn').addClass('disabled');
-				$('.clearBtn').addClass('disabled');
+				$('.pauseBtn').prop('disabled', true);
+				$('.clearBtn').prop('disabled', true);
 			} else {
 				openPortBtn($('#openPortBtn'));
 			}
@@ -38,7 +33,7 @@ $(function(){
 
 	$('.clearBtn').on('click', ()=>{
 		flushChart(myChart);
-		$('.clearBtn').addClass('disabled');
+		$('.clearBtn').prop('disabled', true);
 	});
 
 	$('#openPortBtn').on('click', function(){
@@ -54,7 +49,7 @@ $(function(){
 		} else {
 			//pause btn is unclickable while port is closed
 			pauseBtn('.pauseBtn');
-			$('.pauseBtn').addClass('disabled');
+			$('.pauseBtn').prop('disabled', true);
 			port.close();
 			closePortBtn(this);
 		}
