@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-18 18:32:22
+ * @ Modified time: 2022-08-19 11:04:38
  */
 
 const { data } = require("jquery");
@@ -242,6 +242,12 @@ const myChart = new Chart(ctx, {
 		},
 		plugins: {
 			legend: {
+				labels: {
+					//replace the default colored box which border was linked to the dash pattern of the dataset (it was ugly)
+					usePointStyle: true,
+					pointStyle: 'rect',
+					pointStyleWidth: 30
+				},
 				onClick: function(e, legendItem, legend) {
 					$("#legendConfigDiv").collapse("show");
 					$("#nav-chartConfig-tab").trigger('click');
