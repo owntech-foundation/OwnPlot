@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-19 12:21:27
+ * @ Modified time: 2022-08-22 16:09:41
  */
 
  /* Terminal */
@@ -37,5 +37,9 @@ th {
 }
 
 #controlBar {
+	margin-bottom: 1em;
+}
+
+#tabDiv {
 	margin-bottom: 1em;
 }
