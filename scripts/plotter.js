@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-19 13:07:16
+ * @ Modified time: 2022-08-23 17:07:52
  */
 
 const { data } = require("jquery");
@@ -245,10 +245,14 @@ const myChart = new Chart(ctx, {
 					pointStyleWidth: 30
 				},
 				onClick: function(e, legendItem, legend) {
-					$("#legendConfigDiv").collapse("show");
-					$("#nav-chartConfig-tab").trigger('click');
-					$($("#legendTable").find("tr")[legendItem.datasetIndex+1]).find("input")[0].focus();
-					$($("#legendTable").find("tr")[legendItem.datasetIndex+1]).find("input")[0].select();
+					if($("#nav-chartConfig-tab").hasClass("active") == false || tabShown == false){
+						$("#nav-chartConfig-tab").trigger('click');
+					}
+					let legendItemInput = $($("#legendTable").find("tr")[legendItem.datasetIndex+1]).find("input")[0];
+					setTimeout(() => {
+						legendItemInput.focus();
+						legendItemInput.select();
+					}, 400);
 				}
 			}
 		}

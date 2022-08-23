@@ -9,6 +9,9 @@ $(()=>{
     navLink.on("click", function() {
         if($(this).attr("id") == currentTab){
             if(tabShown){
+                navTabContent.one("hidden.bs.collapse", function(){
+                    $(this).hide(); //This avoids the tab content reopening that happens idk why. We do it only once each time otherwise other pannels collapsing will trigger this
+                });
                 navTabContent.collapse("hide");
                 tabShown = false;
             } else {
@@ -21,13 +24,10 @@ $(()=>{
             currentTab = $(this).attr("id");
         }
     });
-    navTabContent.on("hidden.bs.collapse", function(){
-        $(this).hide();
-    });
 });
 
 function scrollDown(elementToShow){
-    elementToShow.show(0); //display with no animation otherwise the following animation will stop instantly
+    navTabContent.show(0); //display with no animation otherwise the following animation will try to scroll to nothing and will stop instantly
     $('html, body').animate({
         scrollTop: elementToShow.offset().top
     }, 0); //scroll down the element
