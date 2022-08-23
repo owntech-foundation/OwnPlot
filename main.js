@@ -39,7 +39,8 @@ function createWindow() {
             contextIsolation: false, // allow use with Electron 12+
             preload: path.join(__dirname, 'preload.js')
         },
-        show: false
+        show: false,
+        autoHideMenuBar: true
     });
 
     mainWindow.loadURL('file://' + __dirname + '/index.ejs');
