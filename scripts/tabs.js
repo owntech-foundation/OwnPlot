@@ -9,6 +9,9 @@ $(()=>{
     navLink.on("click", function() {
         if($(this).attr("id") == currentTab){
             if(tabShown){
+                navTabContent.one("hidden.bs.collapse", function(){
+                    $(this).hide(); //This avoids the tab content reopening that happens idk why. We do it only once each time otherwise other pannels collapsing will trigger this
+                });
                 navTabContent.collapse("hide");
                 tabShown = false;
             } else {
@@ -20,9 +23,6 @@ $(()=>{
             tabShown = true;
             currentTab = $(this).attr("id");
         }
-    });
-    navTabContent.on("hidden.bs.collapse", function(){
-        $(this).hide();
     });
 });
 
