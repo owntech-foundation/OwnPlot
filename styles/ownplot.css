@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-22 17:29:31
+ * @ Modified time: 2022-08-23 16:10:02
  */
 
  /* Terminal */
@@ -20,11 +20,6 @@
 
 /* Tabs */
 
-.tab-pane-push {
-    margin-top: 1em;
-	margin-bottom: 1em;
-}
-
 .labelInput {
 	border: none;
 	background: transparent;
@@ -36,10 +31,8 @@ th {
 	cursor: pointer;
 }
 
-#controlBar {
-	margin-bottom: 1em;
-}
-
-#tabDiv {
-	margin-bottom: 1em;
+.form-switch .form-check-input[type=checkbox] {
+    border-radius: 2em;
+    height: 1.5em;
+    width: 3em;
 }

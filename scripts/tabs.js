@@ -27,7 +27,7 @@ $(()=>{
 });
 
 function scrollDown(elementToShow){
-    elementToShow.show(0); //display with no animation otherwise the following animation will stop instantly
+    navTabContent.show(0); //display with no animation otherwise the following animation will try to scroll to nothing and will stop instantly
     $('html, body').animate({
         scrollTop: elementToShow.offset().top
     }, 0); //scroll down the element

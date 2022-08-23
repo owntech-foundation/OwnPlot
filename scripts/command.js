@@ -36,7 +36,7 @@ $(() => {
 });
 
 function addCommandButton(newButton) {
-    newButton.icon = "fa-solid fa-code";
+    newButton.icon = "fa-solid fa-paper-plane";
     commandButtons.push(newButton);
     updateCommandButtons();
 }

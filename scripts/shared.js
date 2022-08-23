@@ -25,7 +25,7 @@ function arraysEqual(firstArr, secondArr){
 }
 
 function getIntInString(str){
-    return parseInt(str.replace(/[^\d.]/g, '' ));
+    return parseInt(str.replace(/[^\d.]/g, '' )); //first we remove the non-digit characters
 }
 
 /* Debug */
@@ -118,11 +118,14 @@ function updateLegendTable(){
     let boxes = $("#legendTable").find("td");
     for (let index = 0; index < boxes.length; index += nbColumns) { //init table, every row counts 3 columns 
         let labelIndex = (index/nbColumns).toFixed();
+        
         //label
         boxes[index+1].innerHTML = '<span style="display:none">' + table[labelIndex].label + '</span>'; /*set a hidden span to allow sorting*/ 
         boxes[index+1].innerHTML += '<input type="text" class="labelInput" id="labelInput' + labelIndex + '" value="' + table[labelIndex].label + '">';
+        
         //color
         boxes[index+2].innerHTML = '<input type="color" class="colorInput" id="colorInput' + labelIndex + '" value="' + table[labelIndex].color + '">';
+        
         //visibility
         if(table[labelIndex].hide){
             boxes[index+3].innerHTML = '<span style="display:none">1</span>'; /*set a hidden span to allow sorting*/
@@ -131,10 +134,12 @@ function updateLegendTable(){
             boxes[index+3].innerHTML = '<span style="display:none">0</span>'; /*set a hidden span to allow sorting*/
             boxes[index+3].innerHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + labelIndex + '"></div>';
         }
+        
         //point style
         boxes[index+4].innerHTML = '<select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelect' + labelIndex + '"><option>circle</option><option>cross</option><option>rect</option><option>triangle</option></select>';
-        boxes[index+4].innerHTML += '<input type="number" class="form-control pointSizeInput" id="pointSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].pointRadius + '" min="0" max="20">'
+        boxes[index+4].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control pointSizeInput" id="pointSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].pointRadius + '" min="0" max="20"></div>'
         $($("option:contains(" + table[labelIndex]["point style"] + ")")[labelIndex]).prop('selected', true); //show the current point type in the select
+        
         //line style
         let lineStyleSelect = '<select class="form-select form-select-sm lineStyleSelect" id="lineStyleSelect' + labelIndex + '">';
         Object.keys(lineStylesEnum).forEach(styleName => {
@@ -142,7 +147,7 @@ function updateLegendTable(){
         });
         lineStyleSelect += '</select>';
         boxes[index+5].innerHTML = lineStyleSelect;
-        boxes[index+5].innerHTML += '<input type="number" class="form-control lineSizeInput" id="lineSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].lineBorderWidth + '" min="0" max="20">'
+        boxes[index+5].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control lineSizeInput" id="lineSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].lineBorderWidth + '" min="0" max="20"></div>'
         $($("option:contains(" + table[labelIndex]["line style"] + ")")[labelIndex]).prop('selected', true); //show the current line type in the select
     }
 

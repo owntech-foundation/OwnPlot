@@ -22,5 +22,5 @@ $(()=>{
         switchRelAbsBtn();
     });
 
-    updateLegendTable();
+    updateLegendTable(); //Defined in shared.js
 });
