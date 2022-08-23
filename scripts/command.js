@@ -1,5 +1,9 @@
 const sendInput = $("#sendInput");
 const sendBtn = $("#sendBtn");
+const addCommandBtn = $("#addCommandBtn");
+const addCommandName = $("#addCommandName");
+const addCommandData = $("#addCommandData");
+const addCommandColor = $("#addCommandColor");
 
 const encoder = new TextEncoder();
 
@@ -20,15 +24,19 @@ $(() => {
         printDebugTerminal('sent---> ' + sendInput.val());
     });
     updateCommandButtons();
+
+    addCommandBtn.on('click', function(){
+        let button={  
+            color: addCommandColor.val(),
+            text: addCommandName.val(),
+            command: addCommandData.val()
+        };
+        addCommandButton(button);
+    });
 });
 
-function addCommandButton() {
-    let newButton = {
-        color: "#ff00ff",
-        icon: "fa-solid fa-code",
-        text: "stop button",
-        command: "s"
-    }
+function addCommandButton(newButton) {
+    newButton.icon = "fa-solid fa-code";
     commandButtons.push(newButton);
     updateCommandButtons();
 }
@@ -43,9 +51,9 @@ function updateCommandButtons() {
     commandButtons.forEach((elem, index) => {
         let iconHtml = "";
         if (elem.icon != "undefined") {
-            iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;'
+            iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;';
         }
-        $("#commandButtonContainer").append('<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" >' + iconHtml + elem.text + '</button>');
+        $("#commandButtonContainer").append('<div class="col-6"><button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '">' + iconHtml + elem.text + '</button></div>');
         $('#cmdBtn-' + index).on('click', function() { //check if port is opened
             send(elem.command);
         });
