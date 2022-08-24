@@ -25,15 +25,35 @@ $(() => {
     });
     updateCommandButtons();
 
+    addCommandName.on("keyup", (e) => {
+        if (e.key == "Enter") {
+            addCommandSubmitHandler();
+        }
+    });
+    addCommandData.on("keyup", (e) => {
+        if (e.key == "Enter") {
+            addCommandSubmitHandler();
+        }
+    });
     addCommandBtn.on('click', function(){
-        let button={  
-            color: addCommandColor.val(),
-            text: addCommandName.val(),
-            command: addCommandData.val()
-        };
-        addCommandButton(button);
+        addCommandSubmitHandler();
     });
 });
+
+function addCommandSubmitHandler(){
+    let button={  
+        color: addCommandColor.val(),
+        text: addCommandName.val(),
+        command: addCommandData.val()
+    };
+    if(button.text == ""){
+        addCommandName[0].select();
+    } else if(button.command == ""){
+        addCommandData[0].select();
+    } else {
+        addCommandButton(button);
+    }
+}
 
 function addCommandButton(newButton) {
     newButton.icon = "fa-solid fa-paper-plane";
@@ -53,12 +73,31 @@ function updateCommandButtons() {
         if (elem.icon != "undefined") {
             iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;';
         }
-        $("#commandButtonContainer").append('<div class="col-6"><button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '">' + iconHtml + elem.text + '</button></div>');
+        let buttonHtml = '<div class="col-6">';
+        buttonHtml += '<div class="input-group">';
+        if(elem.color != "#fffffe"){
+            buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '">' + iconHtml + elem.text + '</button>';
+        } else {
+            buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
+        }
+        buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can"></i></button>';
+        buttonHtml += '</div>';
+        buttonHtml += '</div>';
+        $("#commandButtonContainer").append(buttonHtml);
         $('#cmdBtn-' + index).on('click', function() { //check if port is opened
             send(elem.command);
         });
     });
-
+    $(".removeCommandButton").on("click", function(){
+        let buttonIndex = getIntInString($(this).attr("id"));
+        commandButtons.splice(buttonIndex, 1);
+        updateCommandButtons();
+    });
+    if($("#openPortBtn")[0].innerHTML == 'Port opened'){
+        enableSend();
+    } else {
+        disableSend();
+    }
 }
 
 async function send(stringToSend){
@@ -72,9 +111,11 @@ async function send(stringToSend){
 function enableSend() {
     sendInput.prop("disabled", false);
     sendBtn.prop("disabled", false);
+    $(".commandButton").prop("disabled", false);
 }
 
 function disableSend() {
     sendInput.prop("disabled", true);
     sendBtn.prop("disabled", true);
+    $(".commandButton").prop("disabled", true);
 }
