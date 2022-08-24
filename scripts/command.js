@@ -73,7 +73,7 @@ function updateCommandButtons() {
         if (elem.icon != "undefined") {
             iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;';
         }
-        let buttonHtml = '<div class="col-6">';
+        let buttonHtml = '<div class="col-6 mb-2">';
         buttonHtml += '<div class="input-group">';
         if(elem.color != "#fffffe"){
             buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '">' + iconHtml + elem.text + '</button>';
