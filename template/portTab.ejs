@@ -1,8 +1,17 @@
-<div class="input-group mb-3">
-	<label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
-	<select class="form-select" id="AvailablePorts" name="AvailablePorts">
-	</select>
-</div>
-<row>
+<div class="row">
 	<button type="button" class="btn btn-warning" aria-pressed="true" id="openPortBtn">Close the port</button>
-</row>
+	<button type="button" class="btn btn-primary clearBtn" id="portclearBtn" disabled>
+		<i class="fa-solid fa-trash-can"></i>&nbsp;Clear
+	</button>
+	<button type="button" class="btn btn-warning pauseBtn" id="pauseBtnPort" disabled>
+		<i class="fa-solid fa-pause"></i>&nbsp;Paused
+	</button>
+</div>
+
+<div class="row">
+	<div class="input-group mb-3">
+		<label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
+		<select class="form-select" id="AvailablePorts" name="AvailablePorts">
+		</select>
+	</div>
+</div>

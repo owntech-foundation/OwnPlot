@@ -3,11 +3,67 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-23 16:10:02
+ * @ Modified time: 2022-08-25 18:19:35
  */
 
+ /* Color scheme */
+
+:root {
+	--main-bg-color: #212427;
+	--second-bg-color: #32343A;
+	--third-bg-color: #42464D;
+	--clearer-third-bg-color: #5f626b;
+	--text-color: #F2F0E7;
+	--simple-border: 1px solid #000000;
+}
+
+ /* Window parts */
+
+#topBar {
+	background-color: var(--main-bg-color);
+	border: var(--simple-border);
+	padding-top: 1em;
+	/* resize: vertical;
+	overflow: auto; */
+}
+
+#sideBar {
+	background-color: var(--second-bg-color);
+	border: var(--simple-border);
+	/* resize: horizontal;
+	overflow: auto; */
+}
+
+#terminalBar {
+	background-color: var(--second-bg-color);
+	border: var(--simple-border);
+	/* resize: vertical;
+	overflow: auto; */
+}
+
+.menu-btn {
+	--bs-btn-color: var(--text-color);
+    --bs-btn-bg: var(--third-bg-color);
+    --bs-btn-border-color: var(--third-bg-color);
+
+    --bs-btn-hover-color: var(--text-color);
+    --bs-btn-hover-bg: var(--clearer-third-bg-color);
+    --bs-btn-hover-border-color: var(--clearer-third-bg-color);
+
+    --bs-btn-focus-shadow-rgb: inset 0 3px 5px var(--second-bg-color);
+
+    --bs-btn-active-color: var(--text-color);
+    --bs-btn-active-bg: var(--third-bg-color);
+    --bs-btn-active-border-color: var(--text-color);
+    --bs-btn-active-shadow: none;
+    --bs-btn-disabled-color: var(--text-color);
+    --bs-btn-disabled-bg: var(--third-bg-color);
+
+}
+
  /* Terminal */
- .terminalPre {
+
+.terminalPre {
 	height: 17em;
 	color: whitesmoke;
 	display: block;
@@ -18,7 +74,7 @@
 	resize: vertical;
 }
 
-/* Tabs */
+/* Chart Config */
 
 .labelInput {
 	border: none;
@@ -35,4 +91,12 @@ th {
     border-radius: 2em;
     height: 1.5em;
     width: 3em;
+}
+
+.btn:focus {
+	box-shadow: none; /*remove outline after click release*/
+}
+
+.bigIcon {
+	font-size: xx-large;
 }

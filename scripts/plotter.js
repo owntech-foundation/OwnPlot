@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-23 17:07:52
+ * @ Modified time: 2022-08-24 17:03:53
  */
 
 const { data } = require("jquery");
@@ -194,10 +194,6 @@ const myChart = new Chart(ctx, {
 	options: {
 		scales: {
 			x: {
-				grid: {
-					borderColor: 'white',
-					color: 'rgba(255, 255, 255, 0.5)'
-				},
 				type: 'realtime',
 				realtime: {
 					duration: 20000,
@@ -226,10 +222,6 @@ const myChart = new Chart(ctx, {
 				}
 			},
 			y: {
-				grid: {
-					borderColor: 'white',
-					color: 'rgba(255, 255, 255, 0.5)'
-				},
 				title: {
 					display: true,
 					labelString: 'value'
