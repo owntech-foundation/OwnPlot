@@ -1,23 +1,21 @@
 <%- include('template/header'); %>
-<main class="col-md-12">
-	<div class="row" id="topBar">
-		<div class="col-10">
+<main>
+	<div class="row px-2" id="topBar">
+		<div class="w-75">
 			<%- include('template/navBar'); %>
 		</div>
-		<div class="col-2">
+		<div class="w-25">
 			<%- include('template/portTab'); %>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-3"  id="sideBar">	
+	<div class="row" id="appBody">
+		<div class="col-3 ps-4"  id="sideBar">	
 			<%- include('template/tabs'); %>
 		</div>
-		<div class="col-9 px-0">
-			<%- include('template/chart'); %>
-			<div class="row">
-				<div class="container container-fluid" id="terminalBar">
-					<%- include('template/terminalTab'); %>
-				</div>
+		<div class="col-9 ps-0" id="chartAndTerminalDiv">
+			<canvas class="my-4 pe-4" id="myChart"></canvas>
+			<div class="row mx-0 px-0" id="terminalBar">
+				<pre class="terminalPre pe-4" id="terminalData"></pre>
 			</div>
 		</div>
 	</div>

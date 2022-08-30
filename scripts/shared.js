@@ -99,75 +99,33 @@ function writeToExport(dataBuf, timeBuff){
 /* Chart Settings */
 
 function updateLegendTable(){
-    let table = [];
+    const lineTemplate = $("#legendSetupLineTemplate").html();
+    const legendSetupTable = $("#legendConfigDiv");
+    legendSetupTable.html('<div id="legendSetupLineTemplate">' + lineTemplate + '</div>'); //clear the table but leave the template
     myChart.data.datasets.forEach(dataset => {
-        let visibleBtnHTML, labelInputHTML, settingsBtnHTML;
+        let tableLine = lineTemplate;
+        tableLine = tableLine.replace(" hidden", "");
         if(dataset.hidden){
-            visibleBtnHTML = '<span style="display:none">0</span>'; /*set a hidden span to allow sorting*/
-            visibleBtnHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + dataset.index + '"></div>';
-        } else {
-            visibleBtnHTML = '<span style="display:none">1</span>'; /*set a hidden span to allow sorting*/
-            visibleBtnHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + dataset.index + '" checked></div>';
+            tableLine = tableLine.replace(" checked", "");
         }
-
-        labelInputHTML = '<span style="display:none">' + dataset.label + '</span>';
-        labelInputHTML += '<input type="text" class="labelInput" id="labelInput' + dataset.index + '" value="' + dataset.label + '">';
-
-        settingsBtnHTML = '<a data-bs-toggle="collapse" href="#datasetDiv'+ dataset.index +'" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDiv'+ dataset.index +'">'
-        settingsBtnHTML += '<button class="btn btn-sm btn-primary" style="background-color:'+ dataset.backgroundColor +'; border-color:'+ dataset.backgroundColor +'">btn</button>';
-        settingsBtnHTML += '</a>';
-
-        table.push({
-            index: dataset.index,
-            label: labelInputHTML,
-            visible: visibleBtnHTML,
-            settings: settingsBtnHTML,
-            // color: dataset.backgroundColor,
-            // "point style": dataset.pointStyle,
-            // "line style": dataset.lineStyle
-        });
+        // The following implementation implies that point styles & line styles have all different names
+        tableLine = tableLine.replace("<option>" + pointStylesEnum[dataset.pointStyle], "<option selected>" + pointStylesEnum[dataset.pointStyle]);
+        tableLine = tableLine.replace("<option>" + lineStylesEnum[dataset.lineStyle], "<option selected>" + lineStylesEnum[dataset.lineStyle]);
+        tableLine = tableLine.replace('id="pointSizeInputNULL" value=""', 'id="pointSizeInputNULL" value="' + dataset.pointRadius + '"');
+        tableLine = tableLine.replace('id="lineSizeInputNULL" value=""', 'id="lineSizeInputNULL" value="' + dataset.lineBorderWidth + '"');        
+        tableLine = tableLine.replace(/NULL/gm, dataset.index);
+        legendSetupTable.append(tableLine);
     });
-    const nbColumns=Object.keys(table[0]).length;
 
-    let tableHTML = tableify(table);
-    tableHTML = "<table class='table table-hover' id='legendTable'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7, we replace it to insert class & id
-    $("#legendConfigDiv").html(tableHTML);
+    // $("#legendTable").DataTable({
+	// 	"paging": false,
+	// 	"searching": false,
+	// 	"info": false,
+	// }); //Sorts a html table
 
-    $("#legendTable").DataTable({
-		"paging": false,
-		"searching": false,
-		"info": false,
-	});
-
-    let lines = $("#legendTable").find("tr");
-    for (let index = 1; index < lines.length; index ++) {
-        let datasetConfigHTML = '<div class="collapse" id="datasetDiv'+ (index-1) +'">';
-        datasetConfigHTML += '<td>';
-        datasetConfigHTML += '<select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelect' + (index-1) + '"><option>circle</option><option>cross</option><option>rect</option><option>triangle</option></select>';
-        datasetConfigHTML += '</td>';
-
-        datasetConfigHTML += '<td>';
-        datasetConfigHTML += '<div class="input-group-sm"><input type="number" class="form-control pointSizeInput" id="pointSizeInput' + (index-1) + '" value="' + myChart.data.datasets[(index-1)].pointRadius + '" min="0" max="20"></div>';
-        datasetConfigHTML += '</td>';
-        datasetConfigHTML += '</div>';
-        
-        lines[index].outerHTML += datasetConfigHTML;
-
-        // //point style
-        // boxes[index+4].innerHTML = '<select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelect' + labelIndex + '"><option>circle</option><option>cross</option><option>rect</option><option>triangle</option></select>';
-        // boxes[index+4].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control pointSizeInput" id="pointSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].pointRadius + '" min="0" max="20"></div>'
-        // $($("option:contains(" + table[labelIndex]["point style"] + ")")[labelIndex]).prop('selected', true); //show the current point type in the select
-        
-        // //line style
-        // let lineStyleSelect = '<select class="form-select form-select-sm lineStyleSelect" id="lineStyleSelect' + labelIndex + '">';
-        // Object.keys(lineStylesEnum).forEach(styleName => {
-        //     lineStyleSelect += '<option>' + styleName + '</option>';
-        // });
-        // lineStyleSelect += '</select>';
-        // boxes[index+5].innerHTML = lineStyleSelect;
-        // boxes[index+5].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control lineSizeInput" id="lineSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].lineBorderWidth + '" min="0" max="20"></div>'
-        // $($("option:contains(" + table[labelIndex]["line style"] + ")")[labelIndex]).prop('selected', true); //show the current line type in the select
-    }
+    $(".collapseHead").on('click', function(){
+        $($(this).attr('href')).collapse("toggle"); // I do it this way because collapse doesn't work with traditionnal data-bs-toggle, i can't figure why
+    });
     
     $(".colorInput").on('input', function() {
         let datasetIndex = getIntInString($(this).attr("id"));
@@ -178,7 +136,6 @@ function updateLegendTable(){
     $(".labelInput").on('change', function() {
         let datasetIndex = getIntInString($(this).attr("id"));
         myChart.data.datasets[datasetIndex].label = $(this).val();
-        updateLegendTable();
     });
 
     $(".datasetVisibleCheck").on('click', function(){
@@ -188,13 +145,11 @@ function updateLegendTable(){
         } else {
             myChart.data.datasets[datasetIndex].hidden = true;
         }
-        updateLegendTable();
     });
 
     $(".pointStyleSelect").on('change', function(){
         let datasetIndex = getIntInString($(this).attr("id"));
-        myChart.data.datasets[datasetIndex].pointStyle = $(this).val();
-        updateLegendTable();
+        myChart.data.datasets[datasetIndex].pointStyle = pointStylesEnum[$(this).val()];
     });
 
     $(".pointSizeInput").on('change', function(){
@@ -206,7 +161,6 @@ function updateLegendTable(){
         let datasetIndex = getIntInString($(this).attr("id"));
         myChart.data.datasets[datasetIndex].lineStyle = $(this).val();
         myChart.data.datasets[datasetIndex].lineBorderDash = lineStylesEnum[$(this).val()];
-        updateLegendTable();
     });
 
     $(".lineSizeInput").on('change', function(){

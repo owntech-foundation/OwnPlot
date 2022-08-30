@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-29 11:35:10
+ * @ Modified time: 2022-08-30 12:45:38
  */
 
 /*
@@ -81,6 +81,16 @@ const minTermLines = 1;
 const maxTermLine = 500;
 
 $(() => {
+	$("#terminalBar").css("height", Math.floor($(window).height() - $("#terminalBar").offset().top));
+	$(window).on('resize', function(){
+		setTimeout(function() {
+			$("#terminalBar").css("height", Math.floor($(window).height() - $("#terminalBar").offset().top));
+		}, 50);
+		setTimeout(function() {
+			$("#terminalBar").css("height", Math.floor($(window).height() - $("#terminalBar").offset().top));
+		}, 150);
+	});
+
 	termBufSizeInput.on('change', () => {
 		termSize = termBufSizeInput.val();
 		if(termSize > maxTermLine){

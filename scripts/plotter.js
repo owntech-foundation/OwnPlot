@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-29 16:52:23
+ * @ Modified time: 2022-08-30 17:46:41
  */
 
 const { data } = require("jquery");
@@ -68,7 +68,7 @@ $(() => {
 	initChart();
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 	nbChannelsInput.attr("max", nbMaxDatasets);
-	nbChannelsInput.on('change', () => {
+	$("#nbChannels").on('change', () => {
 		let nbChannels = nbChannelsInput.val();
 		while(numberOfDatasets < nbChannels && numberOfDatasets < nbMaxDatasets){
 			addDataset();
@@ -129,6 +129,12 @@ const lineStylesEnum = {
 	medium: [10, 10],
 	long: [20, 5],
 	alternate: [15, 3, 3, 3]
+};
+const pointStylesEnum = {
+	circle: 'circle',
+	cross: 'cross',
+	triangle: 'triangle',
+	square: 'square'
 };
 
 function addDataset() {

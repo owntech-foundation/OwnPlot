@@ -1,6 +1,6 @@
 <div>
-    <a data-bs-toggle="collapse" href="#timeConfigDiv" class="collapseHead" role="button" aria-expanded="false" aria-controls="timeConfigDiv">
-        <span class="input-group-text" id="basic-addon1">
+    <a href="#timeConfigDiv" class="collapseHead" aria-expanded="false" aria-controls="timeConfigDiv">
+        <span class="input-group-text" id="timeConfigTitle">
             <i class="fa-solid fa-clock"></i><span style="font-weight:bolder">&nbsp;Time Representation</span>
         </span>
     </a>
@@ -17,7 +17,7 @@
 </div>
 
 <div>
-    <a data-bs-toggle="collapse" href="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="false" aria-controls="legendSetupDiv">
+    <a href="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="false" aria-controls="legendSetupDiv">
         <span class="input-group-text" id="legendSetupTitle">
             <i class="fa-solid fa-palette"></i>&nbsp;<span style="font-weight:bolder">Legend</span>
         </span>
@@ -27,8 +27,43 @@
             <button type="button" class="btn btn-primary mb-3" id="legendPositionBtn">
                 <i class="fa-solid fa-arrow-right"></i>&nbsp;Position
             </button>
-            <div class="row" id="legendConfigDiv">
-
+            <div id="legendConfigDiv">
+                <div id="legendSetupLineTemplate">
+                    <div class="row mb-2" hidden>
+                        <div class="col-1">
+                            NULL
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="labelInput" id="labelInput1" value="Dataset NULL">
+                        </div>
+                        <div class="col-2 justify-content-center">
+                            <div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheckNULL" checked></div>
+                        </div>
+                        <div class="col-2">
+                            <a href="#datasetDivNULL" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDivNULL">
+                                <button class="btn btn-sm btn-primary" style="background-color:#ffffff; border-color:#ffffff">btn</button>
+                            </a>    
+                        </div>
+                    </div>
+                    <div class="collapse row mb-2" id="datasetDivNULL">
+                        <div class="col-6">
+                            <div class="card card-body">
+                                <h6 style="text-align:center">Point Style</h6>
+                                <select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelectNULL">
+                                    <option>circle</option><option>cross</option><option>rect</option><option>triangle</option>
+                                </select>
+                                <input type="number" class="form-control form-control-sm pointSizeInput" id="pointSizeInputNULL" value="" min="0" max="20">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card card-body">
+                                <h6 style="text-align:center">Line Style</h6>
+                                <select class="form-select form-select-sm lineStyleSelect" id="lineStyleSelectNULL"></select>
+                                <input type="number" class="form-control form-control-sm lineSizeInput" id="lineSizeInputNULL" value="" min="0" max="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

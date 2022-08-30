@@ -1,9 +1,13 @@
 const navLink = $(".nav-link");
 const navTabContent = $("#nav-tabContent");
+const collapseHead = $(".collapseHead");
 
 let currentTab = $(".nav-link.active").attr("id");
 let tabShown = true;
 $(()=>{
+    collapseHead.on('click', function(){
+        $($(this).attr('href')).collapse("toggle"); // Collapse doesn't work only with data-bs-toggle, i can't figure why
+    });
     /*
     navTabContent.collapse("show");
     navLink.on("click", function() {

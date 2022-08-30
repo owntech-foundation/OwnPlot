@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-30 09:28:21
+ * @ Modified time: 2022-08-30 15:56:41
  */
 
  /* Color scheme */
@@ -18,12 +18,20 @@
 	--bs-body-color: var(--text-color);
 }
 
+main{
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+}
+
  /* Window parts */
 
 #topBar {
 	background-color: var(--main-bg-color);
 	border: var(--simple-border);
 	padding-top: 1em;
+	box-sizing: border-box;
+	/* height: 15vh; */
 	/* resize: vertical;
 	overflow: auto; */
 }
@@ -31,7 +39,6 @@
 #sideBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
-	overflow-x: scroll;
 	/* resize: horizontal;
 	overflow: auto; */
 }
@@ -39,9 +46,13 @@
 #terminalBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
-	/* resize: vertical;
-	overflow: auto; */
+	resize: vertical;
+	overflow: auto;
 }
+
+/* #myChart{
+	max-height: 70vh;
+} */
 
 .menu-btn {
 	--bs-btn-color: var(--text-color);
@@ -74,33 +85,22 @@ input {
 	text-decoration: none;
 }
 
- /* Terminal */
-
-.terminalPre {
-	height: 17em;
-	color: whitesmoke;
-	display: block;
-	background-color: #333;
-	padding: 2px;
-	border: 1px solid #888;
-	margin-top: 1em;
-	resize: vertical;
-}
-
 /* Chart Config */
 
 .labelInput {
 	border: none;
 	background: transparent;
-	border-bottom: 1px solid rgb(80 80 80 / 17%);
+	border-bottom: 1px solid var(--text-color);
 	outline: none;
 }
 
-th {
+/* th {
 	cursor: pointer;
-}
+} 
+Served when we could sort the tables but this feature is not implemented anymore */
 
 .form-switch .form-check-input[type=checkbox] {
+	/* bigger switch than the one from bootstrap */
     border-radius: 2em;
     height: 1.5em;
     width: 3em;

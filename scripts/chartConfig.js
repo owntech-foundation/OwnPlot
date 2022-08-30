@@ -15,6 +15,8 @@ function switchRelAbsBtn(){
 }
 
 $(()=>{
+    initLegendConfigTable();
+
     $(relBtn).hide();
     $(absBtn).show();
     absTimeMode = true;
@@ -53,4 +55,18 @@ function switchlegendPositionBtn(){
         legendPositionBtn.html('<i class="fa-solid fa-arrow-up"></i>&nbsp;Position');
         break;
     }
+}
+
+function initLegendConfigTable(){
+    let optionsHTML;
+    Object.keys(lineStylesEnum).forEach(styleName => {
+        optionsHTML += '<option>' + styleName + '</option>';
+    });
+    $("#lineStyleSelectNULL").html(optionsHTML);
+    
+    optionsHTML = "";
+    Object.keys(pointStylesEnum).forEach(styleName => {
+        optionsHTML += '<option>' + styleName + '</option>';
+    });
+    $("#pointStyleSelectNULL").html(optionsHTML);
 }
