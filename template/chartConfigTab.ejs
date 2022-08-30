@@ -1,23 +1,35 @@
 <div>
-    <a data-bs-toggle="collapse" href="#timeConfigDiv" role="button" aria-expanded="false" aria-controls="timeConfigDiv">
+    <a data-bs-toggle="collapse" href="#timeConfigDiv" class="collapseHead" role="button" aria-expanded="false" aria-controls="timeConfigDiv">
         <span class="input-group-text" id="basic-addon1">
-            <i class="fa-solid fa-clock"></i>&nbsp;<span style="font-weight:bolder">Time Representation</span>
+            <i class="fa-solid fa-clock"></i><span style="font-weight:bolder">&nbsp;Time Representation</span>
         </span>
     </a>
     <div class="collapse" id="timeConfigDiv">
         <div class="card card-body">
-            <button type="button" id="relBtn" class="btn btn-primary relAbsBtn"><i class="fa-solid fa-stopwatch"></i>&nbsp;Relative</button>
-            <button type="button" id="absBtn" class="btn btn-primary relAbsBtn"><i class="fa-solid fa-calendar-day"></i>&nbsp;Absolute</button>
+            <button type="button" id="relBtn" class="btn btn-primary relAbsBtn">
+                <i class="fa-solid fa-stopwatch"></i>&nbsp;Relative
+            </button>
+            <button type="button" id="absBtn" class="btn btn-primary relAbsBtn">
+                <i class="fa-solid fa-calendar-day"></i>&nbsp;Absolute
+            </button>
         </div>
     </div>
 </div>
 
 <div>
-    <a data-bs-toggle="collapse" href="#legendConfigDiv" id="legendConfigHref" role="button" aria-expanded="false" aria-controls="legendConfigDiv">
-        <span class="input-group-text" id="legendConfigTitle">
+    <a data-bs-toggle="collapse" href="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="false" aria-controls="legendSetupDiv">
+        <span class="input-group-text" id="legendSetupTitle">
             <i class="fa-solid fa-palette"></i>&nbsp;<span style="font-weight:bolder">Legend</span>
         </span>
     </a>
-    <div class="collapse show" id="legendConfigDiv">
+    <div class="collapse show" id="legendSetupDiv">
+        <div class="card card-body">
+            <button type="button" class="btn btn-primary mb-3" id="legendPositionBtn">
+                <i class="fa-solid fa-arrow-right"></i>&nbsp;Position
+            </button>
+            <div class="row" id="legendConfigDiv">
+
+            </div>
+        </div>
     </div>
 </div>

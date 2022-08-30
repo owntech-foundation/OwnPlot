@@ -1,10 +1,10 @@
 <%- include('template/header'); %>
 <main class="col-md-12">
 	<div class="row" id="topBar">
-		<div class="col-8">
+		<div class="col-10">
 			<%- include('template/navBar'); %>
 		</div>
-		<div class="col-4">
+		<div class="col-2">
 			<%- include('template/portTab'); %>
 		</div>
 	</div>
@@ -14,8 +14,10 @@
 		</div>
 		<div class="col-9 px-0">
 			<%- include('template/chart'); %>
-			<div class="container container-fluid" id="terminalBar">
-				<%- include('template/terminalTab'); %>
+			<div class="row">
+				<div class="container container-fluid" id="terminalBar">
+					<%- include('template/terminalTab'); %>
+				</div>
 			</div>
 		</div>
 	</div>

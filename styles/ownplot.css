@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-25 18:19:35
+ * @ Modified time: 2022-08-30 09:28:21
  */
 
  /* Color scheme */
@@ -15,6 +15,7 @@
 	--clearer-third-bg-color: #5f626b;
 	--text-color: #F2F0E7;
 	--simple-border: 1px solid #000000;
+	--bs-body-color: var(--text-color);
 }
 
  /* Window parts */
@@ -30,6 +31,7 @@
 #sideBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
+	overflow-x: scroll;
 	/* resize: horizontal;
 	overflow: auto; */
 }
@@ -58,7 +60,18 @@
     --bs-btn-active-shadow: none;
     --bs-btn-disabled-color: var(--text-color);
     --bs-btn-disabled-bg: var(--third-bg-color);
+}
 
+input {
+	color: var(--text-color);
+}
+
+.card {
+	--bs-card-bg: var(--third-bg-color);
+}
+
+.collapseHead {
+	text-decoration: none;
 }
 
  /* Terminal */

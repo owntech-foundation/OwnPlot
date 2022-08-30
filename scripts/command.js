@@ -11,6 +11,7 @@ let commandButtons = [];
 
 $(() => {
     disableSend();
+    updateCommandButtons();
 
     sendInput.on("keyup", (e) => {
         if (e.key == "Enter") {
@@ -23,7 +24,6 @@ $(() => {
         send(sendInput.val());
         printDebugTerminal('sent---> ' + sendInput.val());
     });
-    updateCommandButtons();
 
     addCommandName.on("keyup", (e) => {
         if (e.key == "Enter") {
@@ -44,8 +44,19 @@ function addCommandSubmitHandler(){
     let button={  
         color: addCommandColor.val(),
         text: addCommandName.val(),
-        command: addCommandData.val()
+        command: addCommandData.val(),
+        defaultColor: false,
+        isClear: false
     };
+    if(button.color == "#fffffe"){
+        button.defaultColor = true; //we use fffffe as a default color and hope no one uses this specific color intentionnally
+    }
+    let brightness = parseInt(button.color.slice(1,3), 16);
+    brightness += parseInt(button.color.slice(3,5), 16);
+    brightness += parseInt(button.color.slice(5,7), 16);
+    if(brightness > 450){
+        button.isClear=true;
+    }
     if(button.text == ""){
         addCommandName[0].select();
     } else if(button.command == ""){
@@ -75,10 +86,14 @@ function updateCommandButtons() {
         }
         let buttonHtml = '<div class="col-6 mb-2">';
         buttonHtml += '<div class="input-group">';
-        if(elem.color != "#fffffe"){
-            buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '">' + iconHtml + elem.text + '</button>';
-        } else {
+        if(elem.defaultColor){
             buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
+        } else {
+            if(elem.isClear){
+                buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +'; color:#000">' + iconHtml + elem.text + '</button>';
+            } else {
+                buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +';">' + iconHtml + elem.text + '</button>';
+            }
         }
         buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can"></i></button>';
         buttonHtml += '</div>';

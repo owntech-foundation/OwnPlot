@@ -1,10 +1,10 @@
 <div class="input-group input-group-sm mb-3" id="nbChannelDiv">
-    <span class="input-group-text col-2" id="basic-addon1"><span style="font-weight:bolder">#</span>&nbsp;Channels</span>
+    <span class="input-group-text col-5" id="basic-addon1"><span style="font-weight:bolder">#</span>&nbsp;Channels</span>
     <input type="number" id="nbChannels" class="form-control" value="3" min="0" max="10">
 </div>
 
 <div class="input-group input-group-sm mb-3">
-	<label class="input-group-text col-2" for="inputGroupSelect01"><i class="fa-solid fa-filter"></i>&nbsp;Data Format</label>
+	<label class="input-group-text col-5" for="inputGroupSelect01"><i class="fa-solid fa-filter"></i>&nbsp;Data Format</label>
 	<select class="form-select" id="dataFormat" name="dataFormat">
         <option value="ascii" selected>ASCII</option>
         <option value="binary">binary</option>
@@ -14,14 +14,14 @@
 
 <div id="asciiForm">
     <div class="input-group input-group-sm mb-3">
-        <span class="input-group-text col-2" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
+        <span class="input-group-text col-5" id="basic-addon1"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
         <input type="text" id="separator" name="separator" class="form-control" maxlength=1 aria-describedby="basic-addon1">
     </div>
 </div>
 
 <div id="binaryForm">
     <div class="input-group input-group-sm mb-3">
-        <label class="input-group-text col-2" for="inputGroupSelect01">Number Type</label>
+        <label class="input-group-text col-5" for="inputGroupSelect01">Number Type</label>
         <select class="form-select" id="nbType" name="nbType">
             <option value="uint8" selected>uint8</option>
             <option value="uint16">uint16</option>
@@ -35,7 +35,7 @@
     </div>
     
     <div class="input-group input-group-sm mb-3">
-        <label class="input-group-text col-2" for="inputGroupSelect01">Endianness</label>
+        <label class="input-group-text col-5" for="inputGroupSelect01">Endianness</label>
         <select class="form-select" id="endianness" name="endianness">
             <option value="LE">Little Endian</option>
             <option value="BE">Big Endian</option>

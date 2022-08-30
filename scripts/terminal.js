@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-19 12:59:30
+ * @ Modified time: 2022-08-29 11:35:10
  */
 
 /*
@@ -95,7 +95,7 @@ $(() => {
 		clearTerminal();
 	});
 
-	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
+	terminalTimestampBtnEnable(terminalBtnTimestamp); //default behaviour
 	terminalBtnTimestamp.on('click', function(){
 		if(terminalBtnTimestamp.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
@@ -105,7 +105,7 @@ $(() => {
 		}
 	});
 
-	terminalFormattedDisable(terminalBtnFormatted);
+	terminalFormattedEnable(terminalBtnFormatted); //default behaviour
 	terminalBtnFormatted.on('click', function(){
 		if(terminalBtnFormatted.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it

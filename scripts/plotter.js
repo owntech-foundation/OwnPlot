@@ -3,14 +3,14 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-24 17:03:53
+ * @ Modified time: 2022-08-29 16:52:23
  */
 
 const { data } = require("jquery");
 const { proto } = require("once");
 
 function pauseBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-pause"></i>&nbsp;Paused');
+	$(elem).html('<i class="fa-solid fa-pause"></i><br>Paused');
 	$(elem).removeClass('btn-success');
 	$(elem).removeClass('btn-secondary');
 	$(elem).addClass('btn-warning');
@@ -20,7 +20,7 @@ function pauseBtn(elem) {
 }
 
 function runBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-running"></i>&nbsp;Running');
+	$(elem).html('<i class="fa-solid fa-running"></i><br>Running');
 	$(elem).removeClass('btn-warning');
 	$(elem).removeClass('btn-secondary');
 	$(elem).addClass('btn-success');
@@ -30,7 +30,7 @@ function runBtn(elem) {
 }
 
 function noPortBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-plug-circle-xmark"></i>&nbsp;No port selected');
+	$(elem).html('<i class="fa-solid fa-plug-circle-xmark"></i><br>No port');
 	$(elem).removeClass('btn-warning');
 	$(elem).removeClass('btn-success');
 	$(elem).addClass('btn-secondary');
@@ -230,6 +230,7 @@ const myChart = new Chart(ctx, {
 		},
 		plugins: {
 			legend: {
+				position: 'right',
 				labels: {
 					//replace the default colored box which border was linked to the dash pattern of the dataset (it was ugly)
 					usePointStyle: true,

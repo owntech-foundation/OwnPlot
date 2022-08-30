@@ -4,7 +4,6 @@ const navTabContent = $("#nav-tabContent");
 let currentTab = $(".nav-link.active").attr("id");
 let tabShown = true;
 $(()=>{
-    navTabContent.show(0);
     /*
     navTabContent.collapse("show");
     navLink.on("click", function() {

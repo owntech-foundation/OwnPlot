@@ -1,3 +1,4 @@
+const { Button } = require("bootstrap");
 const { now } = require("moment");
 const objectKeys = require("object-keys");
 
@@ -100,13 +101,30 @@ function writeToExport(dataBuf, timeBuff){
 function updateLegendTable(){
     let table = [];
     myChart.data.datasets.forEach(dataset => {
+        let visibleBtnHTML, labelInputHTML, settingsBtnHTML;
+        if(dataset.hidden){
+            visibleBtnHTML = '<span style="display:none">0</span>'; /*set a hidden span to allow sorting*/
+            visibleBtnHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + dataset.index + '"></div>';
+        } else {
+            visibleBtnHTML = '<span style="display:none">1</span>'; /*set a hidden span to allow sorting*/
+            visibleBtnHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + dataset.index + '" checked></div>';
+        }
+
+        labelInputHTML = '<span style="display:none">' + dataset.label + '</span>';
+        labelInputHTML += '<input type="text" class="labelInput" id="labelInput' + dataset.index + '" value="' + dataset.label + '">';
+
+        settingsBtnHTML = '<a data-bs-toggle="collapse" href="#datasetDiv'+ dataset.index +'" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDiv'+ dataset.index +'">'
+        settingsBtnHTML += '<button class="btn btn-sm btn-primary" style="background-color:'+ dataset.backgroundColor +'; border-color:'+ dataset.backgroundColor +'">btn</button>';
+        settingsBtnHTML += '</a>';
+
         table.push({
             index: dataset.index,
-            label: dataset.label,
-            color: dataset.backgroundColor,
-            hide: dataset.hidden,
-            "point style": dataset.pointStyle,
-            "line style": dataset.lineStyle
+            label: labelInputHTML,
+            visible: visibleBtnHTML,
+            settings: settingsBtnHTML,
+            // color: dataset.backgroundColor,
+            // "point style": dataset.pointStyle,
+            // "line style": dataset.lineStyle
         });
     });
     const nbColumns=Object.keys(table[0]).length;
@@ -115,47 +133,41 @@ function updateLegendTable(){
     tableHTML = "<table class='table table-hover' id='legendTable'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7, we replace it to insert class & id
     $("#legendConfigDiv").html(tableHTML);
 
-    let boxes = $("#legendTable").find("td");
-    for (let index = 0; index < boxes.length; index += nbColumns) { //init table, every row counts 3 columns 
-        let labelIndex = (index/nbColumns).toFixed();
-        
-        //label
-        boxes[index+1].innerHTML = '<span style="display:none">' + table[labelIndex].label + '</span>'; /*set a hidden span to allow sorting*/ 
-        boxes[index+1].innerHTML += '<input type="text" class="labelInput" id="labelInput' + labelIndex + '" value="' + table[labelIndex].label + '">';
-        
-        //color
-        boxes[index+2].innerHTML = '<input type="color" class="colorInput" id="colorInput' + labelIndex + '" value="' + table[labelIndex].color + '">';
-        
-        //visibility
-        if(table[labelIndex].hide){
-            boxes[index+3].innerHTML = '<span style="display:none">1</span>'; /*set a hidden span to allow sorting*/
-            boxes[index+3].innerHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + labelIndex + '" checked></div>';
-        } else {
-            boxes[index+3].innerHTML = '<span style="display:none">0</span>'; /*set a hidden span to allow sorting*/
-            boxes[index+3].innerHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + labelIndex + '"></div>';
-        }
-        
-        //point style
-        boxes[index+4].innerHTML = '<select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelect' + labelIndex + '"><option>circle</option><option>cross</option><option>rect</option><option>triangle</option></select>';
-        boxes[index+4].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control pointSizeInput" id="pointSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].pointRadius + '" min="0" max="20"></div>'
-        $($("option:contains(" + table[labelIndex]["point style"] + ")")[labelIndex]).prop('selected', true); //show the current point type in the select
-        
-        //line style
-        let lineStyleSelect = '<select class="form-select form-select-sm lineStyleSelect" id="lineStyleSelect' + labelIndex + '">';
-        Object.keys(lineStylesEnum).forEach(styleName => {
-            lineStyleSelect += '<option>' + styleName + '</option>';
-        });
-        lineStyleSelect += '</select>';
-        boxes[index+5].innerHTML = lineStyleSelect;
-        boxes[index+5].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control lineSizeInput" id="lineSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].lineBorderWidth + '" min="0" max="20"></div>'
-        $($("option:contains(" + table[labelIndex]["line style"] + ")")[labelIndex]).prop('selected', true); //show the current line type in the select
-    }
-
     $("#legendTable").DataTable({
 		"paging": false,
 		"searching": false,
 		"info": false,
 	});
+
+    let lines = $("#legendTable").find("tr");
+    for (let index = 1; index < lines.length; index ++) {
+        let datasetConfigHTML = '<div class="collapse" id="datasetDiv'+ (index-1) +'">';
+        datasetConfigHTML += '<td>';
+        datasetConfigHTML += '<select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelect' + (index-1) + '"><option>circle</option><option>cross</option><option>rect</option><option>triangle</option></select>';
+        datasetConfigHTML += '</td>';
+
+        datasetConfigHTML += '<td>';
+        datasetConfigHTML += '<div class="input-group-sm"><input type="number" class="form-control pointSizeInput" id="pointSizeInput' + (index-1) + '" value="' + myChart.data.datasets[(index-1)].pointRadius + '" min="0" max="20"></div>';
+        datasetConfigHTML += '</td>';
+        datasetConfigHTML += '</div>';
+        
+        lines[index].outerHTML += datasetConfigHTML;
+
+        // //point style
+        // boxes[index+4].innerHTML = '<select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelect' + labelIndex + '"><option>circle</option><option>cross</option><option>rect</option><option>triangle</option></select>';
+        // boxes[index+4].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control pointSizeInput" id="pointSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].pointRadius + '" min="0" max="20"></div>'
+        // $($("option:contains(" + table[labelIndex]["point style"] + ")")[labelIndex]).prop('selected', true); //show the current point type in the select
+        
+        // //line style
+        // let lineStyleSelect = '<select class="form-select form-select-sm lineStyleSelect" id="lineStyleSelect' + labelIndex + '">';
+        // Object.keys(lineStylesEnum).forEach(styleName => {
+        //     lineStyleSelect += '<option>' + styleName + '</option>';
+        // });
+        // lineStyleSelect += '</select>';
+        // boxes[index+5].innerHTML = lineStyleSelect;
+        // boxes[index+5].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control lineSizeInput" id="lineSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].lineBorderWidth + '" min="0" max="20"></div>'
+        // $($("option:contains(" + table[labelIndex]["line style"] + ")")[labelIndex]).prop('selected', true); //show the current line type in the select
+    }
     
     $(".colorInput").on('input', function() {
         let datasetIndex = getIntInString($(this).attr("id"));
@@ -172,9 +184,9 @@ function updateLegendTable(){
     $(".datasetVisibleCheck").on('click', function(){
         let datasetIndex = getIntInString($(this).attr("id"));
         if(this.checked){
-            myChart.data.datasets[datasetIndex].hidden = true;
-        } else {
             myChart.data.datasets[datasetIndex].hidden = false;
+        } else {
+            myChart.data.datasets[datasetIndex].hidden = true;
         }
         updateLegendTable();
     });
