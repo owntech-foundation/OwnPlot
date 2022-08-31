@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-31 11:26:26
+ * @ Modified time: 2022-08-31 15:22:21
  */
 
  /* Color scheme */
@@ -19,8 +19,6 @@
 }
 
 main{
-	height: 100vh;
-	width: 100vw;
 	overflow: hidden;
 }
 
@@ -44,8 +42,7 @@ main{
 #terminalBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
-	/* resize: vertical;
-	overflow: auto; */
+	overflow-y: scroll;
 }
 
 .menu-btn {

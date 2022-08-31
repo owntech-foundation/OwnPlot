@@ -184,17 +184,17 @@ function openPortRoutine() {
 		port.on('open', () => {
 			printDebugTerminal("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
-			runBtn('.pauseBtn');
-			$('.clearBtn').show();
-			$('.clearBtn').prop('disabled', false);
+			runBtn('#pausePortBtn');
+			$('#clearPortBtn').show();
+			$('#clearPortBtn').prop('disabled', false);
 			enableSend();
 			flushChart(myChart);
 			chartStartTime = Date.now();
 		});
 
 		port.on('close', () => {
-			pauseBtn('.pauseBtn');
-			$('.pauseBtn').prop('disabled', true);
+			pauseBtn('#pausePortBtn');
+			$('#pausePortBtn').prop('disabled', true);
 			printDebugTerminal("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();

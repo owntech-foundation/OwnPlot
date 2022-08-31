@@ -1,15 +1,15 @@
 <%- include('template/header'); %>
-<main>
+<main class="vh-100 vw-100">
 	<div class="row px-2" id="topBar">
-		<div class="w-75">
+		<div class="col-8">
 			<%- include('template/navBar'); %>
 		</div>
-		<div class="w-25">
-			<%- include('template/portTab'); %>
+		<div class="col-4 px-3">
+			<%- include('template/portBar'); %>
 		</div>
 	</div>
 	<div class="row" id="appBody">
-		<div class="col-3 ps-4 mh-100"  id="sideBar">	
+		<div class="col-3 ps-4"  id="sideBar">
 			<%- include('template/tabs'); %>
 		</div>
 		<div class="col-9 ps-0" id="chartAndTerminalDiv">

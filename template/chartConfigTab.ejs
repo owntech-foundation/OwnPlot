@@ -30,12 +30,15 @@
             <div id="legendConfigDiv">
                 <div id="legendSetupLineTemplate">
                     <div class="row mb-2" hidden>
+                        <!-- Not showing ID
                         <div class="col-1">
                             NULL
                         </div>
+                        -->
                         <div class="col-6">
                             <input type="text" class="labelInput" id="labelInputNULL" value="Dataset NULL">
                         </div>
+                        <div class="col-1">&nbsp;</div>
                         <div class="col-2 justify-content-center">
                             <div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheckNULL" checked></div>
                         </div>
@@ -50,7 +53,7 @@
                     <div class="collapse row mb-2" id="datasetDivNULL">
                         <div class="col-6">
                             <div class="card card-body">
-                                <h6 style="text-align:center">Point Style</h6>
+                                <p style="text-align:center">Point Style</p>
                                 <select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelectNULL">
                                     <option>circle</option><option>cross</option><option>rect</option><option>triangle</option>
                                 </select>
@@ -59,7 +62,7 @@
                         </div>
                         <div class="col-6">
                             <div class="card card-body">
-                                <h6 style="text-align:center">Line Style</h6>
+                                <p style="text-align:center">Line Style</p>
                                 <select class="form-select form-select-sm lineStyleSelect" id="lineStyleSelectNULL"></select>
                                 <input type="number" class="form-control form-control-sm lineSizeInput" id="lineSizeInputNULL" value="" min="0" max="20">
                             </div>

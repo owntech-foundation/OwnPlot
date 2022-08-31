@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-31 10:39:40
+ * @ Modified time: 2022-08-31 14:30:30
  */
 
 /*
@@ -58,7 +58,7 @@ function terminalDecimalMode(elem) {
  *	JQuery selectors
  */
 
-let clearBtn =  $('.clearBtn');
+let clearBtn =  $('#clearPortBtn');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
@@ -81,16 +81,6 @@ const MIN_TERM_LINES = 1;
 const MAX_TERM_LINES = 500;
 
 $(() => {
-	$("#terminalBar").css("height", Math.floor($(window).height() - $("#terminalBar").offset().top));
-	$(window).on('resize', function(){
-		setTimeout(function() {
-			$("#terminalBar").css("height", Math.floor($(window).height() - $("#terminalBar").offset().top));
-		}, 50);
-		setTimeout(function() {
-			$("#terminalBar").css("height", Math.floor($(window).height() - $("#terminalBar").offset().top));
-		}, 150);
-	});
-
 	termBufSizeInput.on('change', () => {
 		termSize = termBufSizeInput.val();
 		if(termSize > MAX_TERM_LINES){
@@ -217,7 +207,7 @@ function updateTerminal() {
 			}
 			terminalSel.prepend('<span>' + termialTime() + dataString + '</span>'); //put first on top
 			countTermLines = countTermLines + 1;
-			$('.clearBtn').prop('disabled', false);
+			$('#clearPortBtn').prop('disabled', false);
 		}
 		if (countTermLines > termSize) {
 			terminalSel.children().last().remove();

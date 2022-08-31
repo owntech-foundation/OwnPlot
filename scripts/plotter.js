@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-31 10:37:07
+ * @ Modified time: 2022-08-31 15:56:05
  */
 
 const { data } = require("jquery");
@@ -27,34 +27,6 @@ function runBtn(elem) {
 	$(elem).attr('aria-pressed', false);
 	$(elem).prop("disabled", false);
 	runPlot();
-}
-
-function noPortBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-plug-circle-xmark"></i><br>No port');
-	$(elem).removeClass('btn-warning');
-	$(elem).removeClass('btn-success');
-	$(elem).addClass('btn-secondary');
-	$(elem).prop('disabled', true);
-}
-
-function openPortBtn(elem) {
-	$(elem).html('Port opened');
-	$(elem).removeClass('btn-warning');
-	$(elem).removeClass('btn-secondary');
-	$(elem).addClass('btn-success');
-	$(elem).attr('aria-pressed', false);
-	$(elem).prop('disabled', false);
-	$(elem).show();
-}
-
-function closePortBtn(elem) {
-	$(elem).html('Port closed');
-	$(elem).removeClass('btn-success');
-	$(elem).removeClass('btn-secondary');
-	$(elem).addClass('btn-warning');
-	$(elem).attr('aria-pressed', true);
-	$(elem).prop('disabled', false);
-	$(elem).show();
 }
 
 let dataSerialBuff = Buffer.alloc(0);

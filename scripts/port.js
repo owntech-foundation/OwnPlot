@@ -12,9 +12,9 @@ $(function(){
 			if(selectedPort != configSerialPlot.path){
 				closePortBtn($('#openPortBtn'));
 				//pause & clear btn are unclickable while port is closed
-				pauseBtn($('.pauseBtn'));
-				$('.pauseBtn').prop('disabled', true);
-				$('.clearBtn').prop('disabled', true);
+				pauseBtn($('#pausePortBtn'));
+				$('#pausePortBtn').prop('disabled', true);
+				$('#clearPortBtn').prop('disabled', true);
 			} else {
 				openPortBtn($('#openPortBtn'));
 			}
@@ -23,17 +23,17 @@ $(function(){
 		}
 	});
 
-	$('.pauseBtn').on('click', function(){
+	$('#pausePortBtn').on('click', function(){
 		if($(this).attr('aria-pressed') === "true"){
-			runBtn($('.pauseBtn'));
+			runBtn($('#pausePortBtn'));
 		} else {
-			pauseBtn($('.pauseBtn'));
+			pauseBtn($('#pausePortBtn'));
 		}
 	});
 
-	$('.clearBtn').on('click', ()=>{
+	$('#clearPortBtn').on('click', ()=>{
 		flushChart(myChart);
-		$('.clearBtn').prop('disabled', true);
+		$('#clearPortBtn').prop('disabled', true);
 	});
 
 	$('#openPortBtn').on('click', function(){
@@ -48,8 +48,8 @@ $(function(){
 			openPort();
 		} else {
 			//pause btn is unclickable while port is closed
-			pauseBtn('.pauseBtn');
-			$('.pauseBtn').prop('disabled', true);
+			pauseBtn('#pausePortBtn');
+			$('#pausePortBtn').prop('disabled', true);
 			port.close();
 			closePortBtn(this);
 		}
@@ -57,3 +57,30 @@ $(function(){
 
 });
 
+function noPortBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-plug-circle-xmark"></i><br>No port');
+	$(elem).removeClass('btn-warning');
+	$(elem).removeClass('btn-success');
+	$(elem).addClass('btn-secondary');
+	$(elem).prop('disabled', true);
+}
+
+function openPortBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-toggle-on"></i><br>Open');
+	$(elem).removeClass('btn-warning');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-success');
+	$(elem).attr('aria-pressed', false);
+	$(elem).prop('disabled', false);
+	$(elem).show();
+}
+
+function closePortBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-toggle-off"></i><br>Closed');
+	$(elem).removeClass('btn-success');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-warning');
+	$(elem).attr('aria-pressed', true);
+	$(elem).prop('disabled', false);
+	$(elem).show();
+}
