@@ -169,3 +169,7 @@ function updateLegendTable(){
         myChart.data.datasets[datasetIndex].lineBorderWidth = parseInt($(this).val());
     });
 }
+
+/* port */
+
+let portIsOpen = false;

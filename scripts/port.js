@@ -3,7 +3,6 @@ let selectedPort;
 
 $(function(){
 	noPortBtn($('#openPortBtn'));
-	
 	listPorts();
 	
 	$("#AvailablePorts").on('change', function(){
@@ -16,7 +15,10 @@ $(function(){
 				$('#pausePortBtn').prop('disabled', true);
 				$('#clearPortBtn').prop('disabled', true);
 			} else {
-				openPortBtn($('#openPortBtn'));
+				if(portIsOpen){
+					openPortBtn($('#openPortBtn'));
+					runBtn($('#pausePortBtn'));
+				}
 			}
 		} else {
 			noPortBtn($('#openPortBtn'));
@@ -58,7 +60,7 @@ $(function(){
 });
 
 function noPortBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-plug-circle-xmark"></i><br>No port');
+	$(elem).html('<i class="fa-solid fa-plug-circle-xmark"></i><br><span class="nonBreakable">No port</span>');
 	$(elem).removeClass('btn-warning');
 	$(elem).removeClass('btn-success');
 	$(elem).addClass('btn-secondary');

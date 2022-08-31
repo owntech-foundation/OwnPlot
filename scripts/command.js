@@ -42,21 +42,21 @@ $(() => {
 
 function addCommandSubmitHandler(){
     let button={  
-        color: addCommandColor.val(),
+        //color: addCommandColor.val(),
         text: addCommandName.val(),
         command: addCommandData.val(),
-        defaultColor: false,
+        defaultColor: true, //color choice for commands is disabled for now
         isClear: false
     };
-    if(button.color == "#fffffe"){
-        button.defaultColor = true; //we use fffffe as a default color and hope no one uses this specific color intentionnally
-    }
-    let brightness = parseInt(button.color.slice(1,3), 16);
-    brightness += parseInt(button.color.slice(3,5), 16);
-    brightness += parseInt(button.color.slice(5,7), 16);
-    if(brightness > 450){
-        button.isClear=true;
-    }
+    // if(button.color == "#fffffe"){
+    //     button.defaultColor = true; //we use fffffe as a default color and hope no one uses this specific color intentionnally
+    // }
+    // let brightness = parseInt(button.color.slice(1,3), 16);
+    // brightness += parseInt(button.color.slice(3,5), 16);
+    // brightness += parseInt(button.color.slice(5,7), 16);
+    // if(brightness > 450){
+    //     button.isClear=true;
+    // }
     if(button.text == ""){
         addCommandName[0].select();
     } else if(button.command == ""){
@@ -108,7 +108,7 @@ function updateCommandButtons() {
         commandButtons.splice(buttonIndex, 1);
         updateCommandButtons();
     });
-    if($("#openPortBtn")[0].innerHTML == 'Port opened'){
+    if(portIsOpen){
         enableSend();
     } else {
         disableSend();

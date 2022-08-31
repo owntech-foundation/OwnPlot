@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-31 15:56:05
+ * @ Modified time: 2022-08-31 17:01:20
  */
 
 const { data } = require("jquery");
@@ -16,6 +16,7 @@ function pauseBtn(elem) {
 	$(elem).addClass('btn-warning');
 	$(elem).attr('aria-pressed', true);
 	$(elem).prop("disabled", false);
+	
 	pausePlot();
 }
 
@@ -26,6 +27,7 @@ function runBtn(elem) {
 	$(elem).addClass('btn-success');
 	$(elem).attr('aria-pressed', false);
 	$(elem).prop("disabled", false);
+	
 	runPlot();
 }
 
@@ -222,7 +224,7 @@ const myChart = new Chart(ctx, {
 });
 
 function legendClickHandler(e, legendItem, legend){
-	if($("#nav-chartConfig-tab").hasClass("active") == false || tabShown == false){
+	if($("#nav-chartConfig-tab").hasClass("active") == false){
 		$("#nav-chartConfig-tab").trigger('click');
 	}
 	if($("#legendSetupDiv").is('.collapse:not(.show)')){

@@ -1,25 +1,27 @@
-<div class="row">
-	<div class="col-4 px-1 d-flex justify-content-start">
-		<button type="button" class="btn btn-sm btn-warning portBarBtn" aria-pressed="true" id="openPortBtn">
-			No port
-		</button>
+<div class="col">
+	<div class="row">
+		<div class="col-4 px-1 py-1 d-flex justify-content-start">
+			<button type="button" class="btn btn-sm btn-warning portBarBtn" aria-pressed="true" id="openPortBtn">
+				<span class="nonBreakable">No port</span>
+			</button>
+		</div>
+		<div class="col-4 px-1 py-1 d-flex justify-content-center">
+			<button type="button" class="btn btn-sm btn-primary btn-square portBarBtn" id="clearPortBtn" disabled>
+				<i class="fa-solid fa-trash-can"></i><br>Clear
+			</button>
+		</div>
+		<div class="col-4 px-1 py-1 d-flex justify-content-end">
+			<button type="button" class="btn btn-sm btn-warning btn-square portBarBtn" id="pausePortBtn" disabled>
+				<i class="fa-solid fa-pause"></i><br>Paused
+			</button>
+		</div>
 	</div>
-	<div class="col-4 px-1 d-flex justify-content-center">
-		<button type="button" class="btn btn-sm btn-primary btn-square portBarBtn" id="clearPortBtn" disabled>
-			<i class="fa-solid fa-trash-can"></i><br>Clear
-		</button>
-	</div>
-	<div class="col-4 px-1 d-flex justify-content-end">
-		<button type="button" class="btn btn-sm btn-warning btn-square portBarBtn" id="pausePortBtn" disabled>
-			<i class="fa-solid fa-pause"></i><br>Paused
-		</button>
-	</div>
-</div>
-
-<div class="row">
-	<div class="input-group px-1 mx-0 my-1">
-		<label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
-		<select class="form-select" id="AvailablePorts" name="AvailablePorts">
-		</select>
+	
+	<div class="row">
+		<div class="input-group px-1 mx-0 my-1">
+			<label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
+			<select class="form-select" id="AvailablePorts" name="AvailablePorts">
+			</select>
+		</div>
 	</div>
 </div>

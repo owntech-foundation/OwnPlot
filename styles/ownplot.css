@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-31 15:22:21
+ * @ Modified time: 2022-08-31 17:59:18
  */
 
  /* Color scheme */
@@ -39,6 +39,11 @@ main{
 	overflow-y: scroll;
 }
 
+#portBar {
+	width: 20em !important;
+	min-width: 20em !important;
+}
+
 #terminalBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
@@ -62,6 +67,16 @@ main{
     --bs-btn-active-shadow: none;
     --bs-btn-disabled-color: var(--text-color);
     --bs-btn-disabled-bg: var(--third-bg-color);
+
+	width: 85px;
+}
+
+.portBarBtn{
+	width: 70px !important;
+}
+
+.nonBreakable {
+	white-space: nowrap;
 }
 
 input {
