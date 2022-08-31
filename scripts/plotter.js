@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-30 17:46:41
+ * @ Modified time: 2022-08-31 10:37:07
  */
 
 const { data } = require("jquery");
@@ -60,17 +60,17 @@ function closePortBtn(elem) {
 let dataSerialBuff = Buffer.alloc(0);
 let rawDataBuff = Buffer.alloc(0);
 let indexData = 0;
-const nbMaxDatasets = 20;
+const NB_MAX_DATASETS = 20;
 
 let nbChannelsInput = $("#nbChannels");
 
 $(() => {
 	initChart();
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
-	nbChannelsInput.attr("max", nbMaxDatasets);
+	nbChannelsInput.attr("max", NB_MAX_DATASETS);
 	$("#nbChannels").on('change', () => {
 		let nbChannels = nbChannelsInput.val();
-		while(numberOfDatasets < nbChannels && numberOfDatasets < nbMaxDatasets){
+		while(numberOfDatasets < nbChannels && numberOfDatasets < NB_MAX_DATASETS){
 			addDataset();
 		}
 		while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
@@ -243,20 +243,30 @@ const myChart = new Chart(ctx, {
 					pointStyle: 'rect',
 					pointStyleWidth: 30
 				},
-				onClick: function(e, legendItem, legend) {
-					if($("#nav-chartConfig-tab").hasClass("active") == false || tabShown == false){
-						$("#nav-chartConfig-tab").trigger('click');
-					}
-					let legendItemInput = $($("#legendTable").find("tr")[legendItem.datasetIndex+1]).find("input")[0];
-					setTimeout(() => {
-						legendItemInput.focus();
-						legendItemInput.select();
-					}, 400);
-				}
+				onClick: legendClickHandler
 			}
 		}
 	}
 });
+
+function legendClickHandler(e, legendItem, legend){
+	if($("#nav-chartConfig-tab").hasClass("active") == false || tabShown == false){
+		$("#nav-chartConfig-tab").trigger('click');
+	}
+	if($("#legendSetupDiv").is('.collapse:not(.show)')){
+		$("#legendSetupDiv").collapse("show");
+		$("#legendSetupDiv").one(("shown.bs.collapse"), ()=>{
+			//wait for the collapse animation to happen, otherwise focus below won't work
+			let legendItemInput = $("#legendConfigDiv").find('.labelInput')[legendItem.datasetIndex+1];
+			legendItemInput.focus();
+			legendItemInput.select();
+		});
+	} else {
+		let legendItemInput = $("#legendConfigDiv").find('.labelInput')[legendItem.datasetIndex+1];
+		legendItemInput.focus();
+		legendItemInput.select();
+	}
+}
 
 function initChart(){
 	//we add three datasets by default, as there are three channels on the ownTech card

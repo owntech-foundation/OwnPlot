@@ -111,9 +111,10 @@ function updateLegendTable(){
         // The following implementation implies that point styles & line styles have all different names
         tableLine = tableLine.replace("<option>" + pointStylesEnum[dataset.pointStyle], "<option selected>" + pointStylesEnum[dataset.pointStyle]);
         tableLine = tableLine.replace("<option>" + lineStylesEnum[dataset.lineStyle], "<option selected>" + lineStylesEnum[dataset.lineStyle]);
+        tableLine = tableLine.replace('#ffffff', dataset.backgroundColor);
         tableLine = tableLine.replace('id="pointSizeInputNULL" value=""', 'id="pointSizeInputNULL" value="' + dataset.pointRadius + '"');
         tableLine = tableLine.replace('id="lineSizeInputNULL" value=""', 'id="lineSizeInputNULL" value="' + dataset.lineBorderWidth + '"');        
-        tableLine = tableLine.replace(/NULL/gm, dataset.index);
+        tableLine = tableLine.replace(/NULL/gm, dataset.index + 1);
         legendSetupTable.append(tableLine);
     });
 
@@ -128,18 +129,18 @@ function updateLegendTable(){
     });
     
     $(".colorInput").on('input', function() {
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].backgroundColor = $(this).val();
         myChart.data.datasets[datasetIndex].borderColor = $(this).val();
     });
 
     $(".labelInput").on('change', function() {
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].label = $(this).val();
     });
 
     $(".datasetVisibleCheck").on('click', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         if(this.checked){
             myChart.data.datasets[datasetIndex].hidden = false;
         } else {
@@ -148,23 +149,23 @@ function updateLegendTable(){
     });
 
     $(".pointStyleSelect").on('change', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].pointStyle = pointStylesEnum[$(this).val()];
     });
 
     $(".pointSizeInput").on('change', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].pointRadius = parseInt($(this).val());
     });
 
     $(".lineStyleSelect").on('change', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].lineStyle = $(this).val();
         myChart.data.datasets[datasetIndex].lineBorderDash = lineStylesEnum[$(this).val()];
     });
 
     $(".lineSizeInput").on('change', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].lineBorderWidth = parseInt($(this).val());
     });
 }

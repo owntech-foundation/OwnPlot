@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-30 12:45:38
+ * @ Modified time: 2022-08-31 10:39:40
  */
 
 /*
@@ -77,8 +77,8 @@ let formattedMode = false;
 
 let countTermLines = 0;
 let termSize = 30;
-const minTermLines = 1;
-const maxTermLine = 500;
+const MIN_TERM_LINES = 1;
+const MAX_TERM_LINES = 500;
 
 $(() => {
 	$("#terminalBar").css("height", Math.floor($(window).height() - $("#terminalBar").offset().top));
@@ -93,10 +93,10 @@ $(() => {
 
 	termBufSizeInput.on('change', () => {
 		termSize = termBufSizeInput.val();
-		if(termSize > maxTermLine){
-			termSize = maxTermLine;
-		} else if(termSize < minTermLines){
-			termSize = minTermLines;
+		if(termSize > MAX_TERM_LINES){
+			termSize = MAX_TERM_LINES;
+		} else if(termSize < MIN_TERM_LINES){
+			termSize = MIN_TERM_LINES;
 		}
 		changeTerminalSize();
 	});

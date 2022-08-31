@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-30 15:56:41
+ * @ Modified time: 2022-08-31 11:26:26
  */
 
  /* Color scheme */
@@ -31,7 +31,6 @@ main{
 	border: var(--simple-border);
 	padding-top: 1em;
 	box-sizing: border-box;
-	/* height: 15vh; */
 	/* resize: vertical;
 	overflow: auto; */
 }
@@ -39,20 +38,15 @@ main{
 #sideBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
-	/* resize: horizontal;
-	overflow: auto; */
+	overflow-y: scroll;
 }
 
 #terminalBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
-	resize: vertical;
-	overflow: auto;
+	/* resize: vertical;
+	overflow: auto; */
 }
-
-/* #myChart{
-	max-height: 70vh;
-} */
 
 .menu-btn {
 	--bs-btn-color: var(--text-color);
@@ -83,6 +77,10 @@ input {
 
 .collapseHead {
 	text-decoration: none;
+}
+
+.legendLineCollapseBtn {
+	border: none;
 }
 
 /* Chart Config */
