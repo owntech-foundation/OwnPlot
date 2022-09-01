@@ -29,6 +29,15 @@ function getIntInString(str){
     return parseInt(str.replace(/[^\d.]/g, '' )); //first we remove the non-digit characters
 }
 
+function enterKeyupHandler(elemSelector, handler){
+    elemSelector.on("keyup", function(e){
+        if (e.key == "Enter") {
+            handler();
+            elemSelector.blur();
+        }
+    });
+}
+
 /* Debug */
 const debugTermSel = $("#debugTerminal");
 function printDebugTerminal(err){

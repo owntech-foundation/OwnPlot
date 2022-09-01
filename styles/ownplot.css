@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-31 17:59:18
+ * @ Modified time: 2022-09-01 18:33:37
  */
 
  /* Color scheme */
@@ -16,6 +16,7 @@
 	--text-color: #F2F0E7;
 	--simple-border: 1px solid #000000;
 	--bs-body-color: var(--text-color);
+	--port-bar-btn-width: 70px;
 }
 
 main{
@@ -27,7 +28,6 @@ main{
 #topBar {
 	background-color: var(--main-bg-color);
 	border: var(--simple-border);
-	padding-top: 1em;
 	box-sizing: border-box;
 	/* resize: vertical;
 	overflow: auto; */
@@ -40,14 +40,19 @@ main{
 }
 
 #portBar {
-	width: 20em !important;
-	min-width: 20em !important;
+	--port-bar-width: calc(0.5rem * 4 + var(--port-bar-btn-width) * 3); /* m-1 class = 0.5rem by default in bootstrap */
+	width: var(--port-bar-width) !important;
+	min-width: var(--port-bar-width) !important;
 }
 
 #terminalBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
 	overflow-y: scroll;
+}
+
+#myChart {
+	border: var(--simple-border);
 }
 
 .menu-btn {
@@ -72,7 +77,7 @@ main{
 }
 
 .portBarBtn{
-	width: 70px !important;
+	width: var(--port-bar-btn-width) !important;
 }
 
 .nonBreakable {
@@ -89,6 +94,10 @@ input {
 
 .collapseHead {
 	text-decoration: none;
+}
+
+.tab-pane {
+	overflow: hidden;
 }
 
 .legendLineCollapseBtn {

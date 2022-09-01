@@ -42,7 +42,7 @@ function terminalHexMode(elem) {
 	elem.attr('aria-pressed', 'true');
 	elem.removeClass('btn-default');
 	elem.addClass('btn-success');
-	elem.html('<i class="fa-solid fa-code"></i>&nbsp;Hex mode');
+	elem.html('<i class="fa-solid fa-code"></i>&nbsp;Hexadecimal');
 	termDataMode = DataModesEnum.Hex;
 }
 
@@ -50,7 +50,7 @@ function terminalDecimalMode(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-default');
-	elem.html('<i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal mode');
+	elem.html('<i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal');
 	termDataMode = DataModesEnum.Decimal;
 }
 

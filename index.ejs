@@ -1,9 +1,7 @@
 <%- include('template/header'); %>
 <main class="vh-100 vw-100">
-	<div class="px-2 d-flex flex-row justify-content-between" id="topBar">
-		<div>
-			<%- include('template/navBar'); %>
-		</div>
+	<div class="px-2 py-2 d-flex flex-row justify-content-between" id="topBar">
+		<%- include('template/navBar'); %>
 		<div class="px-3" id="portBar">
 			<%- include('template/portBar'); %>
 		</div>
@@ -13,7 +11,7 @@
 			<%- include('template/tabs'); %>
 		</div>
 		<div class="col-9 ps-0" id="chartAndTerminalDiv">
-			<canvas class="my-4 pe-4" id="myChart"></canvas>
+			<canvas class="my-0 py-4 pe-4" id="myChart"></canvas>
 			<div class="row mx-0 px-0" id="terminalBar">
 				<pre class="terminalPre pe-4" id="terminalData"></pre>
 			</div>

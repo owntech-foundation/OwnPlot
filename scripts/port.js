@@ -23,6 +23,7 @@ $(function(){
 		} else {
 			noPortBtn($('#openPortBtn'));
 		}
+		this.blur();
 	});
 
 	$('#pausePortBtn').on('click', function(){

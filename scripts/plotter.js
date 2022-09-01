@@ -3,11 +3,35 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-31 17:01:20
+ * @ Modified time: 2022-09-01 17:49:09
  */
 
 const { data } = require("jquery");
 const { proto } = require("once");
+
+
+const colorThemes = {
+	ColorBlind10: ColorBlind10,
+	OfficeClassic6: OfficeClassic6,
+	HueCircle19: HueCircle19,
+	Tableau20: Tableau20
+}; // See assets/colorSchemes/
+let chartColors = colorThemes[Object.keys(colorThemes)[0]];
+
+const lineStylesEnum = {
+	full: [],
+	short: [1, 1],
+	medium: [10, 10],
+	long: [20, 5],
+	alternate: [15, 3, 3, 3]
+};
+
+const pointStylesEnum = {
+	circle: 'circle',
+	cross: 'cross',
+	triangle: 'triangle',
+	square: 'square'
+};
 
 function pauseBtn(elem) {
 	$(elem).html('<i class="fa-solid fa-pause"></i><br>Paused');
@@ -16,7 +40,6 @@ function pauseBtn(elem) {
 	$(elem).addClass('btn-warning');
 	$(elem).attr('aria-pressed', true);
 	$(elem).prop("disabled", false);
-	
 	pausePlot();
 }
 
@@ -27,7 +50,6 @@ function runBtn(elem) {
 	$(elem).addClass('btn-success');
 	$(elem).attr('aria-pressed', false);
 	$(elem).prop("disabled", false);
-	
 	runPlot();
 }
 
@@ -36,23 +58,29 @@ let rawDataBuff = Buffer.alloc(0);
 let indexData = 0;
 const NB_MAX_DATASETS = 20;
 
-let nbChannelsInput = $("#nbChannels");
+const nbChannelsInput = $("#nbChannels");
+const colorSchemeSelect = $("#colorSchemeSelect");
 
 $(() => {
+	initColorSchemeSelect();
+
 	initChart();
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 	nbChannelsInput.attr("max", NB_MAX_DATASETS);
-	$("#nbChannels").on('change', () => {
-		let nbChannels = nbChannelsInput.val();
-		while(numberOfDatasets < nbChannels && numberOfDatasets < NB_MAX_DATASETS){
-			addDataset();
-		}
-		while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
-			removeDataset();
-		}
-		updateLegendTable();
-	});
+	nbChannelsInput.on('change', updateNbChannels);
+	enterKeyupHandler(nbChannelsInput, updateNbChannels);
 });
+
+function updateNbChannels(){
+	let nbChannels = nbChannelsInput.val();
+	while(numberOfDatasets < nbChannels && numberOfDatasets < NB_MAX_DATASETS){
+		addDataset();
+	}
+	while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
+		removeDataset();
+	}
+	updateLegendTable();
+}
 
 function pausePlot(){
 	myChart.options.scales['x'].realtime.pause = true;
@@ -97,28 +125,15 @@ function removeDataset() {
 	myChart.update();
 }
 
-const lineStylesEnum = {
-	full: [],
-	short: [1, 1],
-	medium: [10, 10],
-	long: [20, 5],
-	alternate: [15, 3, 3, 3]
-};
-const pointStylesEnum = {
-	circle: 'circle',
-	cross: 'cross',
-	triangle: 'triangle',
-	square: 'square'
-};
-
 function addDataset() {
 	myChart.stop();
 	numberOfDatasets++;
+	let index = numberOfDatasets-1; //index begins to 0
 	let newDataset = {
-		index: numberOfDatasets-1, //index begins to 0
+		index: index,
 		label: 'Dataset ' + numberOfDatasets,
-		backgroundColor: automaticColorDataset(numberOfDatasets),
-		borderColor: automaticColorDataset(numberOfDatasets),
+		backgroundColor: automaticColorDataset(index),
+		borderColor: automaticColorDataset(index),
 		lineTension: 0,
 		hidden: false,
 		data: [],
@@ -134,32 +149,30 @@ function addDataset() {
 
 // Chart layout setting //
 
-const chartColors = {
-	blue: '#304ffe',
-	green: '#64dd17',
-	red: '#ed0202',
-	orangeYellow: '#ffd600',
-	purple: '#aa00ff',
-	blueGreen: '#00bfa5',
-	orange: '#ff6f00',
-	lilac: '#ddcff4',
-	pink: '#ec407a',
-	deepSkyBlue: '#00bfff',
-	deepGreen: '#2e7d32',
-	violet: '#e040fb',
-	darkTurquoise: '#00ced1',
-	cornsilk: '#fff8dc',
-	apple: '#00c853',
-	sapphire: '#0f52ba',
-	grey: '#a0bbc4',
-	marroon: '#9e9d24',
-	gold: '#ffa000',
-	anthracite: '#455a64',
-};
+function initColorSchemeSelect(){
+	let optionsHTML;
+	Object.keys(colorThemes).forEach((themeName)=>{
+		optionsHTML += "<option>" + themeName + "</option>";
+	})
+	colorSchemeSelect.html(optionsHTML);
+	colorSchemeSelect.on('change', function(){
+		chartColors = colorThemes[$(this).val()];
+		updateChartColors();
+		myChart.update();
+		updateLegendTable();
+	});
+}
 
 function automaticColorDataset(elemNumber) {
-	let index = (elemNumber - 1) % (Object.keys(chartColors).length);
-	return (Object.entries(chartColors).at(index)[1]);
+	let index = elemNumber % (Object.keys(chartColors).length);
+	return chartColors[index];
+}
+
+function updateChartColors(){
+	myChart.data.datasets.forEach(function(dataset){
+		dataset.backgroundColor = automaticColorDataset(dataset.index);
+		dataset.borderColor = automaticColorDataset(dataset.index);
+	})
 }
 
 let timeTicksPrinted;

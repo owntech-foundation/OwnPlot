@@ -13,11 +13,9 @@ $(() => {
     disableSend();
     updateCommandButtons();
 
-    sendInput.on("keyup", (e) => {
-        if (e.key == "Enter") {
-            send(sendInput.val());
-            printDebugTerminal('sent---> ' + sendInput.val());
-        }
+    enterKeyupHandler(sendInput, ()=>{
+        send(sendInput.val());
+        printDebugTerminal('sent---> ' + sendInput.val());
     });
 
     sendBtn.on('click', () => {
@@ -25,16 +23,9 @@ $(() => {
         printDebugTerminal('sent---> ' + sendInput.val());
     });
 
-    addCommandName.on("keyup", (e) => {
-        if (e.key == "Enter") {
-            addCommandSubmitHandler();
-        }
-    });
-    addCommandData.on("keyup", (e) => {
-        if (e.key == "Enter") {
-            addCommandSubmitHandler();
-        }
-    });
+    enterKeyupHandler(addCommandName, addCommandSubmitHandler);
+    enterKeyupHandler(addCommandData, addCommandSubmitHandler);
+    
     addCommandBtn.on('click', function(){
         addCommandSubmitHandler();
     });
@@ -84,10 +75,10 @@ function updateCommandButtons() {
         if (elem.icon != "undefined") {
             iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;';
         }
-        let buttonHtml = '<div class="col-6 mb-2">';
+        let buttonHtml = '<div class=" col-5 mb-2">';
         buttonHtml += '<div class="input-group">';
         if(elem.defaultColor){
-            buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
+            buttonHtml += '<button type="button" class="btn btn-primary  col-5 commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
         } else {
             if(elem.isClear){
                 buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +'; color:#000">' + iconHtml + elem.text + '</button>';

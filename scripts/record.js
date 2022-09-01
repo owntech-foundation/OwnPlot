@@ -36,7 +36,7 @@ $(()=>{
     downloadRecordBtn.on("click", ()=>{
         download(recordFileNameInput.val());
     });
-    recordSeparatorInput.on("input", function(){
+    recordSeparatorInput.on('input', function(){
         recordSeparator = this.val();
     });
     timestampRecordCheck.on('change', function(){
