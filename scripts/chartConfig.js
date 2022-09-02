@@ -1,15 +1,18 @@
 const relBtn = $("#relBtn");
 const absBtn = $('#absBtn');
 const legendPositionBtn = $('#legendPositionBtn');
+const resetRelBtn = $('#resetRelBtn');
 
 function switchRelAbsBtn(){
     if(absTimeMode){
-        $(absBtn).hide();
-        $(relBtn).show();
+        absBtn.hide();
+        relBtn.show();
+        resetRelBtn.show();
         absTimeMode = false;
     } else {
-        $(relBtn).hide();
-        $(absBtn).show();
+        relBtn.hide();
+        absBtn.show();
+        resetRelBtn.hide();
         absTimeMode = true;
     }
 }
@@ -17,9 +20,14 @@ function switchRelAbsBtn(){
 $(()=>{
     initLegendConfigTable();
 
-    $(relBtn).hide();
-    $(absBtn).show();
+    relBtn.hide();
+    absBtn.show();
     absTimeMode = true;
+
+    resetRelBtn.hide();
+    resetRelBtn.on('click', ()=>{
+        chartStartTime = Date.now();
+    });
 
     $(".relAbsBtn").on('click', ()=>{
         switchRelAbsBtn();

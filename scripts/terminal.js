@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-26 11:12:38
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-31 14:30:30
+ * @ Modified time: 2022-09-02 11:55:20
  */
 
 /*
@@ -89,10 +89,6 @@ $(() => {
 			termSize = MIN_TERM_LINES;
 		}
 		changeTerminalSize();
-	});
-
-	clearBtn.on('click', function(){
-		clearTerminal();
 	});
 
 	terminalTimestampBtnEnable(terminalBtnTimestamp); //default behaviour

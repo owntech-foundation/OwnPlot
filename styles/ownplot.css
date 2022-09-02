@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-01 18:33:37
+ * @ Modified time: 2022-09-02 12:44:52
  */
 
  /* Color scheme */
@@ -55,6 +55,12 @@ main{
 	border: var(--simple-border);
 }
 
+.btn {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .menu-btn {
 	--bs-btn-color: var(--text-color);
     --bs-btn-bg: var(--third-bg-color);
@@ -86,14 +92,34 @@ main{
 
 input {
 	color: var(--text-color);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .card {
 	--bs-card-bg: var(--third-bg-color);
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .collapseHead {
 	text-decoration: none;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.input-group-text{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+select{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .tab-pane {

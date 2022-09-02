@@ -36,6 +36,7 @@ $(function(){
 
 	$('#clearPortBtn').on('click', ()=>{
 		flushChart(myChart);
+		chartStartTime = Date.now();
 		$('#clearPortBtn').prop('disabled', true);
 	});
 
@@ -57,7 +58,6 @@ $(function(){
 			closePortBtn(this);
 		}
 	});
-
 });
 
 function noPortBtn(elem) {

@@ -69,36 +69,41 @@ function removeCommandButton(index) {
 }
 
 function updateCommandButtons() {
-    $("#commandButtonContainer").empty();
-    commandButtons.forEach((elem, index) => {
-        let iconHtml = "";
-        if (elem.icon != "undefined") {
-            iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;';
-        }
-        let buttonHtml = '<div class=" col-5 mb-2">';
-        buttonHtml += '<div class="input-group">';
-        if(elem.defaultColor){
-            buttonHtml += '<button type="button" class="btn btn-primary  col-5 commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
-        } else {
-            if(elem.isClear){
-                buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +'; color:#000">' + iconHtml + elem.text + '</button>';
-            } else {
-                buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +';">' + iconHtml + elem.text + '</button>';
+    if(commandButtons.length){
+        $("#commandButtonContainer").empty();
+        commandButtons.forEach((elem, index) => {
+            let iconHtml = "";
+            if (elem.icon != "undefined") {
+                iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;';
             }
-        }
-        buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can"></i></button>';
-        buttonHtml += '</div>';
-        buttonHtml += '</div>';
-        $("#commandButtonContainer").append(buttonHtml);
-        $('#cmdBtn-' + index).on('click', function() { //check if port is opened
-            send(elem.command);
+            let buttonHtml = '<div class="mb-2">';
+            buttonHtml += '<div class="input-group">';
+            if(elem.defaultColor){
+                buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
+            } else {
+                if(elem.isClear){
+                    buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +'; color:#000">' + iconHtml + elem.text + '</button>';
+                } else {
+                    buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +';">' + iconHtml + elem.text + '</button>';
+                }
+            }
+            buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can"></i></button>';
+            buttonHtml += '</div>';
+            buttonHtml += '</div>';
+            $("#commandButtonContainer").append(buttonHtml);
+            $('#cmdBtn-' + index).on('click', function() { //check if port is opened
+                send(elem.command);
+            });
         });
-    });
-    $(".removeCommandButton").on("click", function(){
-        let buttonIndex = getIntInString($(this).attr("id"));
-        commandButtons.splice(buttonIndex, 1);
-        updateCommandButtons();
-    });
+        $(".removeCommandButton").on("click", function(){
+            let buttonIndex = getIntInString($(this).attr("id"));
+            commandButtons.splice(buttonIndex, 1);
+            updateCommandButtons();
+        });
+        $("#commandButtonContainer").show();
+    } else {
+        $("#commandButtonContainer").hide();
+    }
     if(portIsOpen){
         enableSend();
     } else {
