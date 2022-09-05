@@ -5,14 +5,14 @@
 </div>
 
 <div class="mb-3">
-    <a href="#recordNameDiv" class="collapseHead" id="recordNameHref" role="button" aria-expanded="false" aria-controls="recordNameDiv">
+    <a data-target="#recordNameDiv" class="collapseHead" id="recordNameHref" role="button" aria-expanded="true" aria-controls="recordNameDiv">
         <span class="input-group-text" id="recordNameTitle">
             <i class="fa-solid fa-file-circle-question"></i>&nbsp;<span style="font-weight:bolder">Name</span>
         </span>
     </a>
     <div class="collapse show" id="recordNameDiv">
         <div class="card card-body">
-            <div class="input-group mb-3">
+            <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text col-5" >
                     <i class="fa-solid fa-file-pen"></i>&nbsp;File Name
                 </span>
@@ -42,15 +42,15 @@
 </div>
 
 <div class="mb-3">
-    <a href="#recordSettingsDiv" class="collapseHead" id="recordSettingsHref" role="button" aria-expanded="false" aria-controls="recordSettingsDiv">
+    <a data-target="#recordSettingsDiv" class="collapseHead" id="recordSettingsHref" role="button" aria-expanded="true" aria-controls="recordSettingsDiv">
         <span class="input-group-text" id="recordSettingsTitle">
             <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Settings</span>
         </span>
     </a>
     <div class="collapse show" id="recordSettingsDiv">
         <div class="card card-body">
-            <div class="input-group mb-2">
-                <span class="input-group-text col-5" ><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
+            <div class="input-group input-group-sm mb-2">
+                <span class="input-group-text col-5"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
                 <input type="text" class="form-control imperativeRecordSetting" id="recordSeparatorInput" maxlength=100 aria-describedby="record separator input" value=",">
             </div>
             
@@ -87,7 +87,7 @@
             <div class="row">
                 <div class="col">
                     <div class="form-check">
-                        <input class="form-check-input imperativeRecordSetting" type="checkbox" value="" id="timestampRecordCheck">
+                        <input class="form-check-input imperativeRecordSetting" type="checkbox" value="" id="timestampRecordCheck" checked>
                         <label class="form-check-label" for="timestampRecordCheck">
                             Add timestamp
                         </label>

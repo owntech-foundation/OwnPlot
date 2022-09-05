@@ -12,10 +12,14 @@ const imperativeRecordSetting = $(".imperativeRecordSetting");
 const recordFileNameInput = $("#recordFileNameInput");
 const csvRecordRadio = $("#csvRecordRadio");
 
+let nbRecordSameName = 0;
+let previousName;
+
 $(()=>{
     pauseRecordBtn.hide();
-    recordTimestampSetupRows.hide();
-    recordFileNameInput.val(generateFileName());
+    previousName = generateFileName();
+    recordFileNameInput.val(previousName);
+    startRecordBtn.prop("disabled", true);
 
     startRecordBtn.on("click", function(){
         $(this).hide();
@@ -34,7 +38,7 @@ $(()=>{
         recording = false;
     });
     downloadRecordBtn.on("click", ()=>{
-        download(recordFileNameInput.val());
+        downloadRecord();
     });
     recordSeparatorInput.on('input', function(){
         recordSeparator = this.val();
@@ -54,12 +58,14 @@ $(()=>{
     });
     recordFileNameInput.on("change", function(){
         if($(this).val() == ""){
-            $(this).val(generateFileName());
+            $(this).val(previousName);
+        } else if (arraysEqual($(this).val(), previousName) == false){
+            nbRecordSameName=0;
         }
     });
 });
 
-function download(filename) {
+function downloadRecord() {
     if(nameRecordCheck[0].checked){
         textToExport = '\n' + textToExport;
         for (let index = myChart.data.datasets.length-1; index > 0; index--) {
@@ -77,7 +83,7 @@ function download(filename) {
     } else {
         downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(textToExport));
     }
-    downloadLink.setAttribute('download', filename);
+    downloadLink.setAttribute('download', getFileName());
 
     downloadLink.style.display = 'none';
     recordDiv.append(downloadLink);
@@ -85,8 +91,17 @@ function download(filename) {
     downloadLink.click();
 
     recordDiv.removeChild(downloadLink);
+    nbRecordSameName++;
 }
 
 function generateFileName(){
     return "OwnPlot_Record_" + new Date().toISOString().substring(0,10);
+}
+
+function getFileName(){
+    let nbRecordStr = '';
+    if(nbRecordSameName > 0){
+        nbRecordStr = '('+nbRecordSameName+')';
+    }
+    return recordFileNameInput.val() + nbRecordStr;
 }

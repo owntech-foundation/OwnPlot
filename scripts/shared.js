@@ -4,15 +4,27 @@ const objectKeys = require("object-keys");
 
 /* Util */
 function dateToTimeString(date){
-	return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    if (hours<10) {
+       hours = '0' + hours;
+    }
+    if (minutes<10) {
+        minutes = '0' + minutes;
+    }
+    if (seconds<10) {
+        seconds = '0' + seconds;
+    }
+	return hours + ':' + minutes + ':' + seconds;
 }
 function dateToPreciseTimeString(date){
-    let ms = date.getMilliseconds().toString();
-    let str=date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.';
-    for (let index = ms.length; index < 3; index++){
-        str += '0'; //12:23:34.004 instead of 12:23:34.4
+    let msStr = date.getMilliseconds().toString();
+    let timeStr = dateToTimeString(date) + '.';
+    for (let index = msStr.length; index < 3; index++){
+        timeStr += '0'; //12:23:34.004 instead of 12:23:34.4
     }
-    return str + ms;
+    return timeStr + msStr;
 }
 
 function arraysEqual(firstArr, secondArr){
@@ -26,7 +38,7 @@ function arraysEqual(firstArr, secondArr){
 }
 
 function getIntInString(str){
-    return parseInt(str.replace(/[^\d.]/g, '' )); //first we remove the non-digit characters
+    return parseInt(str.replace(/[^\d.]/g, '')); //first we remove the non-digit characters
 }
 
 function enterKeyupHandler(elemSelector, handler){
@@ -61,9 +73,9 @@ function millisecondsElapsed(startTime, endTime){
 const upRecordRadio = $("#upRecordRadio");
 const timestampRecordCheck = $("#timestampRecordCheck");
 const sPrecisionTimestampRecordRadio = $("#sPrecisionTimestampRecordRadio");
-const RECORD_MAX_SIZE = Math.pow(10,9); //max 1Go of recorded data
+const RECORD_MAX_SIZE = Math.pow(10,9); //max 1Gb of recorded data
 let recording = false;
-let absTimeRecord = true;
+let absTimeRecord = false;
 let recordStartTime;
 let textToExport = "";
 let recordSeparator = ",";
@@ -132,10 +144,6 @@ function updateLegendTable(){
 	// 	"searching": false,
 	// 	"info": false,
 	// }); //Sorts a html table
-
-    $(".collapseHead").on('click', function(){
-        $($(this).attr('href')).collapse("toggle"); // I do it this way because collapse doesn't work with traditionnal data-bs-toggle, i can't figure why
-    });
     
     $(".colorInput").on('input', function() {
         let datasetIndex = getIntInString($(this).attr("id")) - 1;

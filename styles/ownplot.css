@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-20 17:19:33
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 10:48:20
+ * @ Modified time: 2022-09-05 12:21:03
  */
 
  /* Color scheme */
@@ -17,6 +17,25 @@
 	--simple-border: 1px solid #000000;
 	--bs-body-color: var(--text-color);
 	--port-bar-btn-width: 70px;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+*::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0,0,0,0);
+}
+*::-webkit-scrollbar-thumb{
+    border-radius: 8px;
+    background: var(--text-color);
+}
+*::-webkit-scrollbar-thumb:hover{
+  	background: var(--text-color);
+}
+*::-webkit-scrollbar-thumb:active{
+  	background: var(--text-color);
 }
 
 main{

@@ -1,10 +1,10 @@
 <div class="mb-3">
-    <a href="#timeConfigDiv" class="collapseHead" aria-expanded="false" aria-controls="timeConfigDiv">
+    <a data-target="#timeConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="timeConfigDiv">
         <span class="input-group-text" id="timeConfigTitle">
             <i class="fa-solid fa-clock"></i><span style="font-weight:bolder">&nbsp;Time Representation</span>
         </span>
     </a>
-    <div class="collapse mb-2" id="timeConfigDiv">
+    <div class="collapse show mb-2" id="timeConfigDiv">
         <div class="card card-body">
             <div class="row p-0 m-0">
                 <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
@@ -34,16 +34,27 @@
 </div>
 
 <div class="mb-3">
-    <a href="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="false" aria-controls="legendSetupDiv">
+    <a data-target="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="true" aria-controls="legendSetupDiv">
         <span class="input-group-text" id="legendSetupTitle">
             <i class="fa-solid fa-palette"></i>&nbsp;<span style="font-weight:bolder">Legend</span>
         </span>
     </a>
     <div class="collapse show" id="legendSetupDiv">
         <div class="card card-body">
-            <button type="button" class="btn btn-sm btn-primary mb-3 col-5" id="legendPositionBtn">
-                <i class="fa-solid fa-arrow-right"></i>&nbsp;Position
-            </button>
+            <div class="row p-0 m-0">
+                <button type="button" class="btn btn-sm btn-success mb-3 col-5" id="legendShownBtn">
+                    <i class="fa-solid fa-eye"></i>&nbsp;Shown
+                </button>
+                <button type="button" class="btn btn-sm btn-warning mb-3 col-5" id="legendHiddenBtn">
+                    <i class="fa-solid fa-eye-slash"></i>&nbsp;Hidden
+                </button>
+                <div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+                <button type="button" class="btn btn-sm btn-primary mb-3 col-5" id="legendPositionBtn">
+                    <i class="fa-solid fa-arrow-right"></i>&nbsp;Position
+                </button>
+            </div>
             <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text col-5">
                     <i class="fa-solid fa-swatchbook"></i>&nbsp;Theme
@@ -64,7 +75,7 @@
                             <div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheckNULL" checked></div>
                         </div>
                         <div class="col">
-                            <a href="#datasetDivNULL" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDivNULL">
+                            <a data-target="#datasetDivNULL" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDivNULL">
                                 <button class="btn btn-sm btn-primary legendLineCollapseBtn" style="background-color:#ffffff">
                                     <i class="fa-solid fa-paintbrush"></i>
                                 </button>

@@ -22,7 +22,8 @@ $(()=>{
 	});
     
     collapseHead.on('click', function(){
-        $($(this).attr('href')).collapse("toggle"); // Collapse doesn't work only with data-bs-toggle, i can't figure why
+		const head = this;
+        $($(this).attr('data-target')).collapse("toggle"); // Collapse doesn't work only with data-bs-toggle, i can't figure why
     });
 });
 

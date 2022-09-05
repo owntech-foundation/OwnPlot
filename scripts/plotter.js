@@ -3,7 +3,7 @@
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-07-11 09:12:37
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-01 17:49:09
+ * @ Modified time: 2022-09-05 14:12:42
  */
 
 const { data } = require("jquery");
@@ -223,6 +223,7 @@ const myChart = new Chart(ctx, {
 		},
 		plugins: {
 			legend: {
+				display: true,
 				position: 'right',
 				labels: {
 					//replace the default colored box which border was linked to the dash pattern of the dataset (it was ugly)

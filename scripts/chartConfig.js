@@ -20,6 +20,21 @@ function switchRelAbsBtn(){
 $(()=>{
     initLegendConfigTable();
 
+    $("#legendShownBtn").on('click', function(){
+        $(this).hide();
+        myChart.options.plugins.legend.display = false;
+        myChart.update();
+        $("#legendHiddenBtn").show();
+    });
+
+    $("#legendHiddenBtn").hide();
+    $("#legendHiddenBtn").on('click', function(){
+        $(this).hide();
+        myChart.options.plugins.legend.display = true;
+        myChart.update();
+        $("#legendShownBtn").show();
+    });
+
     relBtn.hide();
     absBtn.show();
     absTimeMode = true;
