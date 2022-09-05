@@ -4,6 +4,10 @@ const collapseHead = $(".collapseHead");
 
 let currentTab = $(".nav-link.active").attr("id");
 $(()=>{
+	$("nav-ownTech-logo").on('click', function(){
+		window.location.href='https://www.w3docs.com';
+	});
+
 	updateHeight($("#terminalBar"));
 	updateHeight($("#sideBar"));
 	$(window).on('resize', function(){

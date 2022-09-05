@@ -2,8 +2,8 @@
  * @ Author: Guillaume Arthaud
  * @ Email: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-06-28 14:52:52
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-08-17 11:41:16
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 11:25:17
  */
 
 const { app, BrowserWindow } = require('electron');
@@ -33,7 +33,6 @@ function createWindow() {
         width: 800,
         height: 800,
         icon: icon,
-        backgroundColor: "#ccc",
         webPreferences: {
             nodeIntegration: true, // to allow require
             contextIsolation: false, // allow use with Electron 12+
@@ -56,6 +55,20 @@ function createWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
     });
+
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+        return {
+            action: 'allow',
+            overrideBrowserWindowOptions: {
+                width: 1250,
+                height: 800,
+                icon: icon,
+                autoHideMenuBar: true
+            }
+        }
+    });
+      
+    mainWindow.maximize();
 }
 
 // This method will be called when Electron has finished
