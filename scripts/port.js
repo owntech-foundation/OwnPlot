@@ -1,3 +1,13 @@
+/**
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-22 16:23:22
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 15:26:23
+ * @ Description:
+ */
+
 let availableSerialPorts;
 let selectedPort;
 

@@ -1,9 +1,11 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-06-28 14:52:53
- * @ Modified by: Your name
- * @ Modified time: 2022-07-19 18:02:01
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-07-20 14:21:39
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 15:30:36
+ * @ Description:
  */
 
 window.addEventListener('DOMContentLoaded', () => {

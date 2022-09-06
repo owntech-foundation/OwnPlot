@@ -1,3 +1,13 @@
+/**
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 17:05:16
+ * @ Description:
+ */
+
 const relBtn = $("#relBtn");
 const absBtn = $('#absBtn');
 const legendPositionBtn = $('#legendPositionBtn');

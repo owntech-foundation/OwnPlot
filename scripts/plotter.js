@@ -1,14 +1,15 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-07-11 09:12:37
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 14:12:42
+ * @ Modified time: 2022-09-05 17:31:05
+ * @ Description:
  */
 
 const { data } = require("jquery");
 const { proto } = require("once");
-
 
 const colorThemes = {
 	ColorBlind10: ColorBlind10,
@@ -55,15 +56,17 @@ function runBtn(elem) {
 
 let dataSerialBuff = Buffer.alloc(0);
 let rawDataBuff = Buffer.alloc(0);
-let indexData = 0;
 const NB_MAX_DATASETS = 20;
+let plotRunning = false;
+
+let ctx;
+let myChart;
 
 const nbChannelsInput = $("#nbChannels");
 const colorSchemeSelect = $("#colorSchemeSelect");
 
 $(() => {
 	initColorSchemeSelect();
-
 	initChart();
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 	nbChannelsInput.attr("max", NB_MAX_DATASETS);
@@ -84,10 +87,12 @@ function updateNbChannels(){
 
 function pausePlot(){
 	myChart.options.scales['x'].realtime.pause = true;
+	plotRunning = false;
 }
 
 function runPlot(){
 	myChart.options.scales['x'].realtime.pause = false;
+	plotRunning = true;
 }
 
 function plotOnPause(){
@@ -99,7 +104,7 @@ function getSerialData(index) {
 }
 
 function refreshCallback(chart) {
-	if (plotOnPause() == false) {
+	if (plotRunning) {
 		if(dataSerialBuff.length >= numberOfDatasets){
 			chart.data.datasets.forEach((dataset) => {
 				dataset.data.push({
@@ -177,66 +182,6 @@ function updateChartColors(){
 
 let timeTicksPrinted;
 
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-	type: 'line',
-	data: {
-		labels: ['Red'],
-		datasets: []
-	},
-	options: {
-		scales: {
-			x: {
-				type: 'realtime',
-				realtime: {
-					duration: 20000,
-					refresh: 200,
-					delay: 100,
-					onRefresh: refreshCallback,
-					pause: true
-				},
-				ticks: {
-					callback: function(value, index, ticks) {
-						if(absTimeMode){
-							return value;
-						}
-						let tickLabel = Math.floor(millisecondsElapsed(chartStartTime, ticks[index].value));
-						if(index>0){
-							if(timeTicksPrinted.includes(tickLabel)){
-								tickLabel = undefined;
-							} else {
-								timeTicksPrinted.push(tickLabel);
-							}
-						} else {
-							timeTicksPrinted = [tickLabel,];
-						}
-						return tickLabel;
-                    }
-				}
-			},
-			y: {
-				title: {
-					display: true,
-					labelString: 'value'
-				}
-			}
-		},
-		plugins: {
-			legend: {
-				display: true,
-				position: 'right',
-				labels: {
-					//replace the default colored box which border was linked to the dash pattern of the dataset (it was ugly)
-					usePointStyle: true,
-					pointStyle: 'rect',
-					pointStyleWidth: 30
-				},
-				onClick: legendClickHandler
-			}
-		}
-	}
-});
-
 function legendClickHandler(e, legendItem, legend){
 	if($("#nav-chartConfig-tab").hasClass("active") == false){
 		$("#nav-chartConfig-tab").trigger('click');
@@ -256,7 +201,67 @@ function legendClickHandler(e, legendItem, legend){
 	}
 }
 
-function initChart(){
+function initChart(){	
+	ctx = $('#myChart')[0].getContext('2d');
+	myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: ['Red'],
+			datasets: []
+		},
+		options: {
+			scales: {
+				x: {
+					type: 'realtime',
+					realtime: {
+						duration: 20000,
+						refresh: 200,
+						delay: 100,
+						onRefresh: refreshCallback,
+						pause: true
+					},
+					ticks: {
+						callback: function(value, index, ticks) {
+							if(absTimeMode){
+								return value;
+							}
+							let tickLabel = Math.floor(millisecondsElapsed(chartStartTime, ticks[index].value));
+							if(index>0){
+								if(timeTicksPrinted.includes(tickLabel)){
+									tickLabel = undefined;
+								} else {
+									timeTicksPrinted.push(tickLabel);
+								}
+							} else {
+								timeTicksPrinted = [tickLabel,];
+							}
+							return tickLabel;
+						}
+					}
+				},
+				y: {
+					title: {
+						display: true,
+						labelString: 'value'
+					}
+				}
+			},
+			plugins: {
+				legend: {
+					display: true,
+					position: 'right',
+					labels: {
+						//replace the default colored box which border was linked to the dash pattern of the dataset (it was ugly)
+						usePointStyle: true,
+						pointStyle: 'rect',
+						pointStyleWidth: 30
+					},
+					onClick: legendClickHandler
+				}
+			}
+		}
+	});
+
 	//we add three datasets by default, as there are three channels on the ownTech card
 	addDataset();
 	addDataset();

@@ -1,3 +1,13 @@
+/**
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-22 16:23:22
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 17:15:58
+ * @ Description:
+ */
+
 const fs = require('fs'); //file opening, reading & writing
 
 const startRecordBtn = $("#startRecordBtn");
@@ -43,7 +53,7 @@ $(()=>{
     recordSeparatorInput.on('input', function(){
         recordSeparator = this.val();
     });
-    timestampRecordCheck.on('change', function(){
+    $("#timestampRecordCheck").on('change', function(){
         if(this.checked){
             recordTimestampSetupRows.show();
         } else {
@@ -72,7 +82,7 @@ function downloadRecord() {
             textToExport = recordSeparator + myChart.data.datasets[index].label + textToExport;
         }
         textToExport = myChart.data.datasets[0].label + textToExport;
-        if(timestampRecordCheck[0].checked){
+        if($("#timestampRecordCheck")[0].checked){
             textToExport = "Time" + recordSeparator + textToExport;
         }
     }

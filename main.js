@@ -1,9 +1,11 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-06-28 14:52:52
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-23 14:14:50
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 11:25:17
+ * @ Modified time: 2022-09-05 15:30:14
+ * @ Description:
  */
 
 const { app, BrowserWindow } = require('electron');
