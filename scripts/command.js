@@ -1,3 +1,13 @@
+/**
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 15:26:04
+ * @ Description:
+ */
+
 const sendInput = $("#sendInput");
 const sendBtn = $("#sendBtn");
 const addCommandBtn = $("#addCommandBtn");
@@ -11,30 +21,21 @@ let commandButtons = [];
 
 $(() => {
     disableSend();
+    updateCommandButtons();
 
-    sendInput.on("keyup", (e) => {
-        if (e.key == "Enter") {
-            send(sendInput.val());
-            printDebugTerminal('sent---> ' + sendInput.val());
-        }
+    enterKeyupHandler(sendInput, ()=>{
+        send(sendInput.val());
+        printDebugTerminal('sent---> ' + sendInput.val());
     });
 
     sendBtn.on('click', () => {
         send(sendInput.val());
         printDebugTerminal('sent---> ' + sendInput.val());
     });
-    updateCommandButtons();
 
-    addCommandName.on("keyup", (e) => {
-        if (e.key == "Enter") {
-            addCommandSubmitHandler();
-        }
-    });
-    addCommandData.on("keyup", (e) => {
-        if (e.key == "Enter") {
-            addCommandSubmitHandler();
-        }
-    });
+    enterKeyupHandler(addCommandName, addCommandSubmitHandler);
+    enterKeyupHandler(addCommandData, addCommandSubmitHandler);
+    
     addCommandBtn.on('click', function(){
         addCommandSubmitHandler();
     });
@@ -42,10 +43,21 @@ $(() => {
 
 function addCommandSubmitHandler(){
     let button={  
-        color: addCommandColor.val(),
+        //color: addCommandColor.val(),
         text: addCommandName.val(),
-        command: addCommandData.val()
+        command: addCommandData.val(),
+        defaultColor: true, //color choice for commands is disabled for now
+        isClear: false
     };
+    // if(button.color == "#fffffe"){
+    //     button.defaultColor = true; //we use fffffe as a default color and hope no one uses this specific color intentionnally
+    // }
+    // let brightness = parseInt(button.color.slice(1,3), 16);
+    // brightness += parseInt(button.color.slice(3,5), 16);
+    // brightness += parseInt(button.color.slice(5,7), 16);
+    // if(brightness > 450){
+    //     button.isClear=true;
+    // }
     if(button.text == ""){
         addCommandName[0].select();
     } else if(button.command == ""){
@@ -67,33 +79,42 @@ function removeCommandButton(index) {
 }
 
 function updateCommandButtons() {
-    $("#commandButtonContainer").empty();
-    commandButtons.forEach((elem, index) => {
-        let iconHtml = "";
-        if (elem.icon != "undefined") {
-            iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;';
-        }
-        let buttonHtml = '<div class="col-6 mb-2">';
-        buttonHtml += '<div class="input-group">';
-        if(elem.color != "#fffffe"){
-            buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '">' + iconHtml + elem.text + '</button>';
-        } else {
-            buttonHtml += '<button type="button" class="btn btn-primary commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
-        }
-        buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can"></i></button>';
-        buttonHtml += '</div>';
-        buttonHtml += '</div>';
-        $("#commandButtonContainer").append(buttonHtml);
-        $('#cmdBtn-' + index).on('click', function() { //check if port is opened
-            send(elem.command);
+    if(commandButtons.length){
+        $("#commandButtonContainer").empty();
+        commandButtons.forEach((elem, index) => {
+            let iconHtml = "";
+            if (elem.icon != "undefined") {
+                iconHtml = '<i class="' + elem.icon + '"></i>&nbsp;';
+            }
+            let buttonHtml = '<div class="mb-2">';
+            buttonHtml += '<div class="input-group">';
+            if(elem.defaultColor){
+                buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
+            } else {
+                if(elem.isClear){
+                    buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +'; color:#000">' + iconHtml + elem.text + '</button>';
+                } else {
+                    buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +';">' + iconHtml + elem.text + '</button>';
+                }
+            }
+            buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can"></i></button>';
+            buttonHtml += '</div>';
+            buttonHtml += '</div>';
+            $("#commandButtonContainer").append(buttonHtml);
+            $('#cmdBtn-' + index).on('click', function() { //check if port is opened
+                send(elem.command);
+            });
         });
-    });
-    $(".removeCommandButton").on("click", function(){
-        let buttonIndex = getIntInString($(this).attr("id"));
-        commandButtons.splice(buttonIndex, 1);
-        updateCommandButtons();
-    });
-    if($("#openPortBtn")[0].innerHTML == 'Port opened'){
+        $(".removeCommandButton").on("click", function(){
+            let buttonIndex = getIntInString($(this).attr("id"));
+            commandButtons.splice(buttonIndex, 1);
+            updateCommandButtons();
+        });
+        $("#commandButtonContainer").show();
+    } else {
+        $("#commandButtonContainer").hide();
+    }
+    if(portIsOpen){
         enableSend();
     } else {
         disableSend();

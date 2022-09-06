@@ -1,0 +1,55 @@
+<!--
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 15:28:57
+ * @ Description:
+ -->
+
+<div class="mb-3">
+    <a data-target="#dataFormatDiv" class="collapseHead" id="dataFormatHref" role="button" aria-controls="dataFormatDiv">
+        <span class="input-group-text" id="dataFormatTitle">
+            <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Data Format</span>
+        </span>
+    </a>
+    <div class="collapse show" id="dataFormatDiv">
+        <div class="card card-body">
+            <%- include('dataFormatTab'); %>
+        </div>
+    </div>
+</div>
+
+<!-- Terminal settings -->
+<div class="mb-3">
+    <a data-target="#terminalSettingsDiv" class="collapseHead" role="button" id="terminalSettingsHref" aria-expanded="true" aria-controls="terminalSettingsDiv">
+        <span class="input-group-text" id="terminalSettingsTitle">
+            <i class="fa-solid fa-display"></i>&nbsp;<span style="font-weight:bolder">Terminal</span>
+        </span>
+    </a>
+    <div class="collapse show" id="terminalSettingsDiv">
+        <div class="card card-body">
+            <div class="input-group input-group-sm mb-3" id="termBufSizeDiv">
+                <span class="input-group-text col-5">
+                    <span style="font-weight:bolder">#</span>&nbsp;Lines
+                </span>
+                <input type="number" id="termBufSizeInput" class="form-control" value="20" min="0" max="1000">
+            </div>
+            <div class="row m-0 p-0">
+                <button type="button" aria-pressed="false" id="terminalBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5">
+                    <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
+                </button>
+                <div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+                <button type="button" aria-pressed="false" id="terminalBtnDataMode" class="btn btn-primary btn-sm mb-3 col-5">
+                    <i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal
+                </button>
+                <button type="button" aria-pressed="false" id="terminalBtnFormatted" class="btn btn-primary btn-sm mb-3 col-5">
+                    <i class="fa-solid fa-droplet"></i></i>&nbsp;Formatted
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

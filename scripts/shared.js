@@ -1,17 +1,40 @@
+/**
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 17:16:11
+ * @ Description:
+ */
+
+const { Button } = require("bootstrap");
 const { now } = require("moment");
 const objectKeys = require("object-keys");
 
 /* Util */
 function dateToTimeString(date){
-	return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+    if (hours<10) {
+       hours = '0' + hours;
+    }
+    if (minutes<10) {
+        minutes = '0' + minutes;
+    }
+    if (seconds<10) {
+        seconds = '0' + seconds;
+    }
+	return hours + ':' + minutes + ':' + seconds;
 }
 function dateToPreciseTimeString(date){
-    let ms = date.getMilliseconds().toString();
-    let str=date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds() + '.';
-    for (let index = ms.length; index < 3; index++){
-        str += '0'; //12:23:34.004 instead of 12:23:34.4
+    let msStr = date.getMilliseconds().toString();
+    let timeStr = dateToTimeString(date) + '.';
+    for (let index = msStr.length; index < 3; index++){
+        timeStr += '0'; //12:23:34.004 instead of 12:23:34.4
     }
-    return str + ms;
+    return timeStr + msStr;
 }
 
 function arraysEqual(firstArr, secondArr){
@@ -25,7 +48,16 @@ function arraysEqual(firstArr, secondArr){
 }
 
 function getIntInString(str){
-    return parseInt(str.replace(/[^\d.]/g, '' )); //first we remove the non-digit characters
+    return parseInt(str.replace(/[^\d.]/g, '')); //first we remove the non-digit characters
+}
+
+function enterKeyupHandler(elemSelector, handler){
+    elemSelector.on("keyup", function(e){
+        if (e.key == "Enter") {
+            handler();
+            elemSelector.blur();
+        }
+    });
 }
 
 /* Debug */
@@ -51,9 +83,9 @@ function millisecondsElapsed(startTime, endTime){
 const upRecordRadio = $("#upRecordRadio");
 const timestampRecordCheck = $("#timestampRecordCheck");
 const sPrecisionTimestampRecordRadio = $("#sPrecisionTimestampRecordRadio");
-const RECORD_MAX_SIZE = Math.pow(10,9); //max 1Go of recorded data
+const RECORD_MAX_SIZE = Math.pow(10,9); //max 1Gb of recorded data
 let recording = false;
-let absTimeRecord = true;
+let absTimeRecord = false;
 let recordStartTime;
 let textToExport = "";
 let recordSeparator = ",";
@@ -98,107 +130,73 @@ function writeToExport(dataBuf, timeBuff){
 /* Chart Settings */
 
 function updateLegendTable(){
-    let table = [];
+    const lineTemplate = $("#legendSetupLineTemplate").html();
+    const legendSetupTable = $("#legendConfigDiv");
+    legendSetupTable.html('<div id="legendSetupLineTemplate">' + lineTemplate + '</div>'); //clear the table but leave the template
     myChart.data.datasets.forEach(dataset => {
-        table.push({
-            index: dataset.index,
-            label: dataset.label,
-            color: dataset.backgroundColor,
-            hide: dataset.hidden,
-            "point style": dataset.pointStyle,
-            "line style": dataset.lineStyle
-        });
-    });
-    const nbColumns=Object.keys(table[0]).length;
-
-    let tableHTML = tableify(table);
-    tableHTML = "<table class='table table-hover' id='legendTable'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7, we replace it to insert class & id
-    $("#legendConfigDiv").html(tableHTML);
-
-    let boxes = $("#legendTable").find("td");
-    for (let index = 0; index < boxes.length; index += nbColumns) { //init table, every row counts 3 columns 
-        let labelIndex = (index/nbColumns).toFixed();
-        
-        //label
-        boxes[index+1].innerHTML = '<span style="display:none">' + table[labelIndex].label + '</span>'; /*set a hidden span to allow sorting*/ 
-        boxes[index+1].innerHTML += '<input type="text" class="labelInput" id="labelInput' + labelIndex + '" value="' + table[labelIndex].label + '">';
-        
-        //color
-        boxes[index+2].innerHTML = '<input type="color" class="colorInput" id="colorInput' + labelIndex + '" value="' + table[labelIndex].color + '">';
-        
-        //visibility
-        if(table[labelIndex].hide){
-            boxes[index+3].innerHTML = '<span style="display:none">1</span>'; /*set a hidden span to allow sorting*/
-            boxes[index+3].innerHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + labelIndex + '" checked></div>';
-        } else {
-            boxes[index+3].innerHTML = '<span style="display:none">0</span>'; /*set a hidden span to allow sorting*/
-            boxes[index+3].innerHTML += '<div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheck' + labelIndex + '"></div>';
+        let tableLine = lineTemplate;
+        tableLine = tableLine.replace(" hidden", "");
+        if(dataset.hidden){
+            tableLine = tableLine.replace(" checked", "");
         }
-        
-        //point style
-        boxes[index+4].innerHTML = '<select class="form-select form-select-sm pointStyleSelect" id="pointStyleSelect' + labelIndex + '"><option>circle</option><option>cross</option><option>rect</option><option>triangle</option></select>';
-        boxes[index+4].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control pointSizeInput" id="pointSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].pointRadius + '" min="0" max="20"></div>'
-        $($("option:contains(" + table[labelIndex]["point style"] + ")")[labelIndex]).prop('selected', true); //show the current point type in the select
-        
-        //line style
-        let lineStyleSelect = '<select class="form-select form-select-sm lineStyleSelect" id="lineStyleSelect' + labelIndex + '">';
-        Object.keys(lineStylesEnum).forEach(styleName => {
-            lineStyleSelect += '<option>' + styleName + '</option>';
-        });
-        lineStyleSelect += '</select>';
-        boxes[index+5].innerHTML = lineStyleSelect;
-        boxes[index+5].innerHTML += '<div class="input-group-sm"><input type="number" class="form-control lineSizeInput" id="lineSizeInput' + labelIndex + '" value="' + myChart.data.datasets[labelIndex].lineBorderWidth + '" min="0" max="20"></div>'
-        $($("option:contains(" + table[labelIndex]["line style"] + ")")[labelIndex]).prop('selected', true); //show the current line type in the select
-    }
+        // The following implementation implies that point styles & line styles have all different names
+        tableLine = tableLine.replace("<option>" + pointStylesEnum[dataset.pointStyle], "<option selected>" + pointStylesEnum[dataset.pointStyle]);
+        tableLine = tableLine.replace("<option>" + lineStylesEnum[dataset.lineStyle], "<option selected>" + lineStylesEnum[dataset.lineStyle]);
+        tableLine = tableLine.replace('#ffffff', dataset.backgroundColor);
+        tableLine = tableLine.replace('id="pointSizeInputNULL" value=""', 'id="pointSizeInputNULL" value="' + dataset.pointRadius + '"');
+        tableLine = tableLine.replace('id="lineSizeInputNULL" value=""', 'id="lineSizeInputNULL" value="' + dataset.lineBorderWidth + '"');        
+        tableLine = tableLine.replace(/NULL/gm, dataset.index + 1);
+        legendSetupTable.append(tableLine);
+    });
 
-    $("#legendTable").DataTable({
-		"paging": false,
-		"searching": false,
-		"info": false,
-	});
+    // $("#legendTable").DataTable({
+	// 	"paging": false,
+	// 	"searching": false,
+	// 	"info": false,
+	// }); //Sorts a html table
     
     $(".colorInput").on('input', function() {
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].backgroundColor = $(this).val();
         myChart.data.datasets[datasetIndex].borderColor = $(this).val();
     });
 
     $(".labelInput").on('change', function() {
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].label = $(this).val();
-        updateLegendTable();
     });
 
     $(".datasetVisibleCheck").on('click', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         if(this.checked){
-            myChart.data.datasets[datasetIndex].hidden = true;
-        } else {
             myChart.data.datasets[datasetIndex].hidden = false;
+        } else {
+            myChart.data.datasets[datasetIndex].hidden = true;
         }
-        updateLegendTable();
     });
 
     $(".pointStyleSelect").on('change', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
-        myChart.data.datasets[datasetIndex].pointStyle = $(this).val();
-        updateLegendTable();
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        myChart.data.datasets[datasetIndex].pointStyle = pointStylesEnum[$(this).val()];
     });
 
     $(".pointSizeInput").on('change', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].pointRadius = parseInt($(this).val());
     });
 
     $(".lineStyleSelect").on('change', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].lineStyle = $(this).val();
         myChart.data.datasets[datasetIndex].lineBorderDash = lineStylesEnum[$(this).val()];
-        updateLegendTable();
     });
 
     $(".lineSizeInput").on('change', function(){
-        let datasetIndex = getIntInString($(this).attr("id"));
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].lineBorderWidth = parseInt($(this).val());
     });
 }
+
+/* port */
+
+let portIsOpen = false;

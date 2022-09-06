@@ -1,9 +1,11 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-07-08 15:06:14
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-19 15:14:45
+ * @ Modified time: 2022-09-05 15:26:46
+ * @ Description:
  */
 
 const { SerialPort } = require('serialport');
@@ -184,21 +186,25 @@ function openPortRoutine() {
 		port.on('open', () => {
 			printDebugTerminal("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
-			runBtn('.pauseBtn');
-			$('.clearBtn').show();
-			$('.clearBtn').prop('disabled', false);
+			runBtn('#pausePortBtn');
+			$('#clearPortBtn').show();
+			$('#clearPortBtn').prop('disabled', false);
+			$('#startRecordBtn').prop("disabled", false);
 			enableSend();
 			flushChart(myChart);
 			chartStartTime = Date.now();
+			portIsOpen = true;
 		});
 
 		port.on('close', () => {
-			pauseBtn('.pauseBtn');
-			$('.pauseBtn').prop('disabled', true);
+			pauseBtn('#pausePortBtn');
+			$('#pausePortBtn').prop('disabled', true);
+			$('#startRecordBtn').prop("disabled", true);
 			printDebugTerminal("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();
 			listSerialPorts();
+			portIsOpen = false;
 		});
 
 		port.on("data", (data) => {

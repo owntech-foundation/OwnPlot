@@ -1,23 +1,117 @@
-<div>
-    <a data-bs-toggle="collapse" href="#timeConfigDiv" role="button" aria-expanded="false" aria-controls="timeConfigDiv">
-        <span class="input-group-text" id="basic-addon1">
-            <i class="fa-solid fa-clock"></i>&nbsp;<span style="font-weight:bolder">Time Representation</span>
+<!--
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 15:27:59
+ * @ Description:
+ -->
+ 
+<div class="mb-3">
+    <a data-target="#timeConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="timeConfigDiv">
+        <span class="input-group-text" id="timeConfigTitle">
+            <i class="fa-solid fa-clock"></i><span style="font-weight:bolder">&nbsp;Time Representation</span>
         </span>
     </a>
-    <div class="collapse" id="timeConfigDiv">
+    <div class="collapse show mb-2" id="timeConfigDiv">
         <div class="card card-body">
-            <button type="button" id="relBtn" class="btn btn-primary relAbsBtn"><i class="fa-solid fa-stopwatch"></i>&nbsp;Relative</button>
-            <button type="button" id="absBtn" class="btn btn-primary relAbsBtn"><i class="fa-solid fa-calendar-day"></i>&nbsp;Absolute</button>
+            <div class="row p-0 m-0">
+                <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <span class="nonBreakable">
+                        &nbsp;Relative
+                    </span>
+                </button>
+                <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
+                    <i class="fa-solid fa-calendar-day"></i>
+                    <span class="nonBreakable">
+                        &nbsp;Absolute
+                    </span>
+                </button>
+                <div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+                <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span class="nonBreakable">
+                        &nbsp;Reset Time
+                    </span>
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
-<div>
-    <a data-bs-toggle="collapse" href="#legendConfigDiv" id="legendConfigHref" role="button" aria-expanded="false" aria-controls="legendConfigDiv">
-        <span class="input-group-text" id="legendConfigTitle">
+<div class="mb-3">
+    <a data-target="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="true" aria-controls="legendSetupDiv">
+        <span class="input-group-text" id="legendSetupTitle">
             <i class="fa-solid fa-palette"></i>&nbsp;<span style="font-weight:bolder">Legend</span>
         </span>
     </a>
-    <div class="collapse show" id="legendConfigDiv">
+    <div class="collapse show" id="legendSetupDiv">
+        <div class="card card-body">
+            <div class="row p-0 m-0">
+                <button type="button" class="btn btn-sm btn-success mb-3 col-5" id="legendShownBtn">
+                    <i class="fa-solid fa-eye"></i>&nbsp;Shown
+                </button>
+                <button type="button" class="btn btn-sm btn-warning mb-3 col-5" id="legendHiddenBtn">
+                    <i class="fa-solid fa-eye-slash"></i>&nbsp;Hidden
+                </button>
+                <div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+                <button type="button" class="btn btn-sm btn-primary mb-3 col-5" id="legendPositionBtn">
+                    <i class="fa-solid fa-arrow-right"></i>&nbsp;Position
+                </button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text col-5">
+                    <i class="fa-solid fa-swatchbook"></i>&nbsp;Theme
+                </span>
+                <select class="form-select" name="colorSchemeSelect" id="colorSchemeSelect"></select>
+            </div>
+            <div id="legendConfigDiv">
+                <div id="legendSetupLineTemplate">
+                    <div class="row px-0 mx-0 mb-2" hidden>
+                        <!-- Not showing ID
+                        <div class="col-1">
+                            NULL
+                        </div>
+                        -->
+                        <input type="text" class="labelInput px-0 col-6" id="labelInputNULL" value="Dataset NULL">
+                        <div class="col-1">&nbsp;</div>
+                        <div class="col">
+                            <div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheckNULL" checked></div>
+                        </div>
+                        <div class="col">
+                            <a data-target="#datasetDivNULL" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDivNULL">
+                                <button class="btn btn-sm btn-primary legendLineCollapseBtn" style="background-color:#ffffff">
+                                    <i class="fa-solid fa-paintbrush"></i>
+                                </button>
+                            </a>    
+                        </div>
+                    </div>
+                    <div class="collapse row mb-2" id="datasetDivNULL">
+                        <div class="col-6">
+                            <div class="card card-body">
+                                <p class="nonBreakable" style="text-align:center">Point Style</p>
+                                <select class="form-select form-select-sm pointStyleSelect mb-1" id="pointStyleSelectNULL">
+                                    <option>circle</option><option>cross</option><option>rect</option><option>triangle</option>
+                                </select>
+                                <input type="number" class="form-control form-control-sm pointSizeInput" id="pointSizeInputNULL" value="" min="0" max="20">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card card-body">
+                                <p class="nonBreakable" style="text-align:center">Line Style</p>
+                                <select class="form-select form-select-sm lineStyleSelect mb-1" id="lineStyleSelectNULL"></select>
+                                <input type="number" class="form-control form-control-sm lineSizeInput" id="lineSizeInputNULL" value="" min="0" max="20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

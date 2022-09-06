@@ -1,9 +1,11 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-07-26 11:12:38
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-19 12:59:30
+ * @ Modified time: 2022-09-05 15:27:06
+ * @ Description:
  */
 
 /*
@@ -42,7 +44,7 @@ function terminalHexMode(elem) {
 	elem.attr('aria-pressed', 'true');
 	elem.removeClass('btn-default');
 	elem.addClass('btn-success');
-	elem.html('<i class="fa-solid fa-code"></i>&nbsp;Hex mode');
+	elem.html('<i class="fa-solid fa-code"></i>&nbsp;Hexadecimal');
 	termDataMode = DataModesEnum.Hex;
 }
 
@@ -50,7 +52,7 @@ function terminalDecimalMode(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-default');
-	elem.html('<i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal mode');
+	elem.html('<i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal');
 	termDataMode = DataModesEnum.Decimal;
 }
 
@@ -58,7 +60,7 @@ function terminalDecimalMode(elem) {
  *	JQuery selectors
  */
 
-let clearBtn =  $('.clearBtn');
+let clearBtn =  $('#clearPortBtn');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
@@ -77,25 +79,21 @@ let formattedMode = false;
 
 let countTermLines = 0;
 let termSize = 30;
-const minTermLines = 1;
-const maxTermLine = 500;
+const MIN_TERM_LINES = 1;
+const MAX_TERM_LINES = 500;
 
 $(() => {
 	termBufSizeInput.on('change', () => {
 		termSize = termBufSizeInput.val();
-		if(termSize > maxTermLine){
-			termSize = maxTermLine;
-		} else if(termSize < minTermLines){
-			termSize = minTermLines;
+		if(termSize > MAX_TERM_LINES){
+			termSize = MAX_TERM_LINES;
+		} else if(termSize < MIN_TERM_LINES){
+			termSize = MIN_TERM_LINES;
 		}
 		changeTerminalSize();
 	});
 
-	clearBtn.on('click', function(){
-		clearTerminal();
-	});
-
-	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
+	terminalTimestampBtnEnable(terminalBtnTimestamp); //default behaviour
 	terminalBtnTimestamp.on('click', function(){
 		if(terminalBtnTimestamp.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
@@ -105,7 +103,7 @@ $(() => {
 		}
 	});
 
-	terminalFormattedDisable(terminalBtnFormatted);
+	terminalFormattedEnable(terminalBtnFormatted); //default behaviour
 	terminalBtnFormatted.on('click', function(){
 		if(terminalBtnFormatted.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
@@ -207,7 +205,7 @@ function updateTerminal() {
 			}
 			terminalSel.prepend('<span>' + termialTime() + dataString + '</span>'); //put first on top
 			countTermLines = countTermLines + 1;
-			$('.clearBtn').prop('disabled', false);
+			$('#clearPortBtn').prop('disabled', false);
 		}
 		if (countTermLines > termSize) {
 			terminalSel.children().last().remove();

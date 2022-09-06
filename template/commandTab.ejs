@@ -1,17 +1,29 @@
+<!--
+ * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Create Time: 2022-08-24 14:04:45
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-05 15:28:06
+ * @ Description:
+ -->
+
+<!--This tab div allows the auto scroll to work fine when showing the tab-->
 <div>
-    <!--This tab div allows the auto scroll to work fine when showing the tab-->
     <div class="input-group input-group-sm mb-3">
-        <button type="button" id="sendBtn" class="btn btn-primary">Send</button>
+        <button type="button" id="sendBtn" class="btn btn-primary col-4">Send</button>
         <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">
     </div>
 
-    <div id="commandButtonContainer" class="row mb-3">
+    <div class="input-group input-group-sm mb-3" id="addCommandDiv">
+        <button type="button" id="addCommandBtn" class="btn btn-primary col-4">Add command</button>
+        <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="">
+        <input type="text" class="form-control form-control-sm col-4" id="addCommandData" placeholder="Data to send" value="">
+        <!-- remove the choice of the color for now
+        <input type="color" class="form-control form-control-sm" id="addCommandColor" value="#fffffe">        
+        -->
     </div>
 
-    <div class="input-group input-group-sm mb-3" id="addCommandDiv">
-        <button type="button" id="addCommandBtn" class="btn btn-primary">Add a command</button>
-        <input type="text" class="form-control form-control-sm" id="addCommandName" placeholder="Command name" value="">
-        <input type="text" class="form-control form-control-sm" id="addCommandData" placeholder="Data to send" value="">
-        <input type="color" class="form-control form-control-sm" id="addCommandColor" value="#fffffe">
+    <div id="commandButtonContainer" class="card card-body mb-3">
     </div>
 </div>
