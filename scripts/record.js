@@ -1,10 +1,11 @@
 /**
- * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
- * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-22 16:23:22
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 17:15:58
+ * @ Modified time: 2022-09-07 10:49:28
  * @ Description:
  */
 
@@ -50,8 +51,12 @@ $(()=>{
     downloadRecordBtn.on("click", ()=>{
         downloadRecord();
     });
-    recordSeparatorInput.on('input', function(){
+    recordSeparatorInput.on('change', function(){
         recordSeparator = this.val();
+        this.blur();
+    });
+    enterKeyupHandler(recordSeparatorInput, function(){
+        recordSeparator = recordSeparatorInput.val();
     });
     $("#timestampRecordCheck").on('change', function(){
         if(this.checked){
@@ -67,13 +72,18 @@ $(()=>{
         absTimeRecord = false;
     });
     recordFileNameInput.on("change", function(){
-        if($(this).val() == ""){
-            $(this).val(previousName);
-        } else if (arraysEqual($(this).val(), previousName) == false){
-            nbRecordSameName=0;
-        }
+        recordFileNameInputHandler();
     });
+    enterKeyupHandler(recordFileNameInput, recordFileNameInputHandler);
 });
+
+function recordFileNameInputHandler(){
+    if(recordFileNameInput.val() == ""){
+        recordFileNameInput.val(previousName);
+    } else if (arraysEqual(recordFileNameInput.val(), previousName) == false){
+        nbRecordSameName=0;
+    }
+}
 
 function downloadRecord() {
     if(nameRecordCheck[0].checked){

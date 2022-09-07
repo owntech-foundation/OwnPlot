@@ -4,7 +4,7 @@
  * @ Mail: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 17:31:05
+ * @ Modified time: 2022-09-06 15:42:19
  * @ Description:
  */
 
@@ -31,7 +31,7 @@ const pointStylesEnum = {
 	circle: 'circle',
 	cross: 'cross',
 	triangle: 'triangle',
-	square: 'square'
+	square: 'rect'
 };
 
 function pauseBtn(elem) {
@@ -142,10 +142,11 @@ function addDataset() {
 		lineTension: 0,
 		hidden: false,
 		data: [],
-		pointStyle: 'circle',
+		pointStyleName: 'circle',
+		pointStyle: pointStylesEnum[this.pointStyleName],
 		pointRadius: 3,
-		lineStyle: 'full',
-		lineBorderDash: lineStylesEnum[this.lineStyle],
+		lineStyleName: 'full',
+		lineBorderDash: lineStylesEnum[this.lineStyleName],
 		lineBorderWidth: 3,
 	}
 	myChart.data.datasets.push(newDataset);

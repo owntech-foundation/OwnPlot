@@ -4,7 +4,7 @@
  * @ Mail: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:26:46
+ * @ Modified time: 2022-09-07 11:39:05
  * @ Description:
  */
 
@@ -57,7 +57,7 @@ function switchDataForms(){
 	}
 }
 
-$(function(){
+$(()=>{
 	switchDataForms();
 	listSerialPorts();
 	dataFormatField.on('change', function(){
@@ -66,7 +66,12 @@ $(function(){
 	});
 	
 	separatorField.val(configSerialPlot.separator);
-	separatorField.on('input',function(){
+	separatorField.on('input', function(){
+		if (separatorField.val().length > 0) {
+			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
+		}
+	});
+	enterKeyupHandler(separatorField, function(){
 		if (separatorField.val().length > 0) {
 			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
 		}

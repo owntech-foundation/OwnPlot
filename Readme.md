@@ -11,6 +11,11 @@ However, everybody can use this software as a dataplotter with any devboard.
 OwnPlot is written in Electron. This technology uses Javascript and Chromium and is plateform agnostic.
 This technology has been choosen to ensure maximum compatibility and rapid development cycle.
 
+How to use it
+=============
+
+
+
 Running the development environment
 ===================================
 

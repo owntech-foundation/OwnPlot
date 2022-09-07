@@ -4,7 +4,7 @@
  * @ Mail: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:26:56
+ * @ Modified time: 2022-09-06 14:32:16
  * @ Description:
  */
 
@@ -31,7 +31,7 @@ $(()=>{
 		}, 200); //Set definitive height after a longer delay, so that the eventual animation is done
 	});
     
-    collapseHead.on('click', function(){
+    $(".collapseHead").on('click', function(){
 		const head = this;
         $($(this).attr('data-target')).collapse("toggle"); // Collapse doesn't work only with data-bs-toggle, i can't figure why
     });

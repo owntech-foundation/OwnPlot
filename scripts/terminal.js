@@ -1,10 +1,11 @@
 /**
- * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
- * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:27:06
+ * @ Modified time: 2022-09-07 11:47:44
  * @ Description:
  */
 
@@ -78,20 +79,14 @@ let termDataMode = DataModesEnum.Decimal;
 let formattedMode = false;
 
 let countTermLines = 0;
-let termSize = 30;
-const MIN_TERM_LINES = 1;
+let termSize = 20;
+const MIN_TERM_LINES = 0;
 const MAX_TERM_LINES = 500;
 
 $(() => {
-	termBufSizeInput.on('change', () => {
-		termSize = termBufSizeInput.val();
-		if(termSize > MAX_TERM_LINES){
-			termSize = MAX_TERM_LINES;
-		} else if(termSize < MIN_TERM_LINES){
-			termSize = MIN_TERM_LINES;
-		}
-		changeTerminalSize();
-	});
+	termBufSizeInput.val(termSize);
+	termBufSizeInput.on('change', terminalSizeInputHandler);
+	enterKeyupHandler(termBufSizeInput, terminalSizeInputHandler);
 
 	terminalTimestampBtnEnable(terminalBtnTimestamp); //default behaviour
 	terminalBtnTimestamp.on('click', function(){
@@ -123,6 +118,16 @@ $(() => {
 		}
 	});
 });
+
+function terminalSizeInputHandler(){
+	termSize = termBufSizeInput.val();
+	if(termSize > MAX_TERM_LINES){
+		termSize = MAX_TERM_LINES;
+	} else if(termSize < MIN_TERM_LINES){
+		termSize = MIN_TERM_LINES;
+	}
+	changeTerminalSize();
+}
 
 function changeTerminalSize(){
 	while(countTermLines > termSize){
@@ -196,7 +201,7 @@ function terminalFormating() {
 }
 
 function updateTerminal() {
-	if(plotOnPause() == false){
+	if(plotOnPause() == false && termSize > 0){
 		let dataString = terminalFormating();
 		// doesn't print empty lines
 		if (dataString !== '\r\n'){

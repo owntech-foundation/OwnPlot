@@ -4,7 +4,7 @@
  * @ Mail: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 17:16:11
+ * @ Modified time: 2022-09-07 11:35:40
  * @ Description:
  */
 
@@ -140,8 +140,8 @@ function updateLegendTable(){
             tableLine = tableLine.replace(" checked", "");
         }
         // The following implementation implies that point styles & line styles have all different names
-        tableLine = tableLine.replace("<option>" + pointStylesEnum[dataset.pointStyle], "<option selected>" + pointStylesEnum[dataset.pointStyle]);
-        tableLine = tableLine.replace("<option>" + lineStylesEnum[dataset.lineStyle], "<option selected>" + lineStylesEnum[dataset.lineStyle]);
+        tableLine = tableLine.replace("<option>" + dataset.pointStyleName, "<option selected>" + dataset.pointStyleName);
+        tableLine = tableLine.replace("<option>" + dataset.lineStyleName, "<option selected>" + dataset.lineStyleName);
         tableLine = tableLine.replace('#ffffff', dataset.backgroundColor);
         tableLine = tableLine.replace('id="pointSizeInputNULL" value=""', 'id="pointSizeInputNULL" value="' + dataset.pointRadius + '"');
         tableLine = tableLine.replace('id="lineSizeInputNULL" value=""', 'id="lineSizeInputNULL" value="' + dataset.lineBorderWidth + '"');        
@@ -149,22 +149,19 @@ function updateLegendTable(){
         legendSetupTable.append(tableLine);
     });
 
-    // $("#legendTable").DataTable({
-	// 	"paging": false,
-	// 	"searching": false,
-	// 	"info": false,
-	// }); //Sorts a html table
-    
-    $(".colorInput").on('input', function() {
-        let datasetIndex = getIntInString($(this).attr("id")) - 1;
-        myChart.data.datasets[datasetIndex].backgroundColor = $(this).val();
-        myChart.data.datasets[datasetIndex].borderColor = $(this).val();
-    });
+    // not used in this first release
+    // $(".colorInput").on('input', function() {
+    //     let datasetIndex = getIntInString($(this).attr("id")) - 1;
+    //     myChart.data.datasets[datasetIndex].backgroundColor = $(this).val();
+    //     myChart.data.datasets[datasetIndex].borderColor = $(this).val();
+    // });
 
     $(".labelInput").on('change', function() {
         let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].label = $(this).val();
+        this.blur();
     });
+    enterKeyupHandler($(".labelInput"), ()=>{});
 
     $(".datasetVisibleCheck").on('click', function(){
         let datasetIndex = getIntInString($(this).attr("id")) - 1;
@@ -184,16 +181,22 @@ function updateLegendTable(){
         let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].pointRadius = parseInt($(this).val());
     });
+    enterKeyupHandler($(".pointSizeInput"), ()=>{}); //blur on enter even if the field has not changed
 
     $(".lineStyleSelect").on('change', function(){
         let datasetIndex = getIntInString($(this).attr("id")) - 1;
-        myChart.data.datasets[datasetIndex].lineStyle = $(this).val();
+        myChart.data.datasets[datasetIndex].lineStyleName = $(this).val();
         myChart.data.datasets[datasetIndex].lineBorderDash = lineStylesEnum[$(this).val()];
     });
 
     $(".lineSizeInput").on('change', function(){
         let datasetIndex = getIntInString($(this).attr("id")) - 1;
         myChart.data.datasets[datasetIndex].lineBorderWidth = parseInt($(this).val());
+    });
+    enterKeyupHandler($(".lineSizeInput"), ()=>{}); //blur on enter even if the field has not changed
+    
+    $(".collapseHead").on('click', function(){
+        $($(this).attr('data-target')).collapse("toggle"); // Collapse doesn't work only with data-bs-toggle, i can't figure why
     });
 }
 
