@@ -4,7 +4,7 @@
  * @ Mail: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:28:50
+ * @ Modified time: 2022-09-07 12:05:33
  * @ Description:
  -->
 
@@ -16,16 +16,16 @@
 
 <div class="mb-3">
     <a data-target="#recordNameDiv" class="collapseHead" id="recordNameHref" role="button" aria-expanded="true" aria-controls="recordNameDiv">
-        <span class="input-group-text" id="recordNameTitle">
+        <label class="input-group-text" id="recordNameTitle">
             <i class="fa-solid fa-file-circle-question"></i>&nbsp;<span style="font-weight:bolder">Name</span>
-        </span>
+        </label>
     </a>
     <div class="collapse show" id="recordNameDiv">
         <div class="card card-body">
             <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text col-5" >
+                <label class="input-group-text col-5" >
                     <i class="fa-solid fa-file-pen"></i>&nbsp;File Name
-                </span>
+                </label>
                 <input type="text" class="form-control imperativeRecordSetting" id="recordFileNameInput" maxlength=100 aria-describedby="record file name input" value="">
             </div>
             
@@ -53,14 +53,16 @@
 
 <div class="mb-3">
     <a data-target="#recordSettingsDiv" class="collapseHead" id="recordSettingsHref" role="button" aria-expanded="true" aria-controls="recordSettingsDiv">
-        <span class="input-group-text" id="recordSettingsTitle">
+        <label class="input-group-text" id="recordSettingsTitle">
             <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Settings</span>
-        </span>
+        </label>
     </a>
     <div class="collapse show" id="recordSettingsDiv">
         <div class="card card-body">
             <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text col-5"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
+                <label class="input-group-text col-5">
+                    <i class="fa-solid fa-scissors"></i>&nbsp;Separator
+                </label>
                 <input type="text" class="form-control imperativeRecordSetting" id="recordSeparatorInput" maxlength=100 aria-describedby="record separator input" value=",">
             </div>
             

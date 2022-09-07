@@ -10,33 +10,33 @@
  
 <div class="mb-3">
     <a data-target="#timeConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="timeConfigDiv">
-        <span class="input-group-text" id="timeConfigTitle">
+        <label class="input-group-text" id="timeConfigTitle">
             <i class="fa-solid fa-clock"></i><span style="font-weight:bolder">&nbsp;Time Representation</span>
-        </span>
+        </label>
     </a>
     <div class="collapse show mb-2" id="timeConfigDiv">
         <div class="card card-body">
             <div class="row p-0 m-0">
                 <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
                     <i class="fa-solid fa-stopwatch"></i>
-                    <span class="nonBreakable">
+                    <label class="nonBreakable">
                         &nbsp;Relative
-                    </span>
+                    </label>
                 </button>
                 <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
                     <i class="fa-solid fa-calendar-day"></i>
-                    <span class="nonBreakable">
+                    <label class="nonBreakable">
                         &nbsp;Absolute
-                    </span>
+                    </label>
                 </button>
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
                 <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5">
                     <i class="fa-solid fa-clock-rotate-left"></i>
-                    <span class="nonBreakable">
+                    <label class="nonBreakable">
                         &nbsp;Reset Time
-                    </span>
+                    </label>
                 </button>
             </div>
         </div>
@@ -45,9 +45,9 @@
 
 <div class="mb-3">
     <a data-target="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="true" aria-controls="legendSetupDiv">
-        <span class="input-group-text" id="legendSetupTitle">
+        <label class="input-group-text" id="legendSetupTitle">
             <i class="fa-solid fa-palette"></i>&nbsp;<span style="font-weight:bolder">Legend</span>
-        </span>
+        </label>
     </a>
     <div class="collapse show" id="legendSetupDiv">
         <div class="card card-body">
@@ -66,9 +66,9 @@
                 </button>
             </div>
             <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text col-5">
+                <label class="input-group-text col-5">
                     <i class="fa-solid fa-swatchbook"></i>&nbsp;Theme
-                </span>
+                </label>
                 <select class="form-select" name="colorSchemeSelect" id="colorSchemeSelect"></select>
             </div>
             <div id="legendConfigDiv">

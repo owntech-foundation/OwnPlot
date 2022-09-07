@@ -10,9 +10,9 @@
 
 <div class="mb-3">
     <a data-target="#dataFormatDiv" class="collapseHead" id="dataFormatHref" role="button" aria-controls="dataFormatDiv">
-        <span class="input-group-text" id="dataFormatTitle">
+        <label class="input-group-text" id="dataFormatTitle">
             <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Data Format</span>
-        </span>
+        </label>
     </a>
     <div class="collapse show" id="dataFormatDiv">
         <div class="card card-body">
@@ -24,16 +24,16 @@
 <!-- Terminal settings -->
 <div class="mb-3">
     <a data-target="#terminalSettingsDiv" class="collapseHead" role="button" id="terminalSettingsHref" aria-expanded="true" aria-controls="terminalSettingsDiv">
-        <span class="input-group-text" id="terminalSettingsTitle">
+        <label class="input-group-text" id="terminalSettingsTitle">
             <i class="fa-solid fa-display"></i>&nbsp;<span style="font-weight:bolder">Terminal</span>
-        </span>
+        </label>
     </a>
     <div class="collapse show" id="terminalSettingsDiv">
         <div class="card card-body">
             <div class="input-group input-group-sm mb-3" id="termBufSizeDiv">
-                <span class="input-group-text col-5">
+                <label class="input-group-text col-5">
                     <span style="font-weight:bolder">#</span>&nbsp;Lines
-                </span>
+                </label>
                 <input type="number" id="termBufSizeInput" class="form-control" value="20" min="0" max="1000">
             </div>
             <div class="row m-0 p-0">

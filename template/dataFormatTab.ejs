@@ -4,14 +4,14 @@
  * @ Mail: guillaume.arthaud.pro@gmail.com
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:28:18
+ * @ Modified time: 2022-09-07 12:08:23
  * @ Description:
  -->
 
 <div class="input-group input-group-sm mb-3" id="nbChannelDiv">
-    <span class="input-group-text col-5">
+    <label class="input-group-text col-5">
         <span style="font-weight:bolder">#</span>&nbsp;Channels
-    </span>
+    </label>
     <input type="number" id="nbChannels" class="form-control" value="3" min="0" max="10">
 </div>
 
@@ -26,7 +26,9 @@
 
 <div id="asciiForm">
     <div class="input-group input-group-sm mb-3">
-        <span class="input-group-text col-5" ><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
+        <label class="input-group-text col-5" >
+            <i class="fa-solid fa-scissors"></i>&nbsp;Separator
+        </label>
         <input type="text" id="separator" name="separator" class="form-control" maxlength=1 aria-describedby="basic-addon1">
     </div>
 </div>
@@ -60,12 +62,12 @@
 <!-- TODO: implement custom mode
 <div id="customForm">
     <div class="input-group input-group-sm mb-3">
-        <span class="input-group-text" >Frame Start</span>
+        <label class="input-group-text" >Frame Start</label>
         <input type="text" id="frame-start" class="form-control" value="">
     </div>
 
     <div class="input-group input-group-sm mb-3">
-        <span class="input-group-text" >Frame Size</span>
+        <label class="input-group-text" >Frame Size</label>
         <input type="number" class="form-control" value="1" min="1" max="1000000">
     </div>
     
