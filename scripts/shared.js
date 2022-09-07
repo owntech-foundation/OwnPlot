@@ -5,7 +5,7 @@
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-07 13:44:15
+ * @ Modified time: 2022-09-07 14:00:19
  * @ Description:
  */
 
@@ -62,10 +62,11 @@ function enterKeyupHandler(elemSelector, handler){
 }
 
 /* Debug */
-const debugTermSel = $("#debugTerminal");
-function printDebugTerminal(err){
-	debugTermSel.prepend('<span>' + dateToPreciseTimeString(new Date()) + err + '</span>');
-}
+// not available in this version: 
+// const debugTermSel = $("#debugTerminal");
+// function printDebugTerminal(err){
+// 	debugTermSel.prepend('<span>' + dateToPreciseTimeString(new Date()) + err + '</span>');
+// }
 
 /* Chart */
 

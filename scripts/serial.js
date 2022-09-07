@@ -5,7 +5,7 @@
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-07 13:44:03
+ * @ Modified time: 2022-09-07 14:01:57
  * @ Description:
  */
 
@@ -100,7 +100,7 @@ $(()=>{
 			default:
 				configSerialPlot.nbSize = 1;
 		}
-		printDebugTerminal("number size is now " + configSerialPlot.nbSize + " bytes");
+		//not available in this version: printDebugTerminal("number size is now " + configSerialPlot.nbSize + " bytes");
 	});
 
 	endiannessField.on('change',function(){
@@ -114,7 +114,7 @@ $(()=>{
 async function checkPortsChanged(){
 	await SerialPort.list().then((updatedPorts, err) => {
 		if(err) {
-			printDebugTerminal(err);
+			//not available in this version: printDebugTerminal(err);
 			return;
 		}
 		if (arraysEqual(availableSerialPorts, updatedPorts)) {
@@ -131,7 +131,7 @@ function listSerialPorts(){
 	if (availableSerialPorts == false || availableSerialPorts == undefined) {
 		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
 	} else {
-		printDebugPortInfo(availableSerialPorts);
+		//not available in this version: printDebugPortInfo(availableSerialPorts);
 
 		let lpHTML = '<option value="default" selected>Select a port...</option>';
 		availableSerialPorts.forEach(p => {
@@ -185,12 +185,12 @@ function openPortRoutine() {
 	{
 		port.open((err) => {
 			if (err) {
-				return printDebugTerminal('Error opening port: ', err.message);
+				return //not available in this version: printDebugTerminal('Error opening port: ', err.message);
 			}
 		});
 
 		port.on('open', () => {
-			printDebugTerminal("-- Connection opened on port " + port.path + " --");
+			//not available in this version: printDebugTerminal("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
 			runBtn('#pausePortBtn');
 			$('#clearPortBtn').show();
@@ -206,7 +206,7 @@ function openPortRoutine() {
 			pauseBtn('#pausePortBtn');
 			$('#pausePortBtn').prop('disabled', true);
 			$('#startRecordBtn').prop("disabled", true);
-			printDebugTerminal("-- Connection closed on port " + port.path + " --");
+			//not available in this version: printDebugTerminal("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();
 			listSerialPorts();
