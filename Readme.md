@@ -1,27 +1,23 @@
-![OwnPlot Logo](./assets/Icon.png "OwnPlot Logo")
+# <img src="./assets/Icon.png" width=60 alt="OwnPlot Logo"> OwnPlot
 
+**OwnPlot** is a **free and opensource data plotter** software designed to work with **[OwnTech](https://www.owntech.org/)**'s dev board. 
 
-# OwnPlot
-
-**OwnPlot** is a free and opensource data plotter software designed to work with OwnTech's dev board.
-
-However, everybody can use this software as a data plotter with any devboard.
+However, everybody can use this software as a data plotter with **any devboard**.
 
 
 ## How to use it
 
 ![OwnPlot Demo](./assets/Demo.gif "OwnPlot Demo")
 
-Go to the settings tab to set the data format that your devboard is sending.
+Go to the *settings* tab to specify the data format that your devboard is sending.
 Then select the right port and open it. You can pause both chart and terminal with the top right button.
 Once you are done, you can close the port (it will close when you close the app anyway).
 
-You can custom the chart layout under Chart Tab. Click on a channel in the legend to change its layout.
+You can custom the chart layout under *chart* tab. Click on a channel in the legend to change its layout.
 
-A record feature is also available. You have to click play under the record tab. Do not forget to download the file !
+A record feature is also available. You have to click play under the *record* tab. Do not forget to download the file !
 
-Send command to your devboard through the command tab ! You can add buttons if you have to send the same data regularly.
-
+Send command to your devboard through the *command* tab ! You can add buttons if you have to send the same data regularly.
 
 ## Running the development environment
 
