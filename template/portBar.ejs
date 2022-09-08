@@ -1,17 +1,18 @@
 <!--
- * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
- * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:28:43
+ * @ Modified time: 2022-09-07 13:46:02
  * @ Description:
  -->
 
 <div class="col">
 	<div class="row mb-2">
 		<button type="button" class="btn mx-1 btn-sm btn-warning btn-square portBarBtn" aria-pressed="true" id="openPortBtn">
-			<span class="nonBreakable">No port</span>
+			<label class="nonBreakable">No port</label>
 		</button>
 		<button type="button" class="btn mx-1 btn-sm btn-primary btn-square portBarBtn" id="clearPortBtn" disabled>
 			<i class="fa-solid fa-trash-can"></i><br>Clear
@@ -22,8 +23,8 @@
 	</div>
 	
 	<div class="row">
-		<div class="input-group px-1 mx-0">
-			<label class="input-group-text" for="inputGroupSelect01"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
+		<div class="input-group input-group-sm px-1 mx-0">
+			<label class="input-group-text"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
 			<select class="form-select" id="AvailablePorts" name="AvailablePorts">
 			</select>
 		</div>

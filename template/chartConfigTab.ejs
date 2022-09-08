@@ -1,16 +1,17 @@
 <!--
- * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
- * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:27:59
+ * @ Modified time: 2022-09-07 14:27:43
  * @ Description:
  -->
  
 <div class="mb-3">
     <a data-target="#timeConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="timeConfigDiv">
-        <span class="input-group-text" id="timeConfigTitle">
+        <span class="input-group-text pointer" id="timeConfigTitle">
             <i class="fa-solid fa-clock"></i><span style="font-weight:bolder">&nbsp;Time Representation</span>
         </span>
     </a>
@@ -19,24 +20,24 @@
             <div class="row p-0 m-0">
                 <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
                     <i class="fa-solid fa-stopwatch"></i>
-                    <span class="nonBreakable">
+                    <label class="nonBreakable">
                         &nbsp;Relative
-                    </span>
+                    </label>
                 </button>
                 <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
                     <i class="fa-solid fa-calendar-day"></i>
-                    <span class="nonBreakable">
+                    <label class="nonBreakable">
                         &nbsp;Absolute
-                    </span>
+                    </label>
                 </button>
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
                 <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5">
                     <i class="fa-solid fa-clock-rotate-left"></i>
-                    <span class="nonBreakable">
+                    <label class="nonBreakable">
                         &nbsp;Reset Time
-                    </span>
+                    </label>
                 </button>
             </div>
         </div>
@@ -66,9 +67,9 @@
                 </button>
             </div>
             <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text col-5">
+                <label class="input-group-text col-5">
                     <i class="fa-solid fa-swatchbook"></i>&nbsp;Theme
-                </span>
+                </label>
                 <select class="form-select" name="colorSchemeSelect" id="colorSchemeSelect"></select>
             </div>
             <div id="legendConfigDiv">

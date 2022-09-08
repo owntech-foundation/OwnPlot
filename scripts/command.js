@@ -1,10 +1,11 @@
 /**
- * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
- * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:26:04
+ * @ Modified time: 2022-09-07 14:01:55
  * @ Description:
  */
 
@@ -25,12 +26,12 @@ $(() => {
 
     enterKeyupHandler(sendInput, ()=>{
         send(sendInput.val());
-        printDebugTerminal('sent---> ' + sendInput.val());
+        //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
     });
 
     sendBtn.on('click', () => {
         send(sendInput.val());
-        printDebugTerminal('sent---> ' + sendInput.val());
+        //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
     });
 
     enterKeyupHandler(addCommandName, addCommandSubmitHandler);
@@ -123,9 +124,9 @@ function updateCommandButtons() {
 
 async function send(stringToSend){
     await port.write(encoder.encode(stringToSend), (err) => {
-        if (err) {
-            printDebugTerminal(err);
-        }
+        // if (err) {
+        //     printDebugTerminal(err);
+        // } not available in this version
        });
 }
 

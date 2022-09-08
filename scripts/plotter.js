@@ -1,10 +1,11 @@
 /**
- * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
- * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 17:31:05
+ * @ Modified time: 2022-09-08 12:20:33
  * @ Description:
  */
 
@@ -31,7 +32,7 @@ const pointStylesEnum = {
 	circle: 'circle',
 	cross: 'cross',
 	triangle: 'triangle',
-	square: 'square'
+	square: 'rect'
 };
 
 function pauseBtn(elem) {
@@ -142,10 +143,11 @@ function addDataset() {
 		lineTension: 0,
 		hidden: false,
 		data: [],
-		pointStyle: 'circle',
+		pointStyleName: 'circle',
+		pointStyle: pointStylesEnum[this.pointStyleName],
 		pointRadius: 3,
-		lineStyle: 'full',
-		lineBorderDash: lineStylesEnum[this.lineStyle],
+		lineStyleName: 'full',
+		lineBorderDash: lineStylesEnum[this.lineStyleName],
 		lineBorderWidth: 3,
 	}
 	myChart.data.datasets.push(newDataset);
@@ -256,9 +258,15 @@ function initChart(){
 						pointStyle: 'rect',
 						pointStyleWidth: 30
 					},
-					onClick: legendClickHandler
-				}
-			}
+					onClick: legendClickHandler,
+					onHover: function(event, legendItem, legend){
+						$(this.ctx.canvas).css('cursor', 'pointer');
+					},
+					onLeave: function(event, legendItem, legend){
+						$(this.ctx.canvas).css('cursor', 'default');
+					},
+				},
+		 	},
 		}
 	});
 
@@ -268,7 +276,7 @@ function initChart(){
 	addDataset();
 }
 
-//TODO: unused for now. Keep this code for later to toggle between light and dark mode
+//unused for now. Keep this code for later to toggle between light and dark mode
 function darkModePlot() {
 	let x = myChart.config.options.scales.x;
 	let y = myChart.config.options.scales.y;

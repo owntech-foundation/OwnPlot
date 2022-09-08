@@ -1,18 +1,25 @@
-OwnPlot
-=======
+# <img src="./assets/Icon.png" width=60 alt="OwnPlot Logo"> OwnPlot
 
-What is OwnPlot
-===============
+**OwnPlot** is a **free and opensource data plotter** software designed to work with **[OwnTech](https://www.owntech.org/)**'s dev board. 
 
-**OwnPlot** is a free and opensource software designed to work with OwnTech's dev board.
+However, everybody can use this software as a data plotter with **any devboard**.
 
-However, everybody can use this software as a dataplotter with any devboard.
 
-OwnPlot is written in Electron. This technology uses Javascript and Chromium and is plateform agnostic.
-This technology has been choosen to ensure maximum compatibility and rapid development cycle.
+## How to use it
 
-Running the development environment
-===================================
+![OwnPlot Demo](./assets/Demo.gif "OwnPlot Demo")
+
+Go to the *settings* tab to specify the data format that your devboard is sending.
+Then select the right port and open it. You can pause both chart and terminal with the top right button.
+Once you are done, you can close the port (it will close when you close the app anyway).
+
+You can custom the chart layout under *chart* tab. Click on a channel in the legend to change its layout.
+
+A record feature is also available. You have to click play under the *record* tab. Do not forget to download the file !
+
+Send command to your devboard through the *command* tab ! You can add buttons if you have to send the same data regularly.
+
+## Running the development environment
 
 First of all, open the terminal of your choice.
 If you are using Windows, we recommand the use of git bash https://www.git-scm.com/downloads
@@ -43,8 +50,8 @@ A window should be opened with OwnPlot.
 
 If you are experiencing problems during the install, please post an issue and report the problem. This will greatly help us improve the user experience.
 
-Build for your plateform
-========================
+
+## Build for your plateform
 
 Simply run `npm run make` \
 The `.exe` / `.app` / `.deb` / `.rpm` file can be found in the `out` folder.

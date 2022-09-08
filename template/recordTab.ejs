@@ -1,10 +1,11 @@
 <!--
- * @ Author: Guillaume Arthaud & Matthias Riffard (OwnTech Fundation)
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
- * @ Mail: guillaume.arthaud.pro@gmail.com
+ * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-05 15:28:50
+ * @ Modified time: 2022-09-07 14:27:44
  * @ Description:
  -->
 
@@ -23,9 +24,9 @@
     <div class="collapse show" id="recordNameDiv">
         <div class="card card-body">
             <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text col-5" >
+                <label class="input-group-text col-5" >
                     <i class="fa-solid fa-file-pen"></i>&nbsp;File Name
-                </span>
+                </label>
                 <input type="text" class="form-control imperativeRecordSetting" id="recordFileNameInput" maxlength=100 aria-describedby="record file name input" value="">
             </div>
             
@@ -60,7 +61,9 @@
     <div class="collapse show" id="recordSettingsDiv">
         <div class="card card-body">
             <div class="input-group input-group-sm mb-2">
-                <span class="input-group-text col-5"><i class="fa-solid fa-scissors"></i>&nbsp;Separator</span>
+                <label class="input-group-text col-5">
+                    <i class="fa-solid fa-scissors"></i>&nbsp;Separator
+                </label>
                 <input type="text" class="form-control imperativeRecordSetting" id="recordSeparatorInput" maxlength=100 aria-describedby="record separator input" value=",">
             </div>
             
