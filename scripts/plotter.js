@@ -5,7 +5,7 @@
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-07 13:43:31
+ * @ Modified time: 2022-09-08 12:20:33
  * @ Description:
  */
 
@@ -258,9 +258,15 @@ function initChart(){
 						pointStyle: 'rect',
 						pointStyleWidth: 30
 					},
-					onClick: legendClickHandler
-				}
-			}
+					onClick: legendClickHandler,
+					onHover: function(event, legendItem, legend){
+						$(this.ctx.canvas).css('cursor', 'pointer');
+					},
+					onLeave: function(event, legendItem, legend){
+						$(this.ctx.canvas).css('cursor', 'default');
+					},
+				},
+		 	},
 		}
 	});
 
@@ -270,7 +276,7 @@ function initChart(){
 	addDataset();
 }
 
-//TODO: unused for now. Keep this code for later to toggle between light and dark mode
+//unused for now. Keep this code for later to toggle between light and dark mode
 function darkModePlot() {
 	let x = myChart.config.options.scales.x;
 	let y = myChart.config.options.scales.y;
