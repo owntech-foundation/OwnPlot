@@ -5,8 +5,8 @@
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-07 13:43:06
- * @ Description:
+ * @ Modified time: 2022-09-08 14:25:31
+ * @ Description: Chart legend related UI handlers
  */
 
 const relBtn = $("#relBtn");
