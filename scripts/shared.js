@@ -5,7 +5,7 @@
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-09-07 14:00:19
+ * @ Modified time: 2022-09-09 11:20:01
  * @ Description:
  */
 
@@ -147,6 +147,7 @@ function updateLegendTable(){
         tableLine = tableLine.replace('#ffffff', dataset.backgroundColor);
         tableLine = tableLine.replace('id="pointSizeInputNULL" value=""', 'id="pointSizeInputNULL" value="' + dataset.pointRadius + '"');
         tableLine = tableLine.replace('id="lineSizeInputNULL" value=""', 'id="lineSizeInputNULL" value="' + dataset.lineBorderWidth + '"');        
+        tableLine = tableLine.replace('id="labelInputNULL" value="Dataset NULL"', 'id="labelInputNULL" value="' + dataset.label + '"');               
         tableLine = tableLine.replace(/NULL/gm, dataset.index + 1);
         legendSetupTable.append(tableLine);
     });
