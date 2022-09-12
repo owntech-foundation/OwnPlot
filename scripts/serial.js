@@ -1,15 +1,19 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-07-08 15:06:14
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-08 15:16:29
+ * @ Modified time: 2022-09-07 14:01:57
+ * @ Description:
  */
 
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
-let prevPorts;
+const { DataTable } = require('datatables.net');
 let port;
+let portHaveChanged;
 
 let byteSkip = false;
 const endCom = [13, 10]; //ascii for \r & \n
@@ -23,7 +27,7 @@ let dataFormatField = $("#dataFormat");
 
 let asciiForm = $("#asciiForm");
 let binaryForm = $("#binaryForm");
-let customForm = $("#customForm");
+//let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
 
@@ -39,14 +43,14 @@ let configSerialPlot = {
 function switchDataForms(){
 	$(asciiForm).hide();
 	$(binaryForm).hide();
-	$(customForm).hide();
+	//$(customForm).hide();
 	switch(configSerialPlot.dataFormat){
 		case 'binary':
 			binaryForm.show();
 			break;
-		case 'custom':
-			customForm.show();
-			break;
+		// case 'custom':
+		// 	customForm.show();
+		// 	break;
 		case 'ascii':
 		default:
 			asciiForm.show();
@@ -54,16 +58,21 @@ function switchDataForms(){
 	}
 }
 
-$(function(){
+$(()=>{
 	switchDataForms();
+	listSerialPorts();
 	dataFormatField.on('change', function(){
 		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
 		switchDataForms();
-		console.log("data format changed to " + configSerialPlot.dataFormat);
 	});
 	
 	separatorField.val(configSerialPlot.separator);
-	separatorField.on('input',function(){
+	separatorField.on('input', function(){
+		if (separatorField.val().length > 0) {
+			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
+		}
+	});
+	enterKeyupHandler(separatorField, function(){
 		if (separatorField.val().length > 0) {
 			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
 		}
@@ -71,7 +80,6 @@ $(function(){
 
 	nbTypeField.on('change',function(){
 		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
-		console.log("nbType changed to " + configSerialPlot.nbType);
 		switch (configSerialPlot.nbType) {
 			case "uint8":
 			case "int8":
@@ -92,12 +100,11 @@ $(function(){
 			default:
 				configSerialPlot.nbSize = 1;
 		}
-		console.log("nb size is now " + configSerialPlot.nbSize + " bytes");
+		//not available in this version: printDebugTerminal("number size is now " + configSerialPlot.nbSize + " bytes");
 	});
 
 	endiannessField.on('change',function(){
 		configSerialPlot.endianness = endiannessField.children("option:selected").val();
-		console.log("endianness changed to " + configSerialPlot.endianness);
 	});
 });
 
@@ -105,58 +112,62 @@ $(function(){
 //If it's the first time this function is executed, 
 //then it will count as a port changed
 async function checkPortsChanged(){
-	await SerialPort.list().then((ports) => {
-		if (prevPorts == ports) {
-			return false;
+	await SerialPort.list().then((updatedPorts, err) => {
+		if(err) {
+			//not available in this version: printDebugTerminal(err);
+			return;
 		}
-		prevPorts = ports;
-		return true;
+		if (arraysEqual(availableSerialPorts, updatedPorts)) {
+			portHaveChanged = false;
+		} else {
+			availableSerialPorts = updatedPorts;
+			portHaveChanged = true;
+		}
 	})
 }
 
 //Everytime a port change, this code is executed
-async function listSerialPorts(){
-	await SerialPort.list().then((ports, err) => {
-		if(err) {
-			document.getElementById('#error').textContent = err.message;
-			return;
-		} else {
-			document.getElementById('error').textContent = '';
-		}
+function listSerialPorts(){
+	if (availableSerialPorts == false || availableSerialPorts == undefined) {
+		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
+	} else {
+		//not available in this version: printDebugPortInfo(availableSerialPorts);
 
-		if (ports.length === 0) {
-			document.getElementById('error').textContent = 'No ports discovered';
-		}
-
-		tableHTML = tableify(ports);
-		document.getElementById('ports').innerHTML = tableHTML;
-
-		if (availableSerialPortsLength !=  ports.length) {
-			let lpHTML = '<option value="default" selected>Select a port...</option>';
-			availableSerialPortsLength = ports.length;
-			availableSerialPorts = ports; //copy of array to access anywhere
-			ports.forEach(p => {
-				//if we were on a port when ports changed, we select in the list the current port
-				if (port) {
-					if(port.path == p.path) {
-						lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
-					} else {
-						lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-					}
+		let lpHTML = '<option value="default" selected>Select a port...</option>';
+		availableSerialPorts.forEach(p => {
+			//if we were on a port when ports changed, we select in the list the current port
+			if (port) {
+				if(port.path == p.path) {
+					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
 				} else {
 					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
 				}
-			});
-			document.getElementById('AvailablePorts').innerHTML = lpHTML;
-		}
-	})
+			} else {
+				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+			}
+		});
+		$('#AvailablePorts').html(lpHTML);
+	}
+}
+
+function printDebugPortInfo(ports){
+	let tableHTML = tableify(ports);
+	tableHTML = "<table class='table table-hover' id='portTable'>" + tableHTML.substring(7, tableHTML.length); //"<table>".length = 7, we replace it to insert class & id
+	$("#debugPortInfo").html(tableHTML);
+	$("#portTable").DataTable({
+		"paging": false,
+		"searching": false,
+		"info": false
+	});
 }
 
 //list ports loop
 async function listPorts() {
-	if (checkPortsChanged()) {
-		listSerialPorts();
-	}
+	await checkPortsChanged().then(()=>{
+		if(portHaveChanged){
+			listSerialPorts();
+		}
+	});
 	setTimeout(listPorts, 2000);
 }
 
@@ -174,29 +185,32 @@ function openPortRoutine() {
 	{
 		port.open((err) => {
 			if (err) {
-				return console.log('Error opening port: ', err.message);
+				return //not available in this version: printDebugTerminal('Error opening port: ', err.message);
 			}
 		});
 
 		port.on('open', () => {
-			console.log("-- Connection opened on port " + port.path + " --");
+			//not available in this version: printDebugTerminal("-- Connection opened on port " + port.path + " --");
 			openPortBtn('#openPortBtn');
-			runBtn('.pauseBtn');
-			$('.clearBtn').show();
-			$('.clearBtn').removeClass('disabled');
+			runBtn('#pausePortBtn');
+			$('#clearPortBtn').show();
+			$('#clearPortBtn').prop('disabled', false);
+			$('#startRecordBtn').prop("disabled", false);
 			enableSend();
 			flushChart(myChart);
-			startTime = Date.now();
+			chartStartTime = Date.now();
+			portIsOpen = true;
 		});
 
 		port.on('close', () => {
-			pauseBtn('.pauseBtn');
-			$('.pauseBtn').addClass('disabled');
-			$('.clearBtn').addClass('disabled');
-			console.log("-- Connection closed on port " + port.path + " --");
+			pauseBtn('#pausePortBtn');
+			$('#pausePortBtn').prop('disabled', true);
+			$('#startRecordBtn').prop("disabled", true);
+			//not available in this version: printDebugTerminal("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();
 			listSerialPorts();
+			portIsOpen = false;
 		});
 
 		port.on("data", (data) => {
@@ -207,16 +221,16 @@ function openPortRoutine() {
 				case "binary":
 					bufferizeBinary(data);
 					break;
-				case "custom":
-					bufferizeCustom(data);
-					break;
+				// case "custom":
+				// 	bufferizeCustom(data);
+				// 	break;
 				case "ascii":
 				default:
 					bufferizeAscii(data);
 					break;
 			}
 			updateTerminal();
-			writeToExport(dataSerialBuff);
+			writeToExport(dataSerialBuff, timeBuff);
 		});
 
 		skipByteBtn.on('click', () => {

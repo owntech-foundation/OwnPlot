@@ -1,9 +1,12 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-07-26 11:12:38
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-04 11:34:00
+ * @ Modified time: 2022-09-07 13:44:33
+ * @ Description:
  */
 
 /*
@@ -42,7 +45,7 @@ function terminalHexMode(elem) {
 	elem.attr('aria-pressed', 'true');
 	elem.removeClass('btn-default');
 	elem.addClass('btn-success');
-	elem.html('<i class="fa-solid fa-code"></i>&nbsp;Hex mode');
+	elem.html('<i class="fa-solid fa-code"></i>&nbsp;Hexadecimal');
 	termDataMode = DataModesEnum.Hex;
 }
 
@@ -50,7 +53,7 @@ function terminalDecimalMode(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-default');
-	elem.html('<i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal mode');
+	elem.html('<i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal');
 	termDataMode = DataModesEnum.Decimal;
 }
 
@@ -58,11 +61,11 @@ function terminalDecimalMode(elem) {
  *	JQuery selectors
  */
 
-let clearBtn =  $('.clearBtn');
+let clearBtn =  $('#clearPortBtn');
 let terminalBtnTimestamp = $('#terminalBtnTimestamp');
 let terminalBtnFormatted = $('#terminalBtnFormatted');
 let terminalBtnDataMode = $('#terminalBtnDataMode');
-let terminalSel = $('#terminalPre');
+let terminalSel = $('#terminalData');
 let termBufSizeInput = $('#termBufSizeInput');
 
 // -------------------------------------- //
@@ -76,26 +79,16 @@ let termDataMode = DataModesEnum.Decimal;
 let formattedMode = false;
 
 let countTermLines = 0;
-let termSize = 30;
-const minTermLines = 1;
-const maxTermLine = 500;
+let termSize = 20;
+const MIN_TERM_LINES = 0;
+const MAX_TERM_LINES = 500;
 
 $(() => {
-	termBufSizeInput.on('change', () => {
-		termSize = termBufSizeInput.val();
-		if(termSize > maxTermLine){
-			termSize = maxTermLine;
-		} else if(termSize < minTermLines){
-			termSize = minTermLines;
-		}
-		changeTerminalSize();
-	});
+	termBufSizeInput.val(termSize);
+	termBufSizeInput.on('change', terminalSizeInputHandler);
+	enterKeyupHandler(termBufSizeInput, terminalSizeInputHandler);
 
-	clearBtn.on('click', function(){
-		clearTerminal();
-	});
-
-	terminalTimestampBtnDisable(terminalBtnTimestamp); //default behavior
+	terminalTimestampBtnEnable(terminalBtnTimestamp); //default behaviour
 	terminalBtnTimestamp.on('click', function(){
 		if(terminalBtnTimestamp.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
@@ -105,7 +98,7 @@ $(() => {
 		}
 	});
 
-	terminalFormattedDisable(terminalBtnFormatted);
+	terminalFormattedEnable(terminalBtnFormatted); //default behaviour
 	terminalBtnFormatted.on('click', function(){
 		if(terminalBtnFormatted.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
@@ -125,6 +118,16 @@ $(() => {
 		}
 	});
 });
+
+function terminalSizeInputHandler(){
+	termSize = termBufSizeInput.val();
+	if(termSize > MAX_TERM_LINES){
+		termSize = MAX_TERM_LINES;
+	} else if(termSize < MIN_TERM_LINES){
+		termSize = MIN_TERM_LINES;
+	}
+	changeTerminalSize();
+}
 
 function changeTerminalSize(){
 	while(countTermLines > termSize){
@@ -150,10 +153,9 @@ function termialTime() {
 		}
 
 		if(absTimeMode){
-			let dataDate = new Date(dataTime);
-			timeStr = dataDate.getHours() + ':' + dataDate.getMinutes() + ':' + dataDate.getSeconds() + '.' + dataDate.getMilliseconds();
+			timeStr = dateToPreciseTimeString(new Date(dataTime));
 		} else { //relative time
-			timeStr = elapsedTime(dataTime);
+			timeStr = millisecondsElapsed(chartStartTime, dataTime);
 		}
 		timeStr+= " -> ";
 	}
@@ -179,12 +181,14 @@ function valueToString(val){
 function terminalFormating() {
 	let termLine = '';
 	if (formattedMode){
-		dataSerialBuff.forEach((elem, index) => {
-			termLine+='<span style="color:' + automaticColorDataset(index + 1) + '">';
-			termLine+= valueToString(elem); //takes care of the base (dec or hex)
-			termLine+= '</span>';
-		});
-		termLine = termLine.substring(0,termLine.length - (1+'</span>'.length)) + termLine.substring(termLine.length - ('</span>'.length), termLine.length); //erases the last " " which is useless
+		if(dataSerialBuff.length >= numberOfDatasets){
+			for (let index = 0; index < numberOfDatasets; index++) {
+				termLine+='<span style="color:' + myChart.data.datasets[index].backgroundColor + '">';
+				termLine+= valueToString(dataSerialBuff[index]); //takes care of the base (dec or hex)
+				termLine+= '</span>';
+			}
+			termLine = termLine.substring(0,termLine.length - (1+'</span>'.length)) + termLine.substring(termLine.length - ('</span>'.length), termLine.length); //erases the last " " which is useless
+		}
 	} else { //raw print
 		rawDataBuff.forEach((elem) => {
 			termLine+= valueToString(elem); //takes care of the base (dec or hex)
@@ -197,7 +201,7 @@ function terminalFormating() {
 }
 
 function updateTerminal() {
-	if(plotOnPause() == false){
+	if(plotOnPause() == false && termSize > 0){
 		let dataString = terminalFormating();
 		// doesn't print empty lines
 		if (dataString !== '\r\n'){
@@ -206,7 +210,7 @@ function updateTerminal() {
 			}
 			terminalSel.prepend('<span>' + termialTime() + dataString + '</span>'); //put first on top
 			countTermLines = countTermLines + 1;
-			$('.clearBtn').removeClass('disabled');
+			$('#clearPortBtn').prop('disabled', false);
 		}
 		if (countTermLines > termSize) {
 			terminalSel.children().last().remove();

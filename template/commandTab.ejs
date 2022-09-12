@@ -1,6 +1,30 @@
-<div class="input-group input-group-sm mb-3">
-    <button type="button" id="sendBtn" class="btn btn-primary">Send</button>
-    <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">
-</div>
-<div id="commandButtonContainer">
+<!--
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-24 14:04:45
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-07 13:45:14
+ * @ Description:
+ -->
+
+<!--This tab div allows the auto scroll to work fine when showing the tab-->
+<div>
+    <div class="input-group input-group-sm mb-3">
+        <button type="button" id="sendBtn" class="btn btn-primary col-4">Send</button>
+        <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">
+    </div>
+
+    <div class="input-group input-group-sm mb-3" id="addCommandDiv">
+        <button type="button" id="addCommandBtn" class="btn btn-primary col-4">Add command</button>
+        <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="">
+        <input type="text" class="form-control form-control-sm col-4" id="addCommandData" placeholder="Data to send" value="">
+        <!-- remove the choice of the color for now
+        <input type="color" class="form-control form-control-sm" id="addCommandColor" value="#fffffe">        
+        -->
+    </div>
+
+    <div id="commandButtonContainer" class="card card-body mb-3">
+    </div>
 </div>

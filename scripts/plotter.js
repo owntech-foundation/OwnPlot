@@ -1,94 +1,99 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-07-11 09:12:37
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-08 15:00:33
+ * @ Modified time: 2022-09-08 12:20:33
+ * @ Description:
  */
 
 const { data } = require("jquery");
 const { proto } = require("once");
 
+const colorThemes = {
+	ColorBlind10: ColorBlind10,
+	OfficeClassic6: OfficeClassic6,
+	HueCircle19: HueCircle19,
+	Tableau20: Tableau20
+}; // See assets/colorSchemes/
+let chartColors = colorThemes[Object.keys(colorThemes)[0]];
+
+const lineStylesEnum = {
+	full: [],
+	short: [1, 1],
+	medium: [10, 10],
+	long: [20, 5],
+	alternate: [15, 3, 3, 3]
+};
+
+const pointStylesEnum = {
+	circle: 'circle',
+	cross: 'cross',
+	triangle: 'triangle',
+	square: 'rect'
+};
+
 function pauseBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-pause"></i>&nbsp;Paused');
+	$(elem).html('<i class="fa-solid fa-pause"></i><br>Paused');
 	$(elem).removeClass('btn-success');
 	$(elem).removeClass('btn-secondary');
-	$(elem).removeClass('disabled');
 	$(elem).addClass('btn-warning');
-	$(elem).attr('aria-pressed', 'true');
-	$(elem).attr('aria-disabled', 'true');
+	$(elem).attr('aria-pressed', true);
+	$(elem).prop("disabled", false);
 	pausePlot();
 }
 
 function runBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-running"></i>&nbsp;Running');
+	$(elem).html('<i class="fa-solid fa-running"></i><br>Running');
 	$(elem).removeClass('btn-warning');
 	$(elem).removeClass('btn-secondary');
-	$(elem).removeClass('disabled');
 	$(elem).addClass('btn-success');
-	$(elem).attr('aria-pressed', 'false');
-	$(elem).attr('aria-disabled', 'false');
+	$(elem).attr('aria-pressed', false);
+	$(elem).prop("disabled", false);
 	runPlot();
-}
-
-function noPortBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-plug-circle-xmark"></i>&nbsp;No port selected');
-	$(elem).removeClass('btn-warning');
-	$(elem).removeClass('btn-success');
-	$(elem).addClass('btn-secondary');
-	$(elem).addClass('disabled');
-	$(elem).attr('aria-pressed', 'true');
-	$(elem).attr('aria-disabled', 'true');
-}
-
-function openPortBtn(elem) {
-	$(elem).html('Port opened');
-	$(elem).removeClass('btn-warning');
-	$(elem).removeClass('btn-secondary');
-	$(elem).removeClass('disabled');
-	$(elem).addClass('btn-success');
-	$(elem).attr('aria-pressed', 'false');
-	$(elem).css("visibility","visible");
-}
-
-function closePortBtn(elem) {
-	$(elem).html('Port closed');
-	$(elem).removeClass('btn-success');
-	$(elem).removeClass('btn-secondary');
-	$(elem).removeClass('disabled');
-	$(elem).addClass('btn-warning');
-	$(elem).attr('aria-pressed', 'true');
-	$(elem).css("visibility","visible");
 }
 
 let dataSerialBuff = Buffer.alloc(0);
 let rawDataBuff = Buffer.alloc(0);
-let indexData = 0;
-const nbMaxDatasets = 20;
+const NB_MAX_DATASETS = 20;
+let plotRunning = false;
 
-let nbChannelsInput = $("#nbChannels");
+let ctx;
+let myChart;
+
+const nbChannelsInput = $("#nbChannels");
+const colorSchemeSelect = $("#colorSchemeSelect");
 
 $(() => {
-	
+	initColorSchemeSelect();
+	initChart();
 	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
-	nbChannelsInput.attr("max", nbMaxDatasets);
-	nbChannelsInput.on('change', () => {
-		let nbChannels = nbChannelsInput.val();
-		while(numberOfDatasets < nbChannels && numberOfDatasets < nbMaxDatasets){
-			addDataset();
-		}
-		while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
-			removeDataset();
-		}
-	});
+	nbChannelsInput.attr("max", NB_MAX_DATASETS);
+	nbChannelsInput.on('change', updateNbChannels);
+	enterKeyupHandler(nbChannelsInput, updateNbChannels);
 });
+
+function updateNbChannels(){
+	let nbChannels = nbChannelsInput.val();
+	while(numberOfDatasets < nbChannels && numberOfDatasets < NB_MAX_DATASETS){
+		addDataset();
+	}
+	while(numberOfDatasets > nbChannels && numberOfDatasets > 0){
+		removeDataset();
+	}
+	updateLegendTable();
+}
 
 function pausePlot(){
 	myChart.options.scales['x'].realtime.pause = true;
+	plotRunning = false;
 }
 
 function runPlot(){
 	myChart.options.scales['x'].realtime.pause = false;
+	plotRunning = true;
 }
 
 function plotOnPause(){
@@ -100,7 +105,7 @@ function getSerialData(index) {
 }
 
 function refreshCallback(chart) {
-	if (plotOnPause() == false) {
+	if (plotRunning) {
 		if(dataSerialBuff.length >= numberOfDatasets){
 			chart.data.datasets.forEach((dataset) => {
 				dataset.data.push({
@@ -129,14 +134,21 @@ function removeDataset() {
 function addDataset() {
 	myChart.stop();
 	numberOfDatasets++;
+	let index = numberOfDatasets-1; //index begins to 0
 	let newDataset = {
-		index: numberOfDatasets-1, //index begins to 0
-		label: 'Dataset ' + numberOfDatasets, //TODO: hide label
-		backgroundColor: automaticColorDataset(numberOfDatasets), //color(chartColors.red).alpha(0.5).rgbString(),
-		borderColor: automaticColorDataset(numberOfDatasets), //chartColors.red, //TODO: add auto picker for colors
-		fill: false,
+		index: index,
+		label: 'Dataset ' + numberOfDatasets,
+		backgroundColor: automaticColorDataset(index),
+		borderColor: automaticColorDataset(index),
 		lineTension: 0,
-		data: []
+		hidden: false,
+		data: [],
+		pointStyleName: 'circle',
+		pointStyle: pointStylesEnum[this.pointStyleName],
+		pointRadius: 3,
+		lineStyleName: 'full',
+		lineBorderDash: lineStylesEnum[this.lineStyleName],
+		lineBorderWidth: 3,
 	}
 	myChart.data.datasets.push(newDataset);
 	myChart.update();
@@ -144,92 +156,134 @@ function addDataset() {
 
 // Chart layout setting //
 
-let chartColors = {
-	red: 'rgb(255, 99, 132)',
-	orange: 'rgb(255, 159, 64)',
-	yellow: 'rgb(255, 205, 86)',
-	green: 'rgb(75, 192, 192)',
-	blue: 'rgb(54, 162, 235)',
-	purple: 'rgb(153, 102, 255)',
-	greenApple: 'rgb(120, 235,12)',
-	grey: 'rgb(201, 203, 207)'
-};
-let color = Chart.helpers.color;
-
-function automaticColorDataset(elemNumber) {
-	let index = (elemNumber - 1) % (Object.keys(chartColors).length);
-	return (Object.entries(chartColors).at(index)[1]);
+function initColorSchemeSelect(){
+	let optionsHTML;
+	Object.keys(colorThemes).forEach((themeName)=>{
+		optionsHTML += "<option>" + themeName + "</option>";
+	})
+	colorSchemeSelect.html(optionsHTML);
+	colorSchemeSelect.on('change', function(){
+		chartColors = colorThemes[$(this).val()];
+		updateChartColors();
+		myChart.update();
+		updateLegendTable();
+	});
 }
 
-let labelsPrinted;
+function automaticColorDataset(elemNumber) {
+	let index = elemNumber % (Object.keys(chartColors).length);
+	return chartColors[index];
+}
 
-const ctx = document.getElementById('myChart').getContext('2d');
-const myChart = new Chart(ctx, {
-	type: 'line',
-	data: {
-		labels: ['Red'],
-		datasets: [{
-			index: 0,
-			label: 'Dataset 1',
-			backgroundColor: automaticColorDataset(1),
-			borderColor: chartColors.red,
-			fill: false,
-			lineTension: 0,
-			data: []
-		},{
-			index: 1,
-			label: 'Dataset 2',
-			backgroundColor: automaticColorDataset(2),
-			borderColor: chartColors.orange,
-			fill: false,
-			lineTension: 0,
-			data: []
-		},{
-			index: 2,
-			label: 'Dataset 3',
-			backgroundColor: automaticColorDataset(3),
-			borderColor: chartColors.yellow,
-			fill: false,
-			lineTension: 0,
-			data: []
-		}]
-	},
-	options: {
-		scales: {
-			x: {
-				type: 'realtime',
-				realtime: {
-					duration: 20000,
-					refresh: 200,
-					delay: 100,
-					onRefresh: refreshCallback,
-					pause: true
-				},
-				ticks: {
-					callback: function(value, index, ticks) {
-						if(absTimeMode){
-							return value;
-						}
-						let tickLabel = Math.floor(elapsedTime(ticks[index].value));
-						if(index>0){
-							if(labelsPrinted.includes(tickLabel)){
-								tickLabel = undefined;
-							} else {
-								labelsPrinted.push(tickLabel);
+function updateChartColors(){
+	myChart.data.datasets.forEach(function(dataset){
+		dataset.backgroundColor = automaticColorDataset(dataset.index);
+		dataset.borderColor = automaticColorDataset(dataset.index);
+	})
+}
+
+let timeTicksPrinted;
+
+function legendClickHandler(e, legendItem, legend){
+	if($("#nav-chartConfig-tab").hasClass("active") == false){
+		$("#nav-chartConfig-tab").trigger('click');
+	}
+	if($("#legendSetupDiv").is('.collapse:not(.show)')){
+		$("#legendSetupDiv").collapse("show");
+		$("#legendSetupDiv").one(("shown.bs.collapse"), ()=>{
+			//wait for the collapse animation to happen, otherwise focus below won't work
+			let legendItemInput = $("#legendConfigDiv").find('.labelInput')[legendItem.datasetIndex+1];
+			legendItemInput.focus();
+			legendItemInput.select();
+		});
+	} else {
+		let legendItemInput = $("#legendConfigDiv").find('.labelInput')[legendItem.datasetIndex+1];
+		legendItemInput.focus();
+		legendItemInput.select();
+	}
+}
+
+function initChart(){	
+	ctx = $('#myChart')[0].getContext('2d');
+	myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: ['Red'],
+			datasets: []
+		},
+		options: {
+			scales: {
+				x: {
+					type: 'realtime',
+					realtime: {
+						duration: 20000,
+						refresh: 200,
+						delay: 100,
+						onRefresh: refreshCallback,
+						pause: true
+					},
+					ticks: {
+						callback: function(value, index, ticks) {
+							if(absTimeMode){
+								return value;
 							}
-						} else {
-							labelsPrinted = [tickLabel,];
+							let tickLabel = Math.floor(millisecondsElapsed(chartStartTime, ticks[index].value));
+							if(index>0){
+								if(timeTicksPrinted.includes(tickLabel)){
+									tickLabel = undefined;
+								} else {
+									timeTicksPrinted.push(tickLabel);
+								}
+							} else {
+								timeTicksPrinted = [tickLabel,];
+							}
+							return tickLabel;
 						}
-						return tickLabel;
-                    }
+					}
+				},
+				y: {
+					title: {
+						display: true,
+						labelString: 'value'
+					}
 				}
 			},
-			y: {
-				title: {
+			plugins: {
+				legend: {
 					display: true,
-					labelString: 'value'
-				}
-			}
+					position: 'right',
+					labels: {
+						//replace the default colored box which border was linked to the dash pattern of the dataset (it was ugly)
+						usePointStyle: true,
+						pointStyle: 'rect',
+						pointStyleWidth: 30
+					},
+					onClick: legendClickHandler,
+					onHover: function(event, legendItem, legend){
+						$(this.ctx.canvas).css('cursor', 'pointer');
+					},
+					onLeave: function(event, legendItem, legend){
+						$(this.ctx.canvas).css('cursor', 'default');
+					},
+				},
+		 	},
 		}
-	}
-});
+	});
+
+	//we add three datasets by default, as there are three channels on the ownTech card
+	addDataset();
+	addDataset();
+	addDataset();
+}
+
+//unused for now. Keep this code for later to toggle between light and dark mode
+function darkModePlot() {
+	let x = myChart.config.options.scales.x;
+	let y = myChart.config.options.scales.y;
+	
+	x.grid.borderColor = 'white';
+	y.grid.borderColor = 'white';
+	x.grid.color = 'rgba(255, 255, 255, 0.5)';
+	y.grid.color = 'rgba(255, 255, 255, 0.5)';	
+}
+
