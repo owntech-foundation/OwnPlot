@@ -131,7 +131,7 @@
     "Matthias Riffard <mriffard@laas.fr>"
   ],
   "bugs": "https://gitlab.laas.fr/garthaud/ownplot/-/issues",
-  "license": "MIT",
+  "license": "LGPL-2.1",
   "config": {
     "forge": {
       "packagerConfig": {
