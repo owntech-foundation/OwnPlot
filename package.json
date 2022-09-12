@@ -6,6 +6,7 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
     "@electron-forge/maker-zip": "^6.0.0-beta.64",
     "electron": "^19.0.6",
+    "electron-builder": "^23.3.3",
     "electron-forge": "^5.2.4"
   },
   "name": "OwnPlot",
@@ -118,12 +119,21 @@
     "node": ">= 14.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "make-win": "electron-forge make --platform squirrel",
-    "make-mac": "electron-forge make --platform darwin"
+    "make-mac": "electron-forge make --platform darwin",
+    "pack-clean": "rm -rf dist",
+    "pack-linux": "electron-builder --linux --x64",
+    "pack-win": "electron-builder --win --x64",
+    "pack-mac-uni": "electron-builder --mac --universal",
+    "pack-linux-all": "electron-builder --linux --x64 --armv7l --arm64",
+    "pack-win-all": "electron-builder --win --ia32 --x64 --arm64",
+    "pack-all": "pack-clean; pack-mac-uni; pack-linux-all; pack-win-all"
+  },
+  "build": {
+    "appId": "com.ownplot.app"
   },
   "author": "OwnTech",
   "contributors": [
