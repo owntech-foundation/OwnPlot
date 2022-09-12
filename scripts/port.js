@@ -1,45 +1,54 @@
-let availableSerialPorts = [];
-let availableSerialPortsLength = 0;
+/**
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-22 16:23:22
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-07 13:43:39
+ * @ Description:
+ */
+
+let availableSerialPorts;
 let selectedPort;
 
 $(function(){
-
-	$('.pauseBtn').hide(); //hide run & clear buttons as no port is chosen
-	$('.clearBtn').hide();
 	noPortBtn($('#openPortBtn'));
-	
 	listPorts();
-
+	
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
-		if(availableSerialPortsLength > 0 && selectedPort != "default"){
-			$('.pauseBtn').show();
-			$('.clearBtn').show();
+		if(availableSerialPorts.length > 0 && selectedPort != "default"){
 			if(selectedPort != configSerialPlot.path){
 				closePortBtn($('#openPortBtn'));
 				//pause & clear btn are unclickable while port is closed
-				pauseBtn($('.pauseBtn'));
-				$('.pauseBtn').addClass('disabled');
-				$('.clearBtn').addClass('disabled');
+				pauseBtn($('#pausePortBtn'));
+				$('#pausePortBtn').prop('disabled', true);
+				$('#clearPortBtn').prop('disabled', true);
 			} else {
-				openPortBtn($('#openPortBtn'));
+				if(portIsOpen){
+					openPortBtn($('#openPortBtn'));
+					runBtn($('#pausePortBtn'));
+				}
 			}
 		} else {
 			noPortBtn($('#openPortBtn'));
 		}
+		this.blur();
 	});
 
-	$('.pauseBtn').on('click', function(){
+	$('#pausePortBtn').on('click', function(){
 		if($(this).attr('aria-pressed') === "true"){
-			runBtn($('.pauseBtn'));
+			runBtn($('#pausePortBtn'));
 		} else {
-			pauseBtn($('.pauseBtn'));
+			pauseBtn($('#pausePortBtn'));
 		}
 	});
 
-	$('.clearBtn').on('click', ()=>{
+	$('#clearPortBtn').on('click', ()=>{
 		flushChart(myChart);
-		$('.clearBtn').addClass('disabled');
+		chartStartTime = Date.now();
+		$('#clearPortBtn').prop('disabled', true);
 	});
 
 	$('#openPortBtn').on('click', function(){
@@ -54,11 +63,38 @@ $(function(){
 			openPort();
 		} else {
 			//pause btn is unclickable while port is closed
-			pauseBtn('.pauseBtn');
-			$('.pauseBtn').addClass('disabled');
+			pauseBtn('#pausePortBtn');
+			$('#pausePortBtn').prop('disabled', true);
 			port.close();
 			closePortBtn(this);
 		}
 	});
-
 });
+
+function noPortBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-plug-circle-xmark"></i><br><span class="nonBreakable">No port</span>');
+	$(elem).removeClass('btn-warning');
+	$(elem).removeClass('btn-success');
+	$(elem).addClass('btn-secondary');
+	$(elem).prop('disabled', true);
+}
+
+function openPortBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-toggle-on"></i><br>Open');
+	$(elem).removeClass('btn-warning');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-success');
+	$(elem).attr('aria-pressed', false);
+	$(elem).prop('disabled', false);
+	$(elem).show();
+}
+
+function closePortBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-toggle-off"></i><br>Closed');
+	$(elem).removeClass('btn-success');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-warning');
+	$(elem).attr('aria-pressed', true);
+	$(elem).prop('disabled', false);
+	$(elem).show();
+}

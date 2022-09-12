@@ -1,34 +1,27 @@
-<nav>
-	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-		<button class="nav-link active" id="nav-port-tab" data-bs-toggle="tab" data-bs-target="#nav-port" type="button" role="tab" aria-controls="nav-port" aria-selected="true">Port</button>
-		<button class="nav-link" id="nav-dataFormat-tab" data-bs-toggle="tab" data-bs-target="#nav-dataFormat" type="button" role="tab" aria-controls="nav-dataFormat" aria-selected="false">Data Format</button>
-		<button class="nav-link" id="nav-dataFormat-tab" data-bs-toggle="tab" data-bs-target="#nav-chartConfig" type="button" role="tab" aria-controls="nav-chartConfig" aria-selected="false">Chart Config</button>
-		<button class="nav-link" id="nav-terminal-tab" data-bs-toggle="tab" data-bs-target="#nav-terminal" type="button" role="tab" aria-controls="nav-terminal" aria-selected="false">Terminal</button>
-		<button class="nav-link" id="nav-command-tab" data-bs-toggle="tab" data-bs-target="#nav-command" type="button" role="tab" aria-controls="nav-command" aria-selected="false">Command</button>
-		<button class="nav-link" id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false">Record</button>
-		<button class="nav-link" id="nav-debug-tab" data-bs-toggle="tab" data-bs-target="#nav-debug" type="button" role="tab" aria-controls="nav-debug" aria-selected="false">Debug</button>
-	</div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-	<div class="tab-pane tab-pane-push fade show active" id="nav-port" role="tabpanel" aria-labelledby="nav-port-tab">
-		<%- include('portTab'); %>
-	</div>
-	<div class="tab-pane tab-pane-push fade" id="nav-dataFormat" role="tabpanel" aria-labelledby="nav-dataFormat-tab">
-		<%- include('dataFormatTab'); %>
-	</div>
-	<div class="tab-pane tab-pane-push fade" id="nav-chartConfig" role="tabpanel" aria-labelledby="nav-chartConfig-tab">
-		<%- include('chartConfigTab'); %>
-	</div>
-	<div class="tab-pane tab-pane-push fade" id="nav-terminal" role="tabpanel" aria-labelledby="nav-termial-tab">
-		<%- include('terminalTab'); %>
-	</div>
-	<div class="tab-pane tab-pane-push fade" id="nav-command" role="tabpanel" aria-labelledby="nav-command-tab">
-		<%- include('commandTab'); %>
-	</div>
-	<div class="tab-pane tab-pane-push fade" id="nav-record" role="tabpanel" aria-labelledby="nav-record-tab">
-		<%- include('recordTab'); %>
-	</div>
-	<div class="tab-pane tab-pane-push fade" id="nav-debug" role="tabpanel" aria-labelledby="nav-debug-tab">
-		<%- include('debugTab'); %>
+<!--
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-07 13:46:44
+ * @ Description:
+ -->
+
+<div class="my-2">
+	<div class="tab-content my-3" id="nav-tabContent">
+		<div class="tab-pane tab-pane-push fade" id="nav-command" role="tabpanel" aria-labelledby="nav-command-tab">
+			<%- include('commandTab'); %>
+		</div>
+		<div class="tab-pane tab-pane-push fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
+			<%- include('settingsTab'); %>
+		</div>
+		<div class="tab-pane tab-pane-push fade" id="nav-chartConfig" role="tabpanel" aria-labelledby="nav-chartConfig-tab">
+			<%- include('chartConfigTab'); %>
+		</div>
+		<div class="tab-pane tab-pane-push fade" id="nav-record" role="tabpanel" aria-labelledby="nav-record-tab">
+			<%- include('recordTab'); %>
+		</div>
 	</div>
 </div>

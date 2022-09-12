@@ -1,3 +1,29 @@
-<div id="error"></div>
-<div id="ports"></div>
-<div id="received"></div>
+<!--
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-07 14:27:50
+ * @ Description:
+ -->
+
+<div id="portInfoDiv">
+    <a data-target="#debugPortInfo" class="collapseHead" role="button" aria-expanded="true" aria-controls="debugPortInfo">
+        <span class="input-group-text">
+            <i class="fa-solid fa-plug"></i><span style="font-weight:bolder">&nbsp;Port Information</span>
+        </span>
+    </a>
+    <div class="collapse mb-2 table-responsive" id="debugPortInfo"></div>
+</div>
+
+<div id="debugTerminalDiv">
+    <a data-target="#debugTerminal" class="collapseHead" role="button" aria-expanded="true" aria-controls="debugTerminal">
+        <span class="input-group-text">
+            <i class="fa-solid fa-circle-exclamation"></i><span style="font-weight:bolder">&nbsp;Log</span>
+        </span>
+    </a>
+    <pre class="collapse show mb-2 terminalPre" id="debugTerminal">
+	</pre>
+</div>

@@ -1,0 +1,30 @@
+image: electronuserland/builder:wine
+
+stages:
+  - install
+  - pack-linux
+
+cache:
+  paths:
+    - node_modules/
+
+install_dependencies:
+  stage: install
+  only:
+    - dev
+    - main
+    - issue_33_targets
+  script:
+    - npm install
+
+pack_linux:
+  stage: pack-linux
+  only:
+    - dev
+    - main
+    - issue_33_targets
+  script:
+    - npm run pack-linux
+  artifacts:
+    paths:
+      - dist/

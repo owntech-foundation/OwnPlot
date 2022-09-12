@@ -1,26 +1,191 @@
 /**
- * @ Author: Guillaume Arthaud
- * @ Email: guillaume.arthaud.pro@gmail.com
- * @ Create Time: 2022-07-20 17:19:33
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-30 09:31:24
  * @ Modified by: Matthias Riffard
- * @ Modified time: 2022-08-01 11:20:06
+ * @ Modified time: 2022-09-07 14:35:14
+ * @ Description:
  */
 
- /* Terminal */
- #terminalPre {
-	height: 17em;
-	color: whitesmoke;
-	display: block;
-	background-color: #333;
-	padding: 2px;
-	border: 1px solid #888;
-	margin-top: 1em;
-	resize: vertical;
+ /* Color scheme */
+
+:root {
+	--main-bg-color: #212427;
+	--second-bg-color: #32343A;
+	--third-bg-color: #42464D;
+	--clearer-third-bg-color: #5f626b;
+	--text-color: #F2F0E7;
+	--simple-border: 1px solid #000000;
+	--bs-body-color: var(--text-color);
+	--port-bar-btn-width: 70px;
 }
 
-/* Tabs */
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+*::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0,0,0,0);
+}
+*::-webkit-scrollbar-thumb{
+    border-radius: 8px;
+    background: var(--text-color);
+}
+*::-webkit-scrollbar-thumb:hover{
+  	background: var(--text-color);
+}
+*::-webkit-scrollbar-thumb:active{
+  	background: var(--text-color);
+}
 
-.tab-pane-push {
-    margin-top: 1em;
-	margin-bottom: 1em;
+main{
+	overflow: hidden;
+}
+
+ /* Window parts */
+
+#topBar {
+	background-color: var(--main-bg-color);
+	border: var(--simple-border);
+	box-sizing: border-box;
+	/* resize: vertical;
+	overflow: auto; */
+}
+
+#sideBar {
+	background-color: var(--second-bg-color);
+	border: var(--simple-border);
+	overflow-y: scroll;
+}
+
+#portBar {
+	--port-bar-width: calc(0.5rem * 4 + var(--port-bar-btn-width) * 3); /* m-1 class = 0.5rem by default in bootstrap */
+	width: var(--port-bar-width) !important;
+	min-width: var(--port-bar-width) !important;
+}
+
+#terminalBar {
+	background-color: var(--second-bg-color);
+	border: var(--simple-border);
+	overflow-y: scroll;
+}
+
+#myChart {
+	border: var(--simple-border);
+}
+
+.btn {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.menu-btn {
+	--bs-btn-color: var(--text-color);
+    --bs-btn-bg: var(--third-bg-color);
+    --bs-btn-border-color: var(--third-bg-color);
+
+    --bs-btn-hover-color: var(--text-color);
+    --bs-btn-hover-bg: var(--clearer-third-bg-color);
+    --bs-btn-hover-border-color: var(--clearer-third-bg-color);
+
+    --bs-btn-focus-shadow-rgb: inset 0 3px 5px var(--second-bg-color);
+
+    --bs-btn-active-color: var(--text-color);
+    --bs-btn-active-bg: var(--third-bg-color);
+    --bs-btn-active-border-color: var(--text-color);
+    --bs-btn-active-shadow: none;
+    --bs-btn-disabled-color: var(--text-color);
+    --bs-btn-disabled-bg: var(--third-bg-color);
+
+	width: 85px;
+}
+
+.portBarBtn{
+	width: var(--port-bar-btn-width) !important;
+}
+
+.nonBreakable {
+	white-space: nowrap;
+}
+
+input {
+	color: var(--text-color);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.card {
+	--bs-card-bg: var(--third-bg-color);
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.collapseHead {
+	text-decoration: none;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.form-check-label{
+	cursor: pointer;
+}
+.form-check-input{
+	cursor: pointer;
+}
+
+.input-group-text{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+select{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.tab-pane {
+	overflow: hidden;
+}
+
+.legendLineCollapseBtn {
+	border: none;
+}
+
+/* Chart Config */
+
+.labelInput {
+	border: none;
+	background: transparent;
+	border-bottom: 1px solid var(--text-color);
+	outline: none;
+}
+
+/* th {
+	cursor: pointer;
+} 
+Served when we could sort the tables but this feature is not implemented anymore */
+
+.form-switch .form-check-input[type=checkbox] {
+	/* bigger switch than the one from bootstrap */
+    border-radius: 2em;
+    height: 1.5em;
+    width: 3em;
+	cursor: pointer;
+}
+
+.btn:focus {
+	box-shadow: none; /*remove outline after click release*/
+}
+
+.bigIcon {
+	font-size: xx-large;
 }

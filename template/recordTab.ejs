@@ -1,1 +1,149 @@
-recordTab
+<!--
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Matthias Riffard
+ * @ Modified time: 2022-09-07 14:27:44
+ * @ Description:
+ -->
+
+<div class="mb-3" id="recordDiv">
+    <button class="btn btn-success" type="button" id="startRecordBtn"><i class="fa-solid fa-running"></i>&nbsp;Start record</button>
+    <button class="btn btn-warning" type="button" id="pauseRecordBtn"><i class="fa-solid fa-stop"></i>&nbsp;Stop record</button>
+    <button class="btn btn-primary" type="button" id="downloadRecordBtn" disabled><i class="fa-solid fa-file-arrow-down"></i>&nbsp;Download</button>
+</div>
+
+<div class="mb-3">
+    <a data-target="#recordNameDiv" class="collapseHead" id="recordNameHref" role="button" aria-expanded="true" aria-controls="recordNameDiv">
+        <span class="input-group-text" id="recordNameTitle">
+            <i class="fa-solid fa-file-circle-question"></i>&nbsp;<span style="font-weight:bolder">Name</span>
+        </span>
+    </a>
+    <div class="collapse show" id="recordNameDiv">
+        <div class="card card-body">
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-5" >
+                    <i class="fa-solid fa-file-pen"></i>&nbsp;File Name
+                </label>
+                <input type="text" class="form-control imperativeRecordSetting" id="recordFileNameInput" maxlength=100 aria-describedby="record file name input" value="">
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="fileExtensionRecordRadio" id="csvRecordRadio" checked>
+                        <label class="form-check-label" for="csvRecordRadio">
+                            .csv
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="fileExtensionRecordRadio" id="txtRecordRadio">
+                        <label class="form-check-label" for="txtRecordRadio">
+                            .txt
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+
+<div class="mb-3">
+    <a data-target="#recordSettingsDiv" class="collapseHead" id="recordSettingsHref" role="button" aria-expanded="true" aria-controls="recordSettingsDiv">
+        <span class="input-group-text" id="recordSettingsTitle">
+            <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Settings</span>
+        </span>
+    </a>
+    <div class="collapse show" id="recordSettingsDiv">
+        <div class="card card-body">
+            <div class="input-group input-group-sm mb-2">
+                <label class="input-group-text col-5">
+                    <i class="fa-solid fa-scissors"></i>&nbsp;Separator
+                </label>
+                <input type="text" class="form-control imperativeRecordSetting" id="recordSeparatorInput" maxlength=100 aria-describedby="record separator input" value=",">
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input imperativeRecordSetting" type="radio" name="updownRecordRadio" id="downRecordRadio" checked>
+                        <label class="form-check-label" for="downRecordRadio">
+                            Old data on top
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input imperativeRecordSetting" type="radio" name="updownRecordRadio" id="upRecordRadio">
+                        <label class="form-check-label" for="upRecordRadio">
+                            Early data on top
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="nameRecordCheck" checked>
+                        <label class="form-check-label" for="nameRecordCheck">
+                            Add label on the first line
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input imperativeRecordSetting" type="checkbox" value="" id="timestampRecordCheck" checked>
+                        <label class="form-check-label" for="timestampRecordCheck">
+                            Add timestamp
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row recordTimestampSetupRow">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input imperativeRecordSetting" type="radio" name="absRelTimestampRecordRadio" id="relativeTimestampRecordRadio" checked>
+                        <label class="form-check-label" for="relativeTimestampRecordRadio">
+                            Relative
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input imperativeRecordSetting" type="radio" name="absRelTimestampRecordRadio" id="absoluteTimestampRecordRadio">
+                        <label class="form-check-label" for="absoluteTimestampRecordRadio">
+                            Absolute
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row recordTimestampSetupRow">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input imperativeRecordSetting" type="radio" name="precisionTimestampRecordRadio" id="msPrecisionTimestampRecordRadio" checked>
+                        <label class="form-check-label" for="msPrecisionTimestampRecordRadio">
+                            millisecond precise
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input imperativeRecordSetting" type="radio" name="precisionTimestampRecordRadio" id="sPrecisionTimestampRecordRadio">
+                        <label class="form-check-label" for="sPrecisionTimestampRecordRadio">
+                            seconds only
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
