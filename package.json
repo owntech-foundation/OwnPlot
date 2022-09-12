@@ -9,7 +9,7 @@
     "electron-forge": "^5.2.4"
   },
   "name": "OwnPlot",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "OwnTech's Serial Plotter",
   "main": "main.js",
   "dependencies": {
