@@ -130,7 +130,7 @@
     "Guillaume Arthaud <garthaud@laas.fr>",
     "Matthias Riffard <mriffard@laas.fr>"
   ],
-  "bugs": "https://gitlab.laas.fr/garthaud/ownplot/-/issues",
+  "bugs": "https://gitlab.laas.fr/owntech/ownplot/-/issues",
   "license": "LGPL-2.1",
   "config": {
     "forge": {
