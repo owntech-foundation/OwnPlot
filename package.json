@@ -10,7 +10,7 @@
     "electron-forge": "^5.2.4"
   },
   "name": "OwnPlot",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "OwnTech's Serial Plotter",
   "main": "main.js",
   "dependencies": {
@@ -133,7 +133,22 @@
     "pack-all": "pack-clean; pack-mac-uni; pack-linux-all; pack-win-all"
   },
   "build": {
-    "appId": "com.ownplot.app"
+    "appId": "com.ownplot.app",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/Icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/Icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/Icon.png",
+      "category": "Network",
+      "synopsis": "Serial plotter",
+      "description": "Serial plotter"
+    }
   },
   "author": "OwnTech",
   "contributors": [
