@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-23 14:14:50
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:47:38
  * @ Description:
  */
@@ -21,7 +21,7 @@ switch (process.platform) {
         break;
     case 'darwin':
         icon = path.resolve(__dirname, 'assets', 'Icon.icns');
-        app.dock.setIcon(path.resolve(__dirname, 'assets', 'Icon.png'));
+        //app.dock.setIcon(path.resolve(__dirname, 'assets', 'Icon.png'));
         break;
     case 'linux':
         icon = path.resolve(__dirname, 'assets', 'Icon.png');
