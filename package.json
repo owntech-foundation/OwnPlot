@@ -145,7 +145,7 @@
     "linux": {
       "target": "AppImage",
       "icon": "assets/Icon.png",
-      "category": "Network",
+      "category": "Connectivity",
       "synopsis": "Serial plotter",
       "description": "Serial plotter"
     }
