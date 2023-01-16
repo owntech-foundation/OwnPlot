@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 14:01:55
  * @ Description:
  */
@@ -76,6 +76,33 @@ function addCommandButton(newButton) {
 
 function removeCommandButton(index) {
     commandButtons.splice(index, 1);
+    updateCommandButtons();
+}
+
+function saveCommandButtons() {
+
+}
+
+function loadCommandButtons() {
+    let data = [
+        {
+            "text": "w",
+            "command": "w",
+            "defaultColor": true,
+            "isClear": false,
+            "icon": "fa-solid fa-paper-plane"
+        },
+        {
+            "text": "ee",
+            "command": "wee",
+            "defaultColor": true,
+            "isClear": false,
+            "icon": "fa-solid fa-paper-plane"
+        }
+    ]
+
+    commandButtons= data.slice(); 
+
     updateCommandButtons();
 }
 
