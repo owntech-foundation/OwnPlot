@@ -9,3 +9,5 @@ records
 records/*
 old
 old/*
+.vscode
+.vscode/*
