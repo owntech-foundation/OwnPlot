@@ -17,10 +17,16 @@ const addCommandBtn = $("#addCommandBtn");
 const addCommandName = $("#addCommandName");
 const addCommandData = $("#addCommandData");
 const addCommandColor = $("#addCommandColor");
+const buttonConfigSelect = $("#buttonConfigSelect");
+const saveConfigInputGroup = $("#saveConfigInputGroup");
+const saveConfigButton = $("#saveConfigButton");
+const saveConfigName = $("#saveConfigName");
 
 const encoder = new TextEncoder();
+const configButtonPath = "./config/buttons";
 
 let commandButtons = [];
+let filesConfigButton = [];
 
 $(() => {
     disableSend();
@@ -42,6 +48,11 @@ $(() => {
     addCommandBtn.on('click', function(){
         addCommandSubmitHandler();
     });
+
+    saveConfigButton.on('click', function(){
+        saveCommandButtons(saveConfigName.val());
+    });
+    updateCommandFilesList();
 });
 
 function addCommandSubmitHandler(){
@@ -81,29 +92,72 @@ function removeCommandButton(index) {
     updateCommandButtons();
 }
 
-function saveCommandButtons() {
-    const filename = "./config/buttons/owntech_basic.json";
+function saveCommandButtons(filename) {
     const data = JSON.stringify(commandButtons)
 
-    fs.writeFile(filename, data, 'utf8', err => {
+    fs.writeFile(configButtonPath + "/" + filename + ".json", data, 'utf8', err => {
         if (err) {
             console.log(`Error writing file: ${err}`)
         } else {
             console.log(`File is written successfully!`)
+            updateCommandFilesList(filename);
         }
     })
 }
 
-function loadCommandButtons() {
-    const filename = "./config/buttons/owntech_basic.json";
-
-    fs.readFile(filename, 'utf8', (err, data) => {
+function loadCommandButtons(file) {
+    commandButtons = [];
+    fs.readFile(configButtonPath + "/" + file, 'utf8', (err, data) => {
         if (err) {
             console.log(`Error reading file from disk: ${err}`)
         } else {
             commandButtons = JSON.parse(data);
             updateCommandButtons();
         }
+    })
+}
+
+function updateNewFiledVisibility() {
+    $("#buttonConfigSelect option:selected").each(function() {
+        if ($( this ).val() == "new") {
+            saveConfigInputGroup.show();
+        } else {
+            saveConfigInputGroup.hide();
+            loadCommandButtons($( this ).val());
+        }
+    });
+}
+
+function updateCommandFilesList(selectedItem) {
+    let configSelecthtml = "";
+
+    let itemNewSelected = "";
+    if (selectedItem == "") {
+        itemNewSelected = "selected";
+    }
+
+    configSelecthtml += "<option " + itemNewSelected + " value='new'>-- new --</option>";
+
+
+    fs.readdir(configButtonPath, (err, files) => {
+        if (err)
+            console.log(err);
+        else {
+            filesConfigButton = files;
+            filesConfigButton.forEach(file => {
+                let itemSelected = "";
+                if (selectedItem + ".json" == file) {
+                    itemSelected = "selected";
+                }
+                configSelecthtml += "<option " + itemSelected + " value='" + file + "'>" + file + "</option>";
+            buttonConfigSelect.html(configSelecthtml);
+            })
+            updateNewFiledVisibility();
+        }
+    })
+
+    buttonConfigSelect.change(function() {
+        updateNewFiledVisibility();
     })
 }
 
@@ -155,7 +209,7 @@ async function send(stringToSend){
         // if (err) {
         //     printDebugTerminal(err);
         // } not available in this version
-       });
+    });
 }
 
 function enableSend() {
