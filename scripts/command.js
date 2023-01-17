@@ -10,6 +10,7 @@
  */
 
 const fs = require('fs')
+const { ipcRenderer } = require('electron');
 
 const sendInput = $("#sendInput");
 const sendBtn = $("#sendBtn");
@@ -25,7 +26,7 @@ const saveConfigButtonButton = $("#saveConfigButtonButton");
 const deleteButtonButton= $("#deleteButtonButton");
 
 const encoder = new TextEncoder();
-const configButtonPath = "./config/buttons";
+const configButtonPath = ipcRenderer.sendSync('get-user-data-folder') + "/config/buttons";
 
 let commandButtons = [];
 let fileCommandButtons = [];
