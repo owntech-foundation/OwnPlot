@@ -1,0 +1,37 @@
+[
+	{
+		"text": "Idle mode",
+		"command": "i",
+		"defaultColor": true,
+		"isClear": false,
+		"icon": "fa-solid fa-pause"
+	},
+	{
+		"text": "Serial mode",
+		"command": "s",
+		"defaultColor": true,
+		"isClear": false,
+		"icon": "fa-solid fa-align-justify"
+	},
+	{
+		"text": "Power mode",
+		"command": "p",
+		"defaultColor": true,
+		"isClear": false,
+		"icon": "fa-solid fa-bolt"
+	},
+	{
+		"text": "Up",
+		"command": "u",
+		"defaultColor": true,
+		"isClear": false,
+		"icon": "fa-solid fa-arrow-up"
+	},
+	{
+		"text": "Down",
+		"command": "d",
+		"defaultColor": true,
+		"isClear": false,
+		"icon": "fa-solid fa-arrow-down"
+	}
+]

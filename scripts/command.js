@@ -9,6 +9,8 @@
  * @ Description:
  */
 
+const fs = require('fs')
+
 const sendInput = $("#sendInput");
 const sendBtn = $("#sendBtn");
 const addCommandBtn = $("#addCommandBtn");
@@ -84,26 +86,16 @@ function saveCommandButtons() {
 }
 
 function loadCommandButtons() {
-    let data = [
-        {
-            "text": "w",
-            "command": "w",
-            "defaultColor": true,
-            "isClear": false,
-            "icon": "fa-solid fa-paper-plane"
-        },
-        {
-            "text": "ee",
-            "command": "wee",
-            "defaultColor": true,
-            "isClear": false,
-            "icon": "fa-solid fa-paper-plane"
+    const filename = "./config/buttons/owntech_basic.json";
+
+    fs.readFile(filename, 'utf8', (err, data) => {
+        if (err) {
+            console.log(`Error reading file from disk: ${err}`)
+        } else {
+            commandButtons = JSON.parse(data);
+            updateCommandButtons();
         }
-    ]
-
-    commandButtons= data.slice(); 
-
-    updateCommandButtons();
+    })
 }
 
 function updateCommandButtons() {

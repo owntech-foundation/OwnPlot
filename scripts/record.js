@@ -4,12 +4,10 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-22 16:23:22
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:43:49
  * @ Description:
  */
-
-const fs = require('fs'); //file opening, reading & writing
 
 const startRecordBtn = $("#startRecordBtn");
 const pauseRecordBtn = $("#pauseRecordBtn");
