@@ -13,6 +13,7 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 const ejse = require('ejs-electron');
+const fs = require('fs'); //file opening, reading & writing
 
 let icon;
 switch (process.platform) {
