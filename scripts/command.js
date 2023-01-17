@@ -82,7 +82,16 @@ function removeCommandButton(index) {
 }
 
 function saveCommandButtons() {
+    const filename = "./config/buttons/owntech_basic.json";
+    const data = JSON.stringify(commandButtons)
 
+    fs.writeFile(filename, data, 'utf8', err => {
+        if (err) {
+            console.log(`Error writing file: ${err}`)
+        } else {
+            console.log(`File is written successfully!`)
+        }
+    })
 }
 
 function loadCommandButtons() {
