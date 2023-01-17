@@ -9,11 +9,13 @@
  * @ Description:
  */
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 const ejse = require('ejs-electron');
 const fs = require('fs'); //file opening, reading & writing
+
+ejse.data('username', 'Some Guy');
 
 let icon;
 switch (process.platform) {
@@ -31,7 +33,45 @@ switch (process.platform) {
 
 let mainWindow;
 
-function createWindow() {
+function mkdirp(dir) {
+    if (fs.existsSync(dir)) { return true }
+    const dirname = path.dirname(dir)
+    mkdirp(dirname);
+    fs.mkdirSync(dir);
+}
+
+function copyDefaultConf(filepath, data) {
+    if (!fs.existsSync(filepath)) {
+        fs.writeFile(filepath, data, 'utf8', err => {
+            if (err) {
+                console.log(`Error writing file: ${err}`)
+            } else {
+                console.log(`File is written successfully!`)
+            }
+        })
+    }
+}
+
+function copyDefaultConfNew(diskFile, localFile) {
+    if (!fs.existsSync(diskFile)) {
+        fs.readFile(localFile, 'utf8', (err, data) => {
+            if (err) {
+                console.log(`Error reading file from disk: ${err}`)
+            } else {
+                fs.writeFile(diskFile, data, 'utf8', err => {
+                    if (err) {
+                        console.log(`Error writing file: ${err}`)
+                    } else {
+                        console.log(`File is written successfully!`)
+                    }
+                })
+            }
+        })
+    }
+}
+
+
+app.whenReady().then(() => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 800,
@@ -46,7 +86,19 @@ function createWindow() {
         autoHideMenuBar: true
     });
 
-    mainWindow.loadURL('file://' + __dirname + '/index.ejs');
+
+    mkdirp(app.getPath('userData') + "/config");
+    mkdirp(app.getPath('userData') + "/config/buttons");
+    //copyDefaultConfNew(app.getPath('userData') + "/config/buttons/owntech_basic.json", app.getPath('appData') + "/config/buttons/owntech_basic.json");
+    copyDefaultConf(app.getPath('userData') + "/config/buttons/owntech_basic.json", 
+    '[{"text":"Idle mode","command":"i","defaultColor":true,"isClear":false,"icon":"fa-solid fa-pause"},{"text":"Serial mode","command":"s","defaultColor":true,"isClear":false,"icon":"fa-solid fa-align-justify"},{"text":"Power mode","command":"p","defaultColor":true,"isClear":false,"icon":"fa-solid fa-bolt"},{"text":"Up","command":"u","defaultColor":true,"isClear":false,"icon":"fa-solid fa-arrow-up"},{"text":"Down","command":"d","defaultColor":true,"isClear":false,"icon":"fa-solid fa-arrow-down"}]');
+
+    ipcMain.on('get-user-data-folder', (event) => {
+        event.returnValue = app.getPath('userData');
+    });
+
+    mainWindow.loadFile(__dirname + '/index.ejs');
+    //mainWindow.loadURL('file://' + __dirname + '/index.ejs')
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {
@@ -71,14 +123,9 @@ function createWindow() {
             }
         }
     });
-      
-    mainWindow.maximize();
-}
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+    mainWindow.maximize();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -86,15 +133,3 @@ app.on('window-all-closed', function() {
     // to stay active until the user quits explicitly with Cmd + Q
     app.quit();
 })
-
-app.on('activate', function() {
-    // On OS X it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (mainWindow === null) {
-        createWindow();
-    }
-})
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
