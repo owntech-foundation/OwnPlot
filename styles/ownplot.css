@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 14:35:14
  * @ Description:
  */
@@ -188,4 +188,16 @@ Served when we could sort the tables but this feature is not implemented anymore
 
 .bigIcon {
 	font-size: xx-large;
+}
+
+@keyframes tilt-shaking {
+	0% { transform: rotate(0deg); }
+	25% { transform: rotate(5deg); }
+	50% { transform: rotate(0eg); }
+	75% { transform: rotate(-5deg); }
+	100% { transform: rotate(0deg); }
+}
+
+.deleteAnnim {
+	animation: tilt-shaking 0.15s infinite;
 }
