@@ -4,10 +4,13 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 14:01:55
  * @ Description:
  */
+
+const fs = require('fs')
+const { ipcRenderer } = require('electron');
 
 const sendInput = $("#sendInput");
 const sendBtn = $("#sendBtn");
@@ -15,10 +18,20 @@ const addCommandBtn = $("#addCommandBtn");
 const addCommandName = $("#addCommandName");
 const addCommandData = $("#addCommandData");
 const addCommandColor = $("#addCommandColor");
+const buttonConfigSelect = $("#buttonConfigSelect");
+const saveConfigInputGroup = $("#saveConfigInputGroup");
+const saveConfigButton = $("#saveConfigButton");
+const saveConfigName = $("#saveConfigName");
+const saveConfigButtonButton = $("#saveConfigButtonButton");
+const deleteButtonButton= $("#deleteButtonButton");
 
 const encoder = new TextEncoder();
+const configButtonPath = ipcRenderer.sendSync('get-user-data-folder') + "/config/buttons";
 
 let commandButtons = [];
+let fileCommandButtons = [];
+let filesConfigButton = [];
+let deleteMode = false;
 
 $(() => {
     disableSend();
@@ -37,9 +50,30 @@ $(() => {
     enterKeyupHandler(addCommandName, addCommandSubmitHandler);
     enterKeyupHandler(addCommandData, addCommandSubmitHandler);
     
-    addCommandBtn.on('click', function(){
+    addCommandBtn.on('click', function() {
         addCommandSubmitHandler();
     });
+
+    saveConfigButton.on('click', function() {
+        saveCommandButtons(saveConfigName.val() + ".json");
+    });
+
+    saveConfigButtonButton.on('click', function() {
+        saveCommandButtons($("#buttonConfigSelect option:selected").val());
+    });
+
+    deleteButtonButton.on('click', function() {
+        if (deleteMode) {
+            deleteMode = false;
+            deleteButtonButton.html("Delete buttons")
+        } else {
+            deleteMode = true;
+            deleteButtonButton.html("Stop deleting buttons")
+        }
+        updateCommandButtons(); 
+    });
+
+    updateCommandFilesList();
 });
 
 function addCommandSubmitHandler(){
@@ -79,8 +113,102 @@ function removeCommandButton(index) {
     updateCommandButtons();
 }
 
+function saveCommandButtons(filename) {
+    const data = JSON.stringify(commandButtons)
+
+    fs.writeFile(configButtonPath + "/" + filename, data, 'utf8', err => {
+        if (err) {
+            console.log(`Error writing file: ${err}`)
+        } else {
+            console.log(`File is written successfully!`)
+            updateCommandFilesList(filename);
+        }
+    })
+}
+
+function loadCommandButtons(file) {
+    commandButtons = [];
+    fileCommandButtons = [];
+
+    fs.readFile(configButtonPath + "/" + file, 'utf8', (err, data) => {
+        if (err) {
+            console.log(`Error reading file from disk: ${err}`)
+        } else {
+            commandButtons = JSON.parse(data);
+            fileCommandButtons = commandButtons.slice(); //copy of the array
+            updateCommandButtons();
+        }
+    })
+}
+
+function updateNewFieldVisibility() {
+    $("#buttonConfigSelect option:selected").each(function() {
+        if ($( this ).val() == "new") {
+            commandButtons = [];
+            fileCommandButtons = [];
+            updateCommandButtons(); //empty the buttons and update
+            saveConfigInputGroup.show();
+        } else {
+            saveConfigInputGroup.hide();
+            console.log($( this ).val());
+            loadCommandButtons($( this ).val());
+        }
+    });
+}
+
+function updateCommandFilesList(selectedItem) {
+    let configSelecthtml = "";
+
+    let itemNewSelected = "";
+    if (selectedItem == "") {
+        itemNewSelected = "selected";
+    }
+
+    configSelecthtml += "<option " + itemNewSelected + " value='new'>-- new --</option>";
+
+
+    fs.readdir(configButtonPath, (err, files) => {
+        if (err)
+            console.log(err);
+        else {
+            filesConfigButton = files;
+            filesConfigButton.forEach(file => {
+                let itemSelected = "";
+                if (selectedItem == file) {
+                    itemSelected = "selected";
+                }
+                configSelecthtml += "<option " + itemSelected + " value='" + file + "'>" + file + "</option>";
+            buttonConfigSelect.html(configSelecthtml);
+            })
+            updateNewFieldVisibility();
+        }
+    })
+
+    buttonConfigSelect.change(function() {
+        updateNewFieldVisibility();
+    })
+}
+
+const compareArrays = (a, b) =>
+    a.length === b.length &&
+    a.every((element, index) => element === b[index]);
+
 function updateCommandButtons() {
-    if(commandButtons.length){
+
+    if (commandButtons.length > 0) {
+        deleteButtonButton.show();
+    } else {
+        deleteButtonButton.hide();
+        deleteMode = false;
+    }
+
+    if (!compareArrays(commandButtons, fileCommandButtons)) { //local and file differs
+        saveConfigButtonButton.show();
+    } else {
+        saveConfigButtonButton.hide();
+    }
+
+    if (commandButtons.length){
         $("#commandButtonContainer").empty();
         commandButtons.forEach((elem, index) => {
             let iconHtml = "";
@@ -90,15 +218,17 @@ function updateCommandButtons() {
             let buttonHtml = '<div class="mb-2">';
             buttonHtml += '<div class="input-group">';
             if(elem.defaultColor){
-                buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
+                buttonHtml += '<button type="button" class="btn btn-primary form-control commandButton" id="cmdBtn-' + index + '">' + iconHtml + elem.text + '</button>';
             } else {
                 if(elem.isClear){
-                    buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +'; color:#000">' + iconHtml + elem.text + '</button>';
+                    buttonHtml += '<button type="button" class="btn btn-primary form-control commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +'; color:#000">' + iconHtml + elem.text + '</button>';
                 } else {
-                    buttonHtml += '<button type="button" class="btn btn-primary col-8 commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +';">' + iconHtml + elem.text + '</button>';
+                    buttonHtml += '<button type="button" class="btn btn-primary form-control commandButton" id="cmdBtn-' + index + '" style="background-color:' + elem.color + '; border-color:'+ elem.color +';">' + iconHtml + elem.text + '</button>';
                 }
             }
-            buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can"></i></button>';
+            if (deleteMode == true) {
+                buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can deleteAnnim"></i></button>';
+            }
             buttonHtml += '</div>';
             buttonHtml += '</div>';
             $("#commandButtonContainer").append(buttonHtml);
@@ -127,7 +257,7 @@ async function send(stringToSend){
         // if (err) {
         //     printDebugTerminal(err);
         // } not available in this version
-       });
+    });
 }
 
 function enableSend() {

@@ -4,6 +4,12 @@
 
 However, everybody can use this software as a data plotter with **any devboard**.
 
+## Why create another plotting app from scratch
+
+After testing the most popular plotting app, we realized that it was not an easy task to run the app on all systems without tweaking. We also want to add power electronics-specific features in the near future. We are glad to present an easy-to-use and painless installation app.
+
+And most of all, it's free!
+Happy plotting 😁
 
 ## How to use it
 

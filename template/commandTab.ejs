@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-24 14:04:45
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:45:14
  * @ Description:
  -->
@@ -16,6 +16,21 @@
         <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">
     </div>
 
+    <div class="input-group input-group-sm mb-3">
+        <label class="input-group-text" for="buttonConfigSelect">Config</label>
+        <select class="form-select" id="buttonConfigSelect">
+            <option selected value="new">-- new --</option>
+            <!-- <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option> -->
+        </select>
+    </div>
+
+    <div class="input-group input-group-sm mb-3" id="saveConfigInputGroup">
+        <button class="btn btn-primary" type="button" id="saveConfigButton">New config</button>
+        <input type="text" class="form-control" id="saveConfigName" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+    </div>
+
     <div class="input-group input-group-sm mb-3" id="addCommandDiv">
         <button type="button" id="addCommandBtn" class="btn btn-primary col-4">Add command</button>
         <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="">
@@ -25,6 +40,13 @@
         -->
     </div>
 
-    <div id="commandButtonContainer" class="card card-body mb-3">
+
+    <div id="commandButtonContainer" class="card card-body mb-3"></div>
+    
+    <div class="input-group input-group-sm mb-3">
+        <button type="button" class="btn btn-danger col-12 btn-sm" id="deleteButtonButton">Delete Buttons</button>
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <button type="button" class="btn btn-primary col-12 btn-sm" id="saveConfigButtonButton">Save the config</button>
     </div>
 </div>
