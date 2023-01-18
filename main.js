@@ -40,36 +40,25 @@ function mkdirp(dir) {
     fs.mkdirSync(dir);
 }
 
-function copyDefaultConf(filepath, data) {
-    if (!fs.existsSync(filepath)) {
-        fs.writeFile(filepath, data, 'utf8', err => {
-            if (err) {
-                console.log(`Error writing file: ${err}`)
-            } else {
-                console.log(`File is written successfully!`)
-            }
-        })
-    }
+function copyFolder(sourceDir, destDir) {
+    fs.readdir(sourceDir, (err, files) => {
+        if (err)
+            console.log(err);
+        else {
+            files.forEach(file => {
+                if (!fs.existsSync(destDir + "/" + file)) { //if the config is already copied, do not overwrite
+                    fs.copyFile(sourceDir + "/" + file, destDir + "/" + file, (err) => {
+                        if (err) {
+                            console.log("Error Found:", err);
+                        } else {
+                            console.log("file " + file + " successfully copied");
+                        }
+                    });
+                }
+            })
+        }
+    })
 }
-
-function copyDefaultConfNew(diskFile, localFile) {
-    if (!fs.existsSync(diskFile)) {
-        fs.readFile(localFile, 'utf8', (err, data) => {
-            if (err) {
-                console.log(`Error reading file from disk: ${err}`)
-            } else {
-                fs.writeFile(diskFile, data, 'utf8', err => {
-                    if (err) {
-                        console.log(`Error writing file: ${err}`)
-                    } else {
-                        console.log(`File is written successfully!`)
-                    }
-                })
-            }
-        })
-    }
-}
-
 
 app.whenReady().then(() => {
     // Create the browser window.
@@ -86,12 +75,9 @@ app.whenReady().then(() => {
         autoHideMenuBar: true
     });
 
-
     mkdirp(app.getPath('userData') + "/config");
     mkdirp(app.getPath('userData') + "/config/buttons");
-    //copyDefaultConfNew(app.getPath('userData') + "/config/buttons/owntech_basic.json", app.getPath('appData') + "/config/buttons/owntech_basic.json");
-    copyDefaultConf(app.getPath('userData') + "/config/buttons/owntech_basic.json", 
-    '[{"text":"Idle mode","command":"i","defaultColor":true,"isClear":false,"icon":"fa-solid fa-pause"},{"text":"Serial mode","command":"s","defaultColor":true,"isClear":false,"icon":"fa-solid fa-align-justify"},{"text":"Power mode","command":"p","defaultColor":true,"isClear":false,"icon":"fa-solid fa-bolt"},{"text":"Up","command":"u","defaultColor":true,"isClear":false,"icon":"fa-solid fa-arrow-up"},{"text":"Down","command":"d","defaultColor":true,"isClear":false,"icon":"fa-solid fa-arrow-down"}]');
+    copyFolder(__dirname + "/config/buttons", app.getPath('userData') + "/config/buttons");
 
     ipcMain.on('get-user-data-folder', (event) => {
         event.returnValue = app.getPath('userData');
