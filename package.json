@@ -12,6 +12,7 @@
   "name": "OwnPlot",
   "version": "0.5.0",
   "description": "OwnTech's Serial Plotter",
+  "homepage": "https://github.com/owntech-foundation/OwnPlot",
   "main": "main.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",
@@ -125,7 +126,7 @@
     "make-win": "electron-forge make --platform squirrel",
     "make-mac": "electron-forge make --platform darwin",
     "pack-clean": "rm -rf dist",
-    "pack-linux": "electron-builder --linux --x64",
+    "pack-linux": "electron-builder --linux deb rpm",
     "pack-win": "electron-builder --win --x64",
     "pack-mac-uni": "electron-builder --mac --universal",
     "pack-linux-all": "electron-builder --linux --x64 --armv7l --arm64",
@@ -150,7 +151,7 @@
       "description": "Serial plotter"
     }
   },
-  "author": "OwnTech",
+  "author": "OwnTech <garthaud@laas.fr>",
   "contributors": [
     "Guillaume Arthaud <garthaud@laas.fr>",
     "Matthias Riffard <mriffard@laas.fr>"
