@@ -55,11 +55,16 @@ $(() => {
     });
 
     saveConfigButton.on('click', function() {
-        saveCommandButtons(saveConfigName.val() + ".json");
+        saveCommandButtons(addJsonOrNot(saveConfigName.val()));
     });
 
     saveConfigButtonButton.on('click', function() {
-        saveCommandButtons($("#buttonConfigSelect option:selected").val());
+        let val = $("#buttonConfigSelect option:selected").val()
+        if (val == "new") {
+            saveCommandButtons(addJsonOrNot(saveConfigName.val()));
+        } else {
+            saveCommandButtons($("#buttonConfigSelect option:selected").val());
+        }
     });
 
     deleteButtonButton.on('click', function() {
@@ -113,6 +118,15 @@ function removeCommandButton(index) {
     updateCommandButtons();
 }
 
+function addJsonOrNot(filename) {
+    extention = filename.slice(-5);
+    if (extention != ".json" || extention != ".JSON")
+    {
+        return (filename + ".json");
+    }
+    return (filename);
+}
+
 function saveCommandButtons(filename) {
     const data = JSON.stringify(commandButtons)
 
@@ -120,7 +134,7 @@ function saveCommandButtons(filename) {
         if (err) {
             console.log(`Error writing file: ${err}`)
         } else {
-            console.log(`File is written successfully!`)
+            console.log(`File ${filename} is written successfully!`)
             updateCommandFilesList(filename);
         }
     })
