@@ -55,7 +55,9 @@ $(() => {
     });
 
     saveConfigButton.on('click', function() {
-        saveCommandButtons(addJsonOrNot(saveConfigName.val()));
+        if (saveConfigName.val().length > 0) {
+            saveCommandButtons(addJsonOrNot(saveConfigName.val()));
+        }
     });
 
     saveConfigButtonButton.on('click', function() {
