@@ -120,10 +120,6 @@
   },
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "make-win": "electron-forge make --platform squirrel",
-    "make-mac": "electron-forge make --platform darwin",
     "pack-clean": "rm -rf dist",
     "pack-linux": "electron-builder --linux --x64",
     "pack-win": "electron-builder --win --x64",
@@ -134,6 +130,8 @@
   },
   "build": {
     "appId": "com.ownplot.app",
+    "asar": true,
+    "npmRebuild": false,
     "win": {
       "target": "nsis",
       "icon": "assets/Icon.ico"
@@ -156,34 +154,5 @@
     "Matthias Riffard <mriffard@laas.fr>"
   ],
   "bugs": "https://gitlab.laas.fr/owntech/ownplot/-/issues",
-  "license": "LGPL-2.1",
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "icon": "assets/Icon"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "OwnPlot"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
-  }
+  "license": "LGPL-2.1"
 }

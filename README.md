@@ -62,5 +62,10 @@ If you are experiencing problems during the install, please post an issue and re
 
 ## Build for your plateform
 
-Simply run `npm run make` \
-The `.exe` / `.app` / `.deb` / `.rpm` file can be found in the `out` folder.
+Run 
+- `npm run pack-win` for the `.exe` installer
+- `npm run pack-linux` for the `.deb`, `.rpm` and `.AppImage`
+- `npm run pack-mac` for the `.dmg`
+
+Note:
+Only a mac can build all the plateforms.
