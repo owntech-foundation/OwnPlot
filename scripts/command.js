@@ -120,7 +120,7 @@ function removeCommandButton(index) {
 
 function addJsonOrNot(filename) {
     extention = filename.slice(-5);
-    if (extention != ".json" || extention != ".JSON")
+    if (extention != ".json" && extention != ".JSON")
     {
         return (filename + ".json");
     }
