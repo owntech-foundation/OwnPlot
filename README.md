@@ -13,7 +13,7 @@ Happy plotting 😁
 
 ## How to use it
 
-![OwnPlot Demo](./assets/Demo.gif "OwnPlot Demo")
+![OwnPlot Demo](./Images/demo.gif "OwnPlot Demo")
 
 Go to the *settings* tab to specify the data format that your devboard is sending.
 Then select the right port and open it. You can pause both chart and terminal with the top right button.
@@ -62,5 +62,10 @@ If you are experiencing problems during the install, please post an issue and re
 
 ## Build for your plateform
 
-Simply run `npm run make` \
-The `.exe` / `.app` / `.deb` / `.rpm` file can be found in the `out` folder.
+Run 
+- `npm run pack-win` for the `.exe` installer
+- `npm run pack-linux` for the `.deb`, `.rpm` and `.AppImage`
+- `npm run pack-mac-uni` for the `.dmg`
+
+Note:
+Only a mac can build all the plateforms.

@@ -10,8 +10,9 @@
     "electron-forge": "^5.2.4"
   },
   "name": "OwnPlot",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "OwnTech's Serial Plotter",
+  "homepage": "https://github.com/owntech-foundation/OwnPlot",
   "main": "main.js",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.1",
@@ -120,12 +121,8 @@
   },
   "scripts": {
     "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "make-win": "electron-forge make --platform squirrel",
-    "make-mac": "electron-forge make --platform darwin",
     "pack-clean": "rm -rf dist",
-    "pack-linux": "electron-builder --linux --x64",
+    "pack-linux": "electron-builder --linux deb rpm",
     "pack-win": "electron-builder --win --x64",
     "pack-mac-uni": "electron-builder --mac --universal",
     "pack-linux-all": "electron-builder --linux --x64 --armv7l --arm64",
@@ -134,6 +131,8 @@
   },
   "build": {
     "appId": "com.ownplot.app",
+    "asar": true,
+    "npmRebuild": false,
     "win": {
       "target": "nsis",
       "icon": "assets/Icon.ico"
@@ -150,40 +149,11 @@
       "description": "Serial plotter"
     }
   },
-  "author": "OwnTech",
+  "author": "OwnTech <garthaud@laas.fr>",
   "contributors": [
     "Guillaume Arthaud <garthaud@laas.fr>",
     "Matthias Riffard <mriffard@laas.fr>"
   ],
   "bugs": "https://gitlab.laas.fr/owntech/ownplot/-/issues",
-  "license": "LGPL-2.1",
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "icon": "assets/Icon"
-      },
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "OwnPlot"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
-  }
+  "license": "LGPL-2.1"
 }
