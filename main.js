@@ -15,8 +15,6 @@ const url = require('url');
 const ejse = require('ejs-electron');
 const fs = require('fs'); //file opening, reading & writing
 
-ejse.data('username', 'Some Guy');
-
 let icon;
 switch (process.platform) {
     case 'win32':
@@ -72,7 +70,7 @@ app.whenReady().then(() => {
             preload: path.join(__dirname, 'preload.js')
         },
         show: false,
-        autoHideMenuBar: true
+        autoHideMenuBar: false
     });
 
     mkdirp(app.getPath('userData') + "/config");
@@ -105,7 +103,7 @@ app.whenReady().then(() => {
                 width: 1250,
                 height: 800,
                 icon: icon,
-                autoHideMenuBar: true
+                autoHideMenuBar: false
             }
         }
     });
