@@ -122,7 +122,7 @@
   "scripts": {
     "start": "electron-forge start",
     "pack-clean": "rm -rf dist",
-    "pack-linux": "electron-builder --linux deb rpm",
+    "pack-linux": "electron-builder --linux AppImage deb rpm",
     "pack-win": "electron-builder --win --x64",
     "pack-mac-uni": "electron-builder --mac --universal",
     "pack-linux-all": "electron-builder --linux --x64 --armv7l --arm64",
