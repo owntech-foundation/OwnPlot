@@ -20,7 +20,7 @@ const endCom = [13, 10]; //ascii for \r & \n
 let pendingData = Buffer.alloc(0);
 let timeBuff = [];
 
-const baudRateField = $("#baudRateInput");
+const customBaudRateField = $("#customBaudRateInput");
 let separatorField = $("#separator");
 let nbTypeField = $("#nbType");
 let endiannessField = $("#endianness");
@@ -28,7 +28,8 @@ let dataFormatField = $("#dataFormat");
 
 let asciiForm = $("#asciiForm");
 let binaryForm = $("#binaryForm");
-const baudRateForm = $("#baudRateForm");
+const baudRateSelect = $("#baudRateSelect");
+const customBaudRateForm = $("#customBaudRateForm");
 //let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
@@ -46,7 +47,6 @@ let configSerialPlot = {
 function switchDataForms(){
 	$(asciiForm).hide();
 	$(binaryForm).hide();
-	// $(baudRateForm).hide();
 	//$(customForm).hide();
 	switch(configSerialPlot.dataFormat){
 		case 'binary':
@@ -62,8 +62,22 @@ function switchDataForms(){
 	}
 }
 
+function updateCustomBaudRateVisibility() {
+    $("#baudRateSelect option:selected").each(function() {
+        if ($( this ).val() == "Custom") {
+            customBaudRateForm.show();
+        } else {
+            customBaudRateForm.hide();
+        }
+    });
+}
+
 $(()=>{
 	switchDataForms();
+	updateCustomBaudRateVisibility();
+	baudRateSelect.change(function() {
+        updateCustomBaudRateVisibility();
+    })
 	listSerialPorts();
 	dataFormatField.on('change', function(){
 		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
@@ -77,10 +91,19 @@ $(()=>{
 		}
 	});
 
-	baudRateField.val(configSerialPlot.baudRate);
-	baudRateField.on('input', function(){
-		if (baudRateField.val().length > 0) {
-			configSerialPlot.baudRate = parseInt(baudRateField.val()); //first char in the separator field
+	baudRateSelect.on('change',function(){
+		if (baudRateSelect.val() == "Custom"){
+			configSerialPlot.baudRate = parseInt(customBaudRateField.val()); //first char in the separator field
+		}
+		else {
+			configSerialPlot.baudRate = parseInt(baudRateSelect.children("option:selected").val());
+		}
+	});
+
+	customBaudRateField.val(configSerialPlot.baudRate);
+	customBaudRateField.on('input', function(){
+		if (customBaudRateField.val().length > 0) {
+			configSerialPlot.baudRate = parseInt(customBaudRateField.val()); //first char in the separator field
 		}
 	});
 
@@ -118,6 +141,7 @@ $(()=>{
 	endiannessField.on('change',function(){
 		configSerialPlot.endianness = endiannessField.children("option:selected").val();
 	});
+
 });
 
 //Check if ports changed from the last time
