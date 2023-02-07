@@ -20,6 +20,7 @@ const endCom = [13, 10]; //ascii for \r & \n
 let pendingData = Buffer.alloc(0);
 let timeBuff = [];
 
+const baudRateField = $("#baudRateInput");
 let separatorField = $("#separator");
 let nbTypeField = $("#nbType");
 let endiannessField = $("#endianness");
@@ -27,6 +28,7 @@ let dataFormatField = $("#dataFormat");
 
 let asciiForm = $("#asciiForm");
 let binaryForm = $("#binaryForm");
+const baudRateForm = $("#baudRateForm");
 //let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
@@ -37,12 +39,14 @@ let configSerialPlot = {
 	path: "",
 	nbType: "uint8",
 	nbSize: 2,
-	endianness: 'LE'
+	endianness: 'LE',
+	baudRate: 115200
 };
 
 function switchDataForms(){
 	$(asciiForm).hide();
 	$(binaryForm).hide();
+	// $(baudRateForm).hide();
 	//$(customForm).hide();
 	switch(configSerialPlot.dataFormat){
 		case 'binary':
@@ -72,6 +76,14 @@ $(()=>{
 			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
 		}
 	});
+
+	baudRateField.val(configSerialPlot.baudRate);
+	baudRateField.on('input', function(){
+		if (baudRateField.val().length > 0) {
+			configSerialPlot.baudRate = parseInt(baudRateField.val()); //first char in the separator field
+		}
+	});
+
 	enterKeyupHandler(separatorField, function(){
 		if (separatorField.val().length > 0) {
 			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
@@ -171,10 +183,10 @@ async function listPorts() {
 	setTimeout(listPorts, 2000);
 }
 
-function openPort() {
+function openPort(baudRate=115200) {
 	port = new SerialPort({
 		path: configSerialPlot.path,
-		baudRate: 115200,
+		baudRate: baudRate,
 		autoOpen: false,
 	});
 	openPortRoutine();

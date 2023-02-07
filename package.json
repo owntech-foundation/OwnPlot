@@ -132,7 +132,7 @@
   "build": {
     "appId": "com.ownplot.app",
     "asar": true,
-    "npmRebuild": false,
+    "npmRebuild": true,
     "win": {
       "target": "nsis",
       "icon": "assets/Icon.ico"
