@@ -24,6 +24,7 @@ const saveConfigButton = $("#saveConfigButton");
 const saveConfigName = $("#saveConfigName");
 const saveConfigButtonButton = $("#saveConfigButtonButton");
 const deleteButtonButton= $("#deleteButtonButton");
+const deleteConfigButton= $("#deleteConfigButton");
 
 const encoder = new TextEncoder();
 const configButtonPath = ipcRenderer.sendSync('get-user-data-folder') + "/config/buttons";
@@ -63,7 +64,7 @@ $(() => {
     saveConfigButtonButton.on('click', function() {
         let val = $("#buttonConfigSelect option:selected").val()
         if (val == "new") {
-            saveCommandButtons(addJsonOrNot(saveConfigName.val()));
+            saveCommandButtons(addJsonOrNot(val));
         } else {
             saveCommandButtons($("#buttonConfigSelect option:selected").val());
         }
@@ -72,7 +73,7 @@ $(() => {
     deleteButtonButton.on('click', function() {
         if (deleteMode) {
             deleteMode = false;
-            deleteButtonButton.html("Delete buttons")
+            deleteButtonButton.html('<i class="fa-solid fa-trash-can"></i> Delete Buttons')
         } else {
             deleteMode = true;
             deleteButtonButton.html("Stop deleting buttons")
@@ -80,10 +81,32 @@ $(() => {
         updateCommandButtons(); 
     });
 
+    deleteConfigButton.on('click', function() {
+        let val = $("#buttonConfigSelect option:selected").val()
+        console.log(val);
+
+        if (val != "new") {
+            deleteConfig(addJsonOrNot(val));
+        }
+    });
+    
     updateCommandFilesList();
 });
 
-function addCommandSubmitHandler(){
+function deleteConfig(filename) {
+    console.log(filename);
+    fs.unlinkSync(configButtonPath + "/" + filename, err => {
+        if (err) {
+            console.log(`Error deleting file: ${err}`)
+        } else {
+            console.log(`File ${filename} has been deleted successfully!`)
+            $("#buttonConfigSelect select").val("new").change();
+            updateCommandFilesList(filename);
+        }
+    });
+}
+
+function addCommandSubmitHandler() {
     let button={  
         //color: addCommandColor.val(),
         text: addCommandName.val(),
@@ -142,11 +165,11 @@ function saveCommandButtons(filename) {
     })
 }
 
-function loadCommandButtons(file) {
+function loadCommandButtons(filename) {
     commandButtons = [];
     fileCommandButtons = [];
 
-    fs.readFile(configButtonPath + "/" + file, 'utf8', (err, data) => {
+    fs.readFile(configButtonPath + "/" + filename, 'utf8', (err, data) => {
         if (err) {
             console.log(`Error reading file from disk: ${err}`)
         } else {
@@ -172,7 +195,12 @@ function updateNewFieldVisibility() {
     });
 }
 
-function updateCommandFilesList(selectedItem) {
+const updateActions= {
+    ADD: 'add',
+    REMOVE: 'remove',
+}
+    
+function updateCommandFilesList(selectedItem, action=updateActions.ADD) {
     let configSelecthtml = "";
 
     let itemNewSelected = "";
@@ -181,7 +209,6 @@ function updateCommandFilesList(selectedItem) {
     }
 
     configSelecthtml += "<option " + itemNewSelected + " value='new'>-- new --</option>";
-
 
     fs.readdir(configButtonPath, (err, files) => {
         if (err)
