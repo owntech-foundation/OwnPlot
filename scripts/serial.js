@@ -93,7 +93,11 @@ $(()=>{
 
 	baudRateSelect.on('change',function(){
 		if (baudRateSelect.val() == "Custom"){
-			configSerialPlot.baudRate = parseInt(customBaudRateField.val()); //first char in the separator field
+			configSerialPlot.baudRate = parseInt(customBaudRateField.val());
+			if(port.isOpen){
+				port.close();
+				openPort(configSerialPlot.baudRate);
+			}
 		}
 		else {
 			configSerialPlot.baudRate = parseInt(baudRateSelect.children("option:selected").val());
