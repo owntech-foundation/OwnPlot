@@ -60,7 +60,7 @@ $(function(){
 				}
 			}
 			configSerialPlot.path = selectedPort;
-			openPort();
+			openPort(configSerialPlot.baudRate);
 		} else {
 			//pause btn is unclickable while port is closed
 			pauseBtn('#pausePortBtn');
