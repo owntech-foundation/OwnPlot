@@ -97,13 +97,21 @@ $(()=>{
 		}
 		else {
 			configSerialPlot.baudRate = parseInt(baudRateSelect.children("option:selected").val());
+			if(port.isOpen){
+				port.close();
+				openPort(configSerialPlot.baudRate);
+			}
 		}
 	});
 
 	customBaudRateField.val(configSerialPlot.baudRate);
 	customBaudRateField.on('input', function(){
 		if (customBaudRateField.val().length > 0) {
-			configSerialPlot.baudRate = parseInt(customBaudRateField.val()); //first char in the separator field
+			configSerialPlot.baudRate = parseInt(customBaudRateField.val());
+			if(port.isOpen){
+				port.close();
+				openPort(configSerialPlot.baudRate);
+			}
 		}
 	});
 
