@@ -10,5 +10,26 @@
  */
 
 $(() => {   
-	Split(['#sideBar', '#chartAndTerminalDiv']);
+	var vertSplit = Split(['#sideBar', '#chartAndTerminalDiv'],{
+		sizes: [25,75],
+		gutterSize: 3,
+		// onDrag: cbVertSplitHandler,
+	});
+
+	var horSplit = Split(['#chartZone', '#terminalBar'],{
+		direction: 'vertical',
+		sizes: [75,25],
+		gutterSize: 3, 	
+
+		// onDrag: cbHorizSplitHandler,
+	});
+
+	// function cbHorizSplitHandler(){
+	// 	$('#myChart').height($('#chartZone').css('height'));
+	// 	// $('#myChart').css('height') = $('#chartZone').height;
+	// }
+
+	// function cbVertSplitHandler(){
+	// 	console.log('toto');
+	// }
 });

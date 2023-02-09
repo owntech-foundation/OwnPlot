@@ -73,9 +73,9 @@ main{
 	overflow-y: scroll;
 }
 
-#myChart {
+/* #myChart {
 	border: var(--simple-border);
-}
+} */
 
 .btn {
 	overflow: hidden;
@@ -213,7 +213,8 @@ Served when we could sort the tables but this feature is not implemented anymore
 }
 
 .gutter {
-    background-color: #eee;
+    background-color: #2d3137;
+;
     background-repeat: no-repeat;
     background-position: 50%;
 }
@@ -221,4 +222,9 @@ Served when we could sort the tables but this feature is not implemented anymore
 .gutter.gutter-horizontal {
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
     cursor: col-resize;
+}
+
+.gutter.gutter-vertical {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+    cursor: row-resize;
 }
