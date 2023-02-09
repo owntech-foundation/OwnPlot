@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Guillaume Arthaud
+ * @ Modified by: Your name
  * @ Modified time: 2022-09-07 14:35:14
  * @ Description:
  */
@@ -57,7 +57,7 @@ main{
 
 #sideBar {
 	background-color: var(--second-bg-color);
-	border: var(--simple-border);
+	border: var(--simple-border); 
 	overflow-y: scroll;
 }
 
@@ -200,4 +200,25 @@ Served when we could sort the tables but this feature is not implemented anymore
 
 .deleteAnnim {
 	animation: tilt-shaking 0.15s infinite;
+}
+
+.navbarTitle {
+	font-size : 0.8em;
+	padding-top : 0.5em;
+}
+
+.split {
+    display: flex;
+    flex-direction: row;
+}
+
+.gutter {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: col-resize;
 }
