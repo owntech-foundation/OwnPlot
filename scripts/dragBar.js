@@ -9,20 +9,26 @@
  * @ Description:
  */
 
+const { split } = require("lodash");
+
 $(() => {   
-	var vertSplit = Split(['#sideBar', '#chartAndTerminalDiv'],{
+	const vertSplit = Split(['#sideBar', '#chartAndTerminalDiv'],{
 		sizes: [25,75],
 		gutterSize: 3,
 		// onDrag: cbVertSplitHandler,
 	});
+	vertSplit.pairs[0].gutter.id = "gutterVert";
+	$("#gutterVert").hover(gutterVHandlerIn, gutterVHandlerOut);
 
-	var horSplit = Split(['#chartZone', '#terminalBar'],{
+	
+	const horSplit = Split(['#chartZone', '#terminalBar'],{
 		direction: 'vertical',
 		sizes: [75,25],
-		gutterSize: 3, 	
-
+		gutterSize: 4, 	
 		// onDrag: cbHorizSplitHandler,
 	});
+	horSplit.pairs[0].gutter.id = "gutterHoriz";
+	$("#gutterHoriz").hover(gutterHHandlerIn, gutterHHandlerOut);
 
 	// function cbHorizSplitHandler(){
 	// 	$('#myChart').height($('#chartZone').css('height'));
@@ -33,3 +39,16 @@ $(() => {
 	// 	console.log('toto');
 	// }
 });
+
+function gutterVHandlerIn(){
+	$("#gutterVert").css('background-color', "#00694c");
+};
+function gutterVHandlerOut(){
+	$("#gutterVert").css('background-color', "#5f626b");
+};
+function gutterHHandlerIn(){
+	$("#gutterHoriz").css('background-color', "#00694c");
+};
+function gutterHHandlerOut(){
+	$("#gutterHoriz").css('background-color', "#5f626b");
+};
