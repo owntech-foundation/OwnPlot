@@ -4,11 +4,11 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Your name
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-07 14:35:14
  * @ Description:
  */
-
+ 
  /* Color scheme */
 
 :root {
@@ -73,9 +73,26 @@ main{
 	overflow-y: scroll;
 }
 
-/* #myChart {
+#appZone {
+	background-color: var(--second-bg-color);
 	border: var(--simple-border);
-} */
+	overflow-y: scroll;
+}
+
+.appZoneInherit  {
+	height: 100%;
+}
+
+#chartApp {
+	border: var(--simple-border);
+	/* height: inherit; */
+	/* height: 100%; */
+}
+
+#myChart {
+	background-color: var(--second-bg-color);
+	background-color: white;
+}
 
 .btn {
 	overflow: hidden;
@@ -213,7 +230,7 @@ Served when we could sort the tables but this feature is not implemented anymore
 }
 
 .gutter {
-    background-color: #2d3137;
+    background-color: #5f626b;
     background-repeat: no-repeat;
     background-position: 50%;
 }

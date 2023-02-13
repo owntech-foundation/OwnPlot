@@ -4,11 +4,11 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Your name
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-08 12:20:33
  * @ Description:
  */
-
+ 
 const { data } = require("jquery");
 const { proto } = require("once");
 
@@ -67,12 +67,15 @@ const nbChannelsInput = $("#nbChannels");
 const colorSchemeSelect = $("#colorSchemeSelect");
 
 $(() => {
-	initColorSchemeSelect();
-	initChart();
-	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
-	nbChannelsInput.attr("max", NB_MAX_DATASETS);
-	nbChannelsInput.on('change', updateNbChannels);
-	enterKeyupHandler(nbChannelsInput, updateNbChannels);
+
+	if (appChartEnabled = 1){
+		initColorSchemeSelect();
+		initChart();
+		nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
+		nbChannelsInput.attr("max", NB_MAX_DATASETS);
+		nbChannelsInput.on('change', updateNbChannels);
+		enterKeyupHandler(nbChannelsInput, updateNbChannels);
+	}
 });
 
 function updateNbChannels(){

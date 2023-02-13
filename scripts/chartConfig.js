@@ -4,11 +4,11 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-08 14:25:31
  * @ Description: Chart legend related UI handlers
  */
-
+ 
 const relBtn = $("#relBtn");
 const absBtn = $('#absBtn');
 const legendPositionBtn = $('#legendPositionBtn');
@@ -63,7 +63,9 @@ $(()=>{
         switchlegendPositionBtn();
     });
 
-    updateLegendTable(); //Defined in shared.js
+    if (appChartEnabled = 1){
+        updateLegendTable(); //Defined in shared.js
+    }
 });
 
 function switchlegendPositionBtn(){
