@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-07 13:47:28
  * @ Description:
  -->
@@ -18,16 +18,17 @@
 		</div>
 	</div>
 	<div class="row" id="appBody">
-		<div class="col-3 ps-4"  id="sideBar">
-			<%- include('template/tabs'); %>
-		</div>
-		<div class="col-9 ps-0" id="chartAndTerminalDiv">
-			<canvas class="my-0 py-4 pe-4" id="myChart"></canvas>
-			<div class="row mx-0 px-0" id="terminalBar">
-				<pre class="terminalPre pe-4" id="terminalData"></pre>
+		<div class="split">
+			<div class="col-3 px-0"  id="sideBar">
+				<%- include('template/tabs'); %>
+			</div>
+			<div class="col-9 ps-0" id="chartAndTerminalDiv">
+				<%- include('template/apps'); %>
+				<%- include('template/myTerminal'); %>
 			</div>
 		</div>
 	</div>
 </main>
 <%- include('template/footer'); %>
 <% ejse.stopListening() %>
+ 

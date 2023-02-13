@@ -101,6 +101,7 @@
     "semver-compare": "^1.0.0",
     "serialize-error": "^7.0.1",
     "serialport": "^10.4.0",
+    "split.js": "^1.6.5",
     "sprintf-js": "^1.1.2",
     "string_decoder": "^1.1.1",
     "sumchecker": "^3.0.1",

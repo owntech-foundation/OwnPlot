@@ -4,11 +4,11 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Guillaume Arthaud
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-07 14:35:14
  * @ Description:
  */
-
+ 
  /* Color scheme */
 
 :root {
@@ -17,7 +17,7 @@
 	--third-bg-color: #42464D;
 	--clearer-third-bg-color: #5f626b;
 	--text-color: #F2F0E7;
-	--simple-border: 1px solid #000000;
+	/* --simple-border: 1px solid #000000; */
 	--bs-body-color: var(--text-color);
 	--port-bar-btn-width: 70px;
 }
@@ -57,7 +57,7 @@ main{
 
 #sideBar {
 	background-color: var(--second-bg-color);
-	border: var(--simple-border);
+	border: var(--simple-border); 
 	overflow-y: scroll;
 }
 
@@ -73,8 +73,25 @@ main{
 	overflow-y: scroll;
 }
 
-#myChart {
+#appZone {
+	background-color: var(--second-bg-color);
 	border: var(--simple-border);
+	overflow-y: scroll;
+}
+
+.appZoneInherit  {
+	height: 100%;
+}
+
+#chartApp {
+	border: var(--simple-border);
+	/* height: inherit; */
+	/* height: 100%; */
+}
+
+#myChart {
+	background-color: var(--second-bg-color);
+	background-color: white;
 }
 
 .btn {
@@ -200,4 +217,30 @@ Served when we could sort the tables but this feature is not implemented anymore
 
 .deleteAnnim {
 	animation: tilt-shaking 0.15s infinite;
+}
+
+.navbarTitle {
+	font-size : 0.8em;
+	padding-top : 0.5em;
+}
+
+.split {
+    display: flex;
+    flex-direction: row;
+}
+
+.gutter {
+    background-color: #5f626b;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+    /* background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg=='); */
+    cursor: col-resize;
+}
+
+.gutter.gutter-vertical {
+    /* background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII='); */
+    cursor: row-resize;
 }

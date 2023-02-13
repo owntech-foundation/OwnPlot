@@ -4,12 +4,58 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-07 13:45:53
  * @ Description:
  -->
 
 <div>
+    <nav>
+        <div class="container horizontal-scrollable mx-0 px-0" id="nav-tab">
+            <div class="nav mx-0">
+                <div class="chartApp nav-item mx-1">
+                    <button class="btn p-0" id="nav-ownTech-logo" type="button" role="tab">
+                        <a href="https://www.owntech.org/" target="_blank">
+                            <img src="./assets/Icon.png" height="72px" alt="ownTech logo">
+                        </a>
+                    </button>
+                </div>
+                <div class="chartApp nav-item mx-1">
+                    <button class="btn menu-btn" id="nav-command-tab" data-bs-toggle="tab" data-bs-target="#nav-command" type="button" role="tab" aria-controls="nav-dataFormat" aria-selected="false">
+                        <i class="bigIcon fa-solid fa-paper-plane"></i>
+                        <div class="navbarTitle">Send</div>
+                    </button>
+                </div>
+                <div class="chartApp nav-item mx-1">
+                    <button class="btn menu-btn" id="nav-settings-tab" data-bs-toggle="tab" data-bs-target="#nav-settings" type="button" role="tab" aria-controls="nav-settings" aria-selected="false">
+                        <i class="bigIcon fa-solid fa-gear"></i>
+                        <div class="navbarTitle">Settings</div>
+                    </button>
+                </div>
+                <div class="chartApp nav-item mx-1">
+                    <button class="btn menu-btn" id="nav-chartConfig-tab" data-bs-toggle="tab" data-bs-target="#nav-chartConfig" type="button" role="tab" aria-controls="nav-chartConfig" aria-selected="false">
+                        <i class="bigIcon fa-solid fa-chart-line"></i>
+                        <div class="navbarTitle">Chart</div>
+                    </button>
+                </div>
+                <div class="chartApp nav-item mx-1">
+                    <button class="btn menu-btn" id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false">
+                        <i class="bigIcon fa-solid fa-compact-disc"></i>
+                        <div class="navbarTitle">Record</div>
+                    </button>
+                </div>
+                <div class="simulationApp nav-item mx-1">
+                    <button class="btn menu-btn" id="nav-simulation-tab" data-bs-toggle="tab" data-bs-target="#nav-simulation" type="button" role="tab" aria-controls="nav-simulation" aria-selected="false">
+                        <i class="bigIcon fa-solid fa-cube"></i>
+                        <div class="navbarTitle">Simulation</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<!-- <div>
     <nav>
         <div class="container horizontal-scrollable mx-0 px-0" id="nav-tab">
             <div class="nav mx-0">
@@ -21,30 +67,36 @@
                     </button>
                 </div>
                 <div class="nav-item mx-1">
-                    <button class="btn menu-btn" id="nav-command-tab" data-bs-toggle="tab" data-bs-target="#nav-command" type="button" role="tab" aria-controls="nav-dataFormat" aria-selected="false">
+                    <button class="btn menu-btn" id="nav-command-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="nav-dataFormat" aria-selected="false">
                         <i class="bigIcon fa-solid fa-paper-plane"></i>
-                        <h6>Send</h6>
+                        <div class="navbarTitle">Send</div>
                     </button>
                 </div>
                 <div class="nav-item mx-1">
-                    <button class="btn menu-btn" id="nav-settings-tab" data-bs-toggle="tab" data-bs-target="#nav-settings" type="button" role="tab" aria-controls="nav-settings" aria-selected="false">
+                    <button class="btn menu-btn" id="nav-settings-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="nav-settings" aria-selected="false">
                         <i class="bigIcon fa-solid fa-gear"></i>
-                        <h6>Settings</h6>
+                        <div class="navbarTitle">Settings</div>
                     </button>
                 </div>
                 <div class="nav-item mx-1">
-                    <button class="btn menu-btn" id="nav-chartConfig-tab" data-bs-toggle="tab" data-bs-target="#nav-chartConfig" type="button" role="tab" aria-controls="nav-chartConfig" aria-selected="false">
+                    <button class="btn menu-btn" id="nav-chartConfig-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="nav-chartConfig" aria-selected="false">
                         <i class="bigIcon fa-solid fa-chart-line"></i>
-                        <h6>Chart</h6>
+                        <div class="navbarTitle">Chart</div>
                     </button>
                 </div>
                 <div class="nav-item mx-1">
-                    <button class="btn menu-btn" id="nav-record-tab" data-bs-toggle="tab" data-bs-target="#nav-record" type="button" role="tab" aria-controls="nav-record" aria-selected="false">
+                    <button class="btn menu-btn" id="nav-record-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="nav-record" aria-selected="false">
                         <i class="bigIcon fa-solid fa-compact-disc"></i>
-                        <h6>Record</h6>
+                        <div class="navbarTitle">Record</div>
+                    </button>
+                </div>
+                <div class="nav-item mx-1">
+                    <button class="btn menu-btn" id="nav-simulation-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="nav-simulation" aria-selected="false">
+                        <i class="bigIcon fa-solid fa-cube"></i>
+                        <div class="navbarTitle">Simulation</div>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
-</div>
+</div> -->
