@@ -15,9 +15,12 @@ let appChartEnabled;
 let appSimulationEnabled;
 
 $(() => {   
+	// $("#chartApp").css('height', function() {
+	// 	return $("#appZoneHeight").height();
+	// });
 	const vertSplit = Split(['#sideBar', '#chartAndTerminalDiv'],{
 		sizes: [25,75],
-		gutterSize: 3,
+		gutterSize: 3, 
 	});
 	vertSplit.pairs[0].gutter.id = "gutterVert";
 	$("#gutterVert").hover(gutterVHandlerIn, gutterVHandlerOut);
@@ -27,6 +30,7 @@ $(() => {
 		direction: 'vertical',
 		sizes: [75,25],
 		gutterSize: 4, 	
+		// onDrag: plotResize,
 	});
 	horSplit.pairs[0].gutter.id = "gutterHoriz";
 	$("#gutterHoriz").hover(gutterHHandlerIn, gutterHHandlerOut);
@@ -47,6 +51,15 @@ $(() => {
 		console.log("tutu");
 	})
 })
+
+// function plotResize(){
+// 	console.log("resizetoto");
+// 	$("#chartApp").css('height', function() {
+// 		return $("#appZoneHeight").height();
+// 	})
+// 	console.log($("#appZoneHeight").height());
+// 	console.log($("#chartApp").height());
+// };
 
 function gutterVHandlerIn(){
 	$("#gutterVert").css('background-color', "#00694c");

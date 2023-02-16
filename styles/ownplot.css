@@ -83,10 +83,13 @@ main{
 	height: 100%;
 }
 
+#responsive-chart {
+	height: 100%;
+	width: 100%;
+}
+
 #chartApp {
 	border: var(--simple-border);
-	/* height: inherit; */
-	/* height: 100%; */
 }
 
 #myChart {

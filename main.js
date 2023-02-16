@@ -4,10 +4,12 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-23 14:14:50
- * @ Modified by: Guillaume Arthaud
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-07 13:47:38
  * @ Description:
  */
+const electron = require('electron')
+const Menu = electron.Menu
 
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
@@ -29,7 +31,48 @@ switch (process.platform) {
         break;
 }
 
-let mainWindow;
+var windows = [];
+// // save arguments
+// global.sharedObject = {prop1: process.argv};
+
+// function createCircuitJsWindow () {
+//     // Create the browser window.
+//     var circuitJsWindow = new BrowserWindow({width: 800, 
+//         height: 600,
+//         webPreferences: { nativeWindowOpen: true,
+//                         preload: path.join(__dirname, 'preload.js')
+//         },
+//         show: false,
+//     })
+//     windows.push(circuitJsWindow);
+//     // and load the index.html of the app.
+//     circuitJsWindow.loadURL(url.format({
+//         // pathname: path.join(__dirname, 'index.html'),
+//         pathname: path.join(__dirname, 'war/circuitjs.html'),
+//         protocol: 'file:',
+//         slashes: true
+//     }))
+//     // Open the DevTools.
+//     // mainWindow.webContents.openDevTools()
+//     // Emitted when the window is closed.
+//     circuitJsWindow.on('closed', function () {
+//       // Dereference the window object, usually you would store windows
+//       // in an array if your app supports multi windows, this is the time
+//       // when you should delete the corresponding element.
+//         var i = windows.indexOf(circuitJsWindow);
+//         if (i >= 0)
+//             windows.splice(i, 1);
+//     })
+//     circuitJsWindow.webContents.on('new-window', (evt, url, frameName, disposition, options) => {
+//         if (disposition == 'save-to-disk')
+//         return;
+//         if (!url.endsWith("circuitjs.html"))
+//         return;
+//         // app is opening a new window.  override it by creating a BrowserWindow to work around an electron bug (11128)
+//         evt.preventDefault();
+//         createCircuitJsWindow();
+//     });
+// }
 
 function mkdirp(dir) {
     if (fs.existsSync(dir)) { return true }
@@ -58,9 +101,11 @@ function copyFolder(sourceDir, destDir) {
     })
 }
 
+let ownplotWindow;
+
 app.whenReady().then(() => {
     // Create the browser window.
-    mainWindow = new BrowserWindow({
+    ownplotWindow = new BrowserWindow({
         width: 800,
         height: 800,
         icon: icon,
@@ -73,6 +118,8 @@ app.whenReady().then(() => {
         autoHideMenuBar: false
     });
 
+    windows.push(ownplotWindow);
+
     mkdirp(app.getPath('userData') + "/config");
     mkdirp(app.getPath('userData') + "/config/buttons");
     copyFolder(__dirname + "/config/buttons", app.getPath('userData') + "/config/buttons");
@@ -81,22 +128,24 @@ app.whenReady().then(() => {
         event.returnValue = app.getPath('userData');
     });
 
-    mainWindow.loadFile(__dirname + '/index.ejs');
+    ownplotWindow.loadFile(__dirname + '/index.ejs');
     //mainWindow.loadURL('file://' + __dirname + '/index.ejs')
 
     // Emitted when the window is closed.
-    mainWindow.on('closed', function() {
+    ownplotWindow.on('closed', function() {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
-        mainWindow = null;
+        ownplotWindow = null;
     });
 
-    mainWindow.once('ready-to-show', () => {
-        mainWindow.show();
+    ownplotWindow.once('ready-to-show', () => {
+        ownplotWindow.show();
     });
+    
+    // createCircuitJsWindow();
 
-    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    ownplotWindow.webContents.setWindowOpenHandler(({ url }) => {
         return {
             action: 'allow',
             overrideBrowserWindowOptions: {
@@ -105,10 +154,10 @@ app.whenReady().then(() => {
                 icon: icon,
                 autoHideMenuBar: false
             }
-        }
+        }   
     });
 
-    mainWindow.maximize();
+    ownplotWindow.maximize();
 });
 
 // Quit when all windows are closed.

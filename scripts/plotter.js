@@ -8,7 +8,7 @@
  * @ Modified time: 2022-09-08 12:20:33
  * @ Description:
  */
- 
+
 const { data } = require("jquery");
 const { proto } = require("once");
 
@@ -215,6 +215,8 @@ function initChart(){
 			datasets: []
 		},
 		options: {
+			responsive: true,
+			maintainAspectRatio: false,
 			scales: {
 				x: {
 					type: 'realtime',
@@ -251,8 +253,6 @@ function initChart(){
 					}
 				}
 			},
-			responsive: true,
-			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: true,

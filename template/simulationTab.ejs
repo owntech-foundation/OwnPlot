@@ -1,4 +1,4 @@
-<!--
+<!-- 
  * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
 	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
@@ -7,6 +7,111 @@
  * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-07 14:27:44
  * @ Description:
- -->
+-->
 
-coucou c'est la config du simu 
+<div class="mb-3"> 
+    <a data-target="#pidDiv" class="collapseHead" id="pidHref" role="button" aria-controls="pidDiv">
+        <span class="input-group-text" id="dataFormatTitle">
+            <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">PID Controller</span>
+        </span>
+    </a>
+    <div class="collapse show" id="pidDiv">
+        
+		<div class="card card-body">
+			<div class="row p-0 m-0">
+				<button type="button" aria-pressed="false" id="start" class="btn btn-success btn-sm mb-3 col-5">
+					<i class="fa-solid fa-circle-play"></i></i>&nbsp;Start
+				</button>
+				<div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+				<button type="button" aria-pressed="false" id="stop" class="btn btn-warning btn-sm mb-3 col-5">
+					<i class="fa-solid fa-circle-stop"></i></i>&nbsp;Stop
+				</button>
+			</div>
+
+			<div>
+				<div class="input-group input-group-sm mb-3">
+					<label class="input-group-text col-5" >
+						<i class="fa-solid fa-bullseye"></i>&nbsp;	Voltage reference
+					</label>
+					<input type="number" id="voltage" class="form-control" value="10" maxlength=9 aria-describedby="basic-addon1">
+				</div>
+			</div>
+
+			<div>
+				<div class="input-group input-group-sm mb-3">
+					<label class="input-group-text col-5" >
+						<i class="fa-solid fa-p"></i></i>&nbsp;	Proportional gain
+					</label>
+					<input type="number" id="proportional" class="form-control" value="0.1" maxlength=9 aria-describedby="basic-addon1">
+				</div>
+			</div>
+
+			<div>
+				<div class="input-group input-group-sm mb-3">
+					<label class="input-group-text col-5" >
+						<i class="fa-solid fa-i"></i>&nbsp;	Integral gain
+					</label>
+					<input type="number" id="integral" class="form-control" value="1000" maxlength=9 aria-describedby="basic-addon1">
+				</div>
+			</div>
+
+			<div>
+				<div class="input-group input-group-sm mb-3">
+					<label class="input-group-text col-5" >
+						<i class="fa-solid fa-d"></i>&nbsp;	Derivative gain
+					</label>
+					<input type="number" id="derivative" class="form-control" value="0" maxlength=9 aria-describedby="basic-addon1">
+				</div>
+			</div>
+
+			<!-- <div id="info"></div>
+			<div id="debug"></div> -->
+		
+		</div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a data-target="#infoDiv" class="collapseHead" id="infoHref" role="button" aria-controls="infoDiv">
+        <span class="input-group-text" id="infoTitle">
+            <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Infos</span>
+        </span>
+    </a>
+    <div class="collapse show" id="infoDiv">
+		<div class="card card-body">
+			<div id="info"></div>
+		</div>
+    </div>
+</div>
+
+<div class="mb-3">
+    <a data-target="#debugDiv" class="collapseHead" id="debugHref" role="button" aria-controls="debugDiv">
+        <span class="input-group-text" id="dataFormatTitle">
+            <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Debug</span>
+        </span>
+    </a>
+    <div class="collapse show" id="debugDiv">
+		<div class="card card-body">
+			<div id="debug"></div>
+		</div>
+    </div>
+</div>
+	<!-- <p>
+	<button id="start" >Start</button>
+	<button id="stop" >Stop</button>
+	<p>
+	<p>
+	Voltage reference:
+	<input id="voltage" value="10" />
+	<p>
+	<br>
+	proportional gain:
+	<input id="proportional" value="0.0001" />
+	<br>
+	integral gain :
+	<input id="integral" value="1000" />
+	<br>
+	derivative gain :
+	<input id="derivative" value="0" /> -->
