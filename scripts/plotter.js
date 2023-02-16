@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-08 12:20:33
  * @ Description:
  */
@@ -68,7 +68,7 @@ const colorSchemeSelect = $("#colorSchemeSelect");
 
 $(() => {
 
-	if (appChartEnabled = 1){
+	if  (0) { //(appChartEnabled = 1){
 		initColorSchemeSelect();
 		initChart();
 		nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
@@ -90,17 +90,17 @@ function updateNbChannels(){
 }
 
 function pausePlot(){
-	myChart.options.scales['x'].realtime.pause = true;
+	//myChart.options.scales['x'].realtime.pause = true;
 	plotRunning = false;
 }
 
 function runPlot(){
-	myChart.options.scales['x'].realtime.pause = false;
+	//myChart.options.scales['x'].realtime.pause = false;
 	plotRunning = true;
 }
 
 function plotOnPause(){
-	return myChart.options.scales['x'].realtime.pause;
+	//return myChart.options.scales['x'].realtime.pause;
 }
 
 function getSerialData(index) {
@@ -121,10 +121,10 @@ function refreshCallback(chart) {
 }
 
 function flushChart(chart) {
-	chart.data.datasets.forEach((dataset) => {
-		dataset.data = [];
-	});
-	myChart.update();
+	// chart.data.datasets.forEach((dataset) => {
+	// 	dataset.data = [];
+	// });
+	// myChart.update();
 }
 
 function removeDataset() {
@@ -135,7 +135,7 @@ function removeDataset() {
 }
 
 function addDataset() {
-	myChart.stop();
+	//myChart.stop();
 	numberOfDatasets++;
 	let index = numberOfDatasets-1; //index begins to 0
 	let newDataset = {
@@ -153,8 +153,8 @@ function addDataset() {
 		lineBorderDash: lineStylesEnum[this.lineStyleName],
 		lineBorderWidth: 3,
 	}
-	myChart.data.datasets.push(newDataset);
-	myChart.update();
+	//myChart.data.datasets.push(newDataset);
+	//myChart.update();
 }
 
 // Chart layout setting //

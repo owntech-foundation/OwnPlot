@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:44:23
  * @ Description:
  */
@@ -15,37 +15,38 @@ let appChartEnabled;
 let appSimulationEnabled;
 
 $(() => {   
-	const vertSplit = Split(['#sideBar', '#chartAndTerminalDiv'],{
-		sizes: [25,75],
-		gutterSize: 3,
-	});
-	vertSplit.pairs[0].gutter.id = "gutterVert";
-	$("#gutterVert").hover(gutterVHandlerIn, gutterVHandlerOut);
+	// const vertSplit = Split(['#sideBar', '#chartAndTerminalDiv'],{
+	// 	sizes: [25,75],
+	// 	gutterSize: 3,
+	// });
+	// vertSplit.pairs[0].gutter.id = "gutterVert";
+	// $("#gutterVert").hover(gutterVHandlerIn, gutterVHandlerOut);
 
 	
-	const horSplit = Split(['#appZone', '#terminalBar'],{
-		direction: 'vertical',
-		sizes: [75,25],
-		gutterSize: 4, 	
-	});
-	horSplit.pairs[0].gutter.id = "gutterHoriz";
-	$("#gutterHoriz").hover(gutterHHandlerIn, gutterHHandlerOut);
+	// const horSplit = Split(['#appZone', '#terminalBar'],{
+	// 	direction: 'vertical',
+	// 	sizes: [75,25],
+	// 	gutterSize: 4, 	
+	// });
+	// horSplit.pairs[0].gutter.id = "gutterHoriz";
+	// $("#gutterHoriz").hover(gutterHHandlerIn, gutterHHandlerOut);
 
-	$(".chartApp").on('click', function(e){
-		$("#chartApp").show();
-		$("#simulationApp").hide();
-		appChartEnabled = 1;
-		appSimulationEnabled = 0;
-		console.log("toto");
-	})
+	
+// 	$(".chartApp").on('click', function(e){
+// 		$("#chartApp").show();
+// 		$("#simulationApp").hide();
+// 		appChartEnabled = 1;
+// 		appSimulationEnabled = 0;
+// 		console.log("toto");
+// 	})
 
-	$(".simulationApp").on('click', function(e){
-		$("#chartApp").hide();
-		$("#simulationApp").show();
-		appChartEnabled = 0;
-		appSimulationEnabled = 1;
-		console.log("tutu");
-	})
+// 	$(".simulationApp").on('click', function(e){
+// 		$("#chartApp").hide();
+// 		$("#simulationApp").show();
+// 		appChartEnabled = 0;
+// 		appSimulationEnabled = 1;
+// 		console.log("tutu");
+// 	})
 })
 
 function gutterVHandlerIn(){

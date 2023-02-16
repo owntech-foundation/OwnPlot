@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:44:23
  * @ Description:
  */
@@ -39,5 +39,5 @@ $(()=>{
 });
 
 function updateHeight(elemSelector){
-	elemSelector.css("height", Math.floor($(window).height() - elemSelector.offset().top)+1);
+	//elemSelector.css("height", Math.floor($(window).height() - elemSelector.offset().top)+1);
 }

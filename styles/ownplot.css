@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 14:35:14
  * @ Description:
  */
@@ -69,6 +69,12 @@ main{
 
 #terminalBar {
 	background-color: var(--second-bg-color);
+	border: var(--simple-border);
+	overflow-y: scroll;
+}
+
+.terminalBar {
+	background-color: #32343A; /*var(--second-bg-color);*/
 	border: var(--simple-border);
 	overflow-y: scroll;
 }
