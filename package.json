@@ -10,7 +10,7 @@
     "electron-forge": "^5.2.4"
   },
   "name": "OwnPlot",
-  "version": "0.5.1",
+  "version": "0.6-dev",
   "description": "OwnTech's Serial Plotter",
   "homepage": "https://github.com/owntech-foundation/OwnPlot",
   "main": "main.js",
@@ -150,9 +150,10 @@
       "description": "Serial plotter"
     }
   },
-  "author": "OwnTech <garthaud@laas.fr>",
+  "author": "OwnTech <contact@owntech.org>",
   "contributors": [
     "Guillaume Arthaud <garthaud@laas.fr>",
+    "Jean Alinei <jalinei@laas.fr>",
     "Matthias Riffard <mriffard@laas.fr>"
   ],
   "bugs": "https://gitlab.laas.fr/owntech/ownplot/-/issues",
