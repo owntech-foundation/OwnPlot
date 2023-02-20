@@ -220,8 +220,8 @@ function initChart(){
 					type: 'realtime',
 					realtime: {
 						duration: 20000,
-						refresh: 200,
-						delay: 100,
+						refresh: refreshValue,
+						delay: 500,
 						onRefresh: refreshCallback,
 						pause: true
 					},

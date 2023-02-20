@@ -13,6 +13,9 @@ const relBtn = $("#relBtn");
 const absBtn = $('#absBtn');
 const legendPositionBtn = $('#legendPositionBtn');
 const resetRelBtn = $('#resetRelBtn');
+const refreshField = $("#refreshTime");
+
+let refreshValue = 200;
 
 function switchRelAbsBtn(){
     if(absTimeMode){
@@ -31,6 +34,12 @@ function switchRelAbsBtn(){
 $(()=>{
     initLegendConfigTable();
 
+    refreshField.on("input", function(e){
+        if(refreshField.val().length > 1){
+            refreshValue = parseInt(refreshField.val());
+        }
+	})
+    
     $("#legendShownBtn").on('click', function(){
         $(this).hide();
         myChart.options.plugins.legend.display = false;
