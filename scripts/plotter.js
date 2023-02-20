@@ -271,7 +271,7 @@ function initChart(){
 						$(this.ctx.canvas).css('cursor', 'default');
 					},
 				},
-		 	},
+			},
 		}
 	});
 

@@ -37,6 +37,8 @@ $(()=>{
     refreshField.on("input", function(e){
         if(refreshField.val().length > 1){
             refreshValue = parseInt(refreshField.val());
+            myChart.options.scales['x'].realtime.refresh = refreshValue;
+            myChart.update('none');
         }
 	})
     
