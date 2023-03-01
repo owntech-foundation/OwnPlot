@@ -119,17 +119,6 @@ function flushDataStructure(){
 	dataStructure.y = [];
 }
 
-// function updateData(dataset){
-// 	var yData = [];
-// 	yData = dataStructure.y.map(array => array[dataset.index])
-// 	this.dataset.x.push(timeBuff);
-// 	this.dataset.y.push(yData);
-// 		// y: getSerialData(dataset.index)
-
-// 	console.log(timeBuff);
-// 	console.log(yData);
-// }
-
 function refreshCallback(chart) {
 	if (plotRunning) {
 		if(dataSerialBuff.length >= numberOfDatasets){
@@ -138,13 +127,12 @@ function refreshCallback(chart) {
                 const data = dataStructure.x.map((x, index) => {
                     return { x: x, y: dataValues[index] };
                 });
-                console.log(`Adding data points to dataset ${dataset.index}:`, data);
-                dataset.data.push(data);
+				data.forEach((dataPoint) => {
+					dataset.data.push({ x: dataPoint.x, y: dataPoint.y });
+				});
 			});
 		};
 	}
-		// console.log(dataStructure);
-		// console.log(dataStructure.y.map(array => array[1]));
 	flushDataStructure();
 }
 
