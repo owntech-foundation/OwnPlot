@@ -13,8 +13,28 @@ const { split } = require("lodash");
 
 let appChartEnabled;
 let appSimulationEnabled;
+let horSplit;
 
 $(() => {   
+
+	/* Prevent overflowing of appBody because of ChartJS responsiveness */
+
+	// Get the initial height of the topBar element
+	var topbarHeight = $('#topBar').outerHeight(true);
+	console.log(topbarHeight);
+	// Set the initial value of the --topbar-height custom property
+	$('#appBody').css('--topbar-height', topbarHeight + 'px');
+
+		// Listen for changes to the height of the topBar element
+	$(window).resize(function() {
+		var newTopbarHeight = $('#topBar').outerHeight(true);
+		if (newTopbarHeight !== topbarHeight) {
+			// Update the value of the --topbar-height custom property
+			$('#appBody').css('--topbar-height', newTopbarHeight + 'px');
+			topbarHeight = newTopbarHeight;
+		}
+	});
+
 	const vertSplit = Split(['#sideBar', '#chartAndTerminalDiv'],{
 		sizes: [25,75],
 		gutterSize: 3,
@@ -23,7 +43,7 @@ $(() => {
 	$("#gutterVert").hover(gutterVHandlerIn, gutterVHandlerOut);
 
 	
-	const horSplit = Split(['#appZone', '#terminalBar'],{
+	horSplit = Split(['#appZone', '#terminalBar'],{
 		direction: 'vertical',
 		sizes: [75,25],
 		gutterSize: 4, 	
