@@ -287,6 +287,32 @@ function initChart(){
 						$(this.ctx.canvas).css('cursor', 'default');
 					},
 				},
+				zoom: {
+					// Assume x axis has the realtime scale
+					pan: {
+						enabled: true,        // Enable panning
+						mode: 'xy',   
+					},
+					zoom: {
+						pinch: {
+							enabled: true       // Enable pinch zooming
+						},
+						scaleMode: 'y',			//Allow y axis zoom when on y scale
+						wheel: {
+							enabled: true       // Enable wheel zooming
+						},
+					  	mode: 'x'             // Allow zooming in the x direction
+					},
+
+					limits: {
+						x: {
+							minDelay: null,     // Min value of the delay option
+							maxDelay: 20000,     // Max value of the delay option
+							minDuration: 200,  // Min value of the duration option
+							maxDuration: 20000   // Max value of the duration option
+						}
+					}
+				}
 			},
 		}
 	});
