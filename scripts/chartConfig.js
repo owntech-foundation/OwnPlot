@@ -11,6 +11,9 @@
  
 const relBtn = $("#relBtn");
 const absBtn = $('#absBtn');
+const resetBtn = $("#resetBtn");
+const minYAxisField = $("#minYAxisField");
+const maxYAxisField = $("#maxYAxisField");
 const legendPositionBtn = $('#legendPositionBtn');
 const resetRelBtn = $('#resetRelBtn');
 const refreshField = $("#refreshTime");
@@ -41,7 +44,23 @@ $(()=>{
             myChart.update('none');
         }
 	})
+
+    resetBtn.on('click', function() {
+        myChart.resetZoom();
+    })
+
+    minYAxisField.on('input', function(){
+		if (minYAxisField.val().length > 0) {
+			myChart.options.scales.y.min = parseInt(minYAxisField.val());
+		}
+	});
     
+    maxYAxisField.on('input', function(){
+		if (maxYAxisField.val().length > 0) {
+			myChart.options.scales.y.max = parseInt(maxYAxisField.val());
+		}
+	});
+
     $("#legendShownBtn").on('click', function(){
         $(this).hide();
         myChart.options.plugins.legend.display = false;
