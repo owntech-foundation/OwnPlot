@@ -25,7 +25,7 @@
 *::-webkit-scrollbar {
     width: 6px;
     height: 6px;
-  }
+}
 *::-webkit-scrollbar-track {
     border-radius: 10px;
     background: rgba(0,0,0,0);
@@ -35,10 +35,10 @@
     background: var(--text-color);
 }
 *::-webkit-scrollbar-thumb:hover{
-  	background: var(--text-color);
+	background: var(--text-color);
 }
 *::-webkit-scrollbar-thumb:active{
-  	background: var(--text-color);
+	background: var(--text-color);
 }
 
 main{
@@ -53,6 +53,11 @@ main{
 	box-sizing: border-box;
 	/* resize: vertical;
 	overflow: auto; */
+}
+
+#appBody {
+	box-sizing: border-box;
+	height: calc(100vh - var(--topbar-height, 107px));
 }
 
 #sideBar {
@@ -70,6 +75,10 @@ main{
 #terminalBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
+}
+
+.terminalPre {
+	height: 100%;
 	overflow-y: scroll;
 }
 
@@ -227,6 +236,7 @@ Served when we could sort the tables but this feature is not implemented anymore
 .split {
     display: flex;
     flex-direction: row;
+	height: inherit;
 }
 
 .gutter {
