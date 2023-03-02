@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-07 14:01:57
  * @ Description:
  */
@@ -33,6 +33,11 @@ const customBaudRateForm = $("#customBaudRateForm");
 //let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
+
+let dataStructure = {
+	x: [],
+	y: []
+};
 
 let configSerialPlot = {
 	dataFormat: 'ascii',
@@ -279,6 +284,10 @@ function openPortRoutine() {
 			}
 			updateTerminal();
 			writeToExport(dataSerialBuff, timeBuff);
+			if (plotRunning === true) {
+				dataStructure.x.push(Date.now());
+				dataStructure.y.push(dataSerialBuff);
+			}
 		});
 
 		skipByteBtn.on('click', () => {

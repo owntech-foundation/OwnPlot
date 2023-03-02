@@ -9,6 +9,7 @@
  * @ Description:
  */
  
+// const { DatasetController } = require("chart.js");
 const { data } = require("jquery");
 const { proto } = require("once");
 
@@ -56,6 +57,8 @@ function runBtn(elem) {
 }
 
 let dataSerialBuff = Buffer.alloc(0);
+let plotSerialBuff = Buffer.alloc(0);
+let plotTimeBuff = Buffer.alloc(0);
 let rawDataBuff = Buffer.alloc(0);
 const NB_MAX_DATASETS = 20;
 let plotRunning = false;
@@ -107,17 +110,30 @@ function getSerialData(index) {
 	return(dataSerialBuff[index]);
 }
 
+function getSerialDataStructure(index) {
+	dataStructure.y.slice(0, numberOfDatasets).forEach(getYData, index);
+}
+
+function flushDataStructure(){
+	dataStructure.x = [];
+	dataStructure.y = [];
+}
+
 function refreshCallback(chart) {
 	if (plotRunning) {
 		if(dataSerialBuff.length >= numberOfDatasets){
 			chart.data.datasets.forEach((dataset) => {
-				dataset.data.push({
-					x: timeBuff[0],
-					y: getSerialData(dataset.index)
+				const dataValues = dataStructure.y.map(array => array[dataset.index]);
+                const data = dataStructure.x.map((x, index) => {
+                    return { x: x, y: dataValues[index] };
+                });
+				data.forEach((dataPoint) => {
+					dataset.data.push({ x: dataPoint.x, y: dataPoint.y });
 				});
 			});
-		}
+		};
 	}
+	flushDataStructure();
 }
 
 function flushChart(chart) {
