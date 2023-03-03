@@ -43,7 +43,7 @@
 
             <div class="input-group input-group-sm mt-3">
                 <div id="customRefresh">
-                    <div class="input-group input-group-sm mb-3">
+                    <div class="input-group input-group-sm">
                         <label class="input-group-text col-5" >
                             <i class="fa-solid fa-person-running"></i>&nbsp; Refresh time (ms)
                         </label>
@@ -73,15 +73,21 @@
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
-                <!-- <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
+                <button type="button" id="y2Btn" class="btn btn-sm btn-primary col-5">
+                    <i class="fa-solid fa-plus"></i>
                     <label class="nonBreakable">
-                        &nbsp;Reset Time
+                        &nbsp;Add Y2 axis
                     </label>
-                </button> -->
+                </button>
+                <button type="button" id="rmY2Btn" class="btn btn-sm btn-warning col-5">
+                    <i class="fa-solid fa-minus"></i>
+                    <label class="nonBreakable">
+                        &nbsp;Remove Y2 axis
+                    </label>
+                </button>
             </div>
             <div class="row p-0 m-0"> 
-                <div class="col-6 mt-3 mb-3 ps-0" id="minYAxis">
+                <div class="col-6 mt-3 ps-0" id="minYAxis">
                     <div class="input-group input-group-sm">
                         <label class="input-group-text col-5" >
                             &nbsp;Y min
@@ -89,12 +95,31 @@
                         <input type="number" id="minYAxisField" name="minYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
                     </div>
                 </div>
-                <div class="col-6 mt-3 mb-3 pe-0" id="maxYAxis">
+                <div class="col-6 mt-3 pe-0" id="maxYAxis">
                     <div class="input-group input-group-sm">
                         <label class="input-group-text col-5" >
                             &nbsp;Y max
                         </label>
                         <input type="number" id="maxYAxisField" name="maxYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row p-0 m-0" id="y2Config"> 
+                <div class="col-6 mt-3 ps-0" id="minY2Axis">
+                    <div class="input-group input-group-sm">
+                        <label class="input-group-text col-5" >
+                            &nbsp;Y2 min
+                        </label>
+                        <input type="number" id="minY2AxisField" name="minYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col-6 mt-3 pe-0" id="maxY2Axis">
+                    <div class="input-group input-group-sm">
+                        <label class="input-group-text col-5" >
+                            &nbsp;Y2 max
+                        </label>
+                        <input type="number" id="maxY2AxisField" name="maxYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
                     </div>
                 </div>
             </div>
@@ -142,6 +167,20 @@
                 </label>
                 <select class="form-select" name="colorSchemeSelect" id="colorSchemeSelect"></select>
             </div>
+            <div class="row px-0 mx-0 mb-0">
+                <div class="col-4 text-center">
+                    <h6> Dataset Name</h6>
+                </div>
+                <div class="col-3 text-center">
+                    <h6><i class="fa-solid fa-eye"></i></h6>
+                </div>
+                <div class="col-3 text-center">
+                    <h6> Axis Selector</h6>
+                </div>
+                <div class="col-2 text-center">
+                    <h6><i class="fa-solid fa-gear"></i></h6>
+                </div>
+            </div>
             <div id="legendConfigDiv">
                 <div id="legendSetupLineTemplate">
                     <div class="row px-0 mx-0 mb-2" hidden>
@@ -150,12 +189,19 @@
                             NULL
                         </div>
                         -->
-                        <input type="text" class="labelInput px-0 col-6" id="labelInputNULL" value="Dataset NULL">
-                        <div class="col-1">&nbsp;</div>
-                        <div class="col">
-                            <div class="form-check form-switch"><input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheckNULL" checked></div>
+                        <input type="text" class="labelInput px-0 col-4" id="labelInputNULL" value="Dataset NULL">
+                        <!-- <div class="col-1">&nbsp;</div> -->
+                        <div class="col-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheckNULL" checked>
+                            </div>
                         </div>
-                        <div class="col">
+                        <div class="col-3" id="yAxisSelector">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input yY2AxisSwitch" type="checkbox" role="switch" id="yAxisSwitchNULL" checked>
+                            </div>
+                        </div>
+                        <div class="col-1">
                             <a data-target="#datasetDivNULL" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDivNULL">
                                 <button class="btn btn-sm btn-primary legendLineCollapseBtn" style="background-color:#ffffff">
                                     <i class="fa-solid fa-paintbrush"></i>

@@ -265,7 +265,17 @@ function initChart(){
 						display: true,
 						labelString: 'value'
 					}
-				}
+				},
+				y2: {
+					type: 'linear',
+					display: false,
+					position: 'right',
+			
+					// grid line settings
+					grid: {
+					  drawOnChartArea: false, // only want the grid lines for one axis to show up
+					},
+				},
 			},
 			responsive: true,
 			maintainAspectRatio: false,

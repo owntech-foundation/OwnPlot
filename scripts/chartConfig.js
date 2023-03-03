@@ -12,8 +12,14 @@
 const relBtn = $("#relBtn");
 const absBtn = $('#absBtn');
 const resetBtn = $("#resetBtn");
+const y2Btn = $("#y2Btn");
+const rmY2Btn = $("#rmY2Btn");
+const y2Config = $("#y2Config");
+const yAxisSelector = $("#yAxisSelector");
 const minYAxisField = $("#minYAxisField");
 const maxYAxisField = $("#maxYAxisField");
+const minY2AxisField = $("#minY2AxisField");
+const maxY2AxisField = $("#maxY2AxisField");
 const legendPositionBtn = $('#legendPositionBtn');
 const resetRelBtn = $('#resetRelBtn');
 const refreshField = $("#refreshTime");
@@ -49,6 +55,24 @@ $(()=>{
         myChart.resetZoom();
     })
 
+    rmY2Btn.hide();
+    y2Config.hide();
+
+    y2Btn.on('click', function() {
+        myChart.options.scales.y2.display = true;
+        y2Config.show();
+        y2Btn.hide();
+        rmY2Btn.show();
+        yAxisSelector.show();
+    })
+
+    rmY2Btn.on('click', function() {
+        myChart.options.scales.y2.display = false;
+        rmY2Btn.hide();
+        y2Btn.show();
+        // y2Config.hide();
+    })
+
     minYAxisField.on('input', function(){
 		if (minYAxisField.val().length > 0) {
 			myChart.options.scales.y.min = parseInt(minYAxisField.val());
@@ -58,6 +82,18 @@ $(()=>{
     maxYAxisField.on('input', function(){
 		if (maxYAxisField.val().length > 0) {
 			myChart.options.scales.y.max = parseInt(maxYAxisField.val());
+		}
+	});
+
+    minY2AxisField.on('input', function(){
+		if (minY2AxisField.val().length > 0) {
+			myChart.options.scales.y2.min = parseInt(minY2AxisField.val());
+		}
+	});
+    
+    maxY2AxisField.on('input', function(){
+		if (maxY2AxisField.val().length > 0) {
+			myChart.options.scales.y2.max = parseInt(maxY2AxisField.val());
 		}
 	});
 

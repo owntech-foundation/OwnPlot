@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-09 11:20:01
  * @ Description:
  */
@@ -172,6 +172,17 @@ function updateLegendTable(){
             myChart.data.datasets[datasetIndex].hidden = false;
         } else {
             myChart.data.datasets[datasetIndex].hidden = true;
+        }
+    });
+
+    $(".yY2AxisSwitch").on('click', function(){
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        if(this.checked){
+            myChart.data.datasets[datasetIndex].yAxisID = 'y';
+        } else {
+            console.log(myChart.data);
+            console.log(myChart.data.datasets[datasetIndex]);
+            myChart.data.datasets[datasetIndex].yAxisID = 'y2';
         }
     });
 
