@@ -21,7 +21,6 @@ $(() => {
 
 	// Get the initial height of the topBar element
 	var topbarHeight = $('#topBar').outerHeight(true);
-	console.log(topbarHeight);
 	// Set the initial value of the --topbar-height custom property
 	$('#appBody').css('--topbar-height', topbarHeight + 'px');
 
@@ -56,7 +55,6 @@ $(() => {
 		$("#simulationApp").hide();
 		appChartEnabled = 1;
 		appSimulationEnabled = 0;
-		console.log("toto");
 	})
 
 	$(".simulationApp").on('click', function(e){
@@ -64,7 +62,6 @@ $(() => {
 		$("#simulationApp").show();
 		appChartEnabled = 0;
 		appSimulationEnabled = 1;
-		console.log("tutu");
 	})
 })
 

@@ -19,7 +19,7 @@ function dateToTimeString(date){
     let minutes = date.getMinutes();
     let seconds = date.getSeconds();
     if (hours<10) {
-       hours = '0' + hours;
+        hours = '0' + hours;
     }
     if (minutes<10) {
         minutes = '0' + minutes;
@@ -73,7 +73,7 @@ function enterKeyupHandler(elemSelector, handler){
 let numberOfDatasets = 0;
 
 /* Time */
- 
+
 let chartStartTime;
 let absTimeMode = true;
 function millisecondsElapsed(startTime, endTime){
@@ -180,8 +180,6 @@ function updateLegendTable(){
         if(this.checked){
             myChart.data.datasets[datasetIndex].yAxisID = 'y';
         } else {
-            console.log(myChart.data);
-            console.log(myChart.data.datasets[datasetIndex]);
             myChart.data.datasets[datasetIndex].yAxisID = 'y2';
         }
     });
