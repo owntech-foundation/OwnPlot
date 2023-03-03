@@ -74,6 +74,10 @@ $(() => {
 	if (appChartEnabled = 1){
 		initColorSchemeSelect();
 		initChart();
+		myChart.data.datasets.forEach(dataset => {
+			myChart.data.datasets[dataset.index].cubicInterpolationMode = 'monotone';
+			myChart.data.datasets[dataset.index].tension = 0.4;
+		})
 		nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 		nbChannelsInput.attr("max", NB_MAX_DATASETS);
 		nbChannelsInput.on('change', updateNbChannels);
