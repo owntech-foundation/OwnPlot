@@ -74,6 +74,10 @@ $(() => {
 	if (appChartEnabled = 1){
 		initColorSchemeSelect();
 		initChart();
+		myChart.data.datasets.forEach(dataset => {
+			myChart.data.datasets[dataset.index].cubicInterpolationMode = 'monotone';
+			myChart.data.datasets[dataset.index].tension = 0.4;
+		})
 		nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 		nbChannelsInput.attr("max", NB_MAX_DATASETS);
 		nbChannelsInput.on('change', updateNbChannels);
@@ -265,7 +269,17 @@ function initChart(){
 						display: true,
 						labelString: 'value'
 					}
-				}
+				},
+				y2: {
+					type: 'linear',
+					display: false,
+					position: 'right',
+			
+					// grid line settings
+					grid: {
+					  drawOnChartArea: false, // only want the grid lines for one axis to show up
+					},
+				},
 			},
 			responsive: true,
 			maintainAspectRatio: false,
@@ -287,6 +301,32 @@ function initChart(){
 						$(this.ctx.canvas).css('cursor', 'default');
 					},
 				},
+				zoom: {
+					// Assume x axis has the realtime scale
+					pan: {
+						enabled: true,        // Enable panning
+						mode: 'xy',   
+					},
+					zoom: {
+						pinch: {
+							enabled: true       // Enable pinch zooming
+						},
+						scaleMode: 'y',			//Allow y axis zoom when on y scale
+						wheel: {
+							enabled: true       // Enable wheel zooming
+						},
+					  	mode: 'x'             // Allow zooming in the x direction
+					},
+
+					limits: {
+						x: {
+							minDelay: null,     // Min value of the delay option
+							maxDelay: 20000,     // Max value of the delay option
+							minDuration: 200,  // Min value of the duration option
+							maxDuration: 20000   // Max value of the duration option
+						}
+					}
+				}
 			},
 		}
 	});
