@@ -11,12 +11,12 @@
 
 <!--This tab div allows the auto scroll to work fine when showing the tab-->
 <div>
-    <div class="input-group input-group-sm mb-3">
+    <div class="input-group input-group-sm mb-3" data-tooltip="Send a command" data-bs-toggle="tooltip" title="Send a command">
         <button type="button" id="sendBtn" class="btn btn-primary col-4">Send</button>
         <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">
     </div>
 
-    <div class="input-group input-group-sm mb-3">
+    <div class="input-group input-group-sm mb-3" data-tooltip="Select configuration" data-bs-toggle="tooltip" title="Select configuration">
         <label class="input-group-text" for="buttonConfigSelect">Config</label>
         <select class="form-select" id="buttonConfigSelect">
             <option selected value="new">-- new --</option>
@@ -26,15 +26,15 @@
         </select>
     </div>
 
-    <div class="input-group input-group-sm mb-3" id="saveConfigInputGroup">
+    <div class="input-group input-group-sm mb-3" id="saveConfigInputGroup" data-tooltip="Enter a new configuration" data-bs-toggle="tooltip" title="Enter a new configuration">
         <button class="btn btn-primary" type="button" id="saveConfigButton">New config</button>
         <input type="text" class="form-control" id="saveConfigName" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
     </div>
 
     <div class="input-group input-group-sm mb-3" id="addCommandDiv">
         <button type="button" id="addCommandBtn" class="btn btn-primary col-4">Add command</button>
-        <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="">
-        <input type="text" class="form-control form-control-sm col-4" id="addCommandData" placeholder="Data to send" value="">
+        <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="" data-tooltip="Enter command name" data-bs-toggle="tooltip" title="Enter command name">
+        <input type="text" class="form-control form-control-sm col-4" id="addCommandData" placeholder="Data to send" value="" data-tooltip="Enter command data" data-bs-toggle="tooltip" title="Enter command data">
         <!-- remove the choice of the color for now
         <input type="color" class="form-control form-control-sm" id="addCommandColor" value="#fffffe">        
         -->

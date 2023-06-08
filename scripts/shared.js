@@ -61,6 +61,13 @@ function enterKeyupHandler(elemSelector, handler){
     });
 }
 
+/*Tooltips initialization*/
+$(function(){
+    $('[data-tooltip]').tooltip();
+});
+
+
+
 /* Debug */
 // not available in this version: 
 // const debugTermSel = $("#debugTerminal");

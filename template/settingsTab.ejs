@@ -31,23 +31,23 @@
     </a>
     <div class="collapse show" id="terminalSettingsDiv">
         <div class="card card-body">
-            <div class="input-group input-group-sm mb-3" id="termBufSizeDiv">
+            <div class="input-group input-group-sm mb-3" id="termBufSizeDiv" data-tooltip="Number of lines shown in terminal (max. 1000)" data-bs-toggle="tooltip" title="Number of lines shown in terminal (max. 1000)">
                 <label class="input-group-text col-5">
                     <span style="font-weight:bolder">#</span>&nbsp;Lines
                 </label>
                 <input type="number" id="termBufSizeInput" class="form-control" value="20" min="0" max="1000">
             </div>
             <div class="row m-0 p-0">
-                <button type="button" aria-pressed="false" id="terminalBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5">
+                <button type="button" aria-pressed="false" id="terminalBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Toggle timestamp in terminal" data-bs-toggle="tooltip" title="Toggle timestamp in terminal">
                     <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
                 </button>
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
-                <button type="button" aria-pressed="false" id="terminalBtnDataMode" class="btn btn-primary btn-sm mb-3 col-5">
+                <button type="button" aria-pressed="false" id="terminalBtnDataMode" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Select numeral system" data-bs-toggle="tooltip" title="Select numeral system">
                     <i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal
                 </button>
-                <button type="button" aria-pressed="false" id="terminalBtnFormatted" class="btn btn-primary btn-sm mb-3 col-5">
+                <button type="button" aria-pressed="false" id="terminalBtnFormatted" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Select data format" data-bs-toggle="tooltip" title="Select data format">
                     <i class="fa-solid fa-droplet"></i></i>&nbsp;Formatted
                 </button>
             </div>
