@@ -11,19 +11,19 @@
 
 <div class="col">
 	<div class="row mb-2">
-		<button type="button" class="btn mx-1 btn-sm btn-warning btn-square portBarBtn" aria-pressed="true" id="openPortBtn">
+		<button type="button" class="btn mx-1 btn-sm btn-warning btn-square portBarBtn" aria-pressed="true" id="openPortBtn" data-tooltip="Toggle port" data-bs-toggle="tooltip" title="Toggle port">
 			<label class="nonBreakable">No port</label>
 		</button>
-		<button type="button" class="btn mx-1 btn-sm btn-primary btn-square portBarBtn" id="clearPortBtn" disabled>
+		<button type="button" class="btn mx-1 btn-sm btn-primary btn-square portBarBtn" id="clearPortBtn" disabled data-tooltip="Clear chart" data-bs-toggle="tooltip" title="Clear chart">
 			<i class="fa-solid fa-trash-can"></i><br>Clear
 		</button>
-		<button type="button" class="btn mx-1 btn-sm btn-warning btn-square portBarBtn" id="pausePortBtn" disabled>
+		<button type="button" class="btn mx-1 btn-sm btn-warning btn-square portBarBtn" id="pausePortBtn" disabled data-tooltip="Toggle plotting" data-bs-toggle="tooltip" title="Toggle plotting">
 			<i class="fa-solid fa-pause"></i><br>Paused
 		</button>
 	</div>
 	
 	<div class="row">
-		<div class="input-group input-group-sm px-1 mx-0">
+		<div class="input-group input-group-sm px-1 mx-0" data-tooltip="Select port" data-bs-toggle="tooltip" title="Select port">
 			<label class="input-group-text"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
 			<select class="form-select" id="AvailablePorts" name="AvailablePorts">
 			</select>

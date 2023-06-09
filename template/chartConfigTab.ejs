@@ -18,13 +18,13 @@
     <div class="collapse show mb-2" id="timeConfigDiv">
         <div class="card card-body">
             <div class="row p-0 m-0">
-                <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
+                <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-tooltip="Toggle time representation" data-bs-toggle="tooltip" title="Toggle time representation">
                     <i class="fa-solid fa-stopwatch"></i>
                     <label class="nonBreakable">
                         &nbsp;Relative
                     </label>
                 </button>
-                <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn">
+                <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-tooltip="Toggle time representation" data-bs-toggle="tooltip" title="Toggle time representation">
                     <i class="fa-solid fa-calendar-day"></i>
                     <label class="nonBreakable">
                         &nbsp;Absolute
@@ -33,7 +33,7 @@
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
-                <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5">
+                <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5" data-tooltip="Reset time origin" data-bs-toggle="tooltip" title="Reset time origin">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <label class="nonBreakable">
                         &nbsp;Reset Time
@@ -43,7 +43,7 @@
 
             <div class="input-group input-group-sm mt-3">
                 <div id="customRefresh">
-                    <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm" data-tooltip="Enter refresh time (ms)" data-bs-toggle="tooltip" title="Enter refresh time (ms)">
                         <label class="input-group-text col-5" >
                             <i class="fa-solid fa-person-running"></i>&nbsp; Refresh time (ms)
                         </label>
@@ -73,13 +73,13 @@
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
-                <button type="button" id="y2Btn" class="btn btn-sm btn-primary col-5">
+                <button type="button" id="y2Btn" class="btn btn-sm btn-primary col-5" data-tooltip="Toggle secondary Y axis" data-bs-toggle="tooltip" title="Toggle secondary Y axis">
                     <i class="fa-solid fa-plus"></i>
                     <label class="nonBreakable">
                         &nbsp;Add Y2 axis
                     </label>
                 </button>
-                <button type="button" id="rmY2Btn" class="btn btn-sm btn-warning col-5">
+                <button type="button" id="rmY2Btn" class="btn btn-sm btn-warning col-5" data-tooltip="Toggle secondary Y axis" data-bs-toggle="tooltip" title="Toggle secondary Y axis">
                     <i class="fa-solid fa-minus"></i>
                     <label class="nonBreakable">
                         &nbsp;Remove Y2 axis
@@ -148,16 +148,16 @@
     <div class="collapse show" id="legendSetupDiv">
         <div class="card card-body">
             <div class="row p-0 m-0">
-                <button type="button" class="btn btn-sm btn-success mb-3 col-5" id="legendShownBtn">
+                <button type="button" class="btn btn-sm btn-success mb-3 col-5" id="legendShownBtn" data-tooltip="Toggle legend" data-bs-toggle="tooltip" title="Toggle legend">
                     <i class="fa-solid fa-eye"></i>&nbsp;Shown
                 </button>
-                <button type="button" class="btn btn-sm btn-warning mb-3 col-5" id="legendHiddenBtn">
+                <button type="button" class="btn btn-sm btn-warning mb-3 col-5" id="legendHiddenBtn" data-tooltip="Toggle legend" data-bs-toggle="tooltip" title="Toggle legend">
                     <i class="fa-solid fa-eye-slash"></i>&nbsp;Hidden
                 </button>
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
-                <button type="button" class="btn btn-sm btn-primary mb-3 col-5" id="legendPositionBtn">
+                <button type="button" class="btn btn-sm btn-primary mb-3 col-5" id="legendPositionBtn" data-tooltip="Change legend position" data-bs-toggle="tooltip" title="Change legend position">
                     <i class="fa-solid fa-arrow-right"></i>&nbsp;Position
                 </button>
             </div>
