@@ -68,7 +68,7 @@ $(function() {
     $('#toggleTooltips').on('change', function() {
       var tooltipsEnabled = this.checked;
       
-      $('[data-bs-toggle="tooltip"]').each(function() {
+      $('[data-tooltip], [data-bs-toggle="tooltip"]').each(function() {
         var $tooltipTrigger = $(this);
         
         if (tooltipsEnabled) {
