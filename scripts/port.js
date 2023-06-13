@@ -11,6 +11,8 @@
 
 let availableSerialPorts;
 let selectedPort;
+let isPortClosedMessageDisplayed;
+let isPortOpenMessageDisplayed;
 
 $(function(){
 	noPortBtn($('#openPortBtn'));
@@ -58,6 +60,7 @@ $(function(){
 				if(port.isOpen){
 					port.close();
 				}
+				console.log(selectedPort, "Port is open");
 			}
 			configSerialPlot.path = selectedPort;
 			openPort(configSerialPlot.baudRate);
@@ -87,6 +90,13 @@ function openPortBtn(elem) {
 	$(elem).attr('aria-pressed', false);
 	$(elem).prop('disabled', false);
 	$(elem).show();
+
+	// Print message in terminal
+	if (!isPortOpenMessageDisplayed){
+		printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: green;">open</span></span>\n');
+		isPortOpenMessageDisplayed=true;
+		isPortClosedMessageDisplayed=false;
+	}	
 }
 
 function closePortBtn(elem) {
@@ -97,4 +107,23 @@ function closePortBtn(elem) {
 	$(elem).attr('aria-pressed', true);
 	$(elem).prop('disabled', false);
 	$(elem).show();
+
+	// Print message in terminal
+	if (!isPortClosedMessageDisplayed){
+		printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: red;">closed</span></span>\n');
+		isPortClosedMessageDisplayed=true;
+		isPortOpenMessageDisplayed=false;
+	}	
+}
+
+function printMessageToTerminal(message) {
+	let terminal = $('#terminalData');
+	let messageElement = $('<span>' + message + '<span>');
+	terminal.prepend(messageElement);
+	countTermLines++;
+
+	if(countTermLines>termSize) {
+		terminal.children().last().remove();
+		countTermLines--;
+	}
 }
