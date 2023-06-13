@@ -62,8 +62,22 @@ function enterKeyupHandler(elemSelector, handler){
 }
 
 /*Tooltips initialization*/
-$(function(){
+$(function() {
     $('[data-tooltip]').tooltip();
+    
+    $('#toggleTooltips').on('change', function() {
+      var tooltipsEnabled = this.checked;
+      
+      $('[data-tooltip], [data-bs-toggle="tooltip"]').each(function() {
+        var $tooltipTrigger = $(this);
+        
+        if (tooltipsEnabled) {
+          $tooltipTrigger.tooltip('enable');
+        } else {
+          $tooltipTrigger.tooltip('disable');
+        }
+      });
+    });
 });
 
 
