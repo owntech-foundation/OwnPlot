@@ -24,6 +24,8 @@ const saveConfigButton = $("#saveConfigButton");
 const saveConfigName = $("#saveConfigName");
 const saveConfigButtonButton = $("#saveConfigButtonButton");
 const deleteButtonButton= $("#deleteButtonButton");
+const terminalHistory = $("#terminalHistory");
+
 
 const encoder = new TextEncoder();
 const configButtonPath = ipcRenderer.sendSync('get-user-data-folder') + "/config/buttons";
@@ -250,6 +252,7 @@ function updateCommandButtons() {
             $("#commandButtonContainer").append(buttonHtml);
             $('#cmdBtn-' + index).on('click', function() { //check if port is opened
                 send(elem.command);
+                appendToTerminal(elem.text);
             });
         });
         $(".removeCommandButton").on("click", function(){
@@ -286,4 +289,9 @@ function disableSend() {
     sendInput.prop("disabled", true);
     sendBtn.prop("disabled", true);
     $(".commandButton").prop("disabled", true);
+}
+
+function appendToTerminal(command) {
+    const commandElement = $("<div></div>").text(command);
+    terminalHistory.prepend(commandElement);
 }
