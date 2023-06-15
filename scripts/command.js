@@ -81,6 +81,13 @@ $(() => {
     });
 
     updateCommandFilesList();
+
+    $("#deleteConfigButton").on('click', function() {
+        let selectedConfig = $("#buttonConfigSelect option:selected").val();
+        if (selectedConfig != "new") {
+            deleteConfig(selectedConfig);
+        }
+    });    
 });
 
 function addCommandSubmitHandler(){
@@ -286,4 +293,17 @@ function disableSend() {
     sendInput.prop("disabled", true);
     sendBtn.prop("disabled", true);
     $(".commandButton").prop("disabled", true);
+}
+
+function deleteConfig(configName) {
+    const filePath = configButtonPath + "/" + configName;
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            console.log(`Error deleting file: ${err}`);
+        } else {
+            console.log(`File ${configName} is deleted successfully!`);
+            // Optionally, you can update the configuration files list and reset the selected option
+            updateCommandFilesList("");
+        }
+    });
 }
