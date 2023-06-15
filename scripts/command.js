@@ -25,7 +25,7 @@ const saveConfigName = $("#saveConfigName");
 const saveConfigButtonButton = $("#saveConfigButtonButton");
 const deleteButtonButton= $("#deleteButtonButton");
 const terminalHistory = $("#terminalHistory");
-
+const MAX_TERMINAL_LINES=1000;
 
 const encoder = new TextEncoder();
 const configButtonPath = ipcRenderer.sendSync('get-user-data-folder') + "/config/buttons";
@@ -34,6 +34,7 @@ let commandButtons = [];
 let fileCommandButtons = [];
 let filesConfigButton = [];
 let deleteMode = false;
+let commandBtnTimestamp = $('#commandBtnTimestamp');
 
 $(() => {
     disableSend();
@@ -83,6 +84,16 @@ $(() => {
     });
 
     updateCommandFilesList();
+
+    commandTimestampBtnEnable(commandBtnTimestamp); //default behaviour
+	commandBtnTimestamp.on('click', function(){
+		if(commandBtnTimestamp.attr('aria-pressed') === "true"){
+			//if it is enabled then disable it
+			commandTimestampBtnDisable(commandBtnTimestamp);
+		} else {
+			commandTimestampBtnEnable(commandBtnTimestamp);
+		}
+	});
 });
 
 function addCommandSubmitHandler(){
@@ -292,6 +303,40 @@ function disableSend() {
 }
 
 function appendToTerminal(command) {
-    const commandElement = $("<div></div>").text(command);
-    terminalHistory.prepend(commandElement);
+    const commandElement = $("<span></span>").text(command);
+    const timestampElement = $("<span></span>").text(commandTime());
+    const lineElement = $("<div></div>").append(timestampElement, commandElement);
+    terminalHistory.prepend(lineElement);
+
+    // Remove the oldest lines if the number of lines exceeds the limit
+    const commandElements = terminalHistory.children();
+    if (commandElements.length > MAX_TERMINAL_LINES) {
+        commandElements.slice(MAX_TERMINAL_LINES).remove();
+    }
+}
+
+function commandTimestampBtnEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+}
+
+function commandTimestampBtnDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
+}
+
+function commandTime() {
+	let timeStr = "";
+	if (commandBtnTimestamp.attr('aria-pressed') === "true") {
+		let dataTime = new Date(); //we get the time of the last data received
+		if(absTimeMode){
+			timeStr = dateToPreciseTimeString(dataTime);
+		} else { //relative time
+			timeStr = millisecondsElapsed(chartStartTime, dataTime);
+		}
+		timeStr+= " -> ";
+	}
+	return(timeStr);
 }
