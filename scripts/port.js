@@ -72,6 +72,13 @@ $(function(){
 			closePortBtn(this);
 		}
 	});
+
+	$(document).on('keydown', function(event) {
+		if (event.keyCode === 32) { // Space key
+			event.preventDefault(); // Prevent the default space key behavior (e.g., scrolling down the page)
+			$('#pausePortBtn').trigger('click'); // Trigger a click event on the pause button
+		}
+	});
 });
 
 function noPortBtn(elem) {
