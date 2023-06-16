@@ -1,0 +1,56 @@
+<!--
+ * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
+	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
+ * @ Website: https://www.owntech.org/
+ * @ Mail: owntech@laas.fr
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Jean Alinei
+ * @ Modified time: 2022-09-07 13:46:44
+ * @ Description:
+ -->
+
+<div class="mb-3">
+    <a data-target="#keyBindingsDiv" class="collapseHead" role="button" id="keyBindingsHref" aria-expanded="true" aria-controls="keyBindingsDiv">
+        <span class="input-group-text" id="keyBindingsTitle">
+            <i class="fa-solid fa-link"></i>&nbsp;<span style="font-weight:bolder">Key Bindings</span>
+        </span>
+    </a>
+    <div class="collapse show" id="keyBindingsDiv">
+        <div class="card card-body">
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text" for="action1Btn">Open/Close Port</label>
+                <button type="button" aria-pressed="false" id="action1Btn" class="btn btn-primary col-4 key-binding-btn">o</button>
+            </div>    
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text" for="action2Btn">Clear Chart</label>
+                <button type="button" aria-pressed="false" id="action2Btn" class="btn btn-primary col-4 key-binding-btn">c</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text" for="action3Btn">Run/Stop Plotting</label>
+                <button type="button" aria-pressed="false" id="action3Btn" class="btn btn-primary col-4 key-binding-btn">r</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text" for="action4Btn">Send Tab</label>
+                <button type="button" aria-pressed="false" id="action4Btn" class="btn btn-primary col-4 key-binding-btn">&</button>
+            </div>
+        </div>
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <button type="button" class="btn btn-danger col-12 btn-sm" id="keyBindingsReset">Reset to default</button>
+    </div>
+</div>
+
+
+<!-- Modal HTML -->
+<div id="myModal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Binding Keys</h5>
+        </div>
+        <div class="modal-body">
+          <p>Press the key you would like to bind.</p>
+        </div>
+      </div>
+    </div>
+</div>
