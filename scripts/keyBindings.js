@@ -18,16 +18,16 @@ function openModal(buttonId) {
     var modal = document.getElementById('myModal');
     modal.style.display = 'block';
   
-    // Listen for keydown event
-    document.addEventListener('keydown', function(event) {
+    // Listen for keyup event
+    document.addEventListener('keyup', function(event) {
       // Replace the button text with the pressed key
-      button.textContent = event.key;
+      button.textContent = event.code;
   
       // Close the modal
       modal.style.display = 'none';
   
       // Remove the event listener to prevent further key presses
-      document.removeEventListener('keydown', arguments.callee);
+      document.removeEventListener('keyup', arguments.callee);
     });
 }
   
@@ -43,31 +43,34 @@ buttons.forEach(function(button) {
 
 
 
-
-$(document).on('keydown', function(event) {
-    var action1Btn = document.getElementById('action1Btn');
-    var action1BtnText = action1Btn.textContent.trim();
-    var action2Btn = document.getElementById('action2Btn');
-    var action2BtnText = action2Btn.textContent.trim();
-    var action3Btn = document.getElementById('action3Btn');
-    var action3BtnText = action3Btn.textContent.trim();
-    var action4Btn = document.getElementById('action4Btn');
-    var action4BtnText = action4Btn.textContent.trim();
-
-    if (event.key === action1BtnText) {
-        event.preventDefault(); // Prevent the default key behavior (e.g., scrolling down the page)
-        $('#openPortBtn').trigger('click'); // Trigger a click event on the selected button
+// Store the button IDs and their corresponding action triggers
+var buttonActions = {
+    action1Btn: '#openPortBtn',
+    action2Btn: '#clearPortBtn',
+    action3Btn: '#pausePortBtn',
+    action4Btn: '#nav-command-tab',
+    action5Btn: '#nav-settings-tab',
+    action6Btn: '#nav-chartConfig-tab',
+    action7Btn: '#nav-record-tab',
+    action8Btn: '#nav-keyBindings-tab'
+};
+  
+$(document).on('keyup', function(event) {
+    var targetButtonId = null;
+  
+    // Iterate through the buttonActions object to find a match
+    for (var buttonId in buttonActions) {
+      var button = document.getElementById(buttonId);
+      var buttonText = button.textContent.trim();
+  
+      if (event.code === buttonText) {
+        targetButtonId = buttonId;
+        break;
+      }
     }
-    if (event.key === action2BtnText) {
-        event.preventDefault();
-        $('#clearPortBtn').trigger('click');
-    }
-    if (event.key === action3BtnText) {
-        event.preventDefault();
-        $('#pausePortBtn').trigger('click');
-    }
-    if (event.key === action4BtnText) {
-        event.preventDefault();
-        $('#nav-command-tab').trigger('click');
+  
+    if (targetButtonId) {
+      event.preventDefault();
+      $(buttonActions[targetButtonId]).trigger('click');
     }
 });
