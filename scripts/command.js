@@ -46,7 +46,14 @@ $(() => {
     });
 
     sendBtn.on('click', () => {
-        send(sendInput.val());
+        const commandConfig = commandButtons.find(button => button.command === sendInput.val());
+        if(commandConfig){
+            send(sendInput.val());
+            console.log(commandConfig);
+            appendToTerminal(sendInput.val() + " (" + commandConfig.text + ")");
+        }else{
+            appendToTerminal(sendInput.val() + " (" + 'unknown command' + ")");
+        }
         //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
     });
 
@@ -81,6 +88,10 @@ $(() => {
             deleteButtonButton.html("Stop deleting buttons")
         }
         updateCommandButtons(); 
+    });
+
+    $("#clearHistoryButton").on("click", function() {
+        $("#terminalHistory").empty();
     });
 
     updateCommandFilesList();
@@ -263,7 +274,7 @@ function updateCommandButtons() {
             $("#commandButtonContainer").append(buttonHtml);
             $('#cmdBtn-' + index).on('click', function() { //check if port is opened
                 send(elem.command);
-                appendToTerminal(elem.text);
+                appendToTerminal(elem.command + " (" + elem.text + ")");
             });
         });
         $(".removeCommandButton").on("click", function(){
