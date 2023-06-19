@@ -61,7 +61,7 @@ function retrieveButtonConfigurations() {
 function loadDefaultButtonText(button, buttonId) {
   var xhr = new XMLHttpRequest();
   xhr.overrideMimeType('application/json');
-  xhr.open('GET', 'default_key_config.json', true);
+  xhr.open('GET', 'config/buttons/default_key_config.json', true);
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
       var defaultConfig = JSON.parse(xhr.responseText);
