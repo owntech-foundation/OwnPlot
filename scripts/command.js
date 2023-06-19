@@ -24,6 +24,8 @@ const saveConfigButton = $("#saveConfigButton");
 const saveConfigName = $("#saveConfigName");
 const saveConfigButtonButton = $("#saveConfigButtonButton");
 const deleteButtonButton= $("#deleteButtonButton");
+const deleteConfigButton = $("#deleteConfigButton");
+
 
 const encoder = new TextEncoder();
 const configButtonPath = ipcRenderer.sendSync('get-user-data-folder') + "/config/buttons";
@@ -81,6 +83,25 @@ $(() => {
     });
 
     updateCommandFilesList();
+
+    $("#buttonConfigSelect").change(function () {
+        updateNewFieldVisibility();
+        const selectedConfig = $("#buttonConfigSelect option:selected").val();
+        if (selectedConfig === "new") {
+          deleteConfigButton.prop("disabled", true);
+          deleteConfigButton.addClass("disabled"); // Add disabled class
+        } else {
+          deleteConfigButton.prop("disabled", false);
+          deleteConfigButton.removeClass("disabled"); // Remove disabled class
+        }
+    });
+
+    $("#deleteConfigButton").on('click', function() {
+        let selectedConfig = $("#buttonConfigSelect option:selected").val();
+        if (selectedConfig != "new") {
+            deleteConfig(selectedConfig);
+        }
+    });    
 });
 
 function addCommandSubmitHandler(){
@@ -170,6 +191,10 @@ function updateNewFieldVisibility() {
             loadCommandButtons($( this ).val());
         }
     });
+
+    // Enable and activate the delete configuration button
+    deleteConfigButton.prop("disabled", false);
+    deleteConfigButton.removeClass("disabled");
 }
 
 function updateCommandFilesList(selectedItem) {
@@ -188,15 +213,30 @@ function updateCommandFilesList(selectedItem) {
             console.log(err);
         else {
             filesConfigButton = files;
-            filesConfigButton.forEach(file => {
+            filesConfigButton.forEach((file) => {
                 let itemSelected = "";
                 if (selectedItem == file) {
                     itemSelected = "selected";
                 }
                 configSelecthtml += "<option " + itemSelected + " value='" + file + "'>" + file + "</option>";
             buttonConfigSelect.html(configSelecthtml);
-            })
+            });
+
+            // Update the configuration select element
+            buttonConfigSelect.html(configSelecthtml);
+
+            // Set the selected item if provided
+            if (selectedItem) {
+                buttonConfigSelect.val(selectedItem);
+            }
+
             updateNewFieldVisibility();
+
+            // Disable the delete button if -- new -- is selected
+            const selectedConfig = $("#buttonConfigSelect option:selected").val();
+            if (selectedConfig === "new") {
+                deleteConfigButton.prop("disabled", true);
+            }
         }
     })
 
@@ -286,4 +326,21 @@ function disableSend() {
     sendInput.prop("disabled", true);
     sendBtn.prop("disabled", true);
     $(".commandButton").prop("disabled", true);
+}
+
+function deleteConfig(configName) {
+    const filePath = configButtonPath + "/" + configName;
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        console.log(`Error deleting file: ${err}`);
+      } else {
+        console.log(`File ${configName} is deleted successfully!`);
+  
+        // Update the configuration files list
+        updateCommandFilesList("");
+  
+        // Reset the selected option to -- new --
+        buttonConfigSelect.val("new");
+      }
+    });
 }
