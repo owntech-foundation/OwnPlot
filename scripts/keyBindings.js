@@ -11,26 +11,28 @@
 
 // Function to handle button click and key events
 function openModal(buttonId) {
-    // Store the button element
-    var button = document.getElementById(buttonId);
+  // Store the button element
+  var button = document.getElementById(buttonId);
 
-    // Open the modal
-    var modal = document.getElementById('myModal');
-    modal.style.display = 'block';
-  
-    // Listen for keyup event
-    document.addEventListener('keyup', function(event) {
-      // Replace the button text with the pressed key
-      button.textContent = event.code;
-  
-      // Close the modal
-      modal.style.display = 'none';
-  
-      // Remove the event listener to prevent further key presses
-      document.removeEventListener('keyup', arguments.callee);
-    });
+  // Open the modal
+  var modal = document.getElementById('myModal');
+  modal.style.display = 'block';
+
+  // Listen for keyup event
+  document.addEventListener('keyup', function(event) {
+    // Replace the button text with the pressed key
+    button.textContent = event.code;
+    // Save the updated button text to localStorage
+    localStorage.setItem(buttonId, event.code);
+
+    // Close the modal
+    modal.style.display = 'none';
+
+    // Remove the event listener to prevent further key presses
+    document.removeEventListener('keyup', arguments.callee);
+  });
 }
-  
+
 // Attach event listener to the button
 var buttons = document.querySelectorAll('.key-binding-btn');
 buttons.forEach(function(button) {
@@ -40,37 +42,81 @@ buttons.forEach(function(button) {
   });
 });
 
+// Retrieve and set the saved button texts from localStorage or load defaults
+function retrieveButtonConfigurations() {
+  buttons.forEach(function(button) {
+    var buttonId = button.getAttribute('id');
+    var savedButtonText = localStorage.getItem(buttonId);
 
+    // If saved button text exists, set it; otherwise, load the default
+    if (savedButtonText) {
+      button.textContent = savedButtonText;
+    } else {
+      loadDefaultButtonText(button, buttonId);
+    }
+  });
+}
 
+// Load default button text from default_key_config.json
+function loadDefaultButtonText(button, buttonId) {
+  var xhr = new XMLHttpRequest();
+  xhr.overrideMimeType('application/json');
+  xhr.open('GET', 'default_key_config.json', true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      var defaultConfig = JSON.parse(xhr.responseText);
+      var defaultText = defaultConfig[buttonId];
+      button.textContent = defaultText;
+      localStorage.setItem(buttonId, defaultText);
+    }
+  };
+  xhr.send();
+}
+
+// Attach event listener to the reset button
+var resetButton = document.getElementById('keyBindingsReset');
+resetButton.addEventListener('click', function() {
+  // Clear saved button texts from localStorage and load defaults
+  buttons.forEach(function(button) {
+    var buttonId = button.getAttribute('id');
+    localStorage.removeItem(buttonId);
+    loadDefaultButtonText(button, buttonId);
+  });
+});
+
+// Load the default configuration on page load or retrieve saved configurations
+window.addEventListener('DOMContentLoaded', function() {
+  retrieveButtonConfigurations();
+});
 
 // Store the button IDs and their corresponding action triggers
 var buttonActions = {
-    action1Btn: '#openPortBtn',
-    action2Btn: '#clearPortBtn',
-    action3Btn: '#pausePortBtn',
-    action4Btn: '#nav-command-tab',
-    action5Btn: '#nav-settings-tab',
-    action6Btn: '#nav-chartConfig-tab',
-    action7Btn: '#nav-record-tab',
-    action8Btn: '#nav-keyBindings-tab'
+  action1Btn: '#openPortBtn',
+  action2Btn: '#clearPortBtn',
+  action3Btn: '#pausePortBtn',
+  action4Btn: '#nav-command-tab',
+  action5Btn: '#nav-settings-tab',
+  action6Btn: '#nav-chartConfig-tab',
+  action7Btn: '#nav-record-tab',
+  action8Btn: '#nav-keyBindings-tab'
 };
-  
+
 $(document).on('keyup', function(event) {
-    var targetButtonId = null;
-  
-    // Iterate through the buttonActions object to find a match
-    for (var buttonId in buttonActions) {
-      var button = document.getElementById(buttonId);
-      var buttonText = button.textContent.trim();
-  
-      if (event.code === buttonText) {
-        targetButtonId = buttonId;
-        break;
-      }
+  var targetButtonId = null;
+
+  // Iterate through the buttonActions object to find a match
+  for (var buttonId in buttonActions) {
+    var button = document.getElementById(buttonId);
+    var buttonText = button.textContent.trim();
+
+    if (event.code === buttonText) {
+      targetButtonId = buttonId;
+      break;
     }
-  
-    if (targetButtonId) {
-      event.preventDefault();
-      $(buttonActions[targetButtonId]).trigger('click');
-    }
+  }
+
+  if (targetButtonId) {
+    event.preventDefault();
+    $(buttonActions[targetButtonId]).trigger('click');
+  }
 });
