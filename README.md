@@ -40,10 +40,10 @@ If you are using Windows, we recommand the use of git bash https://www.git-scm.c
 
 2. Clone the repository:
     * If you have a gitlab accound and a ssh key linked to this one, clone with this command instead: \
-    `git clone git@gitlab.laas.fr:garthaud/ownplot.git`
+    `git clone git@gitlab.laas.fr:owntech/ownplot.git`
 
     * Otherwise use this command: \
-    `git clone https://gitlab.laas.fr/garthaud/ownplot.git`
+    `git clone https://gitlab.laas.fr/owntech/ownplot.git`
 
 3. Go the the newly created folder: \
 `cd ownplot`
