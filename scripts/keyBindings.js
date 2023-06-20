@@ -42,7 +42,7 @@ function openModal(buttonId) {
       : "";
     messageElement.style.color = keyDuplicates.length >= 1
       ? "red"
-      : "red";
+      : "";
 
     document.removeEventListener('keyup', handleKeyup);
     isFirstKeyupListenerActive = false;
@@ -78,6 +78,8 @@ resetButton.addEventListener('click', () => {
     localStorage.removeItem(buttonId);
     loadDefaultButtonText(button, buttonId);
   });
+  const messageElement = document.getElementById('duplicateMessage');
+  messageElement.textContent = "";
 });
 
 
@@ -92,6 +94,19 @@ function retrieveButtonConfigurations() {
       loadDefaultButtonText(button, buttonId);
     }
   });
+  const messageElement = document.getElementById('duplicateMessage');
+  const buttonTextArray = [];
+  buttons.forEach((button) => {
+    const buttonText = button.textContent.trim();
+    buttonTextArray.push(buttonText);
+  });
+  const keyDuplicates = getDuplicates(buttonTextArray);
+  messageElement.textContent = keyDuplicates.length >= 1
+    ? "WARNING: Two or more buttons have the same key binding."
+    : "";
+  messageElement.style.color = keyDuplicates.length >= 1
+    ? "red"
+    : "";
 }
 
 function loadDefaultButtonText(button, buttonId) {
