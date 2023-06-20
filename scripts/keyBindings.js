@@ -3,52 +3,84 @@
 	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
- * @ Create Time: 2022-08-22 16:23:22
- * @ Modified by: Guillaume Arthaud
- * @ Modified time: 2022-09-07 13:43:49
+ * @ Create Time: 2022-08-30 09:31:24
+ * @ Modified by: Jean Alinei
+ * @ Modified time: 2022-09-08 12:20:33
  * @ Description:
  */
 
-// Function to handle button click and key events
 function openModal(buttonId) {
-  // Store the button element
-  var button = document.getElementById(buttonId);
+  const button = document.getElementById(buttonId);
+  const buttonTextArray = [];
+  const messageElement = document.getElementById('duplicateMessage');
 
-  // Open the modal
-  var modal = document.getElementById('myModal');
+  for (const actionButtonId in buttonActions) {
+    const actionButton = document.getElementById(actionButtonId);
+    const buttonText = actionButton.textContent.trim();
+    buttonTextArray.push(buttonText);
+  }
+
+  const modal = document.getElementById('myModal');
   modal.style.display = 'block';
 
-  // Listen for keyup event
-  document.addEventListener('keyup', function(event) {
-    // Replace the button text with the pressed key
+  const handleKeyup = (event) => {    
     button.textContent = event.code;
-    // Save the updated button text to localStorage
     localStorage.setItem(buttonId, event.code);
-
-    // Close the modal
+    buttonTextArray.length = 0;
+    for (const actionButtonId in buttonActions) {
+      const actionButton = document.getElementById(actionButtonId);
+      const buttonText = actionButton.textContent.trim();
+      buttonTextArray.push(buttonText);
+    }
     modal.style.display = 'none';
 
-    // Remove the event listener to prevent further key presses
-    document.removeEventListener('keyup', arguments.callee);
-  });
+    const keyDuplicates = getDuplicates(buttonTextArray);
+    messageElement.textContent = keyDuplicates.length >= 1
+      ? "WARNING : Two or more buttons have the same key binding."
+      : "";
+    messageElement.style.color = keyDuplicates.length >= 1
+      ? "red"
+      : "red";
+
+    document.removeEventListener('keyup', handleKeyup);
+  };
+
+  document.addEventListener('keyup', handleKeyup);
 }
 
-// Attach event listener to the button
-var buttons = document.querySelectorAll('.key-binding-btn');
-buttons.forEach(function(button) {
-  button.addEventListener('click', function() {
-    var buttonId = this.getAttribute('id');
+
+
+const buttons = document.querySelectorAll('.key-binding-btn');
+buttons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const buttonId = button.getAttribute('id');
     openModal(buttonId);
   });
 });
 
-// Retrieve and set the saved button texts from localStorage or load defaults
-function retrieveButtonConfigurations() {
-  buttons.forEach(function(button) {
-    var buttonId = button.getAttribute('id');
-    var savedButtonText = localStorage.getItem(buttonId);
 
-    // If saved button text exists, set it; otherwise, load the default
+
+function getDuplicates(array) {
+  return array.filter((item, index) => array.indexOf(item) !== index);
+}
+
+
+
+const resetButton = document.getElementById('keyBindingsReset');
+resetButton.addEventListener('click', () => {
+  buttons.forEach((button) => {
+    const buttonId = button.getAttribute('id');
+    localStorage.removeItem(buttonId);
+    loadDefaultButtonText(button, buttonId);
+  });
+});
+
+
+
+function retrieveButtonConfigurations() {
+  buttons.forEach((button) => {
+    const buttonId = button.getAttribute('id');
+    const savedButtonText = localStorage.getItem(buttonId);
     if (savedButtonText) {
       button.textContent = savedButtonText;
     } else {
@@ -57,40 +89,28 @@ function retrieveButtonConfigurations() {
   });
 }
 
-// Load default button text from default_key_config.json
 function loadDefaultButtonText(button, buttonId) {
-  var xhr = new XMLHttpRequest();
-  xhr.overrideMimeType('application/json');
-  xhr.open('GET', 'config/buttons/default_key_config.json', true);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      var defaultConfig = JSON.parse(xhr.responseText);
-      var defaultText = defaultConfig[buttonId];
+  fetch('config/buttons/default_key_config.json')
+    .then((response) => response.json())
+    .then((defaultConfig) => {
+      const defaultText = defaultConfig[buttonId];
       button.textContent = defaultText;
       localStorage.setItem(buttonId, defaultText);
-    }
-  };
-  xhr.send();
+    })
+    .catch((error) => {
+      console.error('Failed to load default button text:', error);
+    });
 }
 
-// Attach event listener to the reset button
-var resetButton = document.getElementById('keyBindingsReset');
-resetButton.addEventListener('click', function() {
-  // Clear saved button texts from localStorage and load defaults
-  buttons.forEach(function(button) {
-    var buttonId = button.getAttribute('id');
-    localStorage.removeItem(buttonId);
-    loadDefaultButtonText(button, buttonId);
-  });
-});
 
-// Load the default configuration on page load or retrieve saved configurations
-window.addEventListener('DOMContentLoaded', function() {
+
+window.addEventListener('DOMContentLoaded', () => {
   retrieveButtonConfigurations();
 });
 
-// Store the button IDs and their corresponding action triggers
-var buttonActions = {
+
+
+const buttonActions = {
   action1Btn: '#openPortBtn',
   action2Btn: '#clearPortBtn',
   action3Btn: '#pausePortBtn',
@@ -101,22 +121,16 @@ var buttonActions = {
   action8Btn: '#nav-keyBindings-tab'
 };
 
-$(document).on('keyup', function(event) {
-  var targetButtonId = null;
 
-  // Iterate through the buttonActions object to find a match
-  for (var buttonId in buttonActions) {
-    var button = document.getElementById(buttonId);
-    var buttonText = button.textContent.trim();
 
+document.addEventListener('keyup', (event) => {
+  for (const buttonId in buttonActions) {
+    const button = document.getElementById(buttonId);
+    const buttonText = button.textContent.trim();
     if (event.code === buttonText) {
-      targetButtonId = buttonId;
+      event.preventDefault();
+      $(buttonActions[buttonId]).trigger('click');
       break;
     }
-  }
-
-  if (targetButtonId) {
-    event.preventDefault();
-    $(buttonActions[targetButtonId]).trigger('click');
   }
 });
