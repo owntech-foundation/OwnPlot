@@ -9,6 +9,8 @@
  * @ Description:
  */
 
+let isFirstKeyupListenerActive = false;
+
 function openModal(buttonId) {
   const button = document.getElementById(buttonId);
   const buttonTextArray = [];
@@ -43,6 +45,8 @@ function openModal(buttonId) {
       : "red";
 
     document.removeEventListener('keyup', handleKeyup);
+    isFirstKeyupListenerActive = false;
+
   };
 
   document.addEventListener('keyup', handleKeyup);
@@ -55,6 +59,7 @@ buttons.forEach((button) => {
   button.addEventListener('click', () => {
     const buttonId = button.getAttribute('id');
     openModal(buttonId);
+    isFirstKeyupListenerActive = true;
   });
 });
 
@@ -124,13 +129,16 @@ const buttonActions = {
 
 
 document.addEventListener('keyup', (event) => {
-  for (const buttonId in buttonActions) {
-    const button = document.getElementById(buttonId);
-    const buttonText = button.textContent.trim();
-    if (event.code === buttonText) {
-      event.preventDefault();
-      $(buttonActions[buttonId]).trigger('click');
-      break;
+  event.preventDefault();
+  if (!isFirstKeyupListenerActive){
+    for (const buttonId in buttonActions) {
+      const button = document.getElementById(buttonId);
+      const buttonText = button.textContent.trim();
+      if (event.code === buttonText) {
+        //event.preventDefault();
+        $(buttonActions[buttonId]).trigger('click');
+        break;
+      }
     }
-  }
+  } 
 });
