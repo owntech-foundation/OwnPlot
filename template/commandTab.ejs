@@ -53,4 +53,23 @@
     <div class="input-group input-group-sm mb-3">
         <button type="button" class="btn btn-primary col-12 btn-sm" id="saveConfigButtonButton">Save the config</button>
     </div>
+
+    <div class="mb-3">
+        <a data-target="#commandHistoryDiv" class="collapseHead" id="commandHistory" role="button" aria-controls="commandHistoryDiv">
+            <span class="input-group-text" id="commandHistoryTitle">
+                <i class="fa-solid fa-eye"></i>&nbsp;<span style="font-weight:bolder">Command History</span>
+            </span>
+        </a>
+        <div class="collapse show" id="commandHistoryDiv">
+            <div class="card card-body">
+                <button type="button" aria-pressed="false" id="commandBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Toggle timestamp in command history" data-bs-toggle="tooltip" title="Toggle timestamp in command history">
+                    <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
+                </button>
+                <div id="terminalHistory"></div>
+            </div>
+        </div>
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <button type="button" class="btn btn-danger col-12 btn-sm" id="clearHistoryButton">Clear History</button>
+    </div>
 </div>

@@ -24,6 +24,8 @@ const saveConfigButton = $("#saveConfigButton");
 const saveConfigName = $("#saveConfigName");
 const saveConfigButtonButton = $("#saveConfigButtonButton");
 const deleteButtonButton= $("#deleteButtonButton");
+const terminalHistory = $("#terminalHistory");
+const MAX_TERMINAL_LINES=1000;
 const deleteConfigButton = $("#deleteConfigButton");
 
 
@@ -34,6 +36,7 @@ let commandButtons = [];
 let fileCommandButtons = [];
 let filesConfigButton = [];
 let deleteMode = false;
+let commandBtnTimestamp = $('#commandBtnTimestamp');
 
 $(() => {
     disableSend();
@@ -45,7 +48,14 @@ $(() => {
     });
 
     sendBtn.on('click', () => {
-        send(sendInput.val());
+        const commandConfig = commandButtons.find(button => button.command === sendInput.val());
+        if(commandConfig){
+            send(sendInput.val());
+            console.log(commandConfig);
+            appendToTerminal(sendInput.val() + " (" + commandConfig.text + ")");
+        }else{
+            appendToTerminal(sendInput.val() + " (" + 'unknown command' + ")");
+        }
         //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
     });
 
@@ -82,7 +92,21 @@ $(() => {
         updateCommandButtons(); 
     });
 
+    $("#clearHistoryButton").on("click", function() {
+        $("#terminalHistory").empty();
+    });
+
     updateCommandFilesList();
+
+    commandTimestampBtnEnable(commandBtnTimestamp); //default behaviour
+	commandBtnTimestamp.on('click', function(){
+		if(commandBtnTimestamp.attr('aria-pressed') === "true"){
+			//if it is enabled then disable it
+			commandTimestampBtnDisable(commandBtnTimestamp);
+		} else {
+			commandTimestampBtnEnable(commandBtnTimestamp);
+		}
+	});
 
     $("#buttonConfigSelect").change(function () {
         updateNewFieldVisibility();
@@ -290,6 +314,7 @@ function updateCommandButtons() {
             $("#commandButtonContainer").append(buttonHtml);
             $('#cmdBtn-' + index).on('click', function() { //check if port is opened
                 send(elem.command);
+                appendToTerminal(elem.command + " (" + elem.text + ")");
             });
         });
         $(".removeCommandButton").on("click", function(){
@@ -326,6 +351,45 @@ function disableSend() {
     sendInput.prop("disabled", true);
     sendBtn.prop("disabled", true);
     $(".commandButton").prop("disabled", true);
+}
+
+function appendToTerminal(command) {
+    const commandElement = $("<span></span>").text(command);
+    const timestampElement = $("<span></span>").text(commandTime());
+    const lineElement = $("<div></div>").append(timestampElement, commandElement);
+    terminalHistory.prepend(lineElement);
+
+    // Remove the oldest lines if the number of lines exceeds the limit
+    const commandElements = terminalHistory.children();
+    if (commandElements.length > MAX_TERMINAL_LINES) {
+        commandElements.slice(MAX_TERMINAL_LINES).remove();
+    }
+}
+
+function commandTimestampBtnEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+}
+
+function commandTimestampBtnDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
+}
+
+function commandTime() {
+	let timeStr = "";
+	if (commandBtnTimestamp.attr('aria-pressed') === "true") {
+		let dataTime = new Date(); //we get the time of the last data received
+		if(absTimeMode){
+			timeStr = dateToPreciseTimeString(dataTime);
+		} else { //relative time
+			timeStr = millisecondsElapsed(chartStartTime, dataTime);
+		}
+		timeStr+= " -> ";
+	}
+	return(timeStr);
 }
 
 function deleteConfig(configName) {
