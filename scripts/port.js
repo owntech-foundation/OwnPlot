@@ -9,7 +9,7 @@
  * @ Description:
  */
 
-let availableSerialPorts;
+let availableSerialPorts = [];
 let selectedPort;
 let isPortClosedMessageDisplayed;
 let isPortOpenMessageDisplayed;
@@ -59,6 +59,7 @@ $(function(){
 			if(port){
 				if(port.isOpen){
 					port.close();
+					console.log(selectedPort, "Port is closed");
 				}
 				console.log(selectedPort, "Port is open");
 			}
@@ -69,6 +70,7 @@ $(function(){
 			pauseBtn('#pausePortBtn');
 			$('#pausePortBtn').prop('disabled', true);
 			port.close();
+			console.log(selectedPort, "Port is closed")
 			closePortBtn(this);
 		}
 	});

@@ -110,7 +110,7 @@ function retrieveButtonConfigurations() {
 }
 
 function loadDefaultButtonText(button, buttonId) {
-  fetch('config/buttons/default_key_config.json')
+  fetch('config/keybindings/default_key_config.json')
     .then((response) => response.json())
     .then((defaultConfig) => {
       const defaultText = defaultConfig[buttonId];
