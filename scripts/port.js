@@ -59,9 +59,7 @@ $(function(){
 			if(port){
 				if(port.isOpen){
 					port.close();
-					console.log(selectedPort, "Port is closed");
 				}
-				console.log(selectedPort, "Port is open");
 			}
 			configSerialPlot.path = selectedPort;
 			openPort(configSerialPlot.baudRate);
@@ -70,7 +68,6 @@ $(function(){
 			pauseBtn('#pausePortBtn');
 			$('#pausePortBtn').prop('disabled', true);
 			port.close();
-			console.log(selectedPort, "Port is closed")
 			closePortBtn(this);
 		}
 	});

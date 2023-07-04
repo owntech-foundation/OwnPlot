@@ -53,9 +53,9 @@ let configSerialPlot = {
 //MOCK PORTS CREATION
 const { SerialPortMock } = require('serialport');
 
-const mockpath1 = 'Mock Port 1'
-const mockpath2 = 'Mock Port 2'
-const mockpath3 = 'Mock Port 3'
+const mockpath1 = 'Mock Port 1 : Sinus Signal'
+const mockpath2 = 'Mock Port 2 : Triangle Signal'
+const mockpath3 = 'Mock Port 3 : Square Signal'
 
 SerialPortMock.binding.createPort(mockpath1)
 SerialPortMock.binding.createPort(mockpath2)
@@ -182,14 +182,12 @@ $(()=>{
 async function checkPortsChanged() {
 	let portList = await Promise.all([SerialPort.list(), SerialPortMock.list()]) //portlist is a array of arrays
 	portList = portList.flat(); //portlist is now a simple array
-	//console.log(portList)
 	if (arraysEqual(availableSerialPorts, portList)) {
 		portHaveChanged = false;
 	}else {
 		availableSerialPorts = portList;
 		portHaveChanged = true;
 	}
-	//console.log(portHaveChanged);
 }
 
 //Everytime a port change, this code is executed
@@ -252,12 +250,10 @@ function openPort(baudRate=115200) {
 		});
 	}
 
-	console.log(configSerialPlot.path)
 	openPortRoutine();
-}
+};
 
 function openPortRoutine() {
-	console.log('openPortRoutine')
 	if (typeof port !== 'undefined')
 	{
 		port.open((err) => {
@@ -279,7 +275,20 @@ function openPortRoutine() {
 			flushChart(myChart);
 			chartStartTime = Date.now();
 			portIsOpen = true;
-			console.log('openPortRoutine open')
+
+			//Sinus Generator
+			if (port.path === mockpath1) {
+				mockSinusGenerator();
+			}
+			//Triangle Generator
+			if (port.path === mockpath2) {
+				mockTriangleGenerator();
+			}
+			//Square Generator
+			if (port.path === mockpath3) {
+				mockSquareGenerator();
+			}
+  
 		});
 
 		port.on('close', () => {
@@ -291,7 +300,16 @@ function openPortRoutine() {
 			disableSend();
 			listSerialPorts();
 			portIsOpen = false;
-			console.log('openPortRoutine close')
+
+			if (port.path === mockpath1) {
+				clearInterval(sinusInterval)
+			}
+			if (port.path === mockpath2) {
+				clearInterval(triangleInterval)
+			}
+			if (port.path === mockpath3) {
+				clearInterval(squareInterval)
+			}
 		});
 
 		port.on("data", (data) => {
@@ -422,4 +440,99 @@ function readBuf(buf, offset){
 				return buf[offset];
 		}
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// MOCK PORTS FUNCTIONS
+
+function mockSinusGenerator() {
+	const numSignals = 8; // Number of sinus signals
+	const interval = 100; // Interval in milliseconds
+	const frequency = 0.2; // Frequency in Hertz
+	const amplitude = 1; // Amplitude
+
+	const startTime = Date.now();
+
+	function mockSendSinusData() {
+		sinusInterval = setInterval(() => {
+			let signalValues = ""; // Initialize the string to store signal values
+			const elapsedTime = Date.now() - startTime;
+	
+			for (let i = 0; i < numSignals; i++) {
+				const phaseShift = (i * (2 * Math.PI)) / numSignals;
+				const value = amplitude*Math.sin( 2*Math.PI*frequency*(elapsedTime/1000) + phaseShift); // Calculate sinus signal value
+				signalValues += value.toFixed(3); // Append the value to the string
+	
+				if (i !== numSignals - 1) {
+					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
+				}
+			}
+	
+			const sinusBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
+			port.port.emitData(sinusBuffer); // Emit the buffer
+		}, interval);
+	}
+	mockSendSinusData();
+}
+
+function mockTriangleGenerator() {
+	const numSignals = 8; // Number of sinus signals
+	const interval = 100; // Interval in milliseconds
+	const frequency = 0.1; // Frequency in Hertz
+	const amplitude = 1; // Amplitude
+
+	const startTime = Date.now();
+
+	function mockSendTriangleData() {
+		triangleInterval = setInterval(() => {
+			let signalValues = ""; // Initialize the string to store signal values
+			const elapsedTime = Date.now() - startTime;
+	
+			for (let i = 0; i < numSignals; i++) {
+				const period = 1 / frequency;
+				const time = (elapsedTime / 1000) % period;
+				const phaseShift = i / numSignals;
+				const value = amplitude*2*Math.abs((2*time / period + phaseShift) - Math.floor((2*time / period + phaseShift) + 1 / 2)); // Calculate triangle signal value
+				signalValues += value.toFixed(3); // Append the value to the string
+	
+				if (i !== numSignals - 1) {
+					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
+				}
+			}
+	
+			const triangleBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
+			port.port.emitData(triangleBuffer); // Emit the buffer
+		}, interval);
+	}
+	mockSendTriangleData();
+}
+
+function mockSquareGenerator() {
+	const numSignals = 8; // Number of sinus signals
+	const interval = 100; // Interval in milliseconds
+	const frequency = 0.2; // Frequency in Hertz
+	const amplitude = 1; // Amplitude
+
+	const startTime = Date.now();
+
+	function mockSendSquareData() {
+		squareInterval = setInterval(() => {
+			let signalValues = ""; // Initialize the string to store signal values
+			const elapsedTime = Date.now() - startTime;
+	
+			for (let i = 0; i < numSignals; i++) {
+				const phaseShift = (i * (2 * Math.PI)) / numSignals;
+				const value = amplitude * Math.sign(Math.sin(2 * Math.PI * frequency * (elapsedTime / 1000) + phaseShift)); // Calculate sinus signal value
+				signalValues += value.toFixed(3); // Append the value to the string
+	
+				if (i !== numSignals - 1) {
+					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
+				}
+			}
+	
+			const squareBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
+			port.port.emitData(squareBuffer); // Emit the buffer
+		}, interval);
+	}
+	mockSendSquareData();
 }
