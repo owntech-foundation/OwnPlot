@@ -56,6 +56,56 @@
 </div>
 
 <div class="mb-3">
+    <a data-target="#interpolationConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="interpolationConfigDiv">
+        <span class="input-group-text pointer" id="interpolationConfigTitle">
+            <i class="fa-solid fa-bezier-curve"></i><span style="font-weight:bolder">&nbsp;Interpolation mode</span>
+        </span>
+    </a>
+    <div class="collapse show mb-2" id="interpolationConfigDiv">
+        <div class="card card-body">
+            <div class="row p-0 m-0">
+                <button type="button" aria-pressed="false" id="standardInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
+                    <i class="fa-solid fa-1"></i>
+                    <label class="nonBreakable">
+                        &nbsp;Standard
+                    </label>
+                </button>
+                <div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+                <button type="button" aria-pressed="false" id="monotoneInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
+                    <i class="fa-solid fa-2"></i>
+                    <label class="nonBreakable">
+                        &nbsp;Monotone
+                    </label>
+                </button>
+                <button type="button" aria-pressed="false" id="nearestInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
+                    <i class="fa-solid fa-3"></i>
+                    <label class="nonBreakable">
+                        &nbsp;Nearest
+                    </label>
+                </button>
+                <div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+                <button type="button" aria-pressed="false" id="linearInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
+                    <i class="fa-solid fa-4"></i>
+                    <label class="nonBreakable">
+                        &nbsp;Linear
+                    </label>
+                </button>
+                <button type="button" aria-pressed="false" id="stepInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
+                    <i class="fa-solid fa-5"></i>
+                    <label class="nonBreakable">
+                        &nbsp;Step
+                    </label>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-3">
     <a data-target="#scaleConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="scaleConfigDiv">
         <span class="input-group-text pointer" id="scaleConfigTitle">
             <i class="fa-solid fa-arrow-trend-up"></i><span style="font-weight:bolder">&nbsp;Axis Configuration</span>

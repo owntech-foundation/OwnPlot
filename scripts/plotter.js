@@ -74,10 +74,44 @@ $(() => {
 	if (appChartEnabled = 1){
 		initColorSchemeSelect();
 		initChart();
-		myChart.data.datasets.forEach(dataset => {
-			myChart.data.datasets[dataset.index].cubicInterpolationMode = 'monotone';
-			myChart.data.datasets[dataset.index].tension = 0.4;
-		})
+
+		$('#standardInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'standard';
+				myChart.data.datasets[dataset.index].tension = 0.4;
+				myChart.data.datasets[dataset.index].stepped = 0;
+			})
+		});
+		$('#monotoneInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'monotone';
+				myChart.data.datasets[dataset.index].tension = 0.4;
+				myChart.data.datasets[dataset.index].stepped = 0;
+			})
+		});
+		$('#nearestInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'nearest';
+				myChart.data.datasets[dataset.index].tension = 0.4;
+				myChart.data.datasets[dataset.index].stepped = 0;
+			})
+		});
+		$('#linearInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'linear';
+				myChart.data.datasets[dataset.index].tension = 0.4;
+				myChart.data.datasets[dataset.index].stepped = 0;
+			})
+		});
+		$('#stepInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'standard';
+				myChart.data.datasets[dataset.index].tension = 0.4;
+				myChart.data.datasets[dataset.index].stepped = 'before';
+			})
+		});
+		
+
 		nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 		nbChannelsInput.attr("max", NB_MAX_DATASETS);
 		nbChannelsInput.on('change', updateNbChannels);
