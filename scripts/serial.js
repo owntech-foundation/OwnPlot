@@ -300,7 +300,6 @@ function openPortRoutine() {
 			//not available in this version: printDebugTerminal("-- Connection closed on port " + port.path + " --");
 			closePortBtn($('#openPortBtn'));
 			disableSend();
-			listSerialPorts();
 			portIsOpen = false;
 
 			if (port.path === mockpath1) {
