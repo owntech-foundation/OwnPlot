@@ -9,7 +9,7 @@
  * @ Description:
  */
 
-let availableSerialPorts;
+let availableSerialPorts = [];
 let selectedPort;
 let isPortClosedMessageDisplayed;
 let isPortOpenMessageDisplayed;
@@ -22,6 +22,10 @@ $(function(){
 		selectedPort = $(this).children("option:selected").val();
 		if(availableSerialPorts.length > 0 && selectedPort != "default"){
 			if(selectedPort != configSerialPlot.path){
+				if (portIsOpen) {
+					port.close(); // solves plotting problem but generates new interface problem
+					selectedPort = $(this).children("option:selected").val();
+				}
 				closePortBtn($('#openPortBtn'));
 				//pause & clear btn are unclickable while port is closed
 				pauseBtn($('#pausePortBtn'));
@@ -60,7 +64,6 @@ $(function(){
 				if(port.isOpen){
 					port.close();
 				}
-				console.log(selectedPort, "Port is open");
 			}
 			configSerialPlot.path = selectedPort;
 			openPort(configSerialPlot.baudRate);
