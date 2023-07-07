@@ -38,9 +38,19 @@ let filesConfigButton = [];
 let deleteMode = false;
 let commandBtnTimestamp = $('#commandBtnTimestamp');
 
+let autoSendBtn = $('#autoSendBtn');
+let autoSendPeriod = $('#autoSendPeriod');
+let autoSendValue = 1000;
+
 $(() => {
     disableSend();
     updateCommandButtons();
+
+    autoSendPeriod.on("input", function(){
+        if(autoSendPeriod.val().length > 1){
+            autoSendValue = parseInt(autoSendPeriod.val());
+        }
+	})
 
     enterKeyupHandler(sendInput, ()=>{
         send(sendInput.val());
@@ -48,15 +58,29 @@ $(() => {
     });
 
     sendBtn.on('click', () => {
-        const commandConfig = commandButtons.find(button => button.command === sendInput.val());
-        if(commandConfig){
-            send(sendInput.val());
-            console.log(commandConfig);
-            appendToTerminal(sendInput.val() + " (" + commandConfig.text + ")");
-        }else{
-            appendToTerminal(sendInput.val() + " (" + 'unknown command' + ")");
+        if (autoSendBtn.attr('aria-pressed') === "true") {
+            autoSendIntervalId = setInterval(() => {
+                const commandConfig = commandButtons.find(button => button.command === sendInput.val());
+                if(commandConfig){
+                    send(sendInput.val());
+                    console.log(commandConfig);
+                    appendToTerminal(sendInput.val() + " (" + commandConfig.text + ")");
+                }else{
+                    appendToTerminal(sendInput.val() + " (" + 'unknown command' + ")");
+                }
+            }, autoSendValue);
+        } else {
+            const commandConfig = commandButtons.find(button => button.command === sendInput.val());
+            if(commandConfig){
+                send(sendInput.val());
+                console.log(commandConfig);
+                appendToTerminal(sendInput.val() + " (" + commandConfig.text + ")");
+            }else{
+                appendToTerminal(sendInput.val() + " (" + 'unknown command' + ")");
+            }
+            //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
         }
-        //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
+
     });
 
     enterKeyupHandler(addCommandName, addCommandSubmitHandler);
@@ -105,6 +129,16 @@ $(() => {
 			commandTimestampBtnDisable(commandBtnTimestamp);
 		} else {
 			commandTimestampBtnEnable(commandBtnTimestamp);
+		}
+	});
+
+    autoSendBtnDisable(autoSendBtn); //default behaviour
+	autoSendBtn.on('click', function(){
+		if(autoSendBtn.attr('aria-pressed') === "true"){
+			//if it is enabled then disable it
+			autoSendBtnDisable(autoSendBtn);
+		} else {
+			autoSendBtnEnable(autoSendBtn);
 		}
 	});
 
@@ -407,4 +441,17 @@ function deleteConfig(configName) {
         buttonConfigSelect.val("new");
       }
     });
+}
+
+function autoSendBtnEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+}
+
+function autoSendBtnDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
+    clearInterval(autoSendIntervalId);
 }

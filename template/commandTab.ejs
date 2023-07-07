@@ -11,6 +11,13 @@
 
 <!--This tab div allows the auto scroll to work fine when showing the tab-->
 <div>
+    <div class="input-group input-group-sm mb-3" data-tooltip="Toggle auto-send mode (period in ms)" data-bs-toggle="tooltip" title="Toggle auto-send mode (period in ms)">
+        <button type="button" id="autoSendBtn" class="btn btn-primary col-4">
+            <i class="fa-solid fa-stopwatch"></i>&nbsp;Auto-send (ms)
+        </button>
+        <input type="number" id="autoSendPeriod" name="autoSendPeriodInput" class="form-control" placeholder="1000 (default)" maxlength=9 aria-describedby="basic-addon1">
+    </div>
+
     <div class="input-group input-group-sm mb-3" data-tooltip="Send a command" data-bs-toggle="tooltip" title="Send a command">
         <button type="button" id="sendBtn" class="btn btn-primary col-4">Send</button>
         <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">

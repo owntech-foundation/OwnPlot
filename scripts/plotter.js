@@ -115,12 +115,13 @@ $(() => {
 		nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
 		nbChannelsInput.attr("max", NB_MAX_DATASETS);
 		nbChannelsInput.on('change', updateNbChannels);
-		enterKeyupHandler(nbChannelsInput, updateNbChannels);
+		//enterKeyupHandler(nbChannelsInput, updateNbChannels);
 	}
 });
 
 function updateNbChannels(){
 	let nbChannels = nbChannelsInput.val();
+	console.log(nbChannels)
 	while(numberOfDatasets < nbChannels && numberOfDatasets < NB_MAX_DATASETS){
 		addDataset();
 	}
