@@ -212,16 +212,7 @@ function listSerialPorts(){
 		});
 		$('#AvailablePorts').html(lpHTML);
 
-		// Add change event listener to the port selection dropdown
-		$('#AvailablePorts').on('change', function() {
-			const selectedPath = $(this).val();
-			if (selectedPath !== 'default') {
-			  // Close the other two mock ports if they are open
-			  if (port && port.isOpen && port.path !== selectedPath) {
-				port.close();
-			  }	  
-			}
-		});
+
 	}
 }
 

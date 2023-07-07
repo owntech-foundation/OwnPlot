@@ -22,6 +22,9 @@ $(function(){
 		selectedPort = $(this).children("option:selected").val();
 		if(availableSerialPorts.length > 0 && selectedPort != "default"){
 			if(selectedPort != configSerialPlot.path){
+				if (portIsOpen) { //
+					port.close(); // solves plotting problem but generates new interface problem
+				} //
 				closePortBtn($('#openPortBtn'));
 				//pause & clear btn are unclickable while port is closed
 				pauseBtn($('#pausePortBtn'));
