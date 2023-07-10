@@ -41,6 +41,7 @@ let commandBtnTimestamp = $('#commandBtnTimestamp');
 let autoSendBtn = $('#autoSendBtn');
 let autoSendPeriod = $('#autoSendPeriod');
 let autoSendValue = 1000;
+let autoSendIntervalId = null;
 
 $(() => {
     disableSend();
@@ -59,6 +60,10 @@ $(() => {
 
     sendBtn.on('click', () => {
         if (autoSendBtn.attr('aria-pressed') === "true") {
+            if (autoSendIntervalId) {
+                clearInterval(autoSendIntervalId);
+                autoSendIntervalId = null;
+            }
             autoSendIntervalId = setInterval(() => {
                 const commandConfig = commandButtons.find(button => button.command === sendInput.val());
                 if(commandConfig){
@@ -136,6 +141,7 @@ $(() => {
 	autoSendBtn.on('click', function(){
 		if(autoSendBtn.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
+            clearInterval(autoSendIntervalId);
 			autoSendBtnDisable(autoSendBtn);
 		} else {
 			autoSendBtnEnable(autoSendBtn);
@@ -453,5 +459,4 @@ function autoSendBtnDisable(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-warning');
-    clearInterval(autoSendIntervalId);
 }
