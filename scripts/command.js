@@ -353,6 +353,7 @@ function updateCommandButtons() {
             buttonHtml += '</div>';
             $("#commandButtonContainer").append(buttonHtml);
             $('#cmdBtn-' + index).on('click', function() { //check if port is opened
+                handleCommandButtonClick(elem);
                 send(elem.command);
                 appendToTerminal(elem.command + " (" + elem.text + ")");
             });
@@ -459,4 +460,17 @@ function autoSendBtnDisable(elem) {
 	elem.attr('aria-pressed', 'false');
 	elem.removeClass('btn-success');
 	elem.addClass('btn-warning');
+}
+
+function handleCommandButtonClick(commandConfig) {
+    if (autoSendBtn.attr('aria-pressed') === "true") {
+        if (autoSendIntervalId) {
+            clearInterval(autoSendIntervalId);
+            autoSendIntervalId = null;
+        }
+        autoSendIntervalId = setInterval(() => {
+            send(commandConfig.command);
+            appendToTerminal(commandConfig.command + " (" + commandConfig.text + ")");
+        }, autoSendValue);
+    }
 }
