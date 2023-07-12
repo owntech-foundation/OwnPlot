@@ -47,13 +47,33 @@
                 <button type="button" aria-pressed="false" id="terminalBtnDataMode" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Select numeral system" data-bs-toggle="tooltip" title="Select numeral system">
                     <i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal
                 </button>
-                <button type="button" aria-pressed="false" id="terminalBtnFormatted" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Select data format" data-bs-toggle="tooltip" title="Select data format">
+                <button type="button" aria-pressed="false" id="terminalBtnFormatted" class="btn btn-primary btn-sm col-5" data-tooltip="Select data format" data-bs-toggle="tooltip" title="Select data format">
                     <i class="fa-solid fa-droplet"></i></i>&nbsp;Formatted
                 </button>
             </div>
         </div>
     </div>
 </div>
+
+<!--Tooltips settings-->
+<div class="mb-3">
+    <a data-target="#tooltipSettingsDiv" class="collapseHead" role="button" id="tooltipSettingsHref" aria-expanded="true" aria-controls="tooltipSettingsDiv">
+        <span class="input-group-text" id="tooltipSettingsTitle">
+            <i class="fa-solid fa-circle-info"></i>&nbsp;<span style="font-weight:bolder">Tooltips</span>
+        </span>
+    </a>
+    <div class="collapse show" id="tooltipSettingsDiv">
+        <div class="card card-body">
+            <button type="button" class="btn btn-sm btn-warning col-12" id="tooltipHiddenBtn" data-tooltip="Toggle tooltips" data-bs-toggle="tooltip" title="Toggle tooltips">
+                <i class="fa-solid fa-eye-slash"></i>&nbsp;Tooltips Deactivated
+            </button>
+            <button type="button" class="btn btn-sm btn-success col-12" id="tooltipShownBtn" data-tooltip="Toggle tooltips" data-bs-toggle="tooltip" title="Toggle tooltips">
+                <i class="fa-solid fa-eye"></i>&nbsp;Tooltips Activated
+            </button>
+        </div>
+    </div>
+</div>
+
 
 
 <!--GUI_About_tab-->
@@ -77,10 +97,4 @@
             </a>
         </div>
     </div>
-</div> 
-
-<!--Tooltips activation checkbox-->
-<div class="form-check">
-    <input class="form-check-input" type="checkbox" id="toggleTooltips" checked>
-    <label class="form-check-label" for="toggleTooltips">Toggle Tooltips</label>
 </div>
