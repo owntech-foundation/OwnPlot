@@ -74,24 +74,9 @@ $(() => {
 	if (appChartEnabled = 1){
 		initColorSchemeSelect();
 		initChart();
-
-		$('#standardInterpolationBtn').on('click', function(){
-			myChart.data.datasets.forEach(dataset => {
-				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'standard';
-				myChart.data.datasets[dataset.index].tension = 0.4;
-				myChart.data.datasets[dataset.index].stepped = 0;
-			})
-		});
 		$('#monotoneInterpolationBtn').on('click', function(){
 			myChart.data.datasets.forEach(dataset => {
 				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'monotone';
-				myChart.data.datasets[dataset.index].tension = 0.4;
-				myChart.data.datasets[dataset.index].stepped = 0;
-			})
-		});
-		$('#nearestInterpolationBtn').on('click', function(){
-			myChart.data.datasets.forEach(dataset => {
-				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'nearest';
 				myChart.data.datasets[dataset.index].tension = 0.4;
 				myChart.data.datasets[dataset.index].stepped = 0;
 			})
