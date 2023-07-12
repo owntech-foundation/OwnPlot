@@ -38,25 +38,40 @@ let filesConfigButton = [];
 let deleteMode = false;
 let commandBtnTimestamp = $('#commandBtnTimestamp');
 
+let autoSendBtn = $('#autoSendBtn');
+let autoSendPeriod = $('#autoSendPeriod');
+let autoSendValue = 1000;
+let autoSendIntervalId = null;
+
 $(() => {
     disableSend();
     updateCommandButtons();
 
-    enterKeyupHandler(sendInput, ()=>{
+    autoSendPeriod.on("input", function() {
+        if(autoSendPeriod.val().length > 1){
+            autoSendValue = parseInt(autoSendPeriod.val());
+        }
+	})
+
+    enterKeyupHandler(sendInput, () => {
         send(sendInput.val());
         //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
     });
 
     sendBtn.on('click', () => {
-        const commandConfig = commandButtons.find(button => button.command === sendInput.val());
-        if(commandConfig){
-            send(sendInput.val());
-            console.log(commandConfig);
-            appendToTerminal(sendInput.val() + " (" + commandConfig.text + ")");
-        }else{
-            appendToTerminal(sendInput.val() + " (" + 'unknown command' + ")");
+        if (autoSendBtn.attr('aria-pressed') === "true") {
+            if (autoSendIntervalId) {
+                clearInterval(autoSendIntervalId);
+                autoSendIntervalId = null;
+            }
+            autoSendIntervalId = setInterval(() => {
+                handleSend();
+            }, autoSendValue);
+        } else {
+            handleSend();
+            //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
         }
-        //not available in this version: printDebugTerminal('sent---> ' + sendInput.val());
+
     });
 
     enterKeyupHandler(addCommandName, addCommandSubmitHandler);
@@ -99,7 +114,7 @@ $(() => {
     updateCommandFilesList();
 
     commandTimestampBtnEnable(commandBtnTimestamp); //default behaviour
-	commandBtnTimestamp.on('click', function(){
+	commandBtnTimestamp.on('click', function() {
 		if(commandBtnTimestamp.attr('aria-pressed') === "true"){
 			//if it is enabled then disable it
 			commandTimestampBtnDisable(commandBtnTimestamp);
@@ -108,7 +123,18 @@ $(() => {
 		}
 	});
 
-    $("#buttonConfigSelect").change(function () {
+    autoSendBtnDisable(autoSendBtn); //default behaviour
+	autoSendBtn.on('click', function() {
+		if(autoSendBtn.attr('aria-pressed') === "true"){
+			//if it is enabled then disable it
+            clearInterval(autoSendIntervalId);
+			autoSendBtnDisable(autoSendBtn);
+		} else {
+			autoSendBtnEnable(autoSendBtn);
+		}
+	});
+
+    $("#buttonConfigSelect").change(function() {
         updateNewFieldVisibility();
         const selectedConfig = $("#buttonConfigSelect option:selected").val();
         if (selectedConfig === "new") {
@@ -128,8 +154,8 @@ $(() => {
     });    
 });
 
-function addCommandSubmitHandler(){
-    let button={  
+function addCommandSubmitHandler() {
+    let button = {  
         //color: addCommandColor.val(),
         text: addCommandName.val(),
         command: addCommandData.val(),
@@ -145,9 +171,9 @@ function addCommandSubmitHandler(){
     // if(brightness > 450){
     //     button.isClear=true;
     // }
-    if(button.text == ""){
+    if (button.text == "") {
         addCommandName[0].select();
-    } else if(button.command == ""){
+    } else if (button.command == "") {
         addCommandData[0].select();
     } else {
         addCommandButton(button);
@@ -223,14 +249,12 @@ function updateNewFieldVisibility() {
 
 function updateCommandFilesList(selectedItem) {
     let configSelecthtml = "";
-
     let itemNewSelected = "";
     if (selectedItem == "") {
         itemNewSelected = "selected";
     }
 
     configSelecthtml += "<option " + itemNewSelected + " value='new'>-- new --</option>";
-
 
     fs.readdir(configButtonPath, (err, files) => {
         if (err)
@@ -313,6 +337,7 @@ function updateCommandButtons() {
             buttonHtml += '</div>';
             $("#commandButtonContainer").append(buttonHtml);
             $('#cmdBtn-' + index).on('click', function() { //check if port is opened
+                handleCommandButtonClick(elem);
                 send(elem.command);
                 appendToTerminal(elem.command + " (" + elem.text + ")");
             });
@@ -333,7 +358,7 @@ function updateCommandButtons() {
     }
 }
 
-async function send(stringToSend){
+async function send(stringToSend) {
     await port.write(encoder.encode(stringToSend), (err) => {
         // if (err) {
         //     printDebugTerminal(err);
@@ -407,4 +432,39 @@ function deleteConfig(configName) {
         buttonConfigSelect.val("new");
       }
     });
+}
+
+function autoSendBtnEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+}
+
+function autoSendBtnDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
+}
+
+function handleCommandButtonClick(commandConfig) {
+    if (autoSendBtn.attr('aria-pressed') === "true") {
+        if (autoSendIntervalId) {
+            clearInterval(autoSendIntervalId);
+            autoSendIntervalId = null;
+        }
+        autoSendIntervalId = setInterval(() => {
+            send(commandConfig.command);
+            appendToTerminal(commandConfig.command + " (" + commandConfig.text + ")");
+        }, autoSendValue);
+    }
+}
+
+function handleSend() {
+    const commandConfig = commandButtons.find(button => button.command === sendInput.val());
+    if(commandConfig){
+        send(sendInput.val());
+        appendToTerminal(sendInput.val() + " (" + commandConfig.text + ")");
+    }else{
+        appendToTerminal(sendInput.val() + " (" + 'unknown command' + ")");
+    }
 }
