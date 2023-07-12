@@ -11,15 +11,15 @@
 
 <!--This tab div allows the auto scroll to work fine when showing the tab-->
 <div>
-    <div class="input-group input-group-sm mb-3" data-tooltip="Toggle auto-send mode (period in ms)" data-bs-toggle="tooltip" title="Toggle auto-send mode (period in ms)">
-        <button type="button" id="autoSendBtn" class="btn btn-warning col-4">
+    <div class="input-group input-group-sm mb-3">
+        <button type="button" id="autoSendBtn" class="btn btn-warning col-4" data-bs-toggle="tooltip" title="Toggle auto-send mode (period in ms)">
             <i class="fa-solid fa-stopwatch"></i>&nbsp;Auto-send (ms)
         </button>
         <input type="number" id="autoSendPeriod" name="autoSendPeriodInput" class="form-control" placeholder="1000 (default)" maxlength=9 aria-describedby="basic-addon1">
     </div>
 
-    <div class="input-group input-group-sm mb-3" data-tooltip="Send a command" data-bs-toggle="tooltip" title="Send a command">
-        <button type="button" id="sendBtn" class="btn btn-primary col-4">Send</button>
+    <div class="input-group input-group-sm mb-3">
+        <button type="button" id="sendBtn" class="btn btn-primary col-4" data-bs-toggle="tooltip" title="Send a command">Send</button>
         <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">
     </div>
 
@@ -33,8 +33,8 @@
         </a>
         <div class="collapse show" id="configDiv">
             <div class="card card-body">
-                <div class="input-group input-group-sm mb-3" data-tooltip="Select configuration" data-bs-toggle="tooltip" title="Select configuration">
-                    <label class="input-group-text col-4" for="buttonConfigSelect">Configuration</label>
+                <div class="input-group input-group-sm mb-3">
+                    <label class="input-group-text col-4" for="buttonConfigSelect" data-bs-toggle="tooltip" title="Select configuration">Configuration</label>
                     <select class="form-select" id="buttonConfigSelect">
                         <option selected value="new">-- new --</option>
                         <!-- <option value="1">One</option>
@@ -43,8 +43,8 @@
                     </select>
                 </div>
         
-                <div class="input-group input-group-sm mb-3" id="saveConfigInputGroup" data-tooltip="Enter a new configuration" data-bs-toggle="tooltip" title="Enter a new configuration">
-                    <button class="btn btn-primary col-4" type="button" id="saveConfigButton">New config</button>
+                <div class="input-group input-group-sm mb-3" id="saveConfigInputGroup">
+                    <button class="btn btn-primary col-4" type="button" id="saveConfigButton" data-bs-toggle="tooltip" title="Enter a new configuration">New config</button>
                     <input type="text" class="form-control" id="saveConfigName" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                 </div>
         
@@ -54,8 +54,8 @@
         
                 <div class="input-group input-group-sm mb-3" id="addCommandDiv">
                     <button type="button" id="addCommandBtn" class="btn btn-primary col-4">Add command</button>
-                    <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="" data-tooltip="Enter command name" data-bs-toggle="tooltip" title="Enter command name">
-                    <input type="text" class="form-control form-control-sm col-4" id="addCommandData" placeholder="Data to send" value="" data-tooltip="Enter command data" data-bs-toggle="tooltip" title="Enter command data">
+                    <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="" data-bs-toggle="tooltip" title="Enter command name">
+                    <input type="text" class="form-control form-control-sm col-4" id="addCommandData" placeholder="Data to send" value="" data-bs-toggle="tooltip" title="Enter command data">
                     <!-- remove the choice of the color for now
                     <input type="color" class="form-control form-control-sm" id="addCommandColor" value="#fffffe">        
                     -->
@@ -84,7 +84,7 @@
         <div class="collapse show" id="commandHistoryDiv">
             <div class="card card-body">
                 <div class="row m-0 p-0">
-                    <button type="button" aria-pressed="false" id="commandBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Toggle timestamp in command history" data-bs-toggle="tooltip" title="Toggle timestamp in command history">
+                    <button type="button" aria-pressed="false" id="commandBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-bs-toggle="tooltip" title="Toggle timestamp in command history">
                         <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
                     </button>
                     <div class="col-2 px-0">

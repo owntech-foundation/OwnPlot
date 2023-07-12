@@ -9,8 +9,8 @@
  * @ Description:
  -->
 
-<div class="input-group input-group-sm mb-3" id="nbChannelDiv" data-tooltip="Number of data channels (max. 10)" data-bs-toggle="tooltip" title="Number of data channels (max. 10)">
-    <label class="input-group-text col-5">
+<div class="input-group input-group-sm mb-3" id="nbChannelDiv">
+    <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Number of data channels plotted in chart (max. 10)">
         <span style="font-weight:bolder">#</span>&nbsp;Channels
     </label>
     <input type="number" id="nbChannels" class="form-control" value="3" min="0" max="10">
@@ -19,15 +19,15 @@
 <div class="input-group input-group-sm mb-3">
 	<label class="input-group-text col-5" for="inputGroupSelect01"><i class="fa-solid fa-filter"></i>&nbsp;Format</label>
 	<select class="form-select" id="dataFormat" name="dataFormat">
-        <option value="ascii" selected data-bs-toggle="tooltip" data-bs-placement="right" title="Data is sent in the form of ASCII text">ASCII</option>
-        <option value="binary" data-bs-toggle="tooltip" data-bs-placement="right" title="Data is sent as consecutive samples in binary form">binary</option>
+        <option value="ascii" selected data-bs-toggle="tooltip" title="Data is sent in the form of ASCII text">ASCII</option>
+        <option value="binary" data-bs-toggle="tooltip" title="Data is sent as consecutive samples in binary form">binary</option>
         <!-- <option value="custom">custom</option> -->
     </select>
 </div>
 
 <div id="asciiForm">
-    <div class="input-group input-group-sm mb-3" data-tooltip="Enter custom separator character" data-bs-toggle="tooltip" title="Enter custom separator character">
-        <label class="input-group-text col-5" >
+    <div class="input-group input-group-sm mb-3">
+        <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter separator character">
             <i class="fa-solid fa-scissors"></i>&nbsp;Separator
         </label>
         <input type="text" id="separator" name="separator" class="form-control" maxlength=1 aria-describedby="basic-addon1">
@@ -63,29 +63,29 @@
 </div>
 
 <div id="binaryForm">
-    <div class="input-group input-group-sm mb-3" data-tooltip="Select binary form" data-bs-toggle="tooltip" title="Select binary form">
-        <label class="input-group-text col-5" for="inputGroupSelect01">Type</label>
+    <div class="input-group input-group-sm mb-3">
+        <label class="input-group-text col-5" for="inputGroupSelect01" data-bs-toggle="tooltip" title="Select binary type">Type</label>
         <select class="form-select" id="nbType" name="nbType">
-            <option value="uint8" selected data-bs-toggle="tooltip" data-bs-placement="right" title="unsigned 1 byte integer">uint8</option>
-            <option value="uint16" data-bs-toggle="tooltip" data-bs-placement="right" title="unsigned 2 bytes integer">uint16</option>
-            <option value="uint32" data-bs-toggle="tooltip" data-bs-placement="right" title="unsigned 4 bytes integer">uint32</option>
-            <option value="int8" data-bs-toggle="tooltip" data-bs-placement="right" title="signed 1 byte integer">int8</option>
-            <option value="int16" data-bs-toggle="tooltip" data-bs-placement="right" title="signed 2 bytes integer">int16</option>
-            <option value="int32" data-bs-toggle="tooltip" data-bs-placement="right" title="signed 4 bytes integer">int32</option>
-            <option value="float" data-bs-toggle="tooltip" data-bs-placement="right" title="4 bytes floating point number">float</option>
-            <option value="double" data-bs-toggle="tooltip" data-bs-placement="right" title="8 bytes double precision floating point number">double</option>
+            <option value="uint8" selected data-bs-toggle="tooltip" title="unsigned 1 byte integer">uint8</option>
+            <option value="uint16" data-bs-toggle="tooltip" title="unsigned 2 bytes integer">uint16</option>
+            <option value="uint32" data-bs-toggle="tooltip" title="unsigned 4 bytes integer">uint32</option>
+            <option value="int8" data-bs-toggle="tooltip" title="signed 1 byte integer">int8</option>
+            <option value="int16" data-bs-toggle="tooltip" title="signed 2 bytes integer">int16</option>
+            <option value="int32" data-bs-toggle="tooltip" title="signed 4 bytes integer">int32</option>
+            <option value="float" data-bs-toggle="tooltip" title="4 bytes floating point number">float</option>
+            <option value="double" data-bs-toggle="tooltip" title="8 bytes double precision floating point number">double</option>
         </select>
     </div>
     
-    <div class="input-group input-group-sm mb-3" data-tooltip="Select endianness" data-bs-toggle="tooltip" title="Select endianness">
-        <label class="input-group-text col-5" for="inputGroupSelect01">Endianness</label>
+    <div class="input-group input-group-sm mb-3">
+        <label class="input-group-text col-5" for="inputGroupSelect01" data-bs-toggle="tooltip" title="Select endianness">Endianness</label>
         <select class="form-select" id="endianness" name="endianness">
-            <option value="LE" data-bs-toggle="tooltip" data-bs-placement="right" title="Least significant byte first">Little Endian</option>
-            <option value="BE" data-bs-toggle="tooltip" data-bs-placement="right" title="Most significant byte first">Big Endian</option>
+            <option value="LE" data-bs-toggle="tooltip" title="Least significant byte first">Little Endian</option>
+            <option value="BE" data-bs-toggle="tooltip" title="Most significant byte first">Big Endian</option>
         </select>
     </div>
 
-    <button type="button" id="skipByteBtn" class="btn btn-primary col-12" data-tooltip="Skip 1 byte while reading to correct the alignment" data-bs-toggle="tooltip" title="Skip 1 byte while reading to correct the alignment"><i class="fa-solid fa-trash-can"></i>&nbsp;Skip Byte</button>
+    <button type="button" id="skipByteBtn" class="btn btn-primary col-12" data-bs-toggle="tooltip" title="Skip 1 byte while reading to correct the alignment"><i class="fa-solid fa-trash-can"></i>&nbsp;Skip Byte</button>
 </div>
 
 <!-- TODO: implement custom mode
