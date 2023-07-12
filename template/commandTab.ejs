@@ -12,7 +12,7 @@
 <!--This tab div allows the auto scroll to work fine when showing the tab-->
 <div>
     <div class="input-group input-group-sm mb-3" data-tooltip="Toggle auto-send mode (period in ms)" data-bs-toggle="tooltip" title="Toggle auto-send mode (period in ms)">
-        <button type="button" id="autoSendBtn" class="btn btn-primary col-4">
+        <button type="button" id="autoSendBtn" class="btn btn-warning col-4">
             <i class="fa-solid fa-stopwatch"></i>&nbsp;Auto-send (ms)
         </button>
         <input type="number" id="autoSendPeriod" name="autoSendPeriodInput" class="form-control" placeholder="1000 (default)" maxlength=9 aria-describedby="basic-addon1">
@@ -34,7 +34,7 @@
         <div class="collapse show" id="configDiv">
             <div class="card card-body">
                 <div class="input-group input-group-sm mb-3" data-tooltip="Select configuration" data-bs-toggle="tooltip" title="Select configuration">
-                    <label class="input-group-text" for="buttonConfigSelect">Config</label>
+                    <label class="input-group-text col-4" for="buttonConfigSelect">Configuration</label>
                     <select class="form-select" id="buttonConfigSelect">
                         <option selected value="new">-- new --</option>
                         <!-- <option value="1">One</option>
@@ -44,7 +44,7 @@
                 </div>
         
                 <div class="input-group input-group-sm mb-3" id="saveConfigInputGroup" data-tooltip="Enter a new configuration" data-bs-toggle="tooltip" title="Enter a new configuration">
-                    <button class="btn btn-primary" type="button" id="saveConfigButton">New config</button>
+                    <button class="btn btn-primary col-4" type="button" id="saveConfigButton">New config</button>
                     <input type="text" class="form-control" id="saveConfigName" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                 </div>
         
@@ -66,7 +66,7 @@
                 <div class="input-group input-group-sm mb-3">
                     <button type="button" class="btn btn-danger col-12 btn-sm" id="deleteButtonButton">Delete Buttons</button>
                 </div>
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm">
                     <button type="button" class="btn btn-primary col-12 btn-sm" id="saveConfigButtonButton">Save the config</button>
                 </div>
             </div>
@@ -83,14 +83,19 @@
         </a>
         <div class="collapse show" id="commandHistoryDiv">
             <div class="card card-body">
-                <button type="button" aria-pressed="false" id="commandBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Toggle timestamp in command history" data-bs-toggle="tooltip" title="Toggle timestamp in command history">
-                    <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
-                </button>
+                <div class="row m-0 p-0">
+                    <button type="button" aria-pressed="false" id="commandBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Toggle timestamp in command history" data-bs-toggle="tooltip" title="Toggle timestamp in command history">
+                        <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
+                    </button>
+                    <div class="col-2 px-0">
+                        <!-- Padding -->
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm mb-3 col-5" id="clearHistoryButton">
+                        Clear History
+                    </button>
+                </div>
                 <div id="terminalHistory"></div>
             </div>
         </div>
-    </div>
-    <div class="input-group input-group-sm mb-3">
-        <button type="button" class="btn btn-danger col-12 btn-sm" id="clearHistoryButton">Clear History</button>
     </div>
 </div>
