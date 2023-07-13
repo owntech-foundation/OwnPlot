@@ -11,7 +11,7 @@
 
 let isFirstKeyupListenerActive = false;
 
-function openModal(buttonId) {
+function openKeyBindingsModal(buttonId) {
   const button = document.getElementById(buttonId);
   const buttonTextArray = [];
   const messageElement = document.getElementById('duplicateMessage');
@@ -22,7 +22,7 @@ function openModal(buttonId) {
     buttonTextArray.push(buttonText);
   }
 
-  const modal = document.getElementById('myModal');
+  const modal = document.getElementById('keyBindingsModal');
   modal.style.display = 'block';
 
   const handleKeyup = (event) => {    
@@ -58,7 +58,7 @@ const buttons = document.querySelectorAll('.key-binding-btn');
 buttons.forEach((button) => {
   button.addEventListener('click', () => {
     const buttonId = button.getAttribute('id');
-    openModal(buttonId);
+    openKeyBindingsModal(buttonId);
     isFirstKeyupListenerActive = true;
   });
 });
