@@ -56,10 +56,12 @@ const { SerialPortMock } = require('serialport');
 const mockpath1 = 'Mock Port 1 : Sinus Signal'
 const mockpath2 = 'Mock Port 2 : Triangle Signal'
 const mockpath3 = 'Mock Port 3 : Square Signal'
+const mockpath4 = 'Mock Port 4 : File Reader'
 
 SerialPortMock.binding.createPort(mockpath1)
 SerialPortMock.binding.createPort(mockpath2)
 SerialPortMock.binding.createPort(mockpath3)
+SerialPortMock.binding.createPort(mockpath4)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -290,6 +292,10 @@ function openPortRoutine() {
 			if (port.path === mockpath3) {
 				mockSquareGenerator();
 			}
+			//File Reader
+			if (port.path === mockpath4) {
+				mockFileReader();
+			}
   
 		});
 
@@ -302,14 +308,21 @@ function openPortRoutine() {
 			disableSend();
 			portIsOpen = false;
 
+			//Sinus Generator
 			if (port.path === mockpath1) {
-				clearInterval(sinusInterval)
+				clearInterval(sinusInterval);
 			}
+			//Triangle Generator
 			if (port.path === mockpath2) {
-				clearInterval(triangleInterval)
+				clearInterval(triangleInterval);
 			}
+			//Square Generator
 			if (port.path === mockpath3) {
-				clearInterval(squareInterval)
+				clearInterval(squareInterval);
+			}
+			//File Reader
+			if (port.path === mockpath4) {
+				clearInterval(fileReaderInterval);
 			}
 		});
 
@@ -468,8 +481,10 @@ function mockSinusGenerator() {
 					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
 				}
 			}
+			console.log("line :", signalValues)
 	
 			const sinusBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
+			console.log("buffer :", sinusBuffer)
 			port.port.emitData(sinusBuffer); // Emit the buffer
 		}, interval);
 	}
@@ -536,4 +551,33 @@ function mockSquareGenerator() {
 		}, interval);
 	}
 	mockSendSquareData();
+}
+
+function mockFileReader() {
+	const fs  = require('fs');
+	const interval = 100;
+	const filePath = 'scripts/test.csv';
+
+	const fileLines = fs.readFileSync(filePath, 'utf-8').split('\n');
+	let fileLineNumber = 0;
+
+	function mockReadFile() {
+		const fileReaderInterval = setInterval(() => {
+			if (fileLineNumber >= fileLines.length) {
+				clearInterval(fileReaderInterval);
+				return;
+			}
+			const line = fileLines[fileLineNumber];
+			const values = line.split(',').map(Number);
+			const data = values.slice(1);
+			console.log("values :", values)
+
+            const buffer = Buffer.from(data.join(':') + '\r\n');
+            port.port.emitData(buffer);
+			console.log("buffer :", buffer)
+
+            fileLineNumber++;
+		}, interval);
+	}
+	mockReadFile();
 }
