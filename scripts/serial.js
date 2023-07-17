@@ -33,6 +33,9 @@ const customBaudRateForm = $("#customBaudRateForm");
 //let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
+let fileSelectionBtn = $('#fileSelectionBtn');
+let selectedFile;
+let fileReaderInterval;
 
 let dataStructure = {
 	x: [],
@@ -99,6 +102,11 @@ $(()=>{
 	baudRateSelect.change(function() {
         updateCustomBaudRateVisibility();
     })
+
+	fileSelectionBtn.on('click', function() {
+        fileSelect();
+    })
+
 	listSerialPorts();
 	dataFormatField.on('change', function(){
 		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
@@ -293,7 +301,7 @@ function openPortRoutine() {
 				mockSquareGenerator();
 			}
 			//File Reader
-			if (port.path === mockpath4) {
+			if (port.path === mockpath4 && selectedFile.path !== undefined) {
 				mockFileReader();
 			}
   
@@ -481,10 +489,8 @@ function mockSinusGenerator() {
 					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
 				}
 			}
-			console.log("line :", signalValues)
 	
 			const sinusBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
-			console.log("buffer :", sinusBuffer)
 			port.port.emitData(sinusBuffer); // Emit the buffer
 		}, interval);
 	}
@@ -556,13 +562,13 @@ function mockSquareGenerator() {
 function mockFileReader() {
 	const fs  = require('fs');
 	const interval = 100;
-	const filePath = 'scripts/test.csv';
+	const filePath = selectedFile.path;
 
 	const fileLines = fs.readFileSync(filePath, 'utf-8').split('\n');
 	let fileLineNumber = 0;
 
 	function mockReadFile() {
-		const fileReaderInterval = setInterval(() => {
+		fileReaderInterval = setInterval(() => {
 			if (fileLineNumber >= fileLines.length) {
 				clearInterval(fileReaderInterval);
 				return;
@@ -570,14 +576,28 @@ function mockFileReader() {
 			const line = fileLines[fileLineNumber];
 			const values = line.split(',').map(Number);
 			const data = values.slice(1);
-			console.log("values :", values)
 
             const buffer = Buffer.from(data.join(':') + '\r\n');
             port.port.emitData(buffer);
-			console.log("buffer :", buffer)
 
             fileLineNumber++;
 		}, interval);
 	}
 	mockReadFile();
+}
+
+function fileSelect() {
+    let fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    fileInput.addEventListener('change', handleFileSelection);
+    document.body.appendChild(fileInput);
+    fileInput.click();
+}
+
+function handleFileSelection(event) {
+    selectedFile = event.target.files[0];
+
+    let selectedFileNameElement = document.getElementById('selectedFileName');
+    selectedFileNameElement.textContent = selectedFile.name;
 }
