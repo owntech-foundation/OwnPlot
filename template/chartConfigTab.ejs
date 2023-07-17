@@ -18,13 +18,13 @@
     <div class="collapse show mb-2" id="timeConfigDiv">
         <div class="card card-body">
             <div class="row p-0 m-0">
-                <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-tooltip="Toggle time representation" data-bs-toggle="tooltip" title="Toggle time representation">
+                <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-bs-toggle="tooltip" title="Change time representation">
                     <i class="fa-solid fa-stopwatch"></i>
                     <label class="nonBreakable">
                         &nbsp;Relative
                     </label>
                 </button>
-                <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-tooltip="Toggle time representation" data-bs-toggle="tooltip" title="Toggle time representation">
+                <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-bs-toggle="tooltip" title="Change time representation">
                     <i class="fa-solid fa-calendar-day"></i>
                     <label class="nonBreakable">
                         &nbsp;Absolute
@@ -33,7 +33,7 @@
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
-                <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5" data-tooltip="Reset time origin" data-bs-toggle="tooltip" title="Reset time origin">
+                <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5" data-bs-toggle="tooltip" title="Reset relative time origin">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <label class="nonBreakable">
                         &nbsp;Reset Time
@@ -41,14 +41,12 @@
                 </button>
             </div>
 
-            <div class="input-group input-group-sm mt-3">
-                <div id="customRefresh">
-                    <div class="input-group input-group-sm" data-tooltip="Enter refresh time (ms)" data-bs-toggle="tooltip" title="Enter refresh time (ms)">
-                        <label class="input-group-text col-5" >
-                            <i class="fa-solid fa-person-running"></i>&nbsp; Refresh time (ms)
-                        </label>
-                        <input type="number" id="refreshTime" name="refreshInput" class="form-control" placeholder="200 (default)" maxlength=9 aria-describedby="basic-addon1">
-                    </div>
+            <div class="col-12 mt-3 ps-0" id="customRefresh">
+                <div class="input-group input-group-sm">
+                    <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter refresh time (ms)">
+                        <i class="fa-solid fa-person-running"></i>&nbsp; Refresh time (ms)
+                    </label>
+                    <input type="number" id="refreshTime" name="refreshInput" class="form-control col-7" placeholder="200 (default)" maxlength=9 aria-describedby="basic-addon1">
                 </div>
             </div>
         </div>
@@ -64,38 +62,20 @@
     <div class="collapse show mb-2" id="interpolationConfigDiv">
         <div class="card card-body">
             <div class="row p-0 m-0">
-                <button type="button" aria-pressed="false" id="standardInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
-                    <i class="fa-solid fa-1"></i>
+                <button type="button" aria-pressed="false" id="monotoneInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-12" data-bs-toggle="tooltip" title="Uses Bezier curves to estimate values between data points">
+                    <i class="fa-solid fa-bezier-curve"></i>
                     <label class="nonBreakable">
-                        &nbsp;Standard
+                        &nbsp;Monotone Bezier
                     </label>
                 </button>
-                <div class="col-2 px-0">
-                    <!-- Padding -->
-                </div>
-                <button type="button" aria-pressed="false" id="monotoneInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
-                    <i class="fa-solid fa-2"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Monotone
-                    </label>
-                </button>
-                <button type="button" aria-pressed="false" id="nearestInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
-                    <i class="fa-solid fa-3"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Nearest
-                    </label>
-                </button>
-                <div class="col-2 px-0">
-                    <!-- Padding -->
-                </div>
-                <button type="button" aria-pressed="false" id="linearInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
-                    <i class="fa-solid fa-4"></i>
+                <button type="button" aria-pressed="false" id="linearInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-12" data-bs-toggle="tooltip" title="Assumes a constant rate of change between data points">
+                    <i class="fa-solid fa-slash"></i>
                     <label class="nonBreakable">
                         &nbsp;Linear
                     </label>
                 </button>
-                <button type="button" aria-pressed="false" id="stepInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-5">
-                    <i class="fa-solid fa-5"></i>
+                <button type="button" aria-pressed="false" id="stepInterpolationBtn" class="btn btn-primary btn-sm col-12" data-bs-toggle="tooltip" title="Assumes that the value remains constant until the next data point is reached">
+                    <i class="fa-solid fa-stairs"></i>
                     <label class="nonBreakable">
                         &nbsp;Step
                     </label>
@@ -115,7 +95,7 @@
         <div class="card card-body">
             <div class="row p-0 m-0">
                 <button type="button" id="resetBtn" class="btn btn-sm btn-primary col-5 resetAbsBtn">
-                    <i class="fa-solid fa-rotate-right"></i>
+                    <i class="fa-solid fa-rotate-left"></i>
                     <label class="nonBreakable">
                         &nbsp;Reset zoom
                     </label>
@@ -123,13 +103,13 @@
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
-                <button type="button" id="y2Btn" class="btn btn-sm btn-primary col-5" data-tooltip="Toggle secondary Y axis" data-bs-toggle="tooltip" title="Toggle secondary Y axis">
+                <button type="button" id="y2Btn" class="btn btn-sm btn-primary col-5" data-bs-toggle="tooltip" title="Add secondary Y axis">
                     <i class="fa-solid fa-plus"></i>
                     <label class="nonBreakable">
                         &nbsp;Add Y2 axis
                     </label>
                 </button>
-                <button type="button" id="rmY2Btn" class="btn btn-sm btn-warning col-5" data-tooltip="Toggle secondary Y axis" data-bs-toggle="tooltip" title="Toggle secondary Y axis">
+                <button type="button" id="rmY2Btn" class="btn btn-sm btn-warning col-5" data-bs-toggle="tooltip" title="Remove secondary Y axis">
                     <i class="fa-solid fa-minus"></i>
                     <label class="nonBreakable">
                         &nbsp;Remove Y2 axis
@@ -139,7 +119,7 @@
             <div class="row p-0 m-0"> 
                 <div class="col-6 mt-3 ps-0" id="minYAxis">
                     <div class="input-group input-group-sm">
-                        <label class="input-group-text col-5" >
+                        <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter primary Y axis minimum value">
                             &nbsp;Y min
                         </label>
                         <input type="number" id="minYAxisField" name="minYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
@@ -147,7 +127,7 @@
                 </div>
                 <div class="col-6 mt-3 pe-0" id="maxYAxis">
                     <div class="input-group input-group-sm">
-                        <label class="input-group-text col-5" >
+                        <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter primary Y axis maximum value">
                             &nbsp;Y max
                         </label>
                         <input type="number" id="maxYAxisField" name="maxYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
@@ -158,7 +138,7 @@
             <div class="row p-0 m-0" id="y2Config"> 
                 <div class="col-6 mt-3 ps-0" id="minY2Axis">
                     <div class="input-group input-group-sm">
-                        <label class="input-group-text col-5" >
+                        <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter secondary Y axis minimum value">
                             &nbsp;Y2 min
                         </label>
                         <input type="number" id="minY2AxisField" name="minYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
@@ -166,7 +146,7 @@
                 </div>
                 <div class="col-6 mt-3 pe-0" id="maxY2Axis">
                     <div class="input-group input-group-sm">
-                        <label class="input-group-text col-5" >
+                        <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter secondary Y axis maximum value">
                             &nbsp;Y2 max
                         </label>
                         <input type="number" id="maxY2AxisField" name="maxYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
@@ -198,10 +178,10 @@
     <div class="collapse show" id="legendSetupDiv">
         <div class="card card-body">
             <div class="row p-0 m-0">
-                <button type="button" class="btn btn-sm btn-success mb-3 col-5" id="legendShownBtn" data-tooltip="Toggle legend" data-bs-toggle="tooltip" title="Toggle legend">
+                <button type="button" class="btn btn-sm btn-success mb-3 col-5" id="legendShownBtn" data-bs-toggle="tooltip" title="Hide legend">
                     <i class="fa-solid fa-eye"></i>&nbsp;Shown
                 </button>
-                <button type="button" class="btn btn-sm btn-warning mb-3 col-5" id="legendHiddenBtn" data-tooltip="Toggle legend" data-bs-toggle="tooltip" title="Toggle legend">
+                <button type="button" class="btn btn-sm btn-warning mb-3 col-5" id="legendHiddenBtn" data-bs-toggle="tooltip" title="Show legend">
                     <i class="fa-solid fa-eye-slash"></i>&nbsp;Hidden
                 </button>
                 <div class="col-2 px-0">
@@ -212,7 +192,7 @@
                 </button>
             </div>
             <div class="input-group input-group-sm mb-3">
-                <label class="input-group-text col-5">
+                <label class="input-group-text col-5"  data-bs-toggle="tooltip" title="Change chart color theme">
                     <i class="fa-solid fa-swatchbook"></i>&nbsp;Theme
                 </label>
                 <select class="form-select" name="colorSchemeSelect" id="colorSchemeSelect"></select>

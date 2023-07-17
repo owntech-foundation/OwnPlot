@@ -62,23 +62,25 @@ function enterKeyupHandler(elemSelector, handler){
 }
 
 /*Tooltips initialization*/
-$(function() {
-    $('[data-tooltip]').tooltip();
-    
-    $('#toggleTooltips').on('change', function() {
-      var tooltipsEnabled = this.checked;
-      
-      $('[data-tooltip], [data-bs-toggle="tooltip"]').each(function() {
-        var $tooltipTrigger = $(this);
-        
-        if (tooltipsEnabled) {
-          $tooltipTrigger.tooltip('enable');
-        } else {
-          $tooltipTrigger.tooltip('disable');
-        }
-      });
-    });
+$('[data-bs-toggle="tooltip"]').tooltip('disable');
+ 
+$("#tooltipHiddenBtn").on('click', function() {
+    $(this).hide();
+    //deactivate the tooltips
+    $('[data-bs-toggle="tooltip"]').tooltip('enable');
+    $("#tooltipShownBtn").show();
 });
+
+$("#tooltipShownBtn").hide();
+$("#tooltipShownBtn").on('click', function() {
+    $(this).hide();
+    //activate tooltips
+    $('[data-bs-toggle="tooltip"]').tooltip('disable');
+    $("#tooltipHiddenBtn").show();
+});
+
+
+
 
 
 
