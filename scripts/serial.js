@@ -33,7 +33,7 @@ const customBaudRateForm = $("#customBaudRateForm");
 //let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
-
+let loopBtn = $('#fileLoopBtn');
 let fileSelectionBtn = $('#fileSelectionBtn');
 let selectedFile;
 
@@ -114,8 +114,24 @@ $(()=>{
 	})
 
 	fileSelectionBtn.on('click', function() {
-        fileSelect();
+		if (port && port.path === mockpath4 && fileReaderInterval) {
+			clearInterval(fileReaderInterval); // Stop the file reader
+			port.close(); // Close the mock port
+			fileReaderInterval = null; // Reset the file reader interval
+			fileSelect();
+		} else {
+			fileSelect();
+		}
     })
+
+	fileLoopBtnDisable(autoSendBtn);
+	loopBtn.on('click', function() {
+		if(loopBtn.attr('aria-pressed') === "true"){
+			fileLoopBtnDisable(loopBtn);
+		} else {
+			fileLoopBtnEnable(loopBtn);
+		}
+	});
 
 	listSerialPorts();
 	dataFormatField.on('change', function(){
@@ -567,16 +583,19 @@ function mockSquareGenerator() {
 }
 
 function mockFileReader() {
-	let fs  = require('fs');
+	const fs  = require('fs');
 	let filePath = selectedFile.path;
 
 	let fileLines = fs.readFileSync(filePath, 'utf-8').split('\n');
-	let fileLineNumber = 0;
+	let fileLineNumber = 1;
 
 	function mockReadFile() {
 		fileReaderInterval = setInterval(() => {
-			if (fileLineNumber >= fileLines.length) {
+			if (fileLineNumber >= fileLines.length-1) {
 				clearInterval(fileReaderInterval);
+				if (loopBtn.attr('aria-pressed') === "true") {
+					mockFileReader();
+				}
 				return;
 			}
 			const line = fileLines[fileLineNumber];
@@ -606,4 +625,16 @@ function handleFileSelection(event) {
 
     let selectedFileNameElement = document.getElementById('selectedFileName');
     selectedFileNameElement.textContent = selectedFile.name;
+}
+
+function fileLoopBtnEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+}
+
+function fileLoopBtnDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
 }
