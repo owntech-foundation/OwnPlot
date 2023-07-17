@@ -33,9 +33,13 @@ const customBaudRateForm = $("#customBaudRateForm");
 //let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
+
 let fileSelectionBtn = $('#fileSelectionBtn');
 let selectedFile;
+
 let fileReaderInterval;
+let interval = $('#intervalTime');
+let intervalValue = 100;
 
 let dataStructure = {
 	x: [],
@@ -102,6 +106,12 @@ $(()=>{
 	baudRateSelect.change(function() {
         updateCustomBaudRateVisibility();
     })
+
+	interval.on("input", function() {
+        if(interval.val().length > 1){
+            intervalValue = parseInt(interval.val());
+        }
+	})
 
 	fileSelectionBtn.on('click', function() {
         fileSelect();
@@ -469,7 +479,6 @@ function readBuf(buf, offset){
 
 function mockSinusGenerator() {
 	const numSignals = 8; // Number of sinus signals
-	const interval = 100; // Interval in milliseconds
 	const frequency = 0.2; // Frequency in Hertz
 	const amplitude = 1; // Amplitude
 
@@ -492,14 +501,13 @@ function mockSinusGenerator() {
 	
 			const sinusBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
 			port.port.emitData(sinusBuffer); // Emit the buffer
-		}, interval);
+		}, intervalValue);
 	}
 	mockSendSinusData();
 }
 
 function mockTriangleGenerator() {
 	const numSignals = 8; // Number of sinus signals
-	const interval = 100; // Interval in milliseconds
 	const frequency = 0.1; // Frequency in Hertz
 	const amplitude = 1; // Amplitude
 
@@ -524,14 +532,13 @@ function mockTriangleGenerator() {
 	
 			const triangleBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
 			port.port.emitData(triangleBuffer); // Emit the buffer
-		}, interval);
+		}, intervalValue);
 	}
 	mockSendTriangleData();
 }
 
 function mockSquareGenerator() {
 	const numSignals = 8; // Number of sinus signals
-	const interval = 100; // Interval in milliseconds
 	const frequency = 0.2; // Frequency in Hertz
 	const amplitude = 1; // Amplitude
 
@@ -554,17 +561,16 @@ function mockSquareGenerator() {
 	
 			const squareBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
 			port.port.emitData(squareBuffer); // Emit the buffer
-		}, interval);
+		}, intervalValue);
 	}
 	mockSendSquareData();
 }
 
 function mockFileReader() {
-	const fs  = require('fs');
-	const interval = 100;
-	const filePath = selectedFile.path;
+	let fs  = require('fs');
+	let filePath = selectedFile.path;
 
-	const fileLines = fs.readFileSync(filePath, 'utf-8').split('\n');
+	let fileLines = fs.readFileSync(filePath, 'utf-8').split('\n');
 	let fileLineNumber = 0;
 
 	function mockReadFile() {
@@ -581,7 +587,7 @@ function mockFileReader() {
             port.port.emitData(buffer);
 
             fileLineNumber++;
-		}, interval);
+		}, intervalValue);
 	}
 	mockReadFile();
 }

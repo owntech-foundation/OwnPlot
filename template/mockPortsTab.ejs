@@ -1,0 +1,23 @@
+<div class="mb-3">
+    <a data-target="#fileSelectionDiv" class="collapseHead" id="fileSelectionHref" role="button" aria-expanded="true" aria-controls="fileSelectionDiv">
+        <span class="input-group-text" id="fileSelectionTitle">
+            <i class="fa-solid fa-folder-open"></i>&nbsp;<span style="font-weight:bolder">File Selection</span>
+        </span>
+    </a>
+    <div class="collapse show" id="fileSelectionDiv">
+        <div class="card card-body">
+            <button class="btn btn-primary mb-3 col-12" type="button" id="fileSelectionBtn"><i class="fa-solid fa-folder-open"></i>&nbsp;Select File</button>
+            <span id="selectedFileName"></span>
+            <div class="row m-0 p-0">
+                <div id="customRefresh" class="col-12">
+                    <div class="input-group input-group-sm">
+                        <label class="input-group-text col-4" data-bs-toggle="tooltip" title="Enter plotting interval">
+                            <i class="fa-solid fa-hourglass-half"></i>&nbsp; Interval
+                        </label>
+                        <input type="number" id="intervalTime" name="intervalInput" class="form-control col-8" placeholder="100 (default)" maxlength=9 aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
