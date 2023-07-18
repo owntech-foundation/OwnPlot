@@ -10,9 +10,14 @@
  -->
 
 <div class="mb-3" id="recordDiv">
-    <button class="btn btn-success" type="button" id="startRecordBtn"><i class="fa-solid fa-running"></i>&nbsp;Start record</button>
-    <button class="btn btn-warning" type="button" id="pauseRecordBtn"><i class="fa-solid fa-stop"></i>&nbsp;Stop record</button>
-    <button class="btn btn-primary" type="button" id="downloadRecordBtn" disabled><i class="fa-solid fa-file-arrow-down"></i>&nbsp;Download</button>
+    <div class="row m-0 p-0">
+        <button class="btn btn-success col-5" type="button" id="startRecordBtn" data-bs-toggle="tooltip" title="Start recording data"><i class="fa-solid fa-microphone"></i>&nbsp;Start record</button>
+        <button class="btn btn-warning col-5" type="button" id="pauseRecordBtn" data-bs-toggle="tooltip" title="Stop recording data"><i class="fa-solid fa-microphone-slash"></i>&nbsp;Stop record</button>
+        <div class="col-2 px-0">
+            <!-- Padding -->
+        </div>
+        <button class="btn btn-primary col-5" type="button" id="downloadRecordBtn" disabled data-bs-toggle="tooltip" title="Download recording data"><i class="fa-solid fa-file-arrow-down"></i>&nbsp;Download</button>
+    </div>
 </div>
 
 <div class="mb-3">
@@ -23,8 +28,8 @@
     </a>
     <div class="collapse show" id="recordNameDiv">
         <div class="card card-body">
-            <div class="input-group input-group-sm mb-3" data-tooltip="Enter file name" data-bs-toggle="tooltip" title="Enter file name">
-                <label class="input-group-text col-5" >
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter file name">
                     <i class="fa-solid fa-file-pen"></i>&nbsp;File Name
                 </label>
                 <input type="text" class="form-control imperativeRecordSetting" id="recordFileNameInput" maxlength=100 aria-describedby="record file name input" value="">
@@ -60,14 +65,14 @@
     </a>
     <div class="collapse show" id="recordSettingsDiv">
         <div class="card card-body">
-            <div class="input-group input-group-sm mb-2" data-tooltip="Enter data separator" data-bs-toggle="tooltip" title="Enter data separator">
-                <label class="input-group-text col-5">
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter data separator">
                     <i class="fa-solid fa-scissors"></i>&nbsp;Separator
                 </label>
                 <input type="text" class="form-control imperativeRecordSetting" id="recordSeparatorInput" maxlength=100 aria-describedby="record separator input" value=",">
             </div>
             
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <div class="form-check">
                         <input class="form-check-input imperativeRecordSetting" type="radio" name="updownRecordRadio" id="downRecordRadio" checked>
@@ -97,7 +102,7 @@
                 </div>
             </div>
             
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col">
                     <div class="form-check">
                         <input class="form-check-input imperativeRecordSetting" type="checkbox" value="" id="timestampRecordCheck" checked>
@@ -108,7 +113,7 @@
                 </div>
             </div>
             
-            <div class="row recordTimestampSetupRow">
+            <div class="row recordTimestampSetupRow mb-3">
                 <div class="col">
                     <div class="form-check">
                         <input class="form-check-input imperativeRecordSetting" type="radio" name="absRelTimestampRecordRadio" id="relativeTimestampRecordRadio" checked>
