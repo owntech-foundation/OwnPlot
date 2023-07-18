@@ -644,9 +644,9 @@ function fileLoopBtnDisable(elem) {
 function enableButtons() {
 	loopBtn.prop('disabled', false);
 	fileSelectionBtn.prop('disabled', false);
-  }
+}
   
-  function disableButtons() {
+function disableButtons() {
 	loopBtn.prop('disabled', true);
 	fileSelectionBtn.prop('disabled', true);
-  }
+}
