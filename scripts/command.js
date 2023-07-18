@@ -9,7 +9,7 @@
  * @ Description:
  */
 
-const fs = require('fs')
+const fs = require('fs');
 const { ipcRenderer } = require('electron');
 
 const sendInput = $("#sendInput");

@@ -4,14 +4,16 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 14:01:57
  * @ Description:
  */
 
+//const fs = require('fs'); // do not include or it will break this script
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 const { DataTable } = require('datatables.net');
+
 let port;
 let portHaveChanged;
 
@@ -33,6 +35,13 @@ const customBaudRateForm = $("#customBaudRateForm");
 //let customForm = $("#customForm");
 
 let skipByteBtn = $("#skipByteBtn");
+let loopBtn = $('#fileLoopBtn');
+let fileSelectionBtn = $('#fileSelectionBtn');
+let selectedFile;
+
+let fileReaderInterval;
+let interval = $('#intervalTime');
+let intervalValue = 100;
 
 let dataStructure = {
 	x: [],
@@ -56,10 +65,12 @@ const { SerialPortMock } = require('serialport');
 const mockpath1 = 'Mock Port 1 : Sinus Signal'
 const mockpath2 = 'Mock Port 2 : Triangle Signal'
 const mockpath3 = 'Mock Port 3 : Square Signal'
+const mockpath4 = 'Mock Port 4 : File Reader'
 
 SerialPortMock.binding.createPort(mockpath1)
 SerialPortMock.binding.createPort(mockpath2)
 SerialPortMock.binding.createPort(mockpath3)
+SerialPortMock.binding.createPort(mockpath4)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -97,6 +108,35 @@ $(()=>{
 	baudRateSelect.change(function() {
         updateCustomBaudRateVisibility();
     })
+
+	interval.on("input", function() {
+        if(interval.val().length > 1){
+            intervalValue = parseInt(interval.val());
+        }
+	})
+
+	disableButtons();
+
+	fileSelectionBtn.on('click', function() {
+		if (port && port.path === mockpath4 && fileReaderInterval) {
+			clearInterval(fileReaderInterval); // Stop the file reader
+			port.close(); // Close the mock port
+			fileReaderInterval = null; // Reset the file reader interval
+			fileSelect();
+		} else {
+			fileSelect();
+		}
+    })
+
+	fileLoopBtnDisable(autoSendBtn);
+	loopBtn.on('click', function() {
+		if(loopBtn.attr('aria-pressed') === "true"){
+			fileLoopBtnDisable(loopBtn);
+		} else {
+			fileLoopBtnEnable(loopBtn);
+		}
+	});
+
 	listSerialPorts();
 	dataFormatField.on('change', function(){
 		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
@@ -290,6 +330,10 @@ function openPortRoutine() {
 			if (port.path === mockpath3) {
 				mockSquareGenerator();
 			}
+			//File Reader
+			if (port.path === mockpath4 && selectedFile.path !== undefined) {
+				mockFileReader();
+			}
   
 		});
 
@@ -302,14 +346,21 @@ function openPortRoutine() {
 			disableSend();
 			portIsOpen = false;
 
+			//Sinus Generator
 			if (port.path === mockpath1) {
-				clearInterval(sinusInterval)
+				clearInterval(sinusInterval);
 			}
+			//Triangle Generator
 			if (port.path === mockpath2) {
-				clearInterval(triangleInterval)
+				clearInterval(triangleInterval);
 			}
+			//Square Generator
 			if (port.path === mockpath3) {
-				clearInterval(squareInterval)
+				clearInterval(squareInterval);
+			}
+			//File Reader
+			if (port.path === mockpath4) {
+				clearInterval(fileReaderInterval);
 			}
 		});
 
@@ -448,7 +499,6 @@ function readBuf(buf, offset){
 
 function mockSinusGenerator() {
 	const numSignals = 8; // Number of sinus signals
-	const interval = 100; // Interval in milliseconds
 	const frequency = 0.2; // Frequency in Hertz
 	const amplitude = 1; // Amplitude
 
@@ -471,14 +521,13 @@ function mockSinusGenerator() {
 	
 			const sinusBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
 			port.port.emitData(sinusBuffer); // Emit the buffer
-		}, interval);
+		}, intervalValue);
 	}
 	mockSendSinusData();
 }
 
 function mockTriangleGenerator() {
 	const numSignals = 8; // Number of sinus signals
-	const interval = 100; // Interval in milliseconds
 	const frequency = 0.1; // Frequency in Hertz
 	const amplitude = 1; // Amplitude
 
@@ -503,14 +552,13 @@ function mockTriangleGenerator() {
 	
 			const triangleBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
 			port.port.emitData(triangleBuffer); // Emit the buffer
-		}, interval);
+		}, intervalValue);
 	}
 	mockSendTriangleData();
 }
 
 function mockSquareGenerator() {
 	const numSignals = 8; // Number of sinus signals
-	const interval = 100; // Interval in milliseconds
 	const frequency = 0.2; // Frequency in Hertz
 	const amplitude = 1; // Amplitude
 
@@ -533,7 +581,73 @@ function mockSquareGenerator() {
 	
 			const squareBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
 			port.port.emitData(squareBuffer); // Emit the buffer
-		}, interval);
+		}, intervalValue);
 	}
 	mockSendSquareData();
+}
+
+function mockFileReader() {
+	let filePath = selectedFile.path;
+
+	let fileLines = fs.readFileSync(filePath, 'utf-8').split('\n');
+	let fileLineNumber = 1;
+
+	function mockReadFile() {
+		fileReaderInterval = setInterval(() => {
+			if (fileLineNumber >= fileLines.length-1) {
+				clearInterval(fileReaderInterval);
+				if (loopBtn.attr('aria-pressed') === "true") {
+					mockFileReader();
+				}
+				return;
+			}
+			const line = fileLines[fileLineNumber];
+			const values = line.split(',').map(Number);
+			const data = values.slice(1);
+
+            const buffer = Buffer.from(data.join(':') + '\r\n');
+            port.port.emitData(buffer);
+
+            fileLineNumber++;
+		}, intervalValue);
+	}
+	mockReadFile();
+}
+
+function fileSelect() {
+    let fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    fileInput.addEventListener('change', handleFileSelection);
+    document.body.appendChild(fileInput);
+    fileInput.click();
+}
+
+function handleFileSelection(event) {
+    selectedFile = event.target.files[0];
+
+    let selectedFileNameElement = document.getElementById('selectedFileName');
+    selectedFileNameElement.textContent = selectedFile.name;
+}
+
+function fileLoopBtnEnable(elem) {
+	elem.attr('aria-pressed', 'true');
+	elem.removeClass('btn-warning');
+	elem.addClass('btn-success');
+}
+
+function fileLoopBtnDisable(elem) {
+	elem.attr('aria-pressed', 'false');
+	elem.removeClass('btn-success');
+	elem.addClass('btn-warning');
+}
+
+function enableButtons() {
+	loopBtn.prop('disabled', false);
+	fileSelectionBtn.prop('disabled', false);
+}
+  
+function disableButtons() {
+	loopBtn.prop('disabled', true);
+	fileSelectionBtn.prop('disabled', true);
 }

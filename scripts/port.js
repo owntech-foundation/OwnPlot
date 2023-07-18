@@ -20,6 +20,11 @@ $(function(){
 	
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
+		if (selectedPort == mockpath4) {
+			enableButtons();
+		} else {
+			disableButtons();
+		}	
 		if(availableSerialPorts.length > 0 && selectedPort != "default"){
 			if(selectedPort != configSerialPlot.path){
 				if (portIsOpen) {
