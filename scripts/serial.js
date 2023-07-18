@@ -113,6 +113,8 @@ $(()=>{
         }
 	})
 
+	disableButtons();
+
 	fileSelectionBtn.on('click', function() {
 		if (port && port.path === mockpath4 && fileReaderInterval) {
 			clearInterval(fileReaderInterval); // Stop the file reader
@@ -638,3 +640,13 @@ function fileLoopBtnDisable(elem) {
 	elem.removeClass('btn-success');
 	elem.addClass('btn-warning');
 }
+
+function enableButtons() {
+	loopBtn.prop('disabled', false);
+	fileSelectionBtn.prop('disabled', false);
+  }
+  
+  function disableButtons() {
+	loopBtn.prop('disabled', true);
+	fileSelectionBtn.prop('disabled', true);
+  }
