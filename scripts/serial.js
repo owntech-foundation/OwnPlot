@@ -4,14 +4,16 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 14:01:57
  * @ Description:
  */
 
+//const fs = require('fs'); // do not include or it will break this script
 const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 const { DataTable } = require('datatables.net');
+
 let port;
 let portHaveChanged;
 
@@ -585,7 +587,6 @@ function mockSquareGenerator() {
 }
 
 function mockFileReader() {
-	const fs  = require('fs');
 	let filePath = selectedFile.path;
 
 	let fileLines = fs.readFileSync(filePath, 'utf-8').split('\n');
