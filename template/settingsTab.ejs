@@ -31,23 +31,23 @@
     </a>
     <div class="collapse show" id="terminalSettingsDiv">
         <div class="card card-body">
-            <div class="input-group input-group-sm mb-3" id="termBufSizeDiv" data-tooltip="Number of lines shown in terminal (max. 1000)" data-bs-toggle="tooltip" title="Number of lines shown in terminal (max. 1000)">
-                <label class="input-group-text col-5">
+            <div class="input-group input-group-sm mb-3" id="termBufSizeDiv">
+                <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Number of lines shown in the terminal (max. 1000)">
                     <span style="font-weight:bolder">#</span>&nbsp;Lines
                 </label>
                 <input type="number" id="termBufSizeInput" class="form-control" value="20" min="0" max="1000">
             </div>
             <div class="row m-0 p-0">
-                <button type="button" aria-pressed="false" id="terminalBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Toggle timestamp in terminal" data-bs-toggle="tooltip" title="Toggle timestamp in terminal">
+                <button type="button" aria-pressed="false" id="terminalBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-bs-toggle="tooltip" title="Toggle timestamp">
                     <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
                 </button>
                 <div class="col-2 px-0">
                     <!-- Padding -->
                 </div>
-                <button type="button" aria-pressed="false" id="terminalBtnDataMode" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Select numeral system" data-bs-toggle="tooltip" title="Select numeral system">
+                <button type="button" aria-pressed="false" id="terminalBtnDataMode" class="btn btn-primary btn-sm mb-3 col-5" data-bs-toggle="tooltip" title="Select numeral system">
                     <i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal
                 </button>
-                <button type="button" aria-pressed="false" id="terminalBtnFormatted" class="btn btn-primary btn-sm mb-3 col-5" data-tooltip="Select data format" data-bs-toggle="tooltip" title="Select data format">
+                <button type="button" aria-pressed="false" id="terminalBtnFormatted" class="btn btn-primary btn-sm col-5" data-bs-toggle="tooltip" title="Select data format">
                     <i class="fa-solid fa-droplet"></i></i>&nbsp;Formatted
                 </button>
             </div>
@@ -55,13 +55,33 @@
     </div>
 </div>
 
+<!--Tooltips settings-->
+<div class="mb-3">
+    <a data-target="#tooltipSettingsDiv" class="collapseHead" role="button" id="tooltipSettingsHref" aria-expanded="true" aria-controls="tooltipSettingsDiv">
+        <span class="input-group-text" id="tooltipSettingsTitle">
+            <i class="fa-solid fa-circle-info"></i>&nbsp;<span style="font-weight:bolder">Tooltips</span>
+        </span>
+    </a>
+    <div class="collapse show" id="tooltipSettingsDiv">
+        <div class="card card-body">
+            <button type="button" class="btn btn-sm btn-warning col-12" id="tooltipHiddenBtn">
+                <i class="fa-solid fa-eye-slash"></i>&nbsp;Tooltips Deactivated
+            </button>
+            <button type="button" class="btn btn-sm btn-success col-12" id="tooltipShownBtn" data-bs-toggle="tooltip" title="Remove tooltips">
+                <i class="fa-solid fa-eye"></i>&nbsp;Tooltips Activated
+            </button>
+        </div>
+    </div>
+</div>
+
+
 
 <!--GUI_About_tab-->
 <div class="container horizontal-scrollable mx-0 px-0" id="nav-tab">
     <div class="nav mx-0">
         <div class="chartApp nav-item mx-1">
             <a href="https://github.com/owntech-foundation/OwnPlot/releases" target="_blank">
-                <button class="btn menu-btn" id="settings-ownPlot-releases" data-bs-toggle="tab" type="button" role="tab" data-tooltip="OwnPlot releases" data-bs-toggle="tooltip" title="OwnPlot releases">
+                <button class="btn menu-btn" id="settings-ownPlot-releases"  type="button" role="tab" data-bs-toggle="tooltip" title="OwnPlot releases">
                     <i class="bigIcon fa-brands fa-github"></i>
                     <div class="navbarTitle">Releases</div>
                 </button>
@@ -70,17 +90,11 @@
 
         <div class="chartApp nav-item mx-1">
             <a href="https://github.com/owntech-foundation/OwnPlot/" target="_blank">
-                <button class="btn menu-btn" id="settings-ownPlot-about" data-bs-toggle="tab" type="button" role="tab" data-tooltip="About OwnPlot" data-bs-toggle="tooltip" title="About OwnPlot">
+                <button class="btn menu-btn" id="settings-ownPlot-about"  type="button" role="tab" data-bs-toggle="tooltip" title="About OwnPlot">
                     <i class="bigIcon fa-solid fa-question"></i>
                     <div class="navbarTitle">About</div>
                 </button>
             </a>
         </div>
     </div>
-</div> 
-
-<!--Tooltips activation checkbox-->
-<div class="form-check">
-    <input class="form-check-input" type="checkbox" id="toggleTooltips" checked>
-    <label class="form-check-label" for="toggleTooltips">Toggle Tooltips</label>
 </div>

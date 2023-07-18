@@ -147,10 +147,7 @@ $(() => {
     });
 
     $("#deleteConfigButton").on('click', function() {
-        let selectedConfig = $("#buttonConfigSelect option:selected").val();
-        if (selectedConfig != "new") {
-            deleteConfig(selectedConfig);
-        }
+        handleDeleteConfig();
     });    
 });
 
@@ -467,4 +464,21 @@ function handleSend() {
     }else{
         appendToTerminal(sendInput.val() + " (" + 'unknown command' + ")");
     }
+}
+
+function handleDeleteConfig() {
+    let selectedConfig = $("#buttonConfigSelect option:selected").val();
+    $('#deleteConfigModal .config-name').text('Selected configuration : ' + selectedConfig);
+    $('#deleteConfigModal').modal('show');
+
+    $('#deleteConfigModal #confirmDeleteConfigButton').on('click', function() {
+        if (selectedConfig != "new") {
+            deleteConfig(selectedConfig);
+        }
+        $('#deleteConfigModal').modal('hide');
+    });
+
+    $('#deleteConfigModal #cancelDeleteConfigButton').on('click', function() {
+        $('#deleteConfigModal').modal('hide');
+    });
 }
