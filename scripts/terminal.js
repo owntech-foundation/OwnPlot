@@ -81,7 +81,7 @@ let formattedMode = false;
 let countTermLines = 0;
 let termSize = 20;
 const MIN_TERM_LINES = 0;
-const MAX_TERM_LINES = 500;
+const MAX_TERM_LINES = 1000;
 
 $(() => {
 	termBufSizeInput.val(termSize);
@@ -117,6 +117,14 @@ $(() => {
 			terminalHexMode(terminalBtnDataMode);
 		}
 	});
+});
+
+termBufSizeInput.on('input', function() {
+	termSize = termBufSizeInput.val();
+	if (termSize > MAX_TERM_LINES) {
+		termSize = MAX_TERM_LINES;
+		termBufSizeInput.val(termSize);
+	}
 });
 
 function terminalSizeInputHandler(){

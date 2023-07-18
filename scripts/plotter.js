@@ -60,7 +60,8 @@ let dataSerialBuff = Buffer.alloc(0);
 let plotSerialBuff = Buffer.alloc(0);
 let plotTimeBuff = Buffer.alloc(0);
 let rawDataBuff = Buffer.alloc(0);
-const NB_MAX_DATASETS = 20;
+const NB_MAX_DATASETS = 10;
+let nbChannels = 3;
 let plotRunning = false;
 
 let ctx;
@@ -71,6 +72,7 @@ const colorSchemeSelect = $("#colorSchemeSelect");
 
 $(() => {
 
+	nbChannelsInput.val(nbChannels);
 	if (appChartEnabled = 1){
 		initColorSchemeSelect();
 		initChart();
@@ -105,8 +107,11 @@ $(() => {
 });
 
 function updateNbChannels(){
-	let nbChannels = nbChannelsInput.val();
-	console.log(nbChannels)
+	nbChannels = nbChannelsInput.val();
+	if (nbChannels > NB_MAX_DATASETS) {
+		nbChannels = NB_MAX_DATASETS;
+		nbChannelsInput.val(nbChannels);
+	}
 	while(numberOfDatasets < nbChannels && numberOfDatasets < NB_MAX_DATASETS){
 		addDataset();
 	}
@@ -115,6 +120,14 @@ function updateNbChannels(){
 	}
 	updateLegendTable();
 }
+
+nbChannelsInput.on('input', function() {
+	nbChannels = nbChannelsInput.val();
+	if (nbChannels > NB_MAX_DATASETS) {
+		nbChannels = NB_MAX_DATASETS;
+	  	nbChannelsInput.val(nbChannels);
+	}
+}); 
 
 function pausePlot(){
 	myChart.options.scales['x'].realtime.pause = true;
