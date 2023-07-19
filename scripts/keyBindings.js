@@ -150,7 +150,7 @@ document.addEventListener('keyup', (event) => {
     for (const buttonId in buttonActions) {
       const button = document.getElementById(buttonId);
       const buttonText = button.textContent.trim();
-      if (event.code === buttonText) {
+      if (event.code === buttonText && !$(buttonActions[buttonId]).prop('disabled')) {
         //event.preventDefault();
         $(buttonActions[buttonId]).trigger('click');
         break;
