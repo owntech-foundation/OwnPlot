@@ -25,7 +25,7 @@ $(function(){
 		} else {
 			disableButtons();
 		}	
-		if(availableSerialPorts.length > 0 && selectedPort != "default"){
+		if(availableSerialPorts.length > 0){
 			if(selectedPort != configSerialPlot.path){
 				if (portIsOpen) {
 					port.close(); // solves plotting problem but generates new interface problem
