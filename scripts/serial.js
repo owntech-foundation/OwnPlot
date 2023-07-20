@@ -342,7 +342,6 @@ function openPortRoutine() {
 			$('#pausePortBtn').prop('disabled', true);
 			$('#startRecordBtn').prop("disabled", true);
 			//not available in this version: printDebugTerminal("-- Connection closed on port " + port.path + " --");
-			closePortBtn($('#openPortBtn'));
 			disableSend();
 			portIsOpen = false;
 

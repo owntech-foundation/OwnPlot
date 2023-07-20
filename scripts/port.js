@@ -20,33 +20,40 @@ $(function(){
 	
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
-		if (selectedPort == mockpath4) {
+	
+		if (selectedPort === mockpath4) {
 			enableButtons();
 		} else {
 			disableButtons();
 		}	
-		if(availableSerialPorts.length > 0 && selectedPort != "default"){
-			if(selectedPort != configSerialPlot.path){
+	
+		if (availableSerialPorts.length > 0) {
+			if (selectedPort != configSerialPlot.path) {
 				if (portIsOpen) {
-					port.close(); // solves plotting problem but generates new interface problem
-					selectedPort = $(this).children("option:selected").val();
+					port.close(); // Close the currently open port
+					portIsOpen = false; // Set the portIsOpen flag to false
 				}
-				closePortBtn($('#openPortBtn'));
-				//pause & clear btn are unclickable while port is closed
+				// Pause & clear buttons are unclickable while port is closed
 				pauseBtn($('#pausePortBtn'));
 				$('#pausePortBtn').prop('disabled', true);
 				$('#clearPortBtn').prop('disabled', true);
+				if (selectedPort === "default") {
+					noPortBtn($('#openPortBtn'));
+				} else {
+					closePortBtn($('#openPortBtn'));
+				}
 			} else {
-				if(portIsOpen){
+				if (portIsOpen) {
 					openPortBtn($('#openPortBtn'));
 					runBtn($('#pausePortBtn'));
+				} else {
+					closePortBtn($('#openPortBtn'));
 				}
 			}
-		} else {
-			noPortBtn($('#openPortBtn'));
 		}
 		this.blur();
 	});
+	
 
 	$('#pausePortBtn').on('click', function(){
 		if($(this).attr('aria-pressed') === "true"){
