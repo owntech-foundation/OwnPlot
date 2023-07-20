@@ -20,33 +20,49 @@ $(function(){
 	
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
-		if (selectedPort == mockpath4) {
+	
+		if (selectedPort === mockpath4) {
 			enableButtons();
 		} else {
 			disableButtons();
 		}	
-		if(availableSerialPorts.length > 0){
-			if(selectedPort != configSerialPlot.path){
-				if (portIsOpen) {
-					port.close(); // solves plotting problem but generates new interface problem
-					selectedPort = $(this).children("option:selected").val();
+	
+		if (availableSerialPorts.length > 0) {
+			if (selectedPort != configSerialPlot.path) {
+				if (selectedPort === "default") {
+					if (portIsOpen) {
+						port.close(); // Close the currently open port
+						portIsOpen = false; // Set the portIsOpen flag to false
+					}
+					noPortBtn($('#openPortBtn'));
+					// Pause & clear buttons are unclickable while port is closed
+					pauseBtn($('#pausePortBtn'));
+					$('#pausePortBtn').prop('disabled', true);
+					$('#clearPortBtn').prop('disabled', true);
+				} else {
+					if (portIsOpen) {
+						port.close(); // Close the currently open port
+						portIsOpen = false; // Set the portIsOpen flag to false
+					}
+					closePortBtn($('#openPortBtn'));
+					// Pause & clear buttons are unclickable while port is closed
+					pauseBtn($('#pausePortBtn'));
+					$('#pausePortBtn').prop('disabled', true);
+					$('#clearPortBtn').prop('disabled', true);
 				}
-				closePortBtn($('#openPortBtn'));
-				//pause & clear btn are unclickable while port is closed
-				pauseBtn($('#pausePortBtn'));
-				$('#pausePortBtn').prop('disabled', true);
-				$('#clearPortBtn').prop('disabled', true);
 			} else {
-				if(portIsOpen){
+				if (portIsOpen) {
 					openPortBtn($('#openPortBtn'));
 					runBtn($('#pausePortBtn'));
+				} else {
+					closePortBtn($('#openPortBtn')); // Add this line to change the button to closePortBtn
 				}
 			}
-		} else {
-			noPortBtn($('#openPortBtn'));
 		}
+	
 		this.blur();
 	});
+	
 
 	$('#pausePortBtn').on('click', function(){
 		if($(this).attr('aria-pressed') === "true"){
