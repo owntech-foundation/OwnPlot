@@ -126,7 +126,7 @@ $(()=>{
 		} else {
 			fileSelect();
 		}
-    })
+    });
 
 	fileLoopBtnDisable(autoSendBtn);
 	loopBtn.on('click', function() {
@@ -616,6 +616,7 @@ function mockFileReader() {
 function fileSelect() {
     let fileInput = document.createElement('input');
     fileInput.type = 'file';
+	fileInput.accept = '.csv, .txt';
     fileInput.style.display = 'none';
     fileInput.addEventListener('change', handleFileSelection);
     document.body.appendChild(fileInput);
@@ -629,8 +630,18 @@ function handleFileSelection(event) {
 	} else {
 		$('#openPortBtn').prop('disabled', false);
 	}
-    let selectedFileNameElement = document.getElementById('selectedFileName');
-    selectedFileNameElement.textContent = selectedFile.name;
+
+	//Check if file is a .csv or .txt
+	const allowedExtensions = [".csv", ".txt"];
+    const fileExtension = selectedFile.name.split('.').pop();
+    if (!allowedExtensions.includes("." + fileExtension)) {
+        alert("Please select a .csv or .txt file.");
+		$('#openPortBtn').prop('disabled', true);
+    } else {
+		let selectedFileNameElement = document.getElementById('selectedFileName');
+		selectedFileNameElement.textContent = selectedFile.name;
+		$('#openPortBtn').prop('disabled', false);
+	}
 }
 
 function fileLoopBtnEnable(elem) {
