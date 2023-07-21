@@ -121,6 +121,7 @@ $(()=>{
 		if (port && port.path === mockpath4 && fileReaderInterval) {
 			clearInterval(fileReaderInterval); // Stop the file reader
 			port.close(); // Close the mock port
+			closePortBtn($('#openPortBtn'));
 			fileReaderInterval = null; // Reset the file reader interval
 			fileSelect();
 		} else {
@@ -331,7 +332,7 @@ function openPortRoutine() {
 				mockSquareGenerator();
 			}
 			//File Reader
-			if (port.path === mockpath4 && selectedFile.path !== undefined) {
+			if (port.path === mockpath4) {
 				mockFileReader();
 			}
   
