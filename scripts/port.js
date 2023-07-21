@@ -41,6 +41,9 @@ $(function(){
 					noPortBtn($('#openPortBtn'));
 				} else {
 					closePortBtn($('#openPortBtn'));
+					if (selectedPort === mockpath4 && selectedFile === undefined) {
+						$('#openPortBtn').prop('disabled', true);
+					}
 				}
 			} else {
 				if (portIsOpen) {
