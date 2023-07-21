@@ -624,7 +624,11 @@ function fileSelect() {
 
 function handleFileSelection(event) {
     selectedFile = event.target.files[0];
-
+	if (selectedFile === undefined) {
+		$('#openPortBtn').prop('disabled', true);
+	} else {
+		$('#openPortBtn').prop('disabled', false);
+	}
     let selectedFileNameElement = document.getElementById('selectedFileName');
     selectedFileNameElement.textContent = selectedFile.name;
 }
