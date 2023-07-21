@@ -121,12 +121,13 @@ $(()=>{
 		if (port && port.path === mockpath4 && fileReaderInterval) {
 			clearInterval(fileReaderInterval); // Stop the file reader
 			port.close(); // Close the mock port
+			closePortBtn($('#openPortBtn'));
 			fileReaderInterval = null; // Reset the file reader interval
 			fileSelect();
 		} else {
 			fileSelect();
 		}
-    })
+    });
 
 	fileLoopBtnDisable(autoSendBtn);
 	loopBtn.on('click', function() {
@@ -331,7 +332,7 @@ function openPortRoutine() {
 				mockSquareGenerator();
 			}
 			//File Reader
-			if (port.path === mockpath4 && selectedFile.path !== undefined) {
+			if (port.path === mockpath4) {
 				mockFileReader();
 			}
   
@@ -616,6 +617,7 @@ function mockFileReader() {
 function fileSelect() {
     let fileInput = document.createElement('input');
     fileInput.type = 'file';
+	fileInput.accept = '.csv, .txt';
     fileInput.style.display = 'none';
     fileInput.addEventListener('change', handleFileSelection);
     document.body.appendChild(fileInput);
@@ -624,14 +626,38 @@ function fileSelect() {
 
 function handleFileSelection(event) {
     selectedFile = event.target.files[0];
-	if (selectedFile === undefined) {
-		$('#openPortBtn').prop('disabled', true);
-	} else {
-		$('#openPortBtn').prop('disabled', false);
-	}
-    let selectedFileNameElement = document.getElementById('selectedFileName');
-    selectedFileNameElement.textContent = selectedFile.name;
+
+    if (selectedFile === undefined) {
+        $('#openPortBtn').prop('disabled', true);
+    } else {
+        $('#openPortBtn').prop('disabled', false);
+    }
+
+    // Check if file is a .csv or .txt
+    const allowedExtensions = [".csv", ".txt"];
+    const fileExtension = selectedFile.name.split('.').pop();
+    if (!allowedExtensions.includes("." + fileExtension)) {
+        const userConfirmation = confirm("Only .csv or .txt files are supported. Do you still wish to continue?");
+
+        if (userConfirmation) {
+            let selectedFileNameElement = document.getElementById('selectedFileName');
+            selectedFileNameElement.textContent = selectedFile.name;
+            $('#openPortBtn').prop('disabled', false);
+        } else {
+            $('#openPortBtn').prop('disabled', true);
+            // Clear the selected file
+            event.target.value = '';
+            // Clear the displayed file name
+            let selectedFileNameElement = document.getElementById('selectedFileName');
+            selectedFileNameElement.textContent = '';
+        }
+    } else {
+        let selectedFileNameElement = document.getElementById('selectedFileName');
+        selectedFileNameElement.textContent = selectedFile.name;
+        $('#openPortBtn').prop('disabled', false);
+    }
 }
+
 
 function fileLoopBtnEnable(elem) {
 	elem.attr('aria-pressed', 'true');
