@@ -10,6 +10,7 @@
  */
 
 let isFirstKeyupListenerActive = false;
+let isControlKeyPressed = false;
 
 function openKeyBindingsModal(buttonId) {
   const button = document.getElementById(buttonId);
@@ -143,10 +144,20 @@ const buttonActions = {
 };
 
 
+document.addEventListener('keydown', (event) => {
+  if (event.key === "Control" || event.code === "ControlLeft") {
+    isControlKeyPressed = true;
+  }
+});
+
 
 document.addEventListener('keyup', (event) => {
+  if (event.key === "Control" || event.code === "ControlLeft") {
+    isControlKeyPressed = false;
+  }
+
   event.preventDefault();
-  if (!isFirstKeyupListenerActive){
+  if (!isFirstKeyupListenerActive && isControlKeyPressed){
     for (const buttonId in buttonActions) {
       const button = document.getElementById(buttonId);
       const buttonText = button.textContent.trim();
