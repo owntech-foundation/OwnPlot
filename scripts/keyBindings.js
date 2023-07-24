@@ -1,16 +1,8 @@
-/**
- * @ Licence: OwnPlot, the OwnTech data plotter. Copyright (C) 2022. Matthias Riffard & Guillaume Arthaud - OwnTech Foundation.
-	Delivered under GNU Lesser General Public License Version 2.1 (https://opensource.org/licenses/LGPL-2.1)
- * @ Website: https://www.owntech.org/
- * @ Mail: owntech@laas.fr
- * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
- * @ Modified time: 2022-09-08 12:20:33
- * @ Description:
- */
+
+
+
 
 let isFirstKeyupListenerActive = false;
-let isControlKeyPressed = false;
 
 function openKeyBindingsModal(buttonId) {
   const button = document.getElementById(buttonId);
@@ -26,9 +18,24 @@ function openKeyBindingsModal(buttonId) {
   const modal = document.getElementById('keyBindingsModal');
   modal.style.display = 'block';
 
-  const handleKeyup = (event) => {    
-    button.textContent = event.code;
-    localStorage.setItem(buttonId, event.code);
+  const handleKeyup = (event) => {
+    const modifiers = [];
+    if (event.ctrlKey) modifiers.push('Ctrl');
+    if (event.altKey) modifiers.push('Alt');
+    if (event.shiftKey) modifiers.push('Shift');
+    if (event.metaKey) modifiers.push('Meta');
+  
+    const keyCombination = modifiers.join('+') + '+' + event.code;
+  
+    button.textContent = keyCombination;
+  
+    try {
+      localStorage.setItem(buttonId, keyCombination);
+    } catch (error) {
+      console.error('Failed to store key combination in localStorage:', error);
+      return;
+    }
+  
     buttonTextArray.length = 0;
     for (const actionButtonId in buttonActions) {
       const actionButton = document.getElementById(actionButtonId);
@@ -36,18 +43,17 @@ function openKeyBindingsModal(buttonId) {
       buttonTextArray.push(buttonText);
     }
     modal.style.display = 'none';
-
+  
     const keyDuplicates = getDuplicates(buttonTextArray);
     messageElement.textContent = keyDuplicates.length >= 1
-      ? "WARNING : Two or more buttons have the same key binding."
+      ? "WARNING: Two or more buttons have the same key binding."
       : "";
     messageElement.style.color = keyDuplicates.length >= 1
       ? "red"
       : "";
-
+  
     document.removeEventListener('keyup', handleKeyup);
     isFirstKeyupListenerActive = false;
-
   };
 
   document.addEventListener('keyup', handleKeyup);
@@ -144,28 +150,30 @@ const buttonActions = {
 };
 
 
-document.addEventListener('keydown', (event) => {
-  if (event.key === "Control" || event.code === "ControlLeft") {
-    isControlKeyPressed = true;
-  }
-});
-
-
 document.addEventListener('keyup', (event) => {
-  if (event.key === "Control" || event.code === "ControlLeft") {
-    isControlKeyPressed = false;
-  }
-
   event.preventDefault();
-  if (!isFirstKeyupListenerActive && isControlKeyPressed){
+  if (!isFirstKeyupListenerActive) {
     for (const buttonId in buttonActions) {
       const button = document.getElementById(buttonId);
-      const buttonText = button.textContent.trim();
-      if (event.code === buttonText && !$(buttonActions[buttonId]).prop('disabled')) {
-        //event.preventDefault();
-        $(buttonActions[buttonId]).trigger('click');
-        break;
+      const keyCombination = localStorage.getItem(buttonId);
+      if (keyCombination) {
+        const [storedModifiers, storedKey] = keyCombination.split('+');
+        const isCtrlKey = event.ctrlKey;
+        const isAltKey = event.altKey;
+        const isShiftKey = event.shiftKey;
+        const isMetaKey = event.metaKey;
+
+        const matchModifiers =
+          storedModifiers.includes('Ctrl') === isCtrlKey &&
+          storedModifiers.includes('Alt') === isAltKey &&
+          storedModifiers.includes('Shift') === isShiftKey &&
+          storedModifiers.includes('Meta') === isMetaKey;
+
+        if (matchModifiers && storedKey === event.code && !$(buttonActions[buttonId]).prop('disabled')) {
+          $(buttonActions[buttonId]).trigger('click');
+          break;
+        }
       }
     }
-  } 
+  }
 });
