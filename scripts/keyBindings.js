@@ -1,7 +1,3 @@
-
-
-
-
 const buttons = document.querySelectorAll('.key-binding-btn');
 const resetButton = document.getElementById('keyBindingsReset');
 const buttonActions = {
