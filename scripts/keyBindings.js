@@ -2,12 +2,27 @@
 
 
 
+const buttons = document.querySelectorAll('.key-binding-btn');
+const resetButton = document.getElementById('keyBindingsReset');
+const buttonActions = {
+  action1Btn: '#openPortBtn',
+  action2Btn: '#clearPortBtn',
+  action3Btn: '#pausePortBtn',
+  action4Btn: '#nav-command-tab',
+  action5Btn: '#nav-settings-tab',
+  action6Btn: '#nav-chartConfig-tab',
+  action7Btn: '#nav-record-tab',
+  action8Btn: '#nav-mockPorts-tab',
+  action9Btn: '#nav-keyBindings-tab'
+};
 let isFirstKeyupListenerActive = false;
+
+
 
 function openKeyBindingsModal(buttonId) {
   const button = document.getElementById(buttonId);
   const buttonTextArray = [];
-  const messageElement = document.getElementById('duplicateMessage');
+  const modal = document.getElementById('keyBindingsModal');
 
   for (const actionButtonId in buttonActions) {
     const actionButton = document.getElementById(actionButtonId);
@@ -15,7 +30,6 @@ function openKeyBindingsModal(buttonId) {
     buttonTextArray.push(buttonText);
   }
 
-  const modal = document.getElementById('keyBindingsModal');
   modal.style.display = 'block';
 
   const handleKeyup = (event) => {
@@ -25,8 +39,8 @@ function openKeyBindingsModal(buttonId) {
     if (event.shiftKey) modifiers.push('Shift');
     if (event.metaKey) modifiers.push('Meta');
   
-    const keyCombination = modifiers.join('+') + '+' + event.code;
-  
+    const lastModifier = modifiers.length > 0 ? modifiers[modifiers.length-1] : '';
+    const keyCombination = lastModifier !== '' ? lastModifier + '+' + event.code : event.code;
     button.textContent = keyCombination;
   
     try {
@@ -42,35 +56,37 @@ function openKeyBindingsModal(buttonId) {
       const buttonText = actionButton.textContent.trim();
       buttonTextArray.push(buttonText);
     }
+
     modal.style.display = 'none';
   
-    const keyDuplicates = getDuplicates(buttonTextArray);
-    messageElement.textContent = keyDuplicates.length >= 1
-      ? "WARNING: Two or more buttons have the same key binding."
-      : "";
-    messageElement.style.color = keyDuplicates.length >= 1
-      ? "red"
-      : "";
-  
+    handleDuplicates(buttonTextArray);
+
     document.removeEventListener('keyup', handleKeyup);
     isFirstKeyupListenerActive = false;
   };
-
   document.addEventListener('keyup', handleKeyup);
 }
 
-
-
-const buttons = document.querySelectorAll('.key-binding-btn');
 buttons.forEach((button) => {
   button.addEventListener('click', () => {
     const buttonId = button.getAttribute('id');
+
     openKeyBindingsModal(buttonId);
     isFirstKeyupListenerActive = true;
   });
 });
 
+function handleDuplicates(buttonTextArray) {
+  const messageElement = document.getElementById('duplicateMessage');
+  const keyDuplicates = getDuplicates(buttonTextArray);
 
+  messageElement.textContent = keyDuplicates.length >= 1
+    ? "WARNING: Two or more buttons have the same key binding."
+    : "";
+  messageElement.style.color = keyDuplicates.length >= 1
+    ? "red"
+    : "";
+}
 
 function getDuplicates(array) {
   return array.filter((item, index) => array.indexOf(item) !== index);
@@ -78,18 +94,16 @@ function getDuplicates(array) {
 
 
 
-const resetButton = document.getElementById('keyBindingsReset');
 resetButton.addEventListener('click', () => {
   buttons.forEach((button) => {
     const buttonId = button.getAttribute('id');
     localStorage.removeItem(buttonId);
     loadDefaultButtonText(button, buttonId);
   });
+
   const messageElement = document.getElementById('duplicateMessage');
   messageElement.textContent = "";
 });
-
-
 
 function retrieveButtonConfigurations() {
   buttons.forEach((button) => {
@@ -101,19 +115,13 @@ function retrieveButtonConfigurations() {
       loadDefaultButtonText(button, buttonId);
     }
   });
-  const messageElement = document.getElementById('duplicateMessage');
+
   const buttonTextArray = [];
   buttons.forEach((button) => {
     const buttonText = button.textContent.trim();
     buttonTextArray.push(buttonText);
   });
-  const keyDuplicates = getDuplicates(buttonTextArray);
-  messageElement.textContent = keyDuplicates.length >= 1
-    ? "WARNING: Two or more buttons have the same key binding."
-    : "";
-  messageElement.style.color = keyDuplicates.length >= 1
-    ? "red"
-    : "";
+  handleDuplicates(buttonTextArray);
 }
 
 function loadDefaultButtonText(button, buttonId) {
@@ -129,27 +137,15 @@ function loadDefaultButtonText(button, buttonId) {
     });
 }
 
-
-
 window.addEventListener('DOMContentLoaded', () => {
   retrieveButtonConfigurations();
 });
 
 
 
-const buttonActions = {
-  action1Btn: '#openPortBtn',
-  action2Btn: '#clearPortBtn',
-  action3Btn: '#pausePortBtn',
-  action4Btn: '#nav-command-tab',
-  action5Btn: '#nav-settings-tab',
-  action6Btn: '#nav-chartConfig-tab',
-  action7Btn: '#nav-record-tab',
-  action8Btn: '#nav-mockPorts-tab',
-  action9Btn: '#nav-keyBindings-tab'
-};
 
 
+//Document event listener
 document.addEventListener('keyup', (event) => {
   event.preventDefault();
   if (!isFirstKeyupListenerActive) {
