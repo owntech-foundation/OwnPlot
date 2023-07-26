@@ -141,10 +141,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
-//Document event listener
+// Document event listener
 document.addEventListener('keyup', (event) => {
   event.preventDefault();
   if (!isFirstKeyupListenerActive) {
+    let foundMatch = false;
     for (const buttonId in buttonActions) {
       const button = document.getElementById(buttonId);
       const keyCombination = localStorage.getItem(buttonId);
@@ -161,7 +162,28 @@ document.addEventListener('keyup', (event) => {
           storedModifiers.includes('Shift') === isShiftKey &&
           storedModifiers.includes('Meta') === isMetaKey;
 
+        // Check if there's a match with modifiers and the key
         if (matchModifiers && storedKey === event.code && !$(buttonActions[buttonId]).prop('disabled')) {
+          $(buttonActions[buttonId]).trigger('click');
+          foundMatch = true;
+          break;
+        }
+
+        // Check if there's a match without modifiers and only the key
+        if (!keyCombination.includes('+') && storedKey === event.code && !$(buttonActions[buttonId]).prop('disabled')) {
+          $(buttonActions[buttonId]).trigger('click');
+          foundMatch = true;
+          break;
+        }
+      }
+    }
+
+    // If no match is found, try to trigger actions with single key bindings (no modifiers)
+    if (!foundMatch) {
+      for (const buttonId in buttonActions) {
+        const button = document.getElementById(buttonId);
+        const keyCombination = localStorage.getItem(buttonId);
+        if (keyCombination && !keyCombination.includes('+') && keyCombination === event.code && !$(buttonActions[buttonId]).prop('disabled')) {
           $(buttonActions[buttonId]).trigger('click');
           break;
         }
