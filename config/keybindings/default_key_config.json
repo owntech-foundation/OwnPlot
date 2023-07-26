@@ -1,12 +1,12 @@
 {
-    "action1Btn": "Enter",
-    "action2Btn": "Delete",
-    "action3Btn": "Space",
-    "action4Btn": "Digit1",
-    "action5Btn": "Digit2",
-    "action6Btn": "Digit3",
-    "action7Btn": "Digit4",
-    "action8Btn": "Digit5",
-    "action9Btn": "Digit6"
+    "action1Btn": "Ctrl+Enter",
+    "action2Btn": "Ctrl+Backspace",
+    "action3Btn": "Ctrl+Space",
+    "action4Btn": "Ctrl+Digit1",
+    "action5Btn": "Ctrl+Digit2",
+    "action6Btn": "Ctrl+Digit3",
+    "action7Btn": "Ctrl+Digit4",
+    "action8Btn": "Ctrl+Digit5",
+    "action9Btn": "Ctrl+Digit6"
   }
   
