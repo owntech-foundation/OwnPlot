@@ -99,7 +99,7 @@
     "roarr": "^2.15.4",
     "safe-buffer": "^5.1.2",
     "sass": "^1.63.3",
-    "semver": "^6.3.0",
+    "semver": "^7.5.4",
     "semver-compare": "^1.0.0",
     "serialize-error": "^7.0.1",
     "serialport": "^10.4.0",
