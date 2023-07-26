@@ -4,31 +4,34 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-09-07 12:12:18
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:45:44
  * @ Description:
  -->
 
 <!DOCTYPE html>
-<html>
-
+<html data-bs-theme="dark">
 <head>
-	<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="./styles/ownplot.css">
 	<link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/fontawesome.css">
 	<link rel="stylesheet" href="./node_modules/code-prettify/styles/desert.css">
 	<script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
 	<script src="./node_modules/@fortawesome/fontawesome-free/js/all.min.js"></script>
 	<script src="./node_modules/jquery/dist/jquery.min.js"></script>
 	<script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="./node_modules/split.js/dist/split.min.js"></script>
 	<script>if (window.module) module = window.module;</script>
 
+	<script src="./node_modules/hammerjs/hammer.min.js"></script>
 	<script src="./node_modules/moment/min/moment.min.js"></script>
 	<script src="./node_modules/chart.js/dist/chart.js"></script>
 	<script src="./node_modules/chartjs-adapter-moment/dist/chartjs-adapter-moment.min.js"></script>
+	<script src="./node_modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.min.js"></script>
 	<script src="./node_modules/chartjs-plugin-streaming/dist/chartjs-plugin-streaming.min.js"></script>
 	<script src="./node_modules/code-prettify/loader/run_prettify.js"></script>
 
-	<link rel="stylesheet" href="./styles/ownplot.css">
+	<link rel="stylesheet" href="./styles/legacy.css">
 
 	<%- include('scripts'); %>
 </head>

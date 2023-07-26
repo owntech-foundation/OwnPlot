@@ -9,8 +9,10 @@
  * @ Description:
  */
 
-let availableSerialPorts;
+let availableSerialPorts = [];
 let selectedPort;
+let isPortClosedMessageDisplayed;
+let isPortOpenMessageDisplayed;
 
 $(function(){
 	noPortBtn($('#openPortBtn'));
@@ -18,24 +20,43 @@ $(function(){
 	
 	$("#AvailablePorts").on('change', function(){
 		selectedPort = $(this).children("option:selected").val();
-		if(availableSerialPorts.length > 0 && selectedPort != "default"){
-			if(selectedPort != configSerialPlot.path){
-				closePortBtn($('#openPortBtn'));
-				//pause & clear btn are unclickable while port is closed
+	
+		if (selectedPort === mockpath4) {
+			enableButtons();
+		} else {
+			disableButtons();
+		}	
+	
+		if (availableSerialPorts.length > 0) {
+			if (selectedPort != configSerialPlot.path) {
+				if (portIsOpen) {
+					port.close(); // Close the currently open port
+					portIsOpen = false; // Set the portIsOpen flag to false
+				}
+				// Pause & clear buttons are unclickable while port is closed
 				pauseBtn($('#pausePortBtn'));
 				$('#pausePortBtn').prop('disabled', true);
 				$('#clearPortBtn').prop('disabled', true);
+				if (selectedPort === "default") {
+					noPortBtn($('#openPortBtn'));
+				} else {
+					closePortBtn($('#openPortBtn'));
+					if (selectedPort === mockpath4 && selectedFile === undefined) {
+						$('#openPortBtn').prop('disabled', true);
+					}
+				}
 			} else {
-				if(portIsOpen){
+				if (portIsOpen) {
 					openPortBtn($('#openPortBtn'));
 					runBtn($('#pausePortBtn'));
+				} else {
+					closePortBtn($('#openPortBtn'));
 				}
 			}
-		} else {
-			noPortBtn($('#openPortBtn'));
 		}
 		this.blur();
 	});
+	
 
 	$('#pausePortBtn').on('click', function(){
 		if($(this).attr('aria-pressed') === "true"){
@@ -60,7 +81,7 @@ $(function(){
 				}
 			}
 			configSerialPlot.path = selectedPort;
-			openPort();
+			openPort(configSerialPlot.baudRate);
 		} else {
 			//pause btn is unclickable while port is closed
 			pauseBtn('#pausePortBtn');
@@ -87,6 +108,13 @@ function openPortBtn(elem) {
 	$(elem).attr('aria-pressed', false);
 	$(elem).prop('disabled', false);
 	$(elem).show();
+
+	// Print message in terminal
+	if (!isPortOpenMessageDisplayed){
+		printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: green;">open</span></span>\n');
+		isPortOpenMessageDisplayed=true;
+		isPortClosedMessageDisplayed=false;
+	}	
 }
 
 function closePortBtn(elem) {
@@ -97,4 +125,23 @@ function closePortBtn(elem) {
 	$(elem).attr('aria-pressed', true);
 	$(elem).prop('disabled', false);
 	$(elem).show();
+
+	// Print message in terminal
+	if (!isPortClosedMessageDisplayed){
+		printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: red;">closed</span></span>\n');
+		isPortClosedMessageDisplayed=true;
+		isPortOpenMessageDisplayed=false;
+	}	
+}
+
+function printMessageToTerminal(message) {
+	let terminal = $('#terminalData');
+	let messageElement = $('<span>' + message + '<span>');
+	terminal.prepend(messageElement);
+	countTermLines++;
+
+	if(countTermLines>termSize) {
+		terminal.children().last().remove();
+		countTermLines--;
+	}
 }

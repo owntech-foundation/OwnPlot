@@ -4,11 +4,12 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-08 12:20:33
  * @ Description:
  */
-
+ 
+// const { DatasetController } = require("chart.js");
 const { data } = require("jquery");
 const { proto } = require("once");
 
@@ -56,8 +57,11 @@ function runBtn(elem) {
 }
 
 let dataSerialBuff = Buffer.alloc(0);
+let plotSerialBuff = Buffer.alloc(0);
+let plotTimeBuff = Buffer.alloc(0);
 let rawDataBuff = Buffer.alloc(0);
-const NB_MAX_DATASETS = 20;
+const NB_MAX_DATASETS = 10;
+let nbChannels = 3;
 let plotRunning = false;
 
 let ctx;
@@ -67,16 +71,47 @@ const nbChannelsInput = $("#nbChannels");
 const colorSchemeSelect = $("#colorSchemeSelect");
 
 $(() => {
-	initColorSchemeSelect();
-	initChart();
-	nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
-	nbChannelsInput.attr("max", NB_MAX_DATASETS);
-	nbChannelsInput.on('change', updateNbChannels);
-	enterKeyupHandler(nbChannelsInput, updateNbChannels);
+
+	nbChannelsInput.val(nbChannels);
+	if (appChartEnabled = 1){
+		initColorSchemeSelect();
+		initChart();
+		$('#monotoneInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'monotone';
+				myChart.data.datasets[dataset.index].tension = 0.4;
+				myChart.data.datasets[dataset.index].stepped = 0;
+			})
+		});
+		$('#linearInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'linear';
+				myChart.data.datasets[dataset.index].tension = 0.4;
+				myChart.data.datasets[dataset.index].stepped = 0;
+			})
+		});
+		$('#stepInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'standard';
+				myChart.data.datasets[dataset.index].tension = 0.4;
+				myChart.data.datasets[dataset.index].stepped = 'before';
+			})
+		});
+		
+
+		nbChannelsInput.attr("value", numberOfDatasets); //initialize input field to the number of datasets
+		nbChannelsInput.attr("max", NB_MAX_DATASETS);
+		nbChannelsInput.on('change', updateNbChannels);
+		//enterKeyupHandler(nbChannelsInput, updateNbChannels);
+	}
 });
 
 function updateNbChannels(){
-	let nbChannels = nbChannelsInput.val();
+	nbChannels = nbChannelsInput.val();
+	if (nbChannels > NB_MAX_DATASETS) {
+		nbChannels = NB_MAX_DATASETS;
+		nbChannelsInput.val(nbChannels);
+	}
 	while(numberOfDatasets < nbChannels && numberOfDatasets < NB_MAX_DATASETS){
 		addDataset();
 	}
@@ -85,6 +120,14 @@ function updateNbChannels(){
 	}
 	updateLegendTable();
 }
+
+nbChannelsInput.on('input', function() {
+	nbChannels = nbChannelsInput.val();
+	if (nbChannels > NB_MAX_DATASETS) {
+		nbChannels = NB_MAX_DATASETS;
+	  	nbChannelsInput.val(nbChannels);
+	}
+}); 
 
 function pausePlot(){
 	myChart.options.scales['x'].realtime.pause = true;
@@ -104,17 +147,30 @@ function getSerialData(index) {
 	return(dataSerialBuff[index]);
 }
 
+function getSerialDataStructure(index) {
+	dataStructure.y.slice(0, numberOfDatasets).forEach(getYData, index);
+}
+
+function flushDataStructure(){
+	dataStructure.x = [];
+	dataStructure.y = [];
+}
+
 function refreshCallback(chart) {
 	if (plotRunning) {
 		if(dataSerialBuff.length >= numberOfDatasets){
 			chart.data.datasets.forEach((dataset) => {
-				dataset.data.push({
-					x: timeBuff[0],
-					y: getSerialData(dataset.index)
+				const dataValues = dataStructure.y.map(array => array[dataset.index]);
+                const data = dataStructure.x.map((x, index) => {
+                    return { x: x, y: dataValues[index] };
+                });
+				data.forEach((dataPoint) => {
+					dataset.data.push({ x: dataPoint.x, y: dataPoint.y });
 				});
 			});
-		}
+		};
 	}
+	flushDataStructure();
 }
 
 function flushChart(chart) {
@@ -217,8 +273,8 @@ function initChart(){
 					type: 'realtime',
 					realtime: {
 						duration: 20000,
-						refresh: 200,
-						delay: 100,
+						refresh: refreshValue,
+						delay: 500,
 						onRefresh: refreshCallback,
 						pause: true
 					},
@@ -246,8 +302,20 @@ function initChart(){
 						display: true,
 						labelString: 'value'
 					}
-				}
+				},
+				y2: {
+					type: 'linear',
+					display: false,
+					position: 'right',
+			
+					// grid line settings
+					grid: {
+					  drawOnChartArea: false, // only want the grid lines for one axis to show up
+					},
+				},
 			},
+			responsive: true,
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: true,
@@ -266,7 +334,33 @@ function initChart(){
 						$(this.ctx.canvas).css('cursor', 'default');
 					},
 				},
-		 	},
+				zoom: {
+					// Assume x axis has the realtime scale
+					pan: {
+						enabled: true,        // Enable panning
+						mode: 'xy',   
+					},
+					zoom: {
+						pinch: {
+							enabled: true       // Enable pinch zooming
+						},
+						scaleMode: 'y',			//Allow y axis zoom when on y scale
+						wheel: {
+							enabled: true       // Enable wheel zooming
+						},
+					  	mode: 'x'             // Allow zooming in the x direction
+					},
+
+					limits: {
+						x: {
+							minDelay: null,     // Min value of the delay option
+							maxDelay: 20000,     // Max value of the delay option
+							minDuration: 200,  // Min value of the duration option
+							maxDuration: 20000   // Max value of the duration option
+						}
+					}
+				}
+			},
 		}
 	});
 

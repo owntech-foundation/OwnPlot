@@ -1,0 +1,66 @@
+<div class="mb-3">
+    <div id="duplicateMessage"></div>
+    <a data-target="#keyBindingsDiv" class="collapseHead" role="button" id="keyBindingsHref" aria-expanded="true" aria-controls="keyBindingsDiv">
+        <span class="input-group-text" id="keyBindingsTitle">
+            <i class="fa-solid fa-link"></i>&nbsp;<span style="font-weight:bolder">Key Bindings</span>
+        </span>
+    </a>
+    <div class="collapse show" id="keyBindingsDiv">
+        <div class="card card-body">
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action1Btn">Open/Close Port</label>
+                <button type="button" aria-pressed="false" id="action1Btn" class="btn btn-primary col-5 key-binding-btn">Enter</button>
+            </div>    
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action2Btn">Clear Chart</label>
+                <button type="button" aria-pressed="false" id="action2Btn" class="btn btn-primary col-5 key-binding-btn">Backspace</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action3Btn">Run/Stop Plotting</label>
+                <button type="button" aria-pressed="false" id="action3Btn" class="btn btn-primary col-5 key-binding-btn">Space</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action4Btn">Send Tab</label>
+                <button type="button" aria-pressed="false" id="action4Btn" class="btn btn-primary col-5 key-binding-btn">Digit1</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action5Btn">Settings Tab</label>
+                <button type="button" aria-pressed="false" id="action5Btn" class="btn btn-primary col-5 key-binding-btn">Digit2</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action6Btn">Chart Tab</label>
+                <button type="button" aria-pressed="false" id="action6Btn" class="btn btn-primary col-5 key-binding-btn">Digit3</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action7Btn">Record Tab</label>
+                <button type="button" aria-pressed="false" id="action7Btn" class="btn btn-primary col-5 key-binding-btn">Digit4</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action8Btn">Mockports Tab</label>
+                <button type="button" aria-pressed="false" id="action8Btn" class="btn btn-primary col-5 key-binding-btn">Digit5</button>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <label class="input-group-text col-7" for="action9Btn">Controls Tab</label>
+                <button type="button" aria-pressed="false" id="action9Btn" class="btn btn-primary col-5 key-binding-btn">Digit6</button>
+            </div>
+            <div class="input-group input-group-sm">
+                <button type="button" class="btn btn-danger col-12 btn-sm" id="keyBindingsReset">Reset to defaults</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal HTML -->
+<div id="keyBindingsModal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Binding Keys</h5>
+        </div>
+        <div class="modal-body">
+          <p>Press the key you would like to bind.</p>
+        </div>
+      </div>
+    </div>
+</div>
