@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:44:23
  * @ Description:
  */
@@ -19,15 +19,29 @@ $(()=>{
 		window.location.href='https://www.w3docs.com';
 	});
 
-	updateHeight($("#terminalBar"));
+	//updateHeight($("#terminalBar")); //TODO: for each app
+	updateHeight($("#app1000"));
+	updateHeight($("#app2000"));
+
+
+	
 	updateHeight($("#sideBar"));
 	$(window).on('resize', function(){
 		setTimeout(function() {
-			updateHeight($("#terminalBar"));
+			//updateHeight($("#terminalBar")); //for each appp
+
+			updateHeight($("#app1000"));
+			updateHeight($("#app2000"));
+
+			
 			updateHeight($("#sideBar"));
 		}, 50); //Set a first height quickly to avoid blinking
 		setTimeout(function() {
-			updateHeight($("#terminalBar"));
+			//updateHeight($("#terminalBar")); //for each app
+
+			updateHeight($("#app1000"));
+			updateHeight($("#app2000"));
+
 			updateHeight($("#sideBar"));
 		}, 200); //Set definitive height after a longer delay, so that the eventual animation is done
 	});

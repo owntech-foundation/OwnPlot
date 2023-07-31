@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:44:23
  * @ Description:
  */
@@ -15,7 +15,27 @@ let appChartEnabled;
 let appSimulationEnabled;
 let horSplit;
 
-$(() => {   
+var appsList = ['#appZone', '#app1000', '#app2000']
+	
+function appsSplit() {
+	horSplit = Split([appsList[0], appsList[1], appsList[2]],{
+		direction: 'vertical',
+		gutterSize: 3,
+	});
+	// for (var i = 0; i < appsList.length - 1; i++) {
+	// 	console.log(appsList[i] + " " + appsList[i + 1]);
+
+	// 	horSplit = Split([appsList[i], appsList[i + 1]],{
+	// 	direction: 'vertical',
+	// 	sizes: [100 / appsList.length, 100 / appsList.length],
+	// 	gutterSize: 3,
+	// 	});
+	// 	horSplit.pairs[i].gutter.id = "gutterHoriz_" + i;
+	// 	$("#gutterHoriz_" + i).hover(gutterHHandlerIn, gutterHHandlerOut);
+	// }
+}
+
+$(() => {
 
 	/* Prevent overflowing of appBody because of ChartJS responsiveness */
 
@@ -41,14 +61,7 @@ $(() => {
 	vertSplit.pairs[0].gutter.id = "gutterVert";
 	$("#gutterVert").hover(gutterVHandlerIn, gutterVHandlerOut);
 
-	
-	horSplit = Split(['#appZone', '#terminalBar'],{
-		direction: 'vertical',
-		sizes: [75,25],
-		gutterSize: 4, 	
-	});
-	horSplit.pairs[0].gutter.id = "gutterHoriz";
-	$("#gutterHoriz").hover(gutterHHandlerIn, gutterHHandlerOut);
+	appsSplit();
 
 	$(".chartApp").on('click', function(e){
 		$("#chartApp").show();

@@ -9,11 +9,13 @@
  * @ Description:
  */
 
+const ejs = require('ejs');
+
+var term1, term2;
+
 /*
  *	UI handlers
  */
-
-var term1, term2;
 
 function terminalTimestampBtnEnable(elem) {
 	elem.attr('aria-pressed', 'true');
@@ -86,9 +88,10 @@ const MAX_TERM_LINES = 1000;
 class TerminalApp {
 	constructor(appID) {
 		this.appID = appID;
-		this.template = "template/terminal.ejs";
-		// this.renderedHtml = ejs.render(this.template, { app_id: this.appID });
-		// $("#chartAndTerminalDiv").append(this.renderedHtml);
+		this.template = fs.readFileSync("template/apps/terminal.ejs", 'utf-8');
+		this.renderedHtml = ejs.render(this.template, { app_id: this.appID });
+		console.log(this.renderedHtml);
+		$("#chartAndTerminalDiv").append(this.renderedHtml);
 
 		this.terminalSel = $('#terminalData_' + appID);
 
@@ -230,9 +233,8 @@ class TerminalApp {
 	}
 
 	printMessageToTerminal(message) {
-		let terminal = $('#terminalData');
 		let messageElement = $('<span>' + message + '<span>');
-		terminal.prepend(messageElement);
+		this.terminalSel.prepend(messageElement);
 		this.countTermLines++;
 	
 		if(this.countTermLines > termSize) {
