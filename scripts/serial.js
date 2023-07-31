@@ -515,7 +515,7 @@ function mockSinusGenerator() {
 				signalValues += value.toFixed(3); // Append the value to the string
 	
 				if (i !== numSignals - 1) {
-					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
+					  signalValues += separatorField.val();
 				}
 			}
 	
@@ -546,7 +546,7 @@ function mockTriangleGenerator() {
 				signalValues += value.toFixed(3); // Append the value to the string
 	
 				if (i !== numSignals - 1) {
-					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
+					  signalValues += separatorField.val(); 
 				}
 			}
 	
@@ -575,7 +575,7 @@ function mockSquareGenerator() {
 				signalValues += value.toFixed(3); // Append the value to the string
 	
 				if (i !== numSignals - 1) {
-					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
+					  signalValues += separatorField.val(); 
 				}
 			}
 	
@@ -602,10 +602,10 @@ function mockFileReader() {
 				return;
 			}
 			const line = fileLines[fileLineNumber];
-			const values = line.split(',').map(Number);
+			const values = line.split(separatorField.val()).map(Number);
 			const data = values.slice(1);
 
-            const buffer = Buffer.from(data.join(':') + '\r\n');
+            const buffer = Buffer.from(data.join(separatorField.val()) + '\r\n');
             port.port.emitData(buffer);
 
             fileLineNumber++;
