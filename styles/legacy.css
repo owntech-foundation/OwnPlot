@@ -72,7 +72,7 @@ main{
 	min-width: var(--port-bar-width) !important;
 }
 
-#terminalBar {
+.terminalBar {
 	background-color: var(--second-bg-color);
 	border: var(--simple-border);
 }

@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:47:28
  * @ Description:
  -->
@@ -20,15 +20,14 @@
 	<div class="row" id="appBody">
 		<div class="split">
 			<div class="col-3 px-0"  id="sideBar">
-				<%- include('template/tabs'); %>
+				<%- include('template/tabs/tabs'); %>
 			</div>
 			<div class="col-9 ps-0" id="chartAndTerminalDiv">
-				<%- include('template/apps'); %>
-				<%- include('template/myTerminal'); %>
+				<%- include('template/apps/apps'); %>
+				<%- include('template/apps/terminal', { app_id: "app1000" }); %>
 			</div>
 		</div>
 	</div>
 </main>
 <%- include('template/footer'); %>
 <% ejse.stopListening() %>
- 

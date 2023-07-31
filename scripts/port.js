@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-22 16:23:22
- * @ Modified by: Matthias Riffard
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:43:39
  * @ Description:
  */
@@ -111,7 +111,7 @@ function openPortBtn(elem) {
 
 	// Print message in terminal
 	if (!isPortOpenMessageDisplayed){
-		printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: green;">open</span></span>\n');
+		term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: green;">open</span></span>\n'); /////////////////////////////////////
 		isPortOpenMessageDisplayed=true;
 		isPortClosedMessageDisplayed=false;
 	}	
@@ -128,20 +128,8 @@ function closePortBtn(elem) {
 
 	// Print message in terminal
 	if (!isPortClosedMessageDisplayed){
-		printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: red;">closed</span></span>\n');
+		term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: red;">closed</span></span>\n'); /////////////////////////////////////
 		isPortClosedMessageDisplayed=true;
 		isPortOpenMessageDisplayed=false;
 	}	
-}
-
-function printMessageToTerminal(message) {
-	let terminal = $('#terminalData');
-	let messageElement = $('<span>' + message + '<span>');
-	terminal.prepend(messageElement);
-	countTermLines++;
-
-	if(countTermLines>termSize) {
-		terminal.children().last().remove();
-		countTermLines--;
-	}
 }
