@@ -138,7 +138,7 @@ class TerminalApp {
 		this.countTermLines = 0;
 	}
 	
-	termialTime() {
+	terminalTime() {
 		let timeStr = "";
 		if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
 			let dataTime; //we get the time of the last data received
@@ -221,7 +221,7 @@ class TerminalApp {
 				if (this.countTermLines == 0){
 					this.terminalSel.empty(); //erases the "terminal cleared" on print
 				}
-				this.terminalSel.prepend('<span>' + this.appID + "| " + this.termialTime() + dataString + '</span>'); //put first on top
+				this.terminalSel.prepend('<span>' + this.appID + "| " + this.terminalTime() + dataString + '</span>'); //put first on top
 				this.countTermLines = this.countTermLines + 1;
 				$('#clearPortBtn').prop('disabled', false);
 			}
@@ -238,7 +238,7 @@ class TerminalApp {
 		this.countTermLines++;
 	
 		if(this.countTermLines > termSize) {
-			terminal.children().last().remove();
+			this.terminalSel.children().last().remove();
 			this.countTermLines--;
 		}
 	}
