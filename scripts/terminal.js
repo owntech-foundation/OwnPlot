@@ -10,6 +10,7 @@
  */
 
 const ejs = require('ejs');
+//const { parentPort } = require('worker_threads'); //MULTITHREADING
 
 var term1, term2;
 
@@ -253,6 +254,19 @@ $(() => {
 	term2 = new TerminalApp("app2000");
 
 });
+
+/* MULTITHREADING
+parentPort.on('message', createTerminal);
+
+function createTerminal(message) {
+	if (message === 'create new terminal') {
+		var term 
+		term = new TerminalApp("app3000");
+		console.log("terminal created");
+	}
+}
+*/
+
 
 
 
