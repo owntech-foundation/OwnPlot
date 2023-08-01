@@ -165,12 +165,14 @@ class TerminalApp {
 		}
 	}
 
-	terminalSizeInputHandler() {
+	terminalSizeInputHandler = () => { //ChatGPT idea (arrow function)
 		termSize = termBufSizeInput.val();
 		if(termSize > MAX_TERM_LINES) {
 			termSize = MAX_TERM_LINES;
+			termBufSizeInput.val(termSize);
 		} else if(termSize < MIN_TERM_LINES) {
 			termSize = MIN_TERM_LINES;
+			termBufSizeInput.val(termSize);
 		}
 		this.changeTerminalSize();
 	}
@@ -242,6 +244,8 @@ class TerminalApp {
 			this.countTermLines--;
 		}
 	}
+
+	inputTerminalSize() {}
 }
 
 $(() => {
@@ -250,10 +254,14 @@ $(() => {
 
 });
 
+
+
+
+/*
 termBufSizeInput.on('input', function() {
 	termSize = termBufSizeInput.val();
 	if (termSize > MAX_TERM_LINES) {
 		termSize = MAX_TERM_LINES;
 		termBufSizeInput.val(termSize);
 	}
-});
+});*/
