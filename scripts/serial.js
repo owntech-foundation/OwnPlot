@@ -43,12 +43,9 @@ let fileReaderInterval;
 let interval = $('#intervalTime');
 let intervalValue = 100;
 
-let dataStructure = {
-	x: [],
-	y: []
-};
 
-let configSerialPlot = {
+
+let configSerialPort = { //configSerialPort ?
 	dataFormat: 'ascii',
 	separator: ':',
 	path: "",
@@ -78,7 +75,7 @@ function switchDataForms(){
 	$(asciiForm).hide();
 	$(binaryForm).hide();
 	//$(customForm).hide();
-	switch(configSerialPlot.dataFormat){
+	switch(configSerialPort.dataFormat){
 		case 'binary':
 			binaryForm.show();
 			break;
@@ -140,78 +137,78 @@ $(()=>{
 
 	listSerialPorts();
 	dataFormatField.on('change', function(){
-		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
+		configSerialPort.dataFormat = dataFormatField.children("option:selected").val();
 		switchDataForms();
 	});
 	
-	separatorField.val(configSerialPlot.separator);
+	separatorField.val(configSerialPort.separator);
 	separatorField.on('input', function(){
 		if (separatorField.val().length > 0) {
-			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
+			configSerialPort.separator = separatorField.val()[0]; //first char in the separator field
 		}
 	});
 
 	baudRateSelect.on('change',function(){
 		if (baudRateSelect.val() == "Custom"){
-			configSerialPlot.baudRate = parseInt(customBaudRateField.val());
+			configSerialPort.baudRate = parseInt(customBaudRateField.val());
 			if(port.isOpen){
 				port.close();
-				openPort(configSerialPlot.baudRate);
+				openPort(configSerialPort.baudRate);
 			}
 		}
 		else {
-			configSerialPlot.baudRate = parseInt(baudRateSelect.children("option:selected").val());
+			configSerialPort.baudRate = parseInt(baudRateSelect.children("option:selected").val());
 			if(port.isOpen){
 				port.close();
-				openPort(configSerialPlot.baudRate);
+				openPort(configSerialPort.baudRate);
 			}
 		}
 	});
 
-	customBaudRateField.val(configSerialPlot.baudRate);
+	customBaudRateField.val(configSerialPort.baudRate);
 	customBaudRateField.on('input', function(){
 		if (customBaudRateField.val().length > 0) {
-			configSerialPlot.baudRate = parseInt(customBaudRateField.val());
+			configSerialPort.baudRate = parseInt(customBaudRateField.val());
 			if(port.isOpen){
 				port.close();
-				openPort(configSerialPlot.baudRate);
+				openPort(configSerialPort.baudRate);
 			}
 		}
 	});
 
 	enterKeyupHandler(separatorField, function(){
 		if (separatorField.val().length > 0) {
-			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
+			configSerialPort.separator = separatorField.val()[0]; //first char in the separator field
 		}
 	});
 
 	nbTypeField.on('change',function(){
-		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
-		switch (configSerialPlot.nbType) {
+		configSerialPort.nbType = nbTypeField.children("option:selected").val();
+		switch (configSerialPort.nbType) {
 			case "uint8":
 			case "int8":
-				configSerialPlot.nbSize = 1;
+				configSerialPort.nbSize = 1;
 				break;
 			case "uint16":
 			case "int16":
-				configSerialPlot.nbSize = 2;
+				configSerialPort.nbSize = 2;
 				break;
 			case "uint32":
 			case "int32":
 			case "float":
-				configSerialPlot.nbSize = 4;
+				configSerialPort.nbSize = 4;
 				break;
 			case "double":
-				configSerialPlot.nbSize = 8;
+				configSerialPort.nbSize = 8;
 				break;
 			default:
-				configSerialPlot.nbSize = 1;
+				configSerialPort.nbSize = 1;
 		}
-		//not available in this version: printDebugTerminal("number size is now " + configSerialPlot.nbSize + " bytes");
+		//not available in this version: printDebugTerminal("number size is now " + configSerialPort.nbSize + " bytes");
 	});
 
 	endiannessField.on('change',function(){
-		configSerialPlot.endianness = endiannessField.children("option:selected").val();
+		configSerialPort.endianness = endiannessField.children("option:selected").val();
 	});
 
 });
@@ -279,15 +276,15 @@ async function listPorts() {
 }
 
 function openPort(baudRate=115200) {
-	if (configSerialPlot.path.includes("Mock")) {
+	if (configSerialPort.path.includes("Mock")) {
 		port = new SerialPortMock({
-			path : configSerialPlot.path,
+			path : configSerialPort.path,
 			baudRate : baudRate,
 			autoOpen : false,
 		});
 	} else {
 		port = new SerialPort({
-			path : configSerialPlot.path,
+			path : configSerialPort.path,
 			baudRate : baudRate,
 			autoOpen : false,
 		});
@@ -368,7 +365,7 @@ function openPortRoutine() {
 			flushBuff();
 			timeBuff.push(Date.now());
 			rawDataBuff = data;
-			switch(configSerialPlot.dataFormat){
+			switch(configSerialPort.dataFormat){
 				case "binary":
 					bufferizeBinary(data);
 					break;
@@ -384,10 +381,10 @@ function openPortRoutine() {
 			//term2.updateTerminal(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			writeToExport(dataSerialBuff, timeBuff);
-			if (plotRunning === true) {
-				dataStructure.x.push(Date.now());
-				dataStructure.y.push(dataSerialBuff);
-			}
+			// if (chart1.getPlotRunning() === true) { ////////////////////////////////////////////////
+			// 	dataStructure.x.push(Date.now());
+			// 	dataStructure.y.push(dataSerialBuff);
+			// }
 		});
 
 		skipByteBtn.on('click', () => {
@@ -417,8 +414,8 @@ function bufferizeBinary(data){
 	let dataSerial = []; //flush dataSerial buffer
 	//we only read data from the port when there is at least one data for each channel
 	//else, the first dataset only gets filled
-	if (pendingData.length >= configSerialPlot.nbSize*numberOfDatasets) {
-		for (let i=0; i<=configSerialPlot.nbSize*(numberOfDatasets-1); i+=configSerialPlot.nbSize) {
+	if (pendingData.length >= configSerialPort.nbSize*numberOfDatasets) {
+		for (let i=0; i<=configSerialPort.nbSize*(numberOfDatasets-1); i+=configSerialPort.nbSize) {
 			dataSerial.push(readBuf(pendingData, i));
 		}
 		dataSerialBuff = dataSerial;
@@ -438,7 +435,7 @@ function bufferizeAscii(data){
 		let dataSerial = [];
 		let dataStart = 0;
 		for (let i = 0; i < pendingData.length; i++) {
-			if (pendingData[i] == configSerialPlot.separator.charCodeAt(0) ||
+			if (pendingData[i] == configSerialPort.separator.charCodeAt(0) ||
 			(pendingData[i] == endCom[0] && pendingData[i + 1] == endCom[1]))
 			{
 				dataSerial.push(pendingData.slice(dataStart, i));
@@ -451,8 +448,8 @@ function bufferizeAscii(data){
 }
 
 function readBuf(buf, offset){
-	if (configSerialPlot.endianness == 'LE') {
-		switch (configSerialPlot.nbType) {
+	if (configSerialPort.endianness == 'LE') {
+		switch (configSerialPort.nbType) {
 			case "uint8":
 				return buf.readUInt8(offset);
 			case "uint16":
@@ -473,7 +470,7 @@ function readBuf(buf, offset){
 				return buf[offset];
 		}
 	} else {
-		switch (configSerialPlot.nbType) {
+		switch (configSerialPort.nbType) {
 			case "uint8":
 				return buf.readUInt8(offset);
 			case "uint16":
@@ -677,7 +674,7 @@ function enableButtons() {
 	loopBtn.prop('disabled', false);
 	fileSelectionBtn.prop('disabled', false);
 }
-  
+
 function disableButtons() {
 	loopBtn.prop('disabled', true);
 	fileSelectionBtn.prop('disabled', true);

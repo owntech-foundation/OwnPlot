@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-09 11:20:01
  * @ Description:
  */
@@ -29,7 +29,8 @@ function dateToTimeString(date){
     }
 	return hours + ':' + minutes + ':' + seconds;
 }
-function dateToPreciseTimeString(date){
+
+function dateToPreciseTimeString(date) {
     let msStr = date.getMilliseconds().toString();
     let timeStr = dateToTimeString(date) + '.';
     for (let index = msStr.length; index < 3; index++){
@@ -38,7 +39,7 @@ function dateToPreciseTimeString(date){
     return timeStr + msStr;
 }
 
-function arraysEqual(firstArr, secondArr){
+function arraysEqual(firstArr, secondArr) {
 	if((firstArr == false || firstArr == undefined) && (secondArr == false || secondArr == undefined)){
 		return true;
 	} else if ((firstArr == false || firstArr == undefined) || (secondArr == false || secondArr == undefined)){
@@ -48,11 +49,11 @@ function arraysEqual(firstArr, secondArr){
 	}
 }
 
-function getIntInString(str){
+function getIntInString(str) {
     return parseInt(str.replace(/[^\d.]/g, '')); //first we remove the non-digit characters
 }
 
-function enterKeyupHandler(elemSelector, handler){
+function enterKeyupHandler(elemSelector, handler) {
     elemSelector.on("keyup", function(e){
         if (e.key == "Enter") {
             handler();
@@ -63,7 +64,7 @@ function enterKeyupHandler(elemSelector, handler){
 
 /*Tooltips initialization*/
 $('[data-bs-toggle="tooltip"]').tooltip('disable');
- 
+
 $("#tooltipHiddenBtn").on('click', function() {
     $(this).hide();
     //deactivate the tooltips
@@ -91,9 +92,6 @@ $("#tooltipShownBtn").on('click', function() {
 // 	debugTermSel.prepend('<span>' + dateToPreciseTimeString(new Date()) + err + '</span>');
 // }
 
-/* Chart */
-
-let numberOfDatasets = 0;
 
 /* Time */
 

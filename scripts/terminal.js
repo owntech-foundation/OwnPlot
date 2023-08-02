@@ -9,7 +9,7 @@
  * @ Description:
  */
 
-const ejs = require('ejs');
+//const ejs = require('ejs');
 //const { parentPort } = require('worker_threads'); //MULTITHREADING
 
 var term1, term2;

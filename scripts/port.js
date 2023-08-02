@@ -14,11 +14,11 @@ let selectedPort;
 let isPortClosedMessageDisplayed;
 let isPortOpenMessageDisplayed;
 
-$(function(){
+$(function() {
 	noPortBtn($('#openPortBtn'));
 	listPorts();
 	
-	$("#AvailablePorts").on('change', function(){
+	$("#AvailablePorts").on('change', function() {
 		selectedPort = $(this).children("option:selected").val();
 	
 		if (selectedPort === mockpath4) {
@@ -28,7 +28,7 @@ $(function(){
 		}	
 	
 		if (availableSerialPorts.length > 0) {
-			if (selectedPort != configSerialPlot.path) {
+			if (selectedPort != configSerialPort.path) {
 				if (portIsOpen) {
 					port.close(); // Close the currently open port
 					portIsOpen = false; // Set the portIsOpen flag to false
@@ -80,8 +80,8 @@ $(function(){
 					port.close();
 				}
 			}
-			configSerialPlot.path = selectedPort;
-			openPort(configSerialPlot.baudRate);
+			configSerialPort.path = selectedPort;
+			openPort(configSerialPort.baudRate);
 		} else {
 			//pause btn is unclickable while port is closed
 			pauseBtn('#pausePortBtn');
