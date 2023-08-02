@@ -14,6 +14,27 @@ let selectedPort;
 let isPortClosedMessageDisplayed;
 let isPortOpenMessageDisplayed;
 
+//TODO: remove those
+function pauseBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-pause"></i><br>Paused');
+	$(elem).removeClass('btn-success');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-warning');
+	$(elem).attr('aria-pressed', true);
+	$(elem).prop("disabled", false);
+	chart1.pausePlot();
+}
+
+function runBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-running"></i><br>Running');
+	$(elem).removeClass('btn-warning');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-success');
+	$(elem).attr('aria-pressed', false);
+	$(elem).prop("disabled", false);
+	chart1.runPlot();
+}
+
 $(function() {
 	noPortBtn($('#openPortBtn'));
 	listPorts();

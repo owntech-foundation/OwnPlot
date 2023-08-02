@@ -312,7 +312,7 @@ function openPortRoutine() {
 			$('#clearPortBtn').prop('disabled', false);
 			$('#startRecordBtn').prop("disabled", false);
 			enableSend();
-			flushChart(myChart);
+			chart1.flushChart(); //TODO: fix this
 			chartStartTime = Date.now();
 			portIsOpen = true;
 
@@ -394,7 +394,7 @@ function openPortRoutine() {
 }
 
 function flushBuff(){
-	if(dataSerialBuff.length >= numberOfDatasets){
+	if(dataSerialBuff.length >= chart1.numberOfDatasets){
 		dataSerialBuff = [];
 		timeBuff = [];
 	}
@@ -406,7 +406,7 @@ function bufferizeCustom(data){
 
 function bufferizeBinary(data){
 	pendingData = Buffer.concat([pendingData, data]);
-	if(byteSkip){
+	if(byteSkip) {
 		pendingData = pendingData.subarray(1, pendingData.length);
 		byteSkip=false;
 	}
@@ -414,8 +414,8 @@ function bufferizeBinary(data){
 	let dataSerial = []; //flush dataSerial buffer
 	//we only read data from the port when there is at least one data for each channel
 	//else, the first dataset only gets filled
-	if (pendingData.length >= configSerialPort.nbSize*numberOfDatasets) {
-		for (let i=0; i<=configSerialPort.nbSize*(numberOfDatasets-1); i+=configSerialPort.nbSize) {
+	if (pendingData.length >= configSerialPort.nbSize*chart1.numberOfDatasets) {
+		for (let i=0; i<=configSerialPort.nbSize*(chart1.numberOfDatasets-1); i+=configSerialPort.nbSize) {
 			dataSerial.push(readBuf(pendingData, i));
 		}
 		dataSerialBuff = dataSerial;

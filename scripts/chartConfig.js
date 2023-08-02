@@ -309,7 +309,7 @@ class ChartApp {
     }
 
     flushChart() {
-        this.mychart.data.datasets.forEach((dataset) => {
+        this.myChart.data.datasets.forEach((dataset) => {
             dataset.data = [];
         });
         this.myChart.update();
@@ -483,42 +483,14 @@ class ChartApp {
 
 
 $(()=>{
-	chart1 = new ChartApp("app100");
 	//chart2 = new ChartApp("app200");
+    chart1 = new ChartApp("app100");
 });
 
 
 
 
 ////////////////////////////////////////////////////////////////////////////////////
-
-
-/*
- *	UI handlers
- */
-
-function pauseBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-pause"></i><br>Paused');
-	$(elem).removeClass('btn-success');
-	$(elem).removeClass('btn-secondary');
-	$(elem).addClass('btn-warning');
-	$(elem).attr('aria-pressed', true);
-	$(elem).prop("disabled", false);
-	pausePlot();
-}
-
-function runBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-running"></i><br>Running');
-	$(elem).removeClass('btn-warning');
-	$(elem).removeClass('btn-secondary');
-	$(elem).addClass('btn-success');
-	$(elem).attr('aria-pressed', false);
-	$(elem).prop("disabled", false);
-	runPlot();
-}
-
-// -------------------------------------- //
-
 
 
 const colorThemes = {
