@@ -381,10 +381,10 @@ function openPortRoutine() {
 			//term2.updateTerminal(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			writeToExport(dataSerialBuff, timeBuff);
-			// if (chart1.getPlotRunning() === true) { ////////////////////////////////////////////////
-			// 	dataStructure.x.push(Date.now());
-			// 	dataStructure.y.push(dataSerialBuff);
-			// }
+			if (chart1.plotRunning === true) { ////////////////////////////////////////////////
+				chart1.dataStructure.x.push(Date.now());
+				chart1.dataStructure.y.push(dataSerialBuff);
+			}
 		});
 
 		skipByteBtn.on('click', () => {
