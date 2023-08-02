@@ -250,8 +250,8 @@ class TerminalApp {
 }
 
 $(() => {
-	term1 = new TerminalApp("app1000");
-	term2 = new TerminalApp("app2000");
+	//term1 = new TerminalApp("app1000");
+	//term2 = new TerminalApp("app2000");
 
 });
 

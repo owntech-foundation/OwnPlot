@@ -61,7 +61,7 @@ $(() => {
 	vertSplit.pairs[0].gutter.id = "gutterVert";
 	$("#gutterVert").hover(gutterVHandlerIn, gutterVHandlerOut);
 
-	appsSplit();
+	//appsSplit();
 
 	$(".chartApp").on('click', function(e){
 		$("#chartApp").show();

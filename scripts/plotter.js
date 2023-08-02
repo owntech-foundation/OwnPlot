@@ -13,6 +13,44 @@
 const { data } = require("jquery");
 const { proto } = require("once");
 
+
+/*
+ *	UI handlers
+ */
+
+ function pauseBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-pause"></i><br>Paused');
+	$(elem).removeClass('btn-success');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-warning');
+	$(elem).attr('aria-pressed', true);
+	$(elem).prop("disabled", false);
+	pausePlot();
+}
+
+function runBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-running"></i><br>Running');
+	$(elem).removeClass('btn-warning');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-success');
+	$(elem).attr('aria-pressed', false);
+	$(elem).prop("disabled", false);
+	runPlot();
+}
+
+// -------------------------------------- //
+
+
+/*
+ *	JQuery selectors
+ */
+
+const nbChannelsInput = $("#nbChannels");
+const colorSchemeSelect = $("#colorSchemeSelect");
+
+// -------------------------------------- //
+
+
 const colorThemes = {
 	ColorBlind10: ColorBlind10,
 	OfficeClassic6: OfficeClassic6,
@@ -36,44 +74,24 @@ const pointStylesEnum = {
 	square: 'rect'
 };
 
-function pauseBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-pause"></i><br>Paused');
-	$(elem).removeClass('btn-success');
-	$(elem).removeClass('btn-secondary');
-	$(elem).addClass('btn-warning');
-	$(elem).attr('aria-pressed', true);
-	$(elem).prop("disabled", false);
-	pausePlot();
-}
-
-function runBtn(elem) {
-	$(elem).html('<i class="fa-solid fa-running"></i><br>Running');
-	$(elem).removeClass('btn-warning');
-	$(elem).removeClass('btn-secondary');
-	$(elem).addClass('btn-success');
-	$(elem).attr('aria-pressed', false);
-	$(elem).prop("disabled", false);
-	runPlot();
-}
+const NB_MAX_DATASETS = 10;
 
 let dataSerialBuff = Buffer.alloc(0);
 let plotSerialBuff = Buffer.alloc(0);
 let plotTimeBuff = Buffer.alloc(0);
 let rawDataBuff = Buffer.alloc(0);
-const NB_MAX_DATASETS = 10;
 let nbChannels = 3;
 let plotRunning = false;
 
 let ctx;
 let myChart;
 
-const nbChannelsInput = $("#nbChannels");
-const colorSchemeSelect = $("#colorSchemeSelect");
 
 $(() => {
 
 	nbChannelsInput.val(nbChannels);
 	if (appChartEnabled = 1){
+		initLegendConfigTable();
 		initColorSchemeSelect();
 		initChart();
 		$('#monotoneInterpolationBtn').on('click', function(){
@@ -105,6 +123,20 @@ $(() => {
 		//enterKeyupHandler(nbChannelsInput, updateNbChannels);
 	}
 });
+
+function initLegendConfigTable() {
+	let optionsHTML;
+	Object.keys(lineStylesEnum).forEach(styleName => {
+		optionsHTML += '<option>' + styleName + '</option>';
+	});
+	$("#lineStyleSelectNULL").html(optionsHTML);
+	
+	optionsHTML = "";
+	Object.keys(pointStylesEnum).forEach(styleName => {
+		optionsHTML += '<option>' + styleName + '</option>';
+	});
+	$("#pointStyleSelectNULL").html(optionsHTML);
+}
 
 function updateNbChannels(){
 	nbChannels = nbChannelsInput.val();

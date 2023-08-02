@@ -111,7 +111,7 @@ function openPortBtn(elem) {
 
 	// Print message in terminal
 	if (!isPortOpenMessageDisplayed){
-		term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: green;">open</span></span>\n'); /////////////////////////////////////
+		//term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: green;">open</span></span>\n'); /////////////////////////////////////
 		isPortOpenMessageDisplayed=true;
 		isPortClosedMessageDisplayed=false;
 	}	
@@ -128,7 +128,7 @@ function closePortBtn(elem) {
 
 	// Print message in terminal
 	if (!isPortClosedMessageDisplayed){
-		term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: red;">closed</span></span>\n'); /////////////////////////////////////
+		//term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: red;">closed</span></span>\n'); /////////////////////////////////////
 		isPortClosedMessageDisplayed=true;
 		isPortOpenMessageDisplayed=false;
 	}	
