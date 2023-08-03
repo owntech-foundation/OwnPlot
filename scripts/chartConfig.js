@@ -213,7 +213,9 @@ class ChartApp {
                             duration: 20000,
                             refresh: this.refreshValue,
                             delay: 500,
-                            onRefresh: this.refreshCallback,
+                            onRefresh: chart => {
+                                this.refreshCallback();
+                            },
                             pause: true
                         },
                         ticks: {
@@ -436,12 +438,7 @@ class ChartApp {
                 });
             };
         }
-        //this.flushDataStructure();
-        // console.log(this.dataStructure);
-        // console.log(this.dataStructure.x);
-
-        // this.dataStructure.x = [];
-        // this.dataStructure.y = [];
+        this.flushDataStructure();
     }
 
     
