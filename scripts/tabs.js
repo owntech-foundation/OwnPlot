@@ -20,7 +20,8 @@ $(()=>{
 	});
 
 	//updateHeight($("#terminalBar")); //TODO: for each app
-	// updateHeight($("#app100"));
+	updateHeight($("#myChart_app100"));
+
 	// updateHeight($("#app200"));
 
 
@@ -30,7 +31,7 @@ $(()=>{
 		setTimeout(function() {
 			//updateHeight($("#terminalBar")); //for each appp
 
-			// updateHeight($("#app100"));
+			updateHeight($("#myChart_app100"));
 			// updateHeight($("#app200"));
 
 			
@@ -39,7 +40,7 @@ $(()=>{
 		setTimeout(function() {
 			//updateHeight($("#terminalBar")); //for each app
 
-			// updateHeight($("#app100"));
+			updateHeight($("#myChart_app100"));
 			// updateHeight($("#app200"));
 
 			updateHeight($("#sideBar"));

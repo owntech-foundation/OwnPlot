@@ -198,7 +198,7 @@ class ChartApp {
     }
 
     #initChart() {
-        let ctx = this.chartSel[0].getContext('2d');
+        const ctx = this.chartSel[0].getContext('2d');
         this.myChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -413,9 +413,9 @@ class ChartApp {
         });
         $("#pointStyleSelectNULL").html(optionsHTML);
     }*/
-    getSerialDataStructure(index) {
-        this.dataStructure.y.slice(0, this.numberOfDatasets).forEach(getYData, index);
-    }
+    // getSerialDataStructure(index) {
+    //     this.dataStructure.y.slice(0, this.numberOfDatasets).forEach(getYData, index);
+    // }
 
     flushDataStructure() {
         this.dataStructure.x = [];
@@ -423,11 +423,11 @@ class ChartApp {
     }
     
     refreshCallback() {
-        if (this.plotRunning) {
-            if(dataSerialBuff.length >= this.numberOfDatasets){
-                this.mychart.data.datasets.forEach((dataset) => {
-                    const dataValues = dataStructure.y.map(array => array[dataset.index]);
-                    const data = dataStructure.x.map((x, index) => {
+        if (this.plotRunning === true) {
+            if(dataSerialBuff.length >= this.numberOfDatasets) {
+                this.myChart.data.datasets.forEach((dataset) => {
+                    const dataValues = this.dataStructure.y.map(array => array[dataset.index]);
+                    const data = this.dataStructure.x.map((x, index) => {
                         return { x: x, y: dataValues[index] };
                     });
                     data.forEach((dataPoint) => {
