@@ -14,36 +14,56 @@ const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 const { DataTable } = require('datatables.net');
 
-let port;
-let portHaveChanged;
+/*
+ *	UI handlers
+ */
 
-let byteSkip = false;
-const endCom = [13, 10]; //ascii for \r & \n
-let pendingData = Buffer.alloc(0);
-let timeBuff = [];
+// -------------------------------------- //
+
+
+/*
+ *	JQuery selectors
+ */
 
 const customBaudRateField = $("#customBaudRateInput");
+const baudRateSelect = $("#baudRateSelect");
+const customBaudRateForm = $("#customBaudRateForm");
+const upRecordRadio = $("#upRecordRadio");//moved from shared.js
+const timestampRecordCheck = $("#timestampRecordCheck");//moved from shared.js
+const sPrecisionTimestampRecordRadio = $("#sPrecisionTimestampRecordRadio");//moved from shared.js
+
 let separatorField = $("#separator");
 let nbTypeField = $("#nbType");
 let endiannessField = $("#endianness");
 let dataFormatField = $("#dataFormat");
-
 let asciiForm = $("#asciiForm");
 let binaryForm = $("#binaryForm");
-const baudRateSelect = $("#baudRateSelect");
-const customBaudRateForm = $("#customBaudRateForm");
-//let customForm = $("#customForm");
-
 let skipByteBtn = $("#skipByteBtn");
 let loopBtn = $('#fileLoopBtn');
 let fileSelectionBtn = $('#fileSelectionBtn');
-let selectedFile;
-
-let fileReaderInterval;
 let interval = $('#intervalTime');
+
+// -------------------------------------- //
+
+
+const RECORD_MAX_SIZE = Math.pow(10,9); //max 1Gb of recorded data //moved from shared.js
+const endCom = [13, 10]; //ascii for \r & \n
+
+let recording = false;    //moved from shared.js
+let absTimeRecord = false;//moved from shared.js
+let recordStartTime;      //moved from shared.js
+let textToExport = "";    //moved from shared.js
+let recordSeparator = ",";//moved from shared.js
+
+let port;
+let portHaveChanged;
+let byteSkip = false;
+let pendingData = Buffer.alloc(0);
+let timeBuff = [];
+//let customForm = $("#customForm");
+let selectedFile;
+let fileReaderInterval;
 let intervalValue = 100;
-
-
 
 let configSerialPort = { //configSerialPort ?
 	dataFormat: 'ascii',
@@ -54,6 +74,9 @@ let configSerialPort = { //configSerialPort ?
 	endianness: 'LE',
 	baudRate: 115200
 };
+
+// -------------------------------------- //
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //MOCK PORTS CREATION
@@ -390,6 +413,44 @@ function openPortRoutine() {
 		skipByteBtn.on('click', () => {
 			byteSkip=true;
 		});
+	}
+}
+
+function writeToExport(dataBuf, timeBuff) {//moved from shared.js
+	if(recording){
+		// we write data only if we can get a full line
+		for (let lineIndex = 0; lineIndex < dataBuf.length / numberOfDatasets; lineIndex++) {
+			let line = "";
+			if(timestampRecordCheck[0].checked){
+                if(absTimeRecord){
+                    if(sPrecisionTimestampRecordRadio[0].checked){
+                        line = dateToTimeString(new Date(timeBuff[lineIndex]));
+                    } else {
+                        line = dateToPreciseTimeString(new Date(timeBuff[lineIndex]));
+                    }
+                } else {
+                    if(sPrecisionTimestampRecordRadio[0].checked){
+                        line = Math.round(millisecondsElapsed(recordStartTime, new Date(timeBuff[lineIndex])));
+                    } else {
+                        line = millisecondsElapsed(recordStartTime, new Date(timeBuff[lineIndex]));
+                    }
+                }
+                line += recordSeparator;
+			}
+			for (let datasetIndex = 0; datasetIndex < numberOfDatasets-1; datasetIndex++) {
+				line += dataBuf[lineIndex * numberOfDatasets + datasetIndex] + recordSeparator;
+			}
+			line += dataBuf[(lineIndex + 1) * numberOfDatasets - 1];
+			line += "\n";
+			if(upRecordRadio[0].checked){
+				textToExport = line + textToExport;
+			} else {
+				textToExport += line;
+			}
+		}
+		if(textToExport.length > RECORD_MAX_SIZE){
+			$("#pauseRecordBtn").trigger("click"); //force the stop of the record in case too much data is recorded
+		}
 	}
 }
 

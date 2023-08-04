@@ -537,6 +537,87 @@ function initLegendConfigTable() {
 }
 
 
+function updateLegendTable() {//moved from shared.js
+    const lineTemplate = $("#legendSetupLineTemplate").html();
+    const legendSetupTable = $("#legendConfigDiv");
+    legendSetupTable.html('<div id="legendSetupLineTemplate">' + lineTemplate + '</div>'); //clear the table but leave the template
+    myChart.data.datasets.forEach(dataset => {
+        let tableLine = lineTemplate;
+        tableLine = tableLine.replace(" hidden", "");
+        if(dataset.hidden){
+            tableLine = tableLine.replace(" checked", "");
+        }
+        // The following implementation implies that point styles & line styles have all different names
+        tableLine = tableLine.replace("<option>" + dataset.pointStyleName, "<option selected>" + dataset.pointStyleName);
+        tableLine = tableLine.replace("<option>" + dataset.lineStyleName, "<option selected>" + dataset.lineStyleName);
+        tableLine = tableLine.replace('#ffffff', dataset.backgroundColor);
+        tableLine = tableLine.replace('id="pointSizeInputNULL" value=""', 'id="pointSizeInputNULL" value="' + dataset.pointRadius + '"');
+        tableLine = tableLine.replace('id="lineSizeInputNULL" value=""', 'id="lineSizeInputNULL" value="' + dataset.lineBorderWidth + '"');        
+        tableLine = tableLine.replace('id="labelInputNULL" value="Dataset NULL"', 'id="labelInputNULL" value="' + dataset.label + '"');               
+        tableLine = tableLine.replace(/NULL/gm, dataset.index + 1);
+        legendSetupTable.append(tableLine);
+    });
+
+    // not used in this first release
+    // $(".colorInput").on('input', function() {
+    //     let datasetIndex = getIntInString($(this).attr("id")) - 1;
+    //     myChart.data.datasets[datasetIndex].backgroundColor = $(this).val();
+    //     myChart.data.datasets[datasetIndex].borderColor = $(this).val();
+    // });
+
+    $(".labelInput").on('change', function() {
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        myChart.data.datasets[datasetIndex].label = $(this).val();
+        this.blur();
+    });
+    enterKeyupHandler($(".labelInput"), ()=>{});
+
+    $(".datasetVisibleCheck").on('click', function(){
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        if(this.checked){
+            myChart.data.datasets[datasetIndex].hidden = false;
+        } else {
+            myChart.data.datasets[datasetIndex].hidden = true;
+        }
+    });
+
+    $(".yY2AxisSwitch").on('click', function(){
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        if(this.checked){
+            myChart.data.datasets[datasetIndex].yAxisID = 'y';
+        } else {
+            myChart.data.datasets[datasetIndex].yAxisID = 'y2';
+        }
+    });
+
+    $(".pointStyleSelect").on('change', function(){
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        myChart.data.datasets[datasetIndex].pointStyle = pointStylesEnum[$(this).val()];
+    });
+
+    $(".pointSizeInput").on('change', function(){
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        myChart.data.datasets[datasetIndex].pointRadius = parseInt($(this).val());
+    });
+    enterKeyupHandler($(".pointSizeInput"), ()=>{}); //blur on enter even if the field has not changed
+
+    $(".lineStyleSelect").on('change', function(){
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        myChart.data.datasets[datasetIndex].lineStyleName = $(this).val();
+        myChart.data.datasets[datasetIndex].lineBorderDash = lineStylesEnum[$(this).val()];
+    });
+
+    $(".lineSizeInput").on('change', function(){
+        let datasetIndex = getIntInString($(this).attr("id")) - 1;
+        myChart.data.datasets[datasetIndex].lineBorderWidth = parseInt($(this).val());
+    });
+    enterKeyupHandler($(".lineSizeInput"), ()=>{}); //blur on enter even if the field has not changed
+    
+    $(".collapseHead").on('click', function(){
+        $($(this).attr('data-target')).collapse("toggle"); // Collapse doesn't work only with data-bs-toggle, i can't figure why
+    });
+}
+
 // nbChannelsInput.on('input', function() {
 // 	nbChannels = nbChannelsInput.val();
 // 	if (nbChannels > NB_MAX_DATASETS) {

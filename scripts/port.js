@@ -13,6 +13,7 @@ let availableSerialPorts = [];
 let selectedPort;
 let isPortClosedMessageDisplayed;
 let isPortOpenMessageDisplayed;
+let portIsOpen = false; //moved from shared.js
 
 //TODO: remove those
 function pauseBtn(elem) {
