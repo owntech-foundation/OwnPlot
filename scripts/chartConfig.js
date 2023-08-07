@@ -196,7 +196,27 @@ class ChartApp {
         // }
 
     }
-
+/*
+    openInNewWindow() {
+        // Open a new window
+        const newWindow = window.open("", "_blank");
+    
+        // Load the chart template and render it in the new window
+        const template = fs.readFileSync("template/apps/chartApp.ejs", 'utf-8');
+        const renderedHtml = ejs.render(template, { app_id: this.appID });
+    
+        newWindow.document.open();
+        newWindow.document.write(renderedHtml);
+        newWindow.document.close();
+    
+        // Get the chart canvas context in the new window
+        const chartSel = newWindow.document.getElementById('myChart_' + this.appID);
+        const ctx = chartSel.getContext('2d');
+    
+        // Create a new Chart instance in the new window
+        newWindow.myChart = new Chart(ctx, this.myChart.config);
+    }
+*/
     #initChart() {
         const ctx = this.chartSel[0].getContext('2d');
         this.myChart = new Chart(ctx, {
@@ -482,6 +502,11 @@ class ChartApp {
 $(()=>{
 	//chart2 = new ChartApp("app200");
     chart1 = new ChartApp("app100");
+/*
+    $("#nav-chartConfig-tab").on("click", () => {
+        chart1.openInNewWindow();
+    })
+*/
 });
 
 
