@@ -13,12 +13,34 @@ let availableSerialPorts = [];
 let selectedPort;
 let isPortClosedMessageDisplayed;
 let isPortOpenMessageDisplayed;
+let portIsOpen = false; //moved from shared.js
 
-$(function(){
+//TODO: remove those
+function pauseBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-pause"></i><br>Paused');
+	$(elem).removeClass('btn-success');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-warning');
+	$(elem).attr('aria-pressed', true);
+	$(elem).prop("disabled", false);
+	chart1.pausePlot();
+}
+
+function runBtn(elem) {
+	$(elem).html('<i class="fa-solid fa-running"></i><br>Running');
+	$(elem).removeClass('btn-warning');
+	$(elem).removeClass('btn-secondary');
+	$(elem).addClass('btn-success');
+	$(elem).attr('aria-pressed', false);
+	$(elem).prop("disabled", false);
+	chart1.runPlot();
+}
+
+$(function() {
 	noPortBtn($('#openPortBtn'));
 	listPorts();
 	
-	$("#AvailablePorts").on('change', function(){
+	$("#AvailablePorts").on('change', function() {
 		selectedPort = $(this).children("option:selected").val();
 	
 		if (selectedPort === mockpath4) {
@@ -28,7 +50,7 @@ $(function(){
 		}	
 	
 		if (availableSerialPorts.length > 0) {
-			if (selectedPort != configSerialPlot.path) {
+			if (selectedPort != configSerialPort.path) {
 				if (portIsOpen) {
 					port.close(); // Close the currently open port
 					portIsOpen = false; // Set the portIsOpen flag to false
@@ -80,8 +102,8 @@ $(function(){
 					port.close();
 				}
 			}
-			configSerialPlot.path = selectedPort;
-			openPort(configSerialPlot.baudRate);
+			configSerialPort.path = selectedPort;
+			openPort(configSerialPort.baudRate);
 		} else {
 			//pause btn is unclickable while port is closed
 			pauseBtn('#pausePortBtn');
@@ -111,7 +133,7 @@ function openPortBtn(elem) {
 
 	// Print message in terminal
 	if (!isPortOpenMessageDisplayed){
-		term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: green;">open</span></span>\n'); /////////////////////////////////////
+		//term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: green;">open</span></span>\n'); /////////////////////////////////////
 		isPortOpenMessageDisplayed=true;
 		isPortClosedMessageDisplayed=false;
 	}	
@@ -128,7 +150,7 @@ function closePortBtn(elem) {
 
 	// Print message in terminal
 	if (!isPortClosedMessageDisplayed){
-		term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: red;">closed</span></span>\n'); /////////////////////////////////////
+		//term1.printMessageToTerminal('<span style="color: gray;">' + selectedPort +' port is <span style="color: red;">closed</span></span>\n'); /////////////////////////////////////
 		isPortClosedMessageDisplayed=true;
 		isPortOpenMessageDisplayed=false;
 	}	

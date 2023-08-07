@@ -9,7 +9,8 @@
  * @ Description:
  */
 
-const ejs = require('ejs');
+//const ejs = require('ejs');
+//const { parentPort } = require('worker_threads'); //MULTITHREADING
 
 var term1, term2;
 
@@ -138,7 +139,7 @@ class TerminalApp {
 		this.countTermLines = 0;
 	}
 	
-	termialTime() {
+	terminalTime() {
 		let timeStr = "";
 		if (terminalBtnTimestamp.attr('aria-pressed') === "true") {
 			let dataTime; //we get the time of the last data received
@@ -165,12 +166,14 @@ class TerminalApp {
 		}
 	}
 
-	terminalSizeInputHandler() {
+	terminalSizeInputHandler = () => { //ChatGPT idea (arrow function)
 		termSize = termBufSizeInput.val();
 		if(termSize > MAX_TERM_LINES) {
 			termSize = MAX_TERM_LINES;
+			termBufSizeInput.val(termSize);
 		} else if(termSize < MIN_TERM_LINES) {
 			termSize = MIN_TERM_LINES;
+			termBufSizeInput.val(termSize);
 		}
 		this.changeTerminalSize();
 	}
@@ -221,7 +224,7 @@ class TerminalApp {
 				if (this.countTermLines == 0){
 					this.terminalSel.empty(); //erases the "terminal cleared" on print
 				}
-				this.terminalSel.prepend('<span>' + this.appID + "| " + this.termialTime() + dataString + '</span>'); //put first on top
+				this.terminalSel.prepend('<span>' + this.appID + "| " + this.terminalTime() + dataString + '</span>'); //put first on top
 				this.countTermLines = this.countTermLines + 1;
 				$('#clearPortBtn').prop('disabled', false);
 			}
@@ -238,22 +241,41 @@ class TerminalApp {
 		this.countTermLines++;
 	
 		if(this.countTermLines > termSize) {
-			terminal.children().last().remove();
+			this.terminalSel.children().last().remove();
 			this.countTermLines--;
 		}
 	}
+
+	inputTerminalSize() {}
 }
 
 $(() => {
-	term1 = new TerminalApp("app1000");
-	term2 = new TerminalApp("app2000");
+	//term1 = new TerminalApp("app1000");
+	//term2 = new TerminalApp("app2000");
 
 });
 
+/* MULTITHREADING
+parentPort.on('message', createTerminal);
+
+function createTerminal(message) {
+	if (message === 'create new terminal') {
+		var term 
+		term = new TerminalApp("app3000");
+		console.log("terminal created");
+	}
+}
+*/
+
+
+
+
+
+/*
 termBufSizeInput.on('input', function() {
 	termSize = termBufSizeInput.val();
 	if (termSize > MAX_TERM_LINES) {
 		termSize = MAX_TERM_LINES;
 		termBufSizeInput.val(termSize);
 	}
-});
+});*/

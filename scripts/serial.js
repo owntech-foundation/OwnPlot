@@ -14,41 +14,60 @@ const { SerialPort } = require('serialport');
 const tableify = require('tableify');
 const { DataTable } = require('datatables.net');
 
-let port;
-let portHaveChanged;
+/*
+ *	UI handlers
+ */
 
-let byteSkip = false;
-const endCom = [13, 10]; //ascii for \r & \n
-let pendingData = Buffer.alloc(0);
-let timeBuff = [];
+// -------------------------------------- //
+
+
+/*
+ *	JQuery selectors
+ */
 
 const customBaudRateField = $("#customBaudRateInput");
+const baudRateSelect = $("#baudRateSelect");
+const customBaudRateForm = $("#customBaudRateForm");
+const upRecordRadio = $("#upRecordRadio");//moved from shared.js
+const timestampRecordCheck = $("#timestampRecordCheck");//moved from shared.js
+const sPrecisionTimestampRecordRadio = $("#sPrecisionTimestampRecordRadio");//moved from shared.js
+
 let separatorField = $("#separator");
 let nbTypeField = $("#nbType");
 let endiannessField = $("#endianness");
 let dataFormatField = $("#dataFormat");
-
 let asciiForm = $("#asciiForm");
 let binaryForm = $("#binaryForm");
-const baudRateSelect = $("#baudRateSelect");
-const customBaudRateForm = $("#customBaudRateForm");
-//let customForm = $("#customForm");
-
 let skipByteBtn = $("#skipByteBtn");
+/*
 let loopBtn = $('#fileLoopBtn');
 let fileSelectionBtn = $('#fileSelectionBtn');
-let selectedFile;
-
-let fileReaderInterval;
 let interval = $('#intervalTime');
-let intervalValue = 100;
+*/
 
-let dataStructure = {
-	x: [],
-	y: []
-};
+// -------------------------------------- //
 
-let configSerialPlot = {
+
+const RECORD_MAX_SIZE = Math.pow(10,9); //max 1Gb of recorded data //moved from shared.js
+const endCom = [13, 10]; //ascii for \r & \n
+
+let recording = false;    //moved from shared.js
+let absTimeRecord = false;//moved from shared.js
+let recordStartTime;      //moved from shared.js
+let textToExport = "";    //moved from shared.js
+let recordSeparator = ",";//moved from shared.js
+
+let port;
+let portHaveChanged;
+let byteSkip = false;
+let pendingData = Buffer.alloc(0);
+let timeBuff = [];
+//let customForm = $("#customForm");
+//let selectedFile;
+//let fileReaderInterval;
+//let intervalValue = 100;
+
+let configSerialPort = { //configSerialPort ?
 	dataFormat: 'ascii',
 	separator: ':',
 	path: "",
@@ -58,27 +77,14 @@ let configSerialPlot = {
 	baudRate: 115200
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//MOCK PORTS CREATION
-const { SerialPortMock } = require('serialport');
-
-const mockpath1 = 'Mock Port 1 : Sinus Signal'
-const mockpath2 = 'Mock Port 2 : Triangle Signal'
-const mockpath3 = 'Mock Port 3 : Square Signal'
-const mockpath4 = 'Mock Port 4 : File Reader'
-
-SerialPortMock.binding.createPort(mockpath1)
-SerialPortMock.binding.createPort(mockpath2)
-SerialPortMock.binding.createPort(mockpath3)
-SerialPortMock.binding.createPort(mockpath4)
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// -------------------------------------- //
 
 
 function switchDataForms(){
 	$(asciiForm).hide();
 	$(binaryForm).hide();
 	//$(customForm).hide();
-	switch(configSerialPlot.dataFormat){
+	switch(configSerialPort.dataFormat){
 		case 'binary':
 			binaryForm.show();
 			break;
@@ -108,7 +114,7 @@ $(()=>{
 	baudRateSelect.change(function() {
         updateCustomBaudRateVisibility();
     })
-
+/*
 	interval.on("input", function() {
         if(interval.val().length > 1){
             intervalValue = parseInt(interval.val());
@@ -137,81 +143,81 @@ $(()=>{
 			fileLoopBtnEnable(loopBtn);
 		}
 	});
-
+*/
 	listSerialPorts();
 	dataFormatField.on('change', function(){
-		configSerialPlot.dataFormat = dataFormatField.children("option:selected").val();
+		configSerialPort.dataFormat = dataFormatField.children("option:selected").val();
 		switchDataForms();
 	});
 	
-	separatorField.val(configSerialPlot.separator);
+	separatorField.val(configSerialPort.separator);
 	separatorField.on('input', function(){
 		if (separatorField.val().length > 0) {
-			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
+			configSerialPort.separator = separatorField.val()[0]; //first char in the separator field
 		}
 	});
 
 	baudRateSelect.on('change',function(){
 		if (baudRateSelect.val() == "Custom"){
-			configSerialPlot.baudRate = parseInt(customBaudRateField.val());
+			configSerialPort.baudRate = parseInt(customBaudRateField.val());
 			if(port.isOpen){
 				port.close();
-				openPort(configSerialPlot.baudRate);
+				openPort(configSerialPort.baudRate);
 			}
 		}
 		else {
-			configSerialPlot.baudRate = parseInt(baudRateSelect.children("option:selected").val());
+			configSerialPort.baudRate = parseInt(baudRateSelect.children("option:selected").val());
 			if(port.isOpen){
 				port.close();
-				openPort(configSerialPlot.baudRate);
+				openPort(configSerialPort.baudRate);
 			}
 		}
 	});
 
-	customBaudRateField.val(configSerialPlot.baudRate);
+	customBaudRateField.val(configSerialPort.baudRate);
 	customBaudRateField.on('input', function(){
 		if (customBaudRateField.val().length > 0) {
-			configSerialPlot.baudRate = parseInt(customBaudRateField.val());
+			configSerialPort.baudRate = parseInt(customBaudRateField.val());
 			if(port.isOpen){
 				port.close();
-				openPort(configSerialPlot.baudRate);
+				openPort(configSerialPort.baudRate);
 			}
 		}
 	});
 
 	enterKeyupHandler(separatorField, function(){
 		if (separatorField.val().length > 0) {
-			configSerialPlot.separator = separatorField.val()[0]; //first char in the separator field
+			configSerialPort.separator = separatorField.val()[0]; //first char in the separator field
 		}
 	});
 
 	nbTypeField.on('change',function(){
-		configSerialPlot.nbType = nbTypeField.children("option:selected").val();
-		switch (configSerialPlot.nbType) {
+		configSerialPort.nbType = nbTypeField.children("option:selected").val();
+		switch (configSerialPort.nbType) {
 			case "uint8":
 			case "int8":
-				configSerialPlot.nbSize = 1;
+				configSerialPort.nbSize = 1;
 				break;
 			case "uint16":
 			case "int16":
-				configSerialPlot.nbSize = 2;
+				configSerialPort.nbSize = 2;
 				break;
 			case "uint32":
 			case "int32":
 			case "float":
-				configSerialPlot.nbSize = 4;
+				configSerialPort.nbSize = 4;
 				break;
 			case "double":
-				configSerialPlot.nbSize = 8;
+				configSerialPort.nbSize = 8;
 				break;
 			default:
-				configSerialPlot.nbSize = 1;
+				configSerialPort.nbSize = 1;
 		}
-		//not available in this version: printDebugTerminal("number size is now " + configSerialPlot.nbSize + " bytes");
+		//not available in this version: printDebugTerminal("number size is now " + configSerialPort.nbSize + " bytes");
 	});
 
 	endiannessField.on('change',function(){
-		configSerialPlot.endianness = endiannessField.children("option:selected").val();
+		configSerialPort.endianness = endiannessField.children("option:selected").val();
 	});
 
 });
@@ -279,15 +285,15 @@ async function listPorts() {
 }
 
 function openPort(baudRate=115200) {
-	if (configSerialPlot.path.includes("Mock")) {
+	if (configSerialPort.path.includes("Mock")) {
 		port = new SerialPortMock({
-			path : configSerialPlot.path,
+			path : configSerialPort.path,
 			baudRate : baudRate,
 			autoOpen : false,
 		});
 	} else {
 		port = new SerialPort({
-			path : configSerialPlot.path,
+			path : configSerialPort.path,
 			baudRate : baudRate,
 			autoOpen : false,
 		});
@@ -315,7 +321,7 @@ function openPortRoutine() {
 			$('#clearPortBtn').prop('disabled', false);
 			$('#startRecordBtn').prop("disabled", false);
 			enableSend();
-			flushChart(myChart);
+			chart1.flushChart(); //TODO: fix this
 			chartStartTime = Date.now();
 			portIsOpen = true;
 
@@ -368,7 +374,7 @@ function openPortRoutine() {
 			flushBuff();
 			timeBuff.push(Date.now());
 			rawDataBuff = data;
-			switch(configSerialPlot.dataFormat){
+			switch(configSerialPort.dataFormat){
 				case "binary":
 					bufferizeBinary(data);
 					break;
@@ -380,13 +386,13 @@ function openPortRoutine() {
 					bufferizeAscii(data);
 					break;
 			}
-			term1.updateTerminal(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			term2.updateTerminal(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//term1.updateTerminal(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			//term2.updateTerminal(); ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 			writeToExport(dataSerialBuff, timeBuff);
-			if (plotRunning === true) {
-				dataStructure.x.push(Date.now());
-				dataStructure.y.push(dataSerialBuff);
+			if (chart1.plotRunning === true) { ////////////////////////////////////////////////
+				chart1.dataStructure.x.push(Date.now());
+				chart1.dataStructure.y.push(dataSerialBuff);
 			}
 		});
 
@@ -396,8 +402,46 @@ function openPortRoutine() {
 	}
 }
 
+function writeToExport(dataBuf, timeBuff) {//moved from shared.js
+	if(recording){
+		// we write data only if we can get a full line
+		for (let lineIndex = 0; lineIndex < dataBuf.length / numberOfDatasets; lineIndex++) {
+			let line = "";
+			if(timestampRecordCheck[0].checked){
+                if(absTimeRecord){
+                    if(sPrecisionTimestampRecordRadio[0].checked){
+                        line = dateToTimeString(new Date(timeBuff[lineIndex]));
+                    } else {
+                        line = dateToPreciseTimeString(new Date(timeBuff[lineIndex]));
+                    }
+                } else {
+                    if(sPrecisionTimestampRecordRadio[0].checked){
+                        line = Math.round(millisecondsElapsed(recordStartTime, new Date(timeBuff[lineIndex])));
+                    } else {
+                        line = millisecondsElapsed(recordStartTime, new Date(timeBuff[lineIndex]));
+                    }
+                }
+                line += recordSeparator;
+			}
+			for (let datasetIndex = 0; datasetIndex < numberOfDatasets-1; datasetIndex++) {
+				line += dataBuf[lineIndex * numberOfDatasets + datasetIndex] + recordSeparator;
+			}
+			line += dataBuf[(lineIndex + 1) * numberOfDatasets - 1];
+			line += "\n";
+			if(upRecordRadio[0].checked){
+				textToExport = line + textToExport;
+			} else {
+				textToExport += line;
+			}
+		}
+		if(textToExport.length > RECORD_MAX_SIZE){
+			$("#pauseRecordBtn").trigger("click"); //force the stop of the record in case too much data is recorded
+		}
+	}
+}
+
 function flushBuff(){
-	if(dataSerialBuff.length >= numberOfDatasets){
+	if(dataSerialBuff.length >= chart1.numberOfDatasets){
 		dataSerialBuff = [];
 		timeBuff = [];
 	}
@@ -409,7 +453,7 @@ function bufferizeCustom(data){
 
 function bufferizeBinary(data){
 	pendingData = Buffer.concat([pendingData, data]);
-	if(byteSkip){
+	if(byteSkip) {
 		pendingData = pendingData.subarray(1, pendingData.length);
 		byteSkip=false;
 	}
@@ -417,8 +461,8 @@ function bufferizeBinary(data){
 	let dataSerial = []; //flush dataSerial buffer
 	//we only read data from the port when there is at least one data for each channel
 	//else, the first dataset only gets filled
-	if (pendingData.length >= configSerialPlot.nbSize*numberOfDatasets) {
-		for (let i=0; i<=configSerialPlot.nbSize*(numberOfDatasets-1); i+=configSerialPlot.nbSize) {
+	if (pendingData.length >= configSerialPort.nbSize*chart1.numberOfDatasets) {
+		for (let i=0; i<=configSerialPort.nbSize*(chart1.numberOfDatasets-1); i+=configSerialPort.nbSize) {
 			dataSerial.push(readBuf(pendingData, i));
 		}
 		dataSerialBuff = dataSerial;
@@ -438,7 +482,7 @@ function bufferizeAscii(data){
 		let dataSerial = [];
 		let dataStart = 0;
 		for (let i = 0; i < pendingData.length; i++) {
-			if (pendingData[i] == configSerialPlot.separator.charCodeAt(0) ||
+			if (pendingData[i] == configSerialPort.separator.charCodeAt(0) ||
 			(pendingData[i] == endCom[0] && pendingData[i + 1] == endCom[1]))
 			{
 				dataSerial.push(pendingData.slice(dataStart, i));
@@ -451,8 +495,8 @@ function bufferizeAscii(data){
 }
 
 function readBuf(buf, offset){
-	if (configSerialPlot.endianness == 'LE') {
-		switch (configSerialPlot.nbType) {
+	if (configSerialPort.endianness == 'LE') {
+		switch (configSerialPort.nbType) {
 			case "uint8":
 				return buf.readUInt8(offset);
 			case "uint16":
@@ -473,7 +517,7 @@ function readBuf(buf, offset){
 				return buf[offset];
 		}
 	} else {
-		switch (configSerialPlot.nbType) {
+		switch (configSerialPort.nbType) {
 			case "uint8":
 				return buf.readUInt8(offset);
 			case "uint16":
@@ -494,191 +538,4 @@ function readBuf(buf, offset){
 				return buf[offset];
 		}
 	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// MOCK PORTS FUNCTIONS
-
-function mockSinusGenerator() {
-	const numSignals = 8; // Number of sinus signals
-	const frequency = 0.2; // Frequency in Hertz
-	const amplitude = 1; // Amplitude
-
-	const startTime = Date.now();
-
-	function mockSendSinusData() {
-		sinusInterval = setInterval(() => {
-			let signalValues = ""; // Initialize the string to store signal values
-			const elapsedTime = Date.now() - startTime;
-	
-			for (let i = 0; i < numSignals; i++) {
-				const phaseShift = (i * (2 * Math.PI)) / numSignals;
-				const value = amplitude*Math.sin( 2*Math.PI*frequency*(elapsedTime/1000) + phaseShift); // Calculate sinus signal value
-				signalValues += value.toFixed(3); // Append the value to the string
-	
-				if (i !== numSignals - 1) {
-					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
-				}
-			}
-	
-			const sinusBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
-			port.port.emitData(sinusBuffer); // Emit the buffer
-		}, intervalValue);
-	}
-	mockSendSinusData();
-}
-
-function mockTriangleGenerator() {
-	const numSignals = 8; // Number of sinus signals
-	const frequency = 0.1; // Frequency in Hertz
-	const amplitude = 1; // Amplitude
-
-	const startTime = Date.now();
-
-	function mockSendTriangleData() {
-		triangleInterval = setInterval(() => {
-			let signalValues = ""; // Initialize the string to store signal values
-			const elapsedTime = Date.now() - startTime;
-	
-			for (let i = 0; i < numSignals; i++) {
-				const period = 1 / frequency;
-				const time = (elapsedTime / 1000) % period;
-				const phaseShift = i / numSignals;
-				const value = amplitude*2*Math.abs((2*time / period + phaseShift) - Math.floor((2*time / period + phaseShift) + 1 / 2)); // Calculate triangle signal value
-				signalValues += value.toFixed(3); // Append the value to the string
-	
-				if (i !== numSignals - 1) {
-					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
-				}
-			}
-	
-			const triangleBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
-			port.port.emitData(triangleBuffer); // Emit the buffer
-		}, intervalValue);
-	}
-	mockSendTriangleData();
-}
-
-function mockSquareGenerator() {
-	const numSignals = 8; // Number of sinus signals
-	const frequency = 0.2; // Frequency in Hertz
-	const amplitude = 1; // Amplitude
-
-	const startTime = Date.now();
-
-	function mockSendSquareData() {
-		squareInterval = setInterval(() => {
-			let signalValues = ""; // Initialize the string to store signal values
-			const elapsedTime = Date.now() - startTime;
-	
-			for (let i = 0; i < numSignals; i++) {
-				const phaseShift = (i * (2 * Math.PI)) / numSignals;
-				const value = amplitude * Math.sign(Math.sin(2 * Math.PI * frequency * (elapsedTime / 1000) + phaseShift)); // Calculate sinus signal value
-				signalValues += value.toFixed(3); // Append the value to the string
-	
-				if (i !== numSignals - 1) {
-					  signalValues += ":"; // Add ":" as separator between values (except for the last one)
-				}
-			}
-	
-			const squareBuffer = Buffer(`${signalValues}\r\n`); // Create the buffer with signal values
-			port.port.emitData(squareBuffer); // Emit the buffer
-		}, intervalValue);
-	}
-	mockSendSquareData();
-}
-
-function mockFileReader() {
-	let filePath = selectedFile.path;
-
-	let fileLines = fs.readFileSync(filePath, 'utf-8').split('\n');
-	let fileLineNumber = 1;
-
-	function mockReadFile() {
-		fileReaderInterval = setInterval(() => {
-			if (fileLineNumber >= fileLines.length-1) {
-				clearInterval(fileReaderInterval);
-				if (loopBtn.attr('aria-pressed') === "true") {
-					mockFileReader();
-				}
-				return;
-			}
-			const line = fileLines[fileLineNumber];
-			const values = line.split(',').map(Number);
-			const data = values.slice(1);
-
-            const buffer = Buffer.from(data.join(':') + '\r\n');
-            port.port.emitData(buffer);
-
-            fileLineNumber++;
-		}, intervalValue);
-	}
-	mockReadFile();
-}
-
-function fileSelect() {
-    let fileInput = document.createElement('input');
-    fileInput.type = 'file';
-	fileInput.accept = '.csv, .txt';
-    fileInput.style.display = 'none';
-    fileInput.addEventListener('change', handleFileSelection);
-    document.body.appendChild(fileInput);
-    fileInput.click();
-}
-
-function handleFileSelection(event) {
-    selectedFile = event.target.files[0];
-
-    if (selectedFile === undefined) {
-        $('#openPortBtn').prop('disabled', true);
-    } else {
-        $('#openPortBtn').prop('disabled', false);
-    }
-
-    // Check if file is a .csv or .txt
-    const allowedExtensions = [".csv", ".txt"];
-    const fileExtension = selectedFile.name.split('.').pop();
-    if (!allowedExtensions.includes("." + fileExtension)) {
-        const userConfirmation = confirm("Only .csv or .txt files are supported. Do you still wish to continue?");
-
-        if (userConfirmation) {
-            let selectedFileNameElement = document.getElementById('selectedFileName');
-            selectedFileNameElement.textContent = selectedFile.name;
-            $('#openPortBtn').prop('disabled', false);
-        } else {
-            $('#openPortBtn').prop('disabled', true);
-            // Clear the selected file
-            event.target.value = '';
-            // Clear the displayed file name
-            let selectedFileNameElement = document.getElementById('selectedFileName');
-            selectedFileNameElement.textContent = '';
-        }
-    } else {
-        let selectedFileNameElement = document.getElementById('selectedFileName');
-        selectedFileNameElement.textContent = selectedFile.name;
-        $('#openPortBtn').prop('disabled', false);
-    }
-}
-
-
-function fileLoopBtnEnable(elem) {
-	elem.attr('aria-pressed', 'true');
-	elem.removeClass('btn-warning');
-	elem.addClass('btn-success');
-}
-
-function fileLoopBtnDisable(elem) {
-	elem.attr('aria-pressed', 'false');
-	elem.removeClass('btn-success');
-	elem.addClass('btn-warning');
-}
-
-function enableButtons() {
-	loopBtn.prop('disabled', false);
-	fileSelectionBtn.prop('disabled', false);
-}
-  
-function disableButtons() {
-	loopBtn.prop('disabled', true);
-	fileSelectionBtn.prop('disabled', true);
 }

@@ -20,8 +20,9 @@ $(()=>{
 	});
 
 	//updateHeight($("#terminalBar")); //TODO: for each app
-	updateHeight($("#app1000"));
-	updateHeight($("#app2000"));
+	updateHeight($("#myChart_app100"));
+
+	// updateHeight($("#app200"));
 
 
 	
@@ -30,8 +31,8 @@ $(()=>{
 		setTimeout(function() {
 			//updateHeight($("#terminalBar")); //for each appp
 
-			updateHeight($("#app1000"));
-			updateHeight($("#app2000"));
+			updateHeight($("#myChart_app100"));
+			// updateHeight($("#app200"));
 
 			
 			updateHeight($("#sideBar"));
@@ -39,8 +40,8 @@ $(()=>{
 		setTimeout(function() {
 			//updateHeight($("#terminalBar")); //for each app
 
-			updateHeight($("#app1000"));
-			updateHeight($("#app2000"));
+			updateHeight($("#myChart_app100"));
+			// updateHeight($("#app200"));
 
 			updateHeight($("#sideBar"));
 		}, 200); //Set definitive height after a longer delay, so that the eventual animation is done
