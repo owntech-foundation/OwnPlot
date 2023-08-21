@@ -1,34 +1,66 @@
 <div class="mb-3">
-    <div class="col-12 mt-3 ps-0" id="customInterval">
-        <div class="input-group input-group-sm">
-            <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter plotting interval (ms)">                            
-                <i class="fa-solid fa-hourglass-half"></i>&nbsp; Interval (ms)
-            </label>
-            <input type="number" id="intervalTime" name="intervalInput" class="form-control col-7" placeholder="100 (default)" maxlength=9 aria-describedby="basic-addon1">
+    <a data-target="#portSelectionDiv" class="collapseHead" id="portSelectionHref" role="button" aria-expanded="true" aria-controls="portSelectionDiv">
+        <span class="input-group-text" id="portSelectionTitle">
+            <i class="fa-solid fa-arrow-pointer"></i>&nbsp;<span style="font-weight:bolder">Ports Selection</span>
+        </span>
+    </a>
+    <div class="collapse show" id="portSelectionDiv">
+        <div class="card card-body">
+            <div class="row p-0 m-0">
+                <div class="input-group input-group-sm px-1 mx-0" data-tooltip="Select port" data-bs-toggle="tooltip" title="Select port">
+                    <label class="input-group-text"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
+                    <select class="form-select" id="AvailablePorts" name="AvailablePorts">
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+
 <div class="mb-3">
-    <a data-target="#fileSelectionDiv" class="collapseHead" id="fileSelectionHref" role="button" aria-expanded="true" aria-controls="fileSelectionDiv">
-        <span class="input-group-text" id="fileSelectionTitle">
-            <i class="fa-solid fa-folder-open"></i>&nbsp;<span style="font-weight:bolder">File Reader</span>
+    <a data-target="#mockPortSelectionDiv" class="collapseHead" id="mockPortSelectionHref" role="button" aria-expanded="true" aria-controls="mockPortSelectionDiv">
+        <span class="input-group-text" id="mockPortSelectionTitle">
+            <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Mock Ports Settings</span>
         </span>
     </a>
-    <div class="collapse show" id="fileSelectionDiv">
+    <div class="collapse show" id="mockPortSelectionDiv">
         <div class="card card-body">
             <div class="row p-0 m-0">
-                <button class="btn btn-primary mb-3 col-5" type="button" id="fileSelectionBtn" data-bs-toggle="tooltip" title="Select the file to plot">
-                    <i class="fa-solid fa-folder-open"></i>&nbsp;Select File
-                </button>
-                <div class="col-2 px-0">
-                    <!-- Padding -->
+                <div class="mb-3">
+                    <div class="col-12 mt-3 ps-0" id="customInterval">
+                        <div class="input-group input-group-sm">
+                            <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter plotting interval (ms)">                            
+                                <i class="fa-solid fa-hourglass-half"></i>&nbsp; Interval (ms)
+                            </label>
+                            <input type="number" id="intervalTime" name="intervalInput" class="form-control col-7" placeholder="100 (default)" maxlength=9 aria-describedby="basic-addon1">
+                        </div>
+                    </div>
                 </div>
-                <button class="btn btn-warning mb-3 col-5" type="button" id="fileLoopBtn" data-bs-toggle="tooltip" title="Loop file data">
-                    <i class="fa-solid fa-infinity"></i>&nbsp;Loop Data
-                </button>
+                <div class="mb-3">
+                    <a data-target="#fileSelectionDiv" class="collapseHead" id="fileSelectionHref" role="button" aria-expanded="true" aria-controls="fileSelectionDiv">
+                        <span class="input-group-text" id="fileSelectionTitle">
+                            <i class="fa-solid fa-folder-open"></i>&nbsp;<span style="font-weight:bolder">File Reader</span>
+                        </span>
+                    </a>
+                    <div class="collapse show" id="fileSelectionDiv">
+                        <div class="card card-body">
+                            <div class="row p-0 m-0">
+                                <button class="btn btn-primary mb-3 col-5" type="button" id="fileSelectionBtn" data-bs-toggle="tooltip" title="Select the file to plot">
+                                    <i class="fa-solid fa-folder-open"></i>&nbsp;Select File
+                                </button>
+                                <div class="col-2 px-0">
+                                    <!-- Padding -->
+                                </div>
+                                <button class="btn btn-warning mb-3 col-5" type="button" id="fileLoopBtn" data-bs-toggle="tooltip" title="Loop file data">
+                                    <i class="fa-solid fa-infinity"></i>&nbsp;Loop Data
+                                </button>
+                            </div>
+                            <span id="selectedFileName"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <span id="selectedFileName"></span>
         </div>
     </div>
 </div>
