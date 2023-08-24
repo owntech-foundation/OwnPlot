@@ -558,7 +558,7 @@ $(document).ready(function() {
         newPortDiv.find(".collapseHead").attr("aria-controls", "port" + portCounter + "SelectionDiv");
 
 		newPortDiv.find(".input-group-text").attr("id", "port" + portCounter + "SelectionTitle");
-		newPortDiv.find(".input-group-text span").text("Port " + portCounter);
+		newPortDiv.find(".port1SelectionTitle span").text("Port " + portCounter);
 
 		newPortDiv.find(".collapse").attr("id", "port" + portCounter + "SelectionDiv");
 
@@ -587,7 +587,7 @@ $(document).ready(function() {
 			portSection.find(".collapseHead").attr("data-target", "#port" + (i - 1) + "SelectionDiv");
 			portSection.find(".collapseHead").attr("aria-controls", "port" + (i - 1) + "SelectionDiv");
 			portSection.find(".input-group-text").attr("id", "port" + (i - 1) + "SelectionTitle");
-			portSection.find(".input-group-text span").text("Port " + (i - 1));
+			portSection.find(".port1SelectionTitle span").text("Port " + (i - 1));
 			portSection.find(".collapse").attr("id", "port" + (i - 1) + "SelectionDiv");
 			portSection.find(".deletePortBtn").data("port", i - 1);
 		}
