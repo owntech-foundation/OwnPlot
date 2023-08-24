@@ -697,3 +697,53 @@ function legendClickHandler(e, legendItem, legend){
 // 	y.grid.color = 'rgba(255, 255, 255, 0.5)';	
 // }
 
+
+$(document).ready(function() {
+
+    var chartCounter = 1;
+
+    $("#addChartBtn").click(function() {
+        chartCounter++;
+
+        var newChartDiv = $("#chart1Section").clone(); // Create a new "chart1Section" by cloning the existing one
+
+        // Update IDs and attributes to make them unique
+        newChartDiv.attr("id", "chart" + chartCounter + "Section");
+
+        newChartDiv.find(".collapseHead").attr("id", "chart" + chartCounter + "SelectionHref");
+        newChartDiv.find(".collapseHead").attr("data-target", "#chart" + chartCounter + "SelectionDiv");
+        newChartDiv.find(".collapseHead").attr("aria-controls", "chart" + chartCounter + "SelectionDiv");
+
+        newChartDiv.find(".input-group-text").attr("id", "chart" + chartCounter + "SelectionTitle");
+        newChartDiv.find(".chart1SelectionTitle span").text("Chart " + chartCounter);
+
+        newChartDiv.find(".collapse").attr("id", "chart" + chartCounter + "SelectionDiv");
+
+        newChartDiv.append('<button class="btn btn-danger col-12 deleteChartBtn" data-chart="' + chartCounter + '">Delete Chart</button>');
+
+        console.log(newChartDiv);
+
+        // Append the new chart div after the last chart div
+        newChartDiv.insertBefore($("[id^='addChartBtn']:last"));
+    });
+
+    $(document).on("click", ".deleteChartBtn", function() {
+        var chartToDelete = $(this).data("chart");
+        $("#chart" + chartToDelete + "Section").remove();
+    
+        // Decrement chartCounter
+        chartCounter--;
+    
+        // Update the IDs and attributes of remaining sections
+        for (var i = chartToDelete + 1; i <= chartCounter + 1; i++) {
+            var chartSection = $("#chart" + i + "Section");
+            chartSection.attr("id", "chart" + (i - 1) + "Section");
+            chartSection.find(".collapseHead").attr("id", "chart" + (i - 1) + "SelectionHref");
+            chartSection.find(".collapseHead").attr("data-target", "#chart" + (i - 1) + "SelectionDiv");
+            chartSection.find(".collapseHead").attr("aria-controls", "chart" + (i - 1) + "SelectionDiv");
+            chartSection.find(".chart1SelectionTitle span").text("Chart " + (i - 1));
+            chartSection.find(".collapse").attr("id", "chart" + (i - 1) + "SelectionDiv");
+            chartSection.find(".deleteChartBtn").data("chart", i - 1);
+        }
+    });    
+});
