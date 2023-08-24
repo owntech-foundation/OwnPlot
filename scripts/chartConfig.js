@@ -719,7 +719,7 @@ $(document).ready(function() {
 
         newChartDiv.find(".collapse").attr("id", "chart" + chartCounter + "SelectionDiv");
 
-        newChartDiv.append('<button class="btn btn-danger col-12 deleteChartBtn" data-chart="' + chartCounter + '">Delete Chart</button>');
+        newChartDiv.append('<button class="btn btn-danger col-12 deleteChartBtn" data-chart="' + chartCounter + '"><i class="fa-solid fa-file-circle-minus"></i>&nbsp;Delete Chart</button>');
 
         console.log(newChartDiv);
 

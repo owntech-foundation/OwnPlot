@@ -563,7 +563,7 @@ $(document).ready(function() {
 		newPortDiv.find(".collapse").attr("id", "port" + portCounter + "SelectionDiv");
 
 		// Add a delete button to the new port section
-		newPortDiv.append('<button class="btn btn-danger col-12 deletePortBtn" data-port="'+ portCounter +'">Delete Port</button>');
+		newPortDiv.append('<button class="btn btn-danger col-12 deletePortBtn" data-port="'+ portCounter +'"><i class="fa-solid fa-plug-circle-minus"></i>&nbsp;Delete Port</button>');
 
 		console.log(newPortDiv)
 

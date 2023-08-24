@@ -8,7 +8,7 @@ const buttonActions = {
   action5Btn: '#nav-settings-tab',
   action6Btn: '#nav-chartConfig-tab',
   action7Btn: '#nav-record-tab',
-  action8Btn: '#nav-mockPorts-tab',
+  action8Btn: '#nav-ports-tab',
   action9Btn: '#nav-keyBindings-tab'
 };
 let isFirstKeyupListenerActive = false;
