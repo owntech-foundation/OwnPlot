@@ -155,3 +155,104 @@ function closePortBtn(elem) {
 		isPortOpenMessageDisplayed=false;
 	}	
 }
+
+
+
+$(document).ready(function() {
+
+	var portCounter = 1;
+
+	$("#addPortBtn").click(function() {
+        portCounter++;
+
+        var newPortDiv = $("#port1Section").clone(); // Create a new "port1SelectionDiv" by cloning the existing one
+
+        // Update IDs and attributes to make them unique
+        newPortDiv.attr("id", "port" + portCounter + "Section");
+
+		newPortDiv.find(".collapseHead").attr("id", "port" + portCounter + "SelectionHref");
+        newPortDiv.find(".collapseHead").attr("data-target", "#port" + portCounter + "SelectionDiv");
+        newPortDiv.find(".collapseHead").attr("aria-controls", "port" + portCounter + "SelectionDiv");
+
+		newPortDiv.find(".input-group-text").attr("id", "port" + portCounter + "SelectionTitle");
+		newPortDiv.find(".port1SelectionTitle span").text("Port " + portCounter);
+
+		newPortDiv.find(".collapse").attr("id", "port" + portCounter + "SelectionDiv");
+
+		// Add a delete button to the new port section
+		newPortDiv.append('<button class="btn btn-danger col-12 deletePortBtn" data-port="'+ portCounter +'"><i class="fa-solid fa-plug-circle-minus"></i>&nbsp;Delete Port</button>');
+
+		console.log(newPortDiv)
+
+        // Append the new port div after the last port div
+        newPortDiv.insertBefore($("[id^='addPortBtn']:last"));
+    });
+
+	// Handle delete button click within cloned sections
+	$(document).on("click", ".deletePortBtn", function() {
+		var portToDelete = $(this).data("port");
+		$("#port" + portToDelete + "Section").remove();
+
+		// Decrement portCounter
+		portCounter--;
+
+		// Update the IDs and attributes of remaining sections
+		for (var i = portToDelete + 1; i <= portCounter + 1; i++) {
+			var portSection = $("#port" + i + "Section");
+			portSection.attr("id", "port" + (i - 1) + "Section");
+			portSection.find(".collapseHead").attr("id", "port" + (i - 1) + "SelectionHref");
+			portSection.find(".collapseHead").attr("data-target", "#port" + (i - 1) + "SelectionDiv");
+			portSection.find(".collapseHead").attr("aria-controls", "port" + (i - 1) + "SelectionDiv");
+			portSection.find(".input-group-text").attr("id", "port" + (i - 1) + "SelectionTitle");
+			portSection.find(".port1SelectionTitle span").text("Port " + (i - 1));
+			portSection.find(".collapse").attr("id", "port" + (i - 1) + "SelectionDiv");
+			portSection.find(".deletePortBtn").data("port", i - 1);
+		}
+	});
+});
+
+function listAvailableCharts(){
+	if (availableSerialPorts == false || availableSerialPorts == undefined) {
+		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
+	} else {
+		//not available in this version: printDebugPortInfo(availableSerialPorts);
+
+		let lpHTML = '<option value="default" selected>Select a port...</option>';
+		availableSerialPorts.forEach(p => {
+			//if we were on a port when ports changed, we select in the list the current port
+			if (port) {
+				if(port.path == p.path) {
+					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+				} else {
+					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				}
+			} else {
+				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+			}
+		});
+		$('#AvailablePorts').html(lpHTML);
+	}
+}
+
+function listAvailableTerminals(){
+	if (availableSerialPorts == false || availableSerialPorts == undefined) {
+		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
+	} else {
+		//not available in this version: printDebugPortInfo(availableSerialPorts);
+
+		let lpHTML = '<option value="default" selected>Select a port...</option>';
+		availableSerialPorts.forEach(p => {
+			//if we were on a port when ports changed, we select in the list the current port
+			if (port) {
+				if(port.path == p.path) {
+					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+				} else {
+					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				}
+			} else {
+				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+			}
+		});
+		$('#AvailablePorts').html(lpHTML);
+	}
+}

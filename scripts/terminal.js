@@ -284,7 +284,7 @@ $(document).ready(function() {
     $("#addTerminalBtn").click(function() {
         terminalCounter++;
 
-        var newTerminalDiv = $("#terminal1Section").clone(); // Create a new "chart1Section" by cloning the existing one
+        var newTerminalDiv = $("#terminal1Section").clone(); // Create a new "terminal1Section" by cloning the existing one
 
         // Update IDs and attributes to make them unique
         newTerminalDiv.attr("id", "terminal" + terminalCounter + "Section");

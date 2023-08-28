@@ -482,3 +482,81 @@ function handleDeleteConfig() {
         $('#deleteConfigModal').modal('hide');
     });
 }
+
+
+$(document).ready(function() {
+
+	var commandCounter = 1;
+
+	$("#addCommandsManagerBtn").click(function() {
+        commandCounter++;
+
+        var newCommandDiv = $("#command1Section").clone(); // Create a new "command1Section" by cloning the existing one
+
+        // Update IDs and attributes to make them unique
+        newCommandDiv.attr("id", "command" + commandCounter + "Section");
+
+		newCommandDiv.find(".collapseHead").attr("id", "command" + commandCounter + "SelectionHref");
+        newCommandDiv.find(".collapseHead").attr("data-target", "#command" + commandCounter + "SelectionDiv");
+        newCommandDiv.find(".collapseHead").attr("aria-controls", "command" + commandCounter + "SelectionDiv");
+
+		newCommandDiv.find(".input-group-text").attr("id", "command" + commandCounter + "SelectionTitle");
+		newCommandDiv.find(".command1SelectionTitle span").text("Commands Manager " + commandCounter);
+
+		newCommandDiv.find(".collapse").attr("id", "command" + commandCounter + "SelectionDiv");
+
+		// Add a delete button to the new port section
+		newCommandDiv.append('<button class="btn btn-danger col-12 deleteCommandsManagerBtn" data-command="'+ commandCounter +'"><i class="fa-solid fa-circle-minus"></i>&nbsp;Delete Commands Manager</button>');
+
+		console.log(newCommandDiv)
+
+        // Append the new port div after the last port div
+        newCommandDiv.insertBefore($("[id^='addCommandsManagerBtn']:last"));
+    });
+
+	// Handle delete button click within cloned sections
+	$(document).on("click", ".deleteCommandsManagerBtn", function() {
+		var commandToDelete = $(this).data("command");
+		$("#command" + commandToDelete + "Section").remove();
+
+		// Decrement commandCounter
+		commandCounter--;
+
+		// Update the IDs and attributes of remaining sections
+		for (var i = commandToDelete + 1; i <= commandCounter + 1; i++) {
+			var commandSection = $("#command" + i + "Section");
+			commandSection.attr("id", "command" + (i - 1) + "Section");
+			commandSection.find(".collapseHead").attr("id", "command" + (i - 1) + "SelectionHref");
+			commandSection.find(".collapseHead").attr("data-target", "#command" + (i - 1) + "SelectionDiv");
+			commandSection.find(".collapseHead").attr("aria-controls", "command" + (i - 1) + "SelectionDiv");
+			commandSection.find(".input-group-text").attr("id", "command" + (i - 1) + "SelectionTitle");
+			commandSection.find(".command1SelectionTitle span").text("Commands Manager " + (i - 1));
+			commandSection.find(".collapse").attr("id", "command" + (i - 1) + "SelectionDiv");
+			commandSection.find(".deleteCommandsManagerBtn").data("command", i - 1);
+		}
+	});
+});
+
+
+function listAvailablePorts(){
+	if (availableSerialPorts == false || availableSerialPorts == undefined) {
+		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
+	} else {
+		//not available in this version: printDebugPortInfo(availableSerialPorts);
+
+		let lpHTML = '<option value="default" selected>Select a port...</option>';
+		availableSerialPorts.forEach(p => {
+			//if we were on a port when ports changed, we select in the list the current port
+			if (port) {
+				if(port.path == p.path) {
+					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+				} else {
+					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+				}
+			} else {
+				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+			}
+		});
+		$('#AvailablePorts').html(lpHTML);
+	}
+}
