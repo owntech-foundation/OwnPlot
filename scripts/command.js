@@ -32,6 +32,7 @@ const deleteConfigButton = $("#deleteConfigButton");
 const encoder = new TextEncoder();
 const configButtonPath = ipcRenderer.sendSync('get-user-data-folder') + "/config/buttons";
 
+let availablePorts = [];
 let commandButtons = [];
 let fileCommandButtons = [];
 let filesConfigButton = [];
@@ -46,6 +47,7 @@ let autoSendIntervalId = null;
 $(() => {
     disableSend();
     updateCommandButtons();
+    availablePorts.push({ id: "port1Section", name: "Port 1" });
     listAvailablePorts();
 
     autoSendPeriod.on("input", function() {
@@ -539,19 +541,12 @@ $(document).ready(function() {
 });
 
 
-function listAvailablePorts(){
-    let AvailablePortsToSendHTML = '<option value="default" selected>Select a port...</option>';
-    availableSerialPorts.forEach(p => {
-        //if we were on a port when ports changed, we select in the list the current port
-        if (port) {
-            if(port.path == p.path) {
-                AvailablePortsToSendHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
-            } else {
-                AvailablePortsToSendHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-            }
-        } else {
-            AvailablePortsToSendHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-        }
-    });
-    $('#AvailablePortsToSend').html(AvailablePortsToSendHTML);
+function listAvailablePorts() {
+	let availablePortsHTML = '<option value="default" selected>Select a port...</option>';
+
+	availablePorts.forEach(port => {
+		availablePortsHTML += '<option value="' + port.name + '">' + port.name + '</option>';
+	});
+
+	$('#AvailablePortsToSend').html(availablePortsHTML);
 }

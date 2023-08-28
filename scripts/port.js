@@ -175,6 +175,7 @@ $(document).ready(function() {
 
         // Update IDs and attributes to make them unique
         newPortDiv.attr("id", "port" + portCounter + "Section");
+        newPortDiv.attr("name", "Port" + portCounter);
 
 		newPortDiv.find(".collapseHead").attr("id", "port" + portCounter + "SelectionHref");
         newPortDiv.find(".collapseHead").attr("data-target", "#port" + portCounter + "SelectionDiv");
@@ -190,6 +191,11 @@ $(document).ready(function() {
 
 		console.log(newPortDiv)
 
+		// Add the new port object to the availablePorts array
+		availablePorts.push({ id: "port" + portCounter + "Section", name: "Port " + portCounter });
+		listAvailablePorts();
+		console.log(availablePorts)
+
         // Append the new port div after the last port div
         newPortDiv.insertBefore($("[id^='addPortBtn']:last"));
     });
@@ -201,6 +207,11 @@ $(document).ready(function() {
 
 		// Decrement portCounter
 		portCounter--;
+
+		// Remove the deleted chart object from the availableCharts array
+		availablePorts = availablePorts.filter(port => port.id !== "port" + portToDelete);
+		listAvailablePorts();
+		console.log(availablePorts)
 
 		// Update the IDs and attributes of remaining sections
 		for (var i = portToDelete + 1; i <= portCounter + 1; i++) {
@@ -222,7 +233,6 @@ function listAvailableCharts() {
 
     availableCharts.forEach(chart => {
         availableChartsHTML += '<option value="' + chart.name + '">' + chart.name + '</option>';
-		console.log(chart.path)
     });
 
     $('#AvailableCharts').html(availableChartsHTML);

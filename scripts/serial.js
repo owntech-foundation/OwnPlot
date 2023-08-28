@@ -277,7 +277,6 @@ async function listPorts() {
 	await checkPortsChanged().then(()=>{
 		if(portHaveChanged){
 			listSerialPorts();
-			listAvailablePorts();
 		}
 	});
 	setTimeout(listPorts, 2000);
