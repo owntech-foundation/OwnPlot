@@ -46,6 +46,7 @@ let autoSendIntervalId = null;
 $(() => {
     disableSend();
     updateCommandButtons();
+    listAvailablePorts();
 
     autoSendPeriod.on("input", function() {
         if(autoSendPeriod.val().length > 1){
@@ -539,24 +540,18 @@ $(document).ready(function() {
 
 
 function listAvailablePorts(){
-	if (availableSerialPorts == false || availableSerialPorts == undefined) {
-		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
-	} else {
-		//not available in this version: printDebugPortInfo(availableSerialPorts);
-
-		let lpHTML = '<option value="default" selected>Select a port...</option>';
-		availableSerialPorts.forEach(p => {
-			//if we were on a port when ports changed, we select in the list the current port
-			if (port) {
-				if(port.path == p.path) {
-					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
-				} else {
-					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-				}
-			} else {
-				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-			}
-		});
-		$('#AvailablePorts').html(lpHTML);
-	}
+    let AvailablePortsToSendHTML = '<option value="default" selected>Select a port...</option>';
+    availableSerialPorts.forEach(p => {
+        //if we were on a port when ports changed, we select in the list the current port
+        if (port) {
+            if(port.path == p.path) {
+                AvailablePortsToSendHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
+            } else {
+                AvailablePortsToSendHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+            }
+        } else {
+            AvailablePortsToSendHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
+        }
+    });
+    $('#AvailablePortsToSend').html(AvailablePortsToSendHTML);
 }

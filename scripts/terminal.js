@@ -288,6 +288,7 @@ $(document).ready(function() {
 
         // Update IDs and attributes to make them unique
         newTerminalDiv.attr("id", "terminal" + terminalCounter + "Section");
+		newTerminalDiv.attr("name", "terminal" + terminalCounter);
 
         newTerminalDiv.find(".collapseHead").attr("id", "terminal" + terminalCounter + "SelectionHref");
         newTerminalDiv.find(".collapseHead").attr("data-target", "#terminal" + terminalCounter + "SelectionDiv");
@@ -302,6 +303,11 @@ $(document).ready(function() {
 
         console.log(newTerminalDiv);
 
+		// Add the new terminal object to the availableTerminals array
+		availableTerminals.push({ id: "terminal" + terminalCounter + "Section", name: "Terminal " + terminalCounter });
+		listAvailableTerminals();
+		console.log(availableTerminals)
+		
         // Append the new chart div after the last chart div
         newTerminalDiv.insertBefore($("[id^='addTerminalBtn']:last"));
     });
@@ -312,6 +318,11 @@ $(document).ready(function() {
     
         // Decrement chartCounter
         terminalCounter--;
+
+		// Remove the deleted terminal object from the availableTerminals array
+		availableTerminals = availableTerminals.filter(terminal => terminal.id !== "terminal" + terminalToDelete);
+		listAvailableTerminals();
+		console.log(availableTerminals)
     
         // Update the IDs and attributes of remaining sections
         for (var i = terminalToDelete + 1; i <= terminalCounter + 1; i++) {

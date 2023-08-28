@@ -709,6 +709,7 @@ $(document).ready(function() {
 
         // Update IDs and attributes to make them unique
         newChartDiv.attr("id", "chart" + chartCounter + "Section");
+        newChartDiv.attr("name", "Chart" + chartCounter);
 
         newChartDiv.find(".collapseHead").attr("id", "chart" + chartCounter + "SelectionHref");
         newChartDiv.find(".collapseHead").attr("data-target", "#chart" + chartCounter + "SelectionDiv");
@@ -723,6 +724,11 @@ $(document).ready(function() {
 
         console.log(newChartDiv);
 
+        // Add the new chart object to the availableCharts array
+        availableCharts.push({ id: "chart" + chartCounter + "Section", name: "Chart " + chartCounter });
+        listAvailableCharts();
+        console.log(availableCharts)
+
         // Append the new chart div after the last chart div
         newChartDiv.insertBefore($("[id^='addChartBtn']:last"));
     });
@@ -734,6 +740,11 @@ $(document).ready(function() {
         // Decrement chartCounter
         chartCounter--;
     
+        // Remove the deleted chart object from the availableCharts array
+        availableCharts = availableCharts.filter(chart => chart.id !== "chart" + chartToDelete);
+        listAvailableCharts();
+        console.log(availableCharts)
+
         // Update the IDs and attributes of remaining sections
         for (var i = chartToDelete + 1; i <= chartCounter + 1; i++) {
             var chartSection = $("#chart" + i + "Section");

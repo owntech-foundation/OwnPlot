@@ -10,6 +10,8 @@
  */
 
 let availableSerialPorts = [];
+let availableCharts = [];
+let availableTerminals = [];
 let selectedPort;
 let isPortClosedMessageDisplayed;
 let isPortOpenMessageDisplayed;
@@ -39,6 +41,10 @@ function runBtn(elem) {
 $(function() {
 	noPortBtn($('#openPortBtn'));
 	listPorts();
+	availableCharts.push({ id: "chart1Section", name: "Chart 1" });
+	availableTerminals.push({ id: "terminal1Section", name: "Terminal 1" });
+	listAvailableCharts();
+	listAvailableTerminals();
 	
 	$("#AvailablePorts").on('change', function() {
 		selectedPort = $(this).children("option:selected").val();
@@ -211,48 +217,24 @@ $(document).ready(function() {
 	});
 });
 
-function listAvailableCharts(){
-	if (availableSerialPorts == false || availableSerialPorts == undefined) {
-		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
-	} else {
-		//not available in this version: printDebugPortInfo(availableSerialPorts);
+function listAvailableCharts() {
+    let availableChartsHTML = '<option value="default" selected>Select a chart...</option>';
 
-		let lpHTML = '<option value="default" selected>Select a port...</option>';
-		availableSerialPorts.forEach(p => {
-			//if we were on a port when ports changed, we select in the list the current port
-			if (port) {
-				if(port.path == p.path) {
-					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
-				} else {
-					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-				}
-			} else {
-				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-			}
-		});
-		$('#AvailablePorts').html(lpHTML);
-	}
+    availableCharts.forEach(chart => {
+        availableChartsHTML += '<option value="' + chart.name + '">' + chart.name + '</option>';
+		console.log(chart.path)
+    });
+
+    $('#AvailableCharts').html(availableChartsHTML);
 }
 
-function listAvailableTerminals(){
-	if (availableSerialPorts == false || availableSerialPorts == undefined) {
-		$('#AvailablePorts').html('<option value="default" selected>No port available</option>');
-	} else {
-		//not available in this version: printDebugPortInfo(availableSerialPorts);
 
-		let lpHTML = '<option value="default" selected>Select a port...</option>';
-		availableSerialPorts.forEach(p => {
-			//if we were on a port when ports changed, we select in the list the current port
-			if (port) {
-				if(port.path == p.path) {
-					lpHTML += ('<option value="' + p.path + '" selected>' + p.path + '</option>');
-				} else {
-					lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-				}
-			} else {
-				lpHTML += ('<option value="' + p.path + '">' + p.path + '</option>');
-			}
-		});
-		$('#AvailablePorts').html(lpHTML);
-	}
+function listAvailableTerminals() {
+	let availableTerminalsHTML = '<option value="default" selected>Select a terminal...</option>';
+
+	availableTerminals.forEach(terminal => {
+		availableTerminalsHTML += '<option value="' + terminal.name + '">' + terminal.name + '</option>';
+	});
+
+	$('#AvailableTerminals').html(availableTerminalsHTML);
 }
