@@ -205,13 +205,13 @@ $(document).ready(function() {
 		var portToDelete = $(this).data("port");
 		$("#port" + portToDelete + "Section").remove();
 
-		// Decrement portCounter
-		portCounter--;
-
 		// Remove the deleted chart object from the availableCharts array
-		availablePorts = availablePorts.filter(port => port.id !== "port" + portToDelete);
+		availablePorts = availablePorts.filter(port => port.id !== "port" + portToDelete + "Section");
 		listAvailablePorts();
 		console.log(availablePorts)
+
+		/*// Decrement portCounter
+		portCounter--;
 
 		// Update the IDs and attributes of remaining sections
 		for (var i = portToDelete + 1; i <= portCounter + 1; i++) {
@@ -224,7 +224,7 @@ $(document).ready(function() {
 			portSection.find(".port1SelectionTitle span").text("Port " + (i - 1));
 			portSection.find(".collapse").attr("id", "port" + (i - 1) + "SelectionDiv");
 			portSection.find(".deletePortBtn").data("port", i - 1);
-		}
+		}*/
 	});
 });
 

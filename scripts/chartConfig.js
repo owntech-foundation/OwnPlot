@@ -737,14 +737,14 @@ $(document).ready(function() {
         var chartToDelete = $(this).data("chart");
         $("#chart" + chartToDelete + "Section").remove();
     
-        // Decrement chartCounter
-        chartCounter--;
-    
         // Remove the deleted chart object from the availableCharts array
-        availableCharts = availableCharts.filter(chart => chart.id !== "chart" + chartToDelete);
+        availableCharts = availableCharts.filter(chart => chart.id !== "chart" + chartToDelete + "Section");
         listAvailableCharts();
         console.log(availableCharts)
 
+        /*// Decrement chartCounter
+        chartCounter--;
+    
         // Update the IDs and attributes of remaining sections
         for (var i = chartToDelete + 1; i <= chartCounter + 1; i++) {
             var chartSection = $("#chart" + i + "Section");
@@ -755,6 +755,6 @@ $(document).ready(function() {
             chartSection.find(".chart1SelectionTitle span").text("Chart " + (i - 1));
             chartSection.find(".collapse").attr("id", "chart" + (i - 1) + "SelectionDiv");
             chartSection.find(".deleteChartBtn").data("chart", i - 1);
-        }
+        }*/
     });    
 });

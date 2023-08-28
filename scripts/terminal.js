@@ -316,14 +316,14 @@ $(document).ready(function() {
         var terminalToDelete = $(this).data("terminal");
         $("#terminal" + terminalToDelete + "Section").remove();
     
-        // Decrement chartCounter
-        terminalCounter--;
-
 		// Remove the deleted terminal object from the availableTerminals array
-		availableTerminals = availableTerminals.filter(terminal => terminal.id !== "terminal" + terminalToDelete);
+		availableTerminals = availableTerminals.filter(terminal => terminal.id !== "terminal" + terminalToDelete + "Section");
 		listAvailableTerminals();
 		console.log(availableTerminals)
-    
+
+        /*// Decrement chartCounter
+        terminalCounter--;
+
         // Update the IDs and attributes of remaining sections
         for (var i = terminalToDelete + 1; i <= terminalCounter + 1; i++) {
             var terminalSection = $("#terminal" + i + "Section");
@@ -334,6 +334,6 @@ $(document).ready(function() {
             terminalSection.find(".terminal1SelectionTitle span").text("Terminal " + (i - 1));
             terminalSection.find(".collapse").attr("id", "terminal" + (i - 1) + "SelectionDiv");
             terminalSection.find(".deleteTerminalBtn").data("terminal", i - 1);
-        }
+        }*/
     });    
 });

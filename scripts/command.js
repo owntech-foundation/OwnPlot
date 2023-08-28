@@ -522,7 +522,7 @@ $(document).ready(function() {
 		var commandToDelete = $(this).data("command");
 		$("#command" + commandToDelete + "Section").remove();
 
-		// Decrement commandCounter
+		/*// Decrement commandCounter
 		commandCounter--;
 
 		// Update the IDs and attributes of remaining sections
@@ -536,7 +536,7 @@ $(document).ready(function() {
 			commandSection.find(".command1SelectionTitle span").text("Commands Manager " + (i - 1));
 			commandSection.find(".collapse").attr("id", "command" + (i - 1) + "SelectionDiv");
 			commandSection.find(".deleteCommandsManagerBtn").data("command", i - 1);
-		}
+		}*/
 	});
 });
 
