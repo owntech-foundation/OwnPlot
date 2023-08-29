@@ -7,258 +7,274 @@
  * @ Modified by: Jean Alinei
  * @ Modified time: 2022-09-07 14:27:43
  * @ Description:
- -->
- 
-<div class="mb-3">
-    <a data-target="#timeConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="timeConfigDiv">
-        <span class="input-group-text pointer" id="timeConfigTitle">
-            <i class="fa-solid fa-clock"></i><span style="font-weight:bolder">&nbsp;Time Representation</span>
+-->
+
+<div class="mb-3" id="chart1Section" name="Chart 1">
+    <a data-target="#chart1SelectionDiv" class="collapseHead" id="chart1SelectionHref" role="button" aria-expanded="true" aria-controls="chart1SelectionDiv">
+        <span class="input-group-text chart1SelectionTitle" id="chart1SelectionTitle">
+            <i class="fa-solid fa-chart-line"></i>&nbsp;<span style="font-weight:bolder">Chart 1</span>
         </span>
     </a>
-    <div class="collapse show mb-2" id="timeConfigDiv">
+    <div class="collapse show" id="chart1SelectionDiv">
         <div class="card card-body">
-            <div class="row p-0 m-0">
-                <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-bs-toggle="tooltip" title="Change time representation">
-                    <i class="fa-solid fa-stopwatch"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Relative
-                    </label>
-                </button>
-                <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-bs-toggle="tooltip" title="Change time representation">
-                    <i class="fa-solid fa-calendar-day"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Absolute
-                    </label>
-                </button>
-                <div class="col-2 px-0">
-                    <!-- Padding -->
+
+            <div class="mb-3">
+                <a data-target="#timeConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="timeConfigDiv">
+                    <span class="input-group-text pointer" id="timeConfigTitle">
+                        <i class="fa-solid fa-clock"></i><span style="font-weight:bolder">&nbsp;Time Representation</span>
+                    </span>
+                </a>
+                <div class="collapse show mb-2" id="timeConfigDiv">
+                    <div class="card card-body">
+                        <div class="row p-0 m-0">
+                            <button type="button" id="relBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-bs-toggle="tooltip" title="Change time representation">
+                                <i class="fa-solid fa-stopwatch"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Relative
+                                </label>
+                            </button>
+                            <button type="button" id="absBtn" class="btn btn-sm btn-primary col-5 relAbsBtn" data-bs-toggle="tooltip" title="Change time representation">
+                                <i class="fa-solid fa-calendar-day"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Absolute
+                                </label>
+                            </button>
+                            <div class="col-2 px-0">
+                                <!-- Padding -->
+                            </div>
+                            <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5" data-bs-toggle="tooltip" title="Reset relative time origin">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Reset Time
+                                </label>
+                            </button>
+                        </div>
+
+                        <div class="col-12 mt-3 ps-0" id="customRefresh">
+                            <div class="input-group input-group-sm">
+                                <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter refresh time (ms)">
+                                    <i class="fa-solid fa-person-running"></i>&nbsp; Refresh time (ms)
+                                </label>
+                                <input type="number" id="refreshTime" name="refreshInput" class="form-control col-7" placeholder="200 (default)" maxlength=9 aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button type="button" id="resetRelBtn" class="btn btn-sm btn-primary col-5" data-bs-toggle="tooltip" title="Reset relative time origin">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Reset Time
-                    </label>
-                </button>
             </div>
 
-            <div class="col-12 mt-3 ps-0" id="customRefresh">
-                <div class="input-group input-group-sm">
-                    <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter refresh time (ms)">
-                        <i class="fa-solid fa-person-running"></i>&nbsp; Refresh time (ms)
-                    </label>
-                    <input type="number" id="refreshTime" name="refreshInput" class="form-control col-7" placeholder="200 (default)" maxlength=9 aria-describedby="basic-addon1">
+            <div class="mb-3">
+                <a data-target="#interpolationConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="interpolationConfigDiv">
+                    <span class="input-group-text pointer" id="interpolationConfigTitle">
+                        <i class="fa-solid fa-bezier-curve"></i><span style="font-weight:bolder">&nbsp;Interpolation mode</span>
+                    </span>
+                </a>
+                <div class="collapse show mb-2" id="interpolationConfigDiv">
+                    <div class="card card-body">
+                        <div class="row p-0 m-0">
+                            <button type="button" aria-pressed="false" id="monotoneInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-12" data-bs-toggle="tooltip" title="Uses Bezier curves to estimate values between data points">
+                                <i class="fa-solid fa-bezier-curve"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Monotone Bezier
+                                </label>
+                            </button>
+                            <button type="button" aria-pressed="false" id="linearInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-12" data-bs-toggle="tooltip" title="Assumes a constant rate of change between data points">
+                                <i class="fa-solid fa-slash"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Linear
+                                </label>
+                            </button>
+                            <button type="button" aria-pressed="false" id="stepInterpolationBtn" class="btn btn-primary btn-sm col-12" data-bs-toggle="tooltip" title="Assumes that the value remains constant until the next data point is reached">
+                                <i class="fa-solid fa-stairs"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Step
+                                </label>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <a data-target="#scaleConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="scaleConfigDiv">
+                    <span class="input-group-text pointer" id="scaleConfigTitle">
+                        <i class="fa-solid fa-arrow-trend-up"></i><span style="font-weight:bolder">&nbsp;Axis Configuration</span>
+                    </span>
+                </a>
+                <div class="collapse show mb-2" id="scaleConfigDiv">
+                    <div class="card card-body">
+                        <div class="row p-0 m-0">
+                            <button type="button" id="resetBtn" class="btn btn-sm btn-primary col-5 resetAbsBtn">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Reset zoom
+                                </label>
+                            </button>
+                            <div class="col-2 px-0">
+                                <!-- Padding -->
+                            </div>
+                            <button type="button" id="y2Btn" class="btn btn-sm btn-primary col-5" data-bs-toggle="tooltip" title="Add secondary Y axis">
+                                <i class="fa-solid fa-plus"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Add Y2 axis
+                                </label>
+                            </button>
+                            <button type="button" id="rmY2Btn" class="btn btn-sm btn-warning col-5" data-bs-toggle="tooltip" title="Remove secondary Y axis">
+                                <i class="fa-solid fa-minus"></i>
+                                <label class="nonBreakable">
+                                    &nbsp;Remove Y2 axis
+                                </label>
+                            </button>
+                        </div>
+                        <div class="row p-0 m-0"> 
+                            <div class="col-6 mt-3 ps-0" id="minYAxis">
+                                <div class="input-group input-group-sm">
+                                    <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter primary Y axis minimum value">
+                                        &nbsp;Y min
+                                    </label>
+                                    <input type="number" id="minYAxisField" name="minYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="col-6 mt-3 pe-0" id="maxYAxis">
+                                <div class="input-group input-group-sm">
+                                    <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter primary Y axis maximum value">
+                                        &nbsp;Y max
+                                    </label>
+                                    <input type="number" id="maxYAxisField" name="maxYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row p-0 m-0" id="y2Config"> 
+                            <div class="col-6 mt-3 ps-0" id="minY2Axis">
+                                <div class="input-group input-group-sm">
+                                    <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter secondary Y axis minimum value">
+                                        &nbsp;Y2 min
+                                    </label>
+                                    <input type="number" id="minY2AxisField" name="minYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="col-6 mt-3 pe-0" id="maxY2Axis">
+                                <div class="input-group input-group-sm">
+                                    <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter secondary Y axis maximum value">
+                                        &nbsp;Y2 max
+                                    </label>
+                                    <input type="number" id="maxY2AxisField" name="maxYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <!-- <div class="input-group input-group-sm mt-3">
+                            <div id="customRefresh">
+                                <div class="input-group input-group-sm mb-3">
+                                    <label class="input-group-text col-5" >
+                                        <i class="fa-solid fa-person-running"></i>&nbsp; Refresh time (ms)
+                                    </label>
+                                    <input type="number" id="refreshTime" name="refreshInput" class="form-control" placeholder="200 (default)" maxlength=9 aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                        </div>  -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <a data-target="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="true" aria-controls="legendSetupDiv">
+                    <span class="input-group-text" id="legendSetupTitle">
+                        <i class="fa-solid fa-palette"></i>&nbsp;<span style="font-weight:bolder">Legend</span>
+                    </span>
+                </a>
+                <div class="collapse show" id="legendSetupDiv">
+                    <div class="card card-body">
+                        <div class="row p-0 m-0">
+                            <button type="button" class="btn btn-sm btn-success mb-3 col-5" id="legendShownBtn" data-bs-toggle="tooltip" title="Hide legend">
+                                <i class="fa-solid fa-eye"></i>&nbsp;Shown
+                            </button>
+                            <button type="button" class="btn btn-sm btn-warning mb-3 col-5" id="legendHiddenBtn" data-bs-toggle="tooltip" title="Show legend">
+                                <i class="fa-solid fa-eye-slash"></i>&nbsp;Hidden
+                            </button>
+                            <div class="col-2 px-0">
+                                <!-- Padding -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-primary mb-3 col-5" id="legendPositionBtn" data-tooltip="Change legend position" data-bs-toggle="tooltip" title="Change legend position">
+                                <i class="fa-solid fa-arrow-right"></i>&nbsp;Position
+                            </button>
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <label class="input-group-text col-5"  data-bs-toggle="tooltip" title="Change chart color theme">
+                                <i class="fa-solid fa-swatchbook"></i>&nbsp;Theme
+                            </label>
+                            <select class="form-select" name="colorSchemeSelect" id="colorSchemeSelect"></select>
+                        </div>
+                        <div class="row px-0 mx-0 mb-0">
+                            <div class="col-4 text-center">
+                                <h6> Dataset Name</h6>
+                            </div>
+                            <div class="col-3 text-center">
+                                <h6><i class="fa-solid fa-eye"></i></h6>
+                            </div>
+                            <div class="col-3 text-center">
+                                <h6> Axis Selector</h6>
+                            </div>
+                            <div class="col-2 text-center">
+                                <h6><i class="fa-solid fa-gear"></i></h6>
+                            </div>
+                        </div>
+                        <div id="legendConfigDiv">
+                            <div id="legendSetupLineTemplate">
+                                <div class="row px-0 mx-0 mb-2" hidden>
+                                    <!-- Not showing ID
+                                    <div class="col-1">
+                                        NULL
+                                    </div>
+                                    -->
+                                    <input type="text" class="labelInput px-0 col-4" id="labelInputNULL" value="Dataset NULL">
+                                    <!-- <div class="col-1">&nbsp;</div> -->
+                                    <div class="col-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheckNULL" checked>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" id="yAxisSelector">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input yY2AxisSwitch" type="checkbox" role="switch" id="yAxisSwitchNULL" checked>
+                                        </div>
+                                    </div>
+                                    <div class="col-1">
+                                        <a data-target="#datasetDivNULL" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDivNULL">
+                                            <button class="btn btn-sm btn-primary legendLineCollapseBtn" style="background-color:#ffffff">
+                                                <i class="fa-solid fa-paintbrush"></i>
+                                            </button>
+                                        </a>    
+                                    </div>
+                                </div>
+                                <div class="collapse row mb-2" id="datasetDivNULL">
+                                    <div class="col-6">
+                                        <div class="card card-body">
+                                            <p class="nonBreakable" style="text-align:center">Point Style</p>
+                                            <select class="form-select form-select-sm pointStyleSelect mb-1" id="pointStyleSelectNULL">
+                                                <option>circle</option><option>cross</option><option>rect</option><option>triangle</option>
+                                            </select>
+                                            <input type="number" class="form-control form-control-sm pointSizeInput" id="pointSizeInputNULL" value="" min="0" max="20">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card card-body">
+                                            <p class="nonBreakable" style="text-align:center">Line Style</p>
+                                            <select class="form-select form-select-sm lineStyleSelect mb-1" id="lineStyleSelectNULL"></select>
+                                            <input type="number" class="form-control form-control-sm lineSizeInput" id="lineSizeInputNULL" value="" min="0" max="20">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="mb-3">
-    <a data-target="#interpolationConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="interpolationConfigDiv">
-        <span class="input-group-text pointer" id="interpolationConfigTitle">
-            <i class="fa-solid fa-bezier-curve"></i><span style="font-weight:bolder">&nbsp;Interpolation mode</span>
-        </span>
-    </a>
-    <div class="collapse show mb-2" id="interpolationConfigDiv">
-        <div class="card card-body">
-            <div class="row p-0 m-0">
-                <button type="button" aria-pressed="false" id="monotoneInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-12" data-bs-toggle="tooltip" title="Uses Bezier curves to estimate values between data points">
-                    <i class="fa-solid fa-bezier-curve"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Monotone Bezier
-                    </label>
-                </button>
-                <button type="button" aria-pressed="false" id="linearInterpolationBtn" class="btn btn-primary btn-sm mb-3 col-12" data-bs-toggle="tooltip" title="Assumes a constant rate of change between data points">
-                    <i class="fa-solid fa-slash"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Linear
-                    </label>
-                </button>
-                <button type="button" aria-pressed="false" id="stepInterpolationBtn" class="btn btn-primary btn-sm col-12" data-bs-toggle="tooltip" title="Assumes that the value remains constant until the next data point is reached">
-                    <i class="fa-solid fa-stairs"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Step
-                    </label>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="mb-3">
-    <a data-target="#scaleConfigDiv" class="collapseHead" role="button" aria-expanded="true" aria-controls="scaleConfigDiv">
-        <span class="input-group-text pointer" id="scaleConfigTitle">
-            <i class="fa-solid fa-arrow-trend-up"></i><span style="font-weight:bolder">&nbsp;Axis Configuration</span>
-        </span>
-    </a>
-    <div class="collapse show mb-2" id="scaleConfigDiv">
-        <div class="card card-body">
-            <div class="row p-0 m-0">
-                <button type="button" id="resetBtn" class="btn btn-sm btn-primary col-5 resetAbsBtn">
-                    <i class="fa-solid fa-rotate-left"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Reset zoom
-                    </label>
-                </button>
-                <div class="col-2 px-0">
-                    <!-- Padding -->
-                </div>
-                <button type="button" id="y2Btn" class="btn btn-sm btn-primary col-5" data-bs-toggle="tooltip" title="Add secondary Y axis">
-                    <i class="fa-solid fa-plus"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Add Y2 axis
-                    </label>
-                </button>
-                <button type="button" id="rmY2Btn" class="btn btn-sm btn-warning col-5" data-bs-toggle="tooltip" title="Remove secondary Y axis">
-                    <i class="fa-solid fa-minus"></i>
-                    <label class="nonBreakable">
-                        &nbsp;Remove Y2 axis
-                    </label>
-                </button>
-            </div>
-            <div class="row p-0 m-0"> 
-                <div class="col-6 mt-3 ps-0" id="minYAxis">
-                    <div class="input-group input-group-sm">
-                        <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter primary Y axis minimum value">
-                            &nbsp;Y min
-                        </label>
-                        <input type="number" id="minYAxisField" name="minYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
-                    </div>
-                </div>
-                <div class="col-6 mt-3 pe-0" id="maxYAxis">
-                    <div class="input-group input-group-sm">
-                        <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter primary Y axis maximum value">
-                            &nbsp;Y max
-                        </label>
-                        <input type="number" id="maxYAxisField" name="maxYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row p-0 m-0" id="y2Config"> 
-                <div class="col-6 mt-3 ps-0" id="minY2Axis">
-                    <div class="input-group input-group-sm">
-                        <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter secondary Y axis minimum value">
-                            &nbsp;Y2 min
-                        </label>
-                        <input type="number" id="minY2AxisField" name="minYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
-                    </div>
-                </div>
-                <div class="col-6 mt-3 pe-0" id="maxY2Axis">
-                    <div class="input-group input-group-sm">
-                        <label class="input-group-text col-6" data-bs-toggle="tooltip" title="Enter secondary Y axis maximum value">
-                            &nbsp;Y2 max
-                        </label>
-                        <input type="number" id="maxY2AxisField" name="maxYAxisInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
-                    </div>
-                </div>
-            </div>
-            
-
-            <!-- <div class="input-group input-group-sm mt-3">
-                <div id="customRefresh">
-                    <div class="input-group input-group-sm mb-3">
-                        <label class="input-group-text col-5" >
-                            <i class="fa-solid fa-person-running"></i>&nbsp; Refresh time (ms)
-                        </label>
-                        <input type="number" id="refreshTime" name="refreshInput" class="form-control" placeholder="200 (default)" maxlength=9 aria-describedby="basic-addon1">
-                    </div>
-                </div>
-            </div>  -->
-        </div>
-    </div>
-</div>
-
-<div class="mb-3">
-    <a data-target="#legendSetupDiv" class="collapseHead" id="legendSetupHref" role="button" aria-expanded="true" aria-controls="legendSetupDiv">
-        <span class="input-group-text" id="legendSetupTitle">
-            <i class="fa-solid fa-palette"></i>&nbsp;<span style="font-weight:bolder">Legend</span>
-        </span>
-    </a>
-    <div class="collapse show" id="legendSetupDiv">
-        <div class="card card-body">
-            <div class="row p-0 m-0">
-                <button type="button" class="btn btn-sm btn-success mb-3 col-5" id="legendShownBtn" data-bs-toggle="tooltip" title="Hide legend">
-                    <i class="fa-solid fa-eye"></i>&nbsp;Shown
-                </button>
-                <button type="button" class="btn btn-sm btn-warning mb-3 col-5" id="legendHiddenBtn" data-bs-toggle="tooltip" title="Show legend">
-                    <i class="fa-solid fa-eye-slash"></i>&nbsp;Hidden
-                </button>
-                <div class="col-2 px-0">
-                    <!-- Padding -->
-                </div>
-                <button type="button" class="btn btn-sm btn-primary mb-3 col-5" id="legendPositionBtn" data-tooltip="Change legend position" data-bs-toggle="tooltip" title="Change legend position">
-                    <i class="fa-solid fa-arrow-right"></i>&nbsp;Position
-                </button>
-            </div>
-            <div class="input-group input-group-sm mb-3">
-                <label class="input-group-text col-5"  data-bs-toggle="tooltip" title="Change chart color theme">
-                    <i class="fa-solid fa-swatchbook"></i>&nbsp;Theme
-                </label>
-                <select class="form-select" name="colorSchemeSelect" id="colorSchemeSelect"></select>
-            </div>
-            <div class="row px-0 mx-0 mb-0">
-                <div class="col-4 text-center">
-                    <h6> Dataset Name</h6>
-                </div>
-                <div class="col-3 text-center">
-                    <h6><i class="fa-solid fa-eye"></i></h6>
-                </div>
-                <div class="col-3 text-center">
-                    <h6> Axis Selector</h6>
-                </div>
-                <div class="col-2 text-center">
-                    <h6><i class="fa-solid fa-gear"></i></h6>
-                </div>
-            </div>
-            <div id="legendConfigDiv">
-                <div id="legendSetupLineTemplate">
-                    <div class="row px-0 mx-0 mb-2" hidden>
-                        <!-- Not showing ID
-                        <div class="col-1">
-                            NULL
-                        </div>
-                        -->
-                        <input type="text" class="labelInput px-0 col-4" id="labelInputNULL" value="Dataset NULL">
-                        <!-- <div class="col-1">&nbsp;</div> -->
-                        <div class="col-3">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input datasetVisibleCheck" type="checkbox" role="switch" id="datasetVisibleCheckNULL" checked>
-                            </div>
-                        </div>
-                        <div class="col-3" id="yAxisSelector">
-                            <div class="form-check form-switch">
-                                <input class="form-check-input yY2AxisSwitch" type="checkbox" role="switch" id="yAxisSwitchNULL" checked>
-                            </div>
-                        </div>
-                        <div class="col-1">
-                            <a data-target="#datasetDivNULL" class="collapseHead" role="button" aria-expanded="false" aria-controls="datasetDivNULL">
-                                <button class="btn btn-sm btn-primary legendLineCollapseBtn" style="background-color:#ffffff">
-                                    <i class="fa-solid fa-paintbrush"></i>
-                                </button>
-                            </a>    
-                        </div>
-                    </div>
-                    <div class="collapse row mb-2" id="datasetDivNULL">
-                        <div class="col-6">
-                            <div class="card card-body">
-                                <p class="nonBreakable" style="text-align:center">Point Style</p>
-                                <select class="form-select form-select-sm pointStyleSelect mb-1" id="pointStyleSelectNULL">
-                                    <option>circle</option><option>cross</option><option>rect</option><option>triangle</option>
-                                </select>
-                                <input type="number" class="form-control form-control-sm pointSizeInput" id="pointSizeInputNULL" value="" min="0" max="20">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="card card-body">
-                                <p class="nonBreakable" style="text-align:center">Line Style</p>
-                                <select class="form-select form-select-sm lineStyleSelect mb-1" id="lineStyleSelectNULL"></select>
-                                <input type="number" class="form-control form-control-sm lineSizeInput" id="lineSizeInputNULL" value="" min="0" max="20">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<button class="btn btn-primary col-12" id="addChartBtn"  type="button" data-bs-toggle="tooltip" title="Add a chart">
+    <i class="fa-solid fa-file-circle-plus"></i>&nbsp;Add a chart
+</button>

@@ -1,0 +1,39 @@
+<div class="mb-3" id="terminal1Section">
+    <a data-target="#terminal1SelectionDiv" class="collapseHead" id="terminal1SelectionHref" role="button" aria-expanded="true" aria-controls="terminal1SelectionDiv">
+        <span class="input-group-text terminal1SelectionTitle" id="terminal1SelectionTitle">
+            <i class="fa-solid fa-display"></i>&nbsp;<span style="font-weight:bolder">Terminal 1</span>
+        </span>
+    </a>
+    <div class="collapse show" id="terminal1SelectionDiv">
+        <div class="card card-body">
+            <div class="input-group input-group-sm mb-3" id="termBufSizeDiv">
+                <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Number of lines shown in the terminal (max. 1000)">
+                    <span style="font-weight:bolder">#</span>&nbsp;Lines
+                </label>
+                <input type="number" id="termBufSizeInput" class="form-control" value="20" min="0" max="1000">
+            </div>
+            <div class="row m-0 p-0">
+                <button type="button" aria-pressed="false" id="terminalBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-bs-toggle="tooltip" title="Toggle timestamp">
+                    <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
+                </button>
+                <div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+                <button type="button" aria-pressed="false" id="terminalBtnDataMode" class="btn btn-primary btn-sm mb-3 col-5" data-bs-toggle="tooltip" title="Select numeral system">
+                    <i class="fa-solid fa-arrow-down-1-9"></i></i>&nbsp;Decimal
+                </button>
+                <button type="button" aria-pressed="false" id="terminalBtnFormatted" class="btn btn-primary btn-sm col-5" data-bs-toggle="tooltip" title="Select data format">
+                    <i class="fa-solid fa-droplet"></i></i>&nbsp;Formatted
+                </button>
+                <div class="col-2 px-0">
+                    <!-- Padding -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ADD BUTTON-->
+<button class="btn btn-primary col-12" id="addTerminalBtn"  type="button" data-bs-toggle="tooltip" title="Add a terminal">
+    <i class="fa-solid fa-circle-plus"></i>&nbsp;Add a terminal
+</button>

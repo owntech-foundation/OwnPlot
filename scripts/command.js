@@ -32,6 +32,7 @@ const deleteConfigButton = $("#deleteConfigButton");
 const encoder = new TextEncoder();
 const configButtonPath = ipcRenderer.sendSync('get-user-data-folder') + "/config/buttons";
 
+let availablePorts = [];
 let commandButtons = [];
 let fileCommandButtons = [];
 let filesConfigButton = [];
@@ -46,6 +47,8 @@ let autoSendIntervalId = null;
 $(() => {
     disableSend();
     updateCommandButtons();
+    availablePorts.push({ id: "port1Section", name: "Port 1" });
+    listAvailablePorts();
 
     autoSendPeriod.on("input", function() {
         if(autoSendPeriod.val().length > 1){
@@ -138,10 +141,10 @@ $(() => {
         updateNewFieldVisibility();
         const selectedConfig = $("#buttonConfigSelect option:selected").val();
         if (selectedConfig === "new") {
-          deleteConfigButton.prop("disabled", true);
+            deleteConfigButton.prop("disabled", true);
           deleteConfigButton.addClass("disabled"); // Add disabled class
         } else {
-          deleteConfigButton.prop("disabled", false);
+            deleteConfigButton.prop("disabled", false);
           deleteConfigButton.removeClass("disabled"); // Remove disabled class
         }
     });
@@ -330,7 +333,9 @@ function updateCommandButtons() {
             if (deleteMode == true) {
                 buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can deleteAnnim"></i></button>';
             }
+
             buttonHtml += '</div>';
+            buttonHtml += '<div class="input-group input-group-sm" data-tooltip="Select port" data-bs-toggle="tooltip" title="Select port"><label class="input-group-text col-4"><i class="fa-solid fa-plug"></i>&nbsp;Port</label><select class="form-select" id="AvailablePortsToSend" name="AvailablePortsToSend"></select></div>';
             buttonHtml += '</div>';
             $("#commandButtonContainer").append(buttonHtml);
             $('#cmdBtn-' + index).on('click', function() { //check if port is opened
@@ -417,17 +422,17 @@ function commandTime() {
 function deleteConfig(configName) {
     const filePath = configButtonPath + "/" + configName;
     fs.unlink(filePath, (err) => {
-      if (err) {
+        if (err) {
         console.log(`Error deleting file: ${err}`);
-      } else {
+        } else {
         console.log(`File ${configName} is deleted successfully!`);
-  
+
         // Update the configuration files list
         updateCommandFilesList("");
-  
+
         // Reset the selected option to -- new --
         buttonConfigSelect.val("new");
-      }
+        }
     });
 }
 
@@ -481,4 +486,69 @@ function handleDeleteConfig() {
     $('#deleteConfigModal #cancelDeleteConfigButton').on('click', function() {
         $('#deleteConfigModal').modal('hide');
     });
+}
+
+/*
+$(document).ready(function() {
+
+	var commandCounter = 1;
+
+	$("#addCommandsManagerBtn").click(function() {
+        commandCounter++;
+
+        var newCommandDiv = $("#command1Section").clone(); // Create a new "command1Section" by cloning the existing one
+
+        // Update IDs and attributes to make them unique
+        newCommandDiv.attr("id", "command" + commandCounter + "Section");
+
+		newCommandDiv.find(".collapseHead").attr("id", "command" + commandCounter + "SelectionHref");
+        newCommandDiv.find(".collapseHead").attr("data-target", "#command" + commandCounter + "SelectionDiv");
+        newCommandDiv.find(".collapseHead").attr("aria-controls", "command" + commandCounter + "SelectionDiv");
+
+		newCommandDiv.find(".input-group-text").attr("id", "command" + commandCounter + "SelectionTitle");
+		newCommandDiv.find(".command1SelectionTitle span").text("Commands Manager " + commandCounter);
+
+		newCommandDiv.find(".collapse").attr("id", "command" + commandCounter + "SelectionDiv");
+
+		// Add a delete button to the new port section
+		newCommandDiv.append('<button class="btn btn-danger col-12 deleteCommandsManagerBtn" data-command="'+ commandCounter +'"><i class="fa-solid fa-circle-minus"></i>&nbsp;Delete Commands Manager</button>');
+
+		console.log(newCommandDiv)
+
+        // Append the new port div after the last port div
+        newCommandDiv.insertBefore($("[id^='addCommandsManagerBtn']:last"));
+    });
+
+	// Handle delete button click within cloned sections
+	$(document).on("click", ".deleteCommandsManagerBtn", function() {
+		var commandToDelete = $(this).data("command");
+		$("#command" + commandToDelete + "Section").remove();
+
+		// Decrement commandCounter
+		commandCounter--;
+
+		// Update the IDs and attributes of remaining sections
+		for (var i = commandToDelete + 1; i <= commandCounter + 1; i++) {
+			var commandSection = $("#command" + i + "Section");
+			commandSection.attr("id", "command" + (i - 1) + "Section");
+			commandSection.find(".collapseHead").attr("id", "command" + (i - 1) + "SelectionHref");
+			commandSection.find(".collapseHead").attr("data-target", "#command" + (i - 1) + "SelectionDiv");
+			commandSection.find(".collapseHead").attr("aria-controls", "command" + (i - 1) + "SelectionDiv");
+			commandSection.find(".input-group-text").attr("id", "command" + (i - 1) + "SelectionTitle");
+			commandSection.find(".command1SelectionTitle span").text("Commands Manager " + (i - 1));
+			commandSection.find(".collapse").attr("id", "command" + (i - 1) + "SelectionDiv");
+			commandSection.find(".deleteCommandsManagerBtn").data("command", i - 1);
+		}
+	});
+});*/
+
+
+function listAvailablePorts() {
+	let availablePortsHTML = '<option value="default" selected>Select a port...</option>';
+
+	availablePorts.forEach(port => {
+		availablePortsHTML += '<option value="' + port.name + '">' + port.name + '</option>';
+	});
+
+	$('#AvailablePortsToSend').html(availablePortsHTML);
 }

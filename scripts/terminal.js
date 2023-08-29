@@ -267,10 +267,6 @@ function createTerminal(message) {
 }
 */
 
-
-
-
-
 /*
 termBufSizeInput.on('input', function() {
 	termSize = termBufSizeInput.val();
@@ -279,3 +275,65 @@ termBufSizeInput.on('input', function() {
 		termBufSizeInput.val(termSize);
 	}
 });*/
+
+
+$(document).ready(function() {
+
+    var terminalCounter = 1;
+
+    $("#addTerminalBtn").click(function() {
+        terminalCounter++;
+
+        var newTerminalDiv = $("#terminal1Section").clone(); // Create a new "terminal1Section" by cloning the existing one
+
+        // Update IDs and attributes to make them unique
+        newTerminalDiv.attr("id", "terminal" + terminalCounter + "Section");
+		newTerminalDiv.attr("name", "terminal" + terminalCounter);
+
+        newTerminalDiv.find(".collapseHead").attr("id", "terminal" + terminalCounter + "SelectionHref");
+        newTerminalDiv.find(".collapseHead").attr("data-target", "#terminal" + terminalCounter + "SelectionDiv");
+        newTerminalDiv.find(".collapseHead").attr("aria-controls", "terminal" + terminalCounter + "SelectionDiv");
+
+        newTerminalDiv.find(".input-group-text").attr("id", "terminal" + terminalCounter + "SelectionTitle");
+        newTerminalDiv.find(".terminal1SelectionTitle span").text("Terminal " + terminalCounter);
+
+        newTerminalDiv.find(".collapse").attr("id", "terminal" + terminalCounter + "SelectionDiv");
+
+        newTerminalDiv.append('<button class="btn btn-danger col-12 deleteTerminalBtn" data-terminal="' + terminalCounter + '"><i class="fa-solid fa-circle-minus"></i>&nbsp;Delete Terminal</button>');
+
+        console.log(newTerminalDiv);
+
+		// Add the new terminal object to the availableTerminals array
+		availableTerminals.push({ id: "terminal" + terminalCounter + "Section", name: "Terminal " + terminalCounter });
+		listAvailableTerminals();
+		console.log(availableTerminals)
+		
+        // Append the new chart div after the last chart div
+        newTerminalDiv.insertBefore($("[id^='addTerminalBtn']:last"));
+    });
+
+    $(document).on("click", ".deleteTerminalBtn", function() {
+        var terminalToDelete = $(this).data("terminal");
+        $("#terminal" + terminalToDelete + "Section").remove();
+    
+		// Remove the deleted terminal object from the availableTerminals array
+		availableTerminals = availableTerminals.filter(terminal => terminal.id !== "terminal" + terminalToDelete + "Section");
+		listAvailableTerminals();
+		console.log(availableTerminals)
+
+        /*// Decrement chartCounter
+        terminalCounter--;
+
+        // Update the IDs and attributes of remaining sections
+        for (var i = terminalToDelete + 1; i <= terminalCounter + 1; i++) {
+            var terminalSection = $("#terminal" + i + "Section");
+            terminalSection.attr("id", "terminal" + (i - 1) + "Section");
+            terminalSection.find(".collapseHead").attr("id", "terminal" + (i - 1) + "SelectionHref");
+            terminalSection.find(".collapseHead").attr("data-target", "#terminal" + (i - 1) + "SelectionDiv");
+            terminalSection.find(".collapseHead").attr("aria-controls", "terminal" + (i - 1) + "SelectionDiv");
+            terminalSection.find(".terminal1SelectionTitle span").text("Terminal " + (i - 1));
+            terminalSection.find(".collapse").attr("id", "terminal" + (i - 1) + "SelectionDiv");
+            terminalSection.find(".deleteTerminalBtn").data("terminal", i - 1);
+        }*/
+    });    
+});

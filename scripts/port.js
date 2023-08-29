@@ -10,6 +10,8 @@
  */
 
 let availableSerialPorts = [];
+let availableCharts = [];
+let availableTerminals = [];
 let selectedPort;
 let isPortClosedMessageDisplayed;
 let isPortOpenMessageDisplayed;
@@ -39,6 +41,10 @@ function runBtn(elem) {
 $(function() {
 	noPortBtn($('#openPortBtn'));
 	listPorts();
+	availableCharts.push({ id: "chart1Section", name: "Chart 1" });
+	availableTerminals.push({ id: "terminal1Section", name: "Terminal 1" });
+	listAvailableCharts();
+	listAvailableTerminals();
 	
 	$("#AvailablePorts").on('change', function() {
 		selectedPort = $(this).children("option:selected").val();
@@ -154,4 +160,91 @@ function closePortBtn(elem) {
 		isPortClosedMessageDisplayed=true;
 		isPortOpenMessageDisplayed=false;
 	}	
+}
+
+
+
+$(document).ready(function() {
+
+	var portCounter = 1;
+
+	$("#addPortBtn").click(function() {
+        portCounter++;
+
+        var newPortDiv = $("#port1Section").clone(); // Create a new "port1SelectionDiv" by cloning the existing one
+
+        // Update IDs and attributes to make them unique
+        newPortDiv.attr("id", "port" + portCounter + "Section");
+        newPortDiv.attr("name", "Port" + portCounter);
+
+		newPortDiv.find(".collapseHead").attr("id", "port" + portCounter + "SelectionHref");
+        newPortDiv.find(".collapseHead").attr("data-target", "#port" + portCounter + "SelectionDiv");
+        newPortDiv.find(".collapseHead").attr("aria-controls", "port" + portCounter + "SelectionDiv");
+
+		newPortDiv.find(".input-group-text").attr("id", "port" + portCounter + "SelectionTitle");
+		newPortDiv.find(".port1SelectionTitle span").text("Port " + portCounter);
+
+		newPortDiv.find(".collapse").attr("id", "port" + portCounter + "SelectionDiv");
+
+		// Add a delete button to the new port section
+		newPortDiv.append('<button class="btn btn-danger col-12 deletePortBtn" data-port="'+ portCounter +'"><i class="fa-solid fa-plug-circle-minus"></i>&nbsp;Delete Port</button>');
+
+		console.log(newPortDiv)
+
+		// Add the new port object to the availablePorts array
+		availablePorts.push({ id: "port" + portCounter + "Section", name: "Port " + portCounter });
+		listAvailablePorts();
+		console.log(availablePorts)
+
+        // Append the new port div after the last port div
+        newPortDiv.insertBefore($("[id^='addPortBtn']:last"));
+    });
+
+	// Handle delete button click within cloned sections
+	$(document).on("click", ".deletePortBtn", function() {
+		var portToDelete = $(this).data("port");
+		$("#port" + portToDelete + "Section").remove();
+
+		// Remove the deleted chart object from the availableCharts array
+		availablePorts = availablePorts.filter(port => port.id !== "port" + portToDelete + "Section");
+		listAvailablePorts();
+		console.log(availablePorts)
+
+		/*// Decrement portCounter
+		portCounter--;
+
+		// Update the IDs and attributes of remaining sections
+		for (var i = portToDelete + 1; i <= portCounter + 1; i++) {
+			var portSection = $("#port" + i + "Section");
+			portSection.attr("id", "port" + (i - 1) + "Section");
+			portSection.find(".collapseHead").attr("id", "port" + (i - 1) + "SelectionHref");
+			portSection.find(".collapseHead").attr("data-target", "#port" + (i - 1) + "SelectionDiv");
+			portSection.find(".collapseHead").attr("aria-controls", "port" + (i - 1) + "SelectionDiv");
+			portSection.find(".input-group-text").attr("id", "port" + (i - 1) + "SelectionTitle");
+			portSection.find(".port1SelectionTitle span").text("Port " + (i - 1));
+			portSection.find(".collapse").attr("id", "port" + (i - 1) + "SelectionDiv");
+			portSection.find(".deletePortBtn").data("port", i - 1);
+		}*/
+	});
+});
+
+function listAvailableCharts() {
+    let availableChartsHTML = '<option value="default" selected>Select a chart...</option>';
+
+    availableCharts.forEach(chart => {
+        availableChartsHTML += '<option value="' + chart.name + '">' + chart.name + '</option>';
+    });
+
+    $('#AvailableCharts').html(availableChartsHTML);
+}
+
+
+function listAvailableTerminals() {
+	let availableTerminalsHTML = '<option value="default" selected>Select a terminal...</option>';
+
+	availableTerminals.forEach(terminal => {
+		availableTerminalsHTML += '<option value="' + terminal.name + '">' + terminal.name + '</option>';
+	});
+
+	$('#AvailableTerminals').html(availableTerminalsHTML);
 }

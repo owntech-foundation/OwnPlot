@@ -1,0 +1,173 @@
+
+<!--MOCKPORTS SETTINGS-->
+<div class="mb-3">
+    <a data-target="#mockPortSelectionDiv" class="collapseHead" id="mockPortSelectionHref" role="button" aria-expanded="true" aria-controls="mockPortSelectionDiv">
+        <span class="input-group-text" id="mockPortSelectionTitle">
+            <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Mock Ports Settings</span>
+        </span>
+    </a>
+    <div class="collapse show" id="mockPortSelectionDiv">
+        <div class="card card-body">
+            <div class="col-12 mb-3" id="customInterval">
+                <div class="input-group input-group-sm">
+                    <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter plotting interval (ms)">                            
+                        <i class="fa-solid fa-hourglass-half"></i>&nbsp; Interval (ms)
+                    </label>
+                    <input type="number" id="intervalTime" name="intervalInput" class="form-control col-7" placeholder="100 (default)" maxlength=9 aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="mb-3">
+                <a data-target="#fileSelectionDiv" class="collapseHead" id="fileSelectionHref" role="button" aria-expanded="true" aria-controls="fileSelectionDiv">
+                    <span class="input-group-text" id="fileSelectionTitle">
+                        <i class="fa-solid fa-folder-open"></i>&nbsp;<span style="font-weight:bolder">File Reader</span>
+                    </span>
+                </a>
+                <div class="collapse show" id="fileSelectionDiv">
+                    <div class="card card-body">
+                        <div class="row p-0 m-0">
+                            <button class="btn btn-primary mb-3 col-5" type="button" id="fileSelectionBtn" data-bs-toggle="tooltip" title="Select the file to plot">
+                                <i class="fa-solid fa-folder-open"></i>&nbsp;Select File
+                            </button>
+                            <div class="col-2 px-0">
+                                <!-- Padding -->
+                            </div>
+                            <button class="btn btn-warning mb-3 col-5" type="button" id="fileLoopBtn" data-bs-toggle="tooltip" title="Loop file data">
+                                <i class="fa-solid fa-infinity"></i>&nbsp;Loop Data
+                            </button>
+                        </div>
+                        <span id="selectedFileName"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--PORT 1 SECTION-->
+<div class="mb-3" id="port1Section" name="Port 1">
+    <a data-target="#port1SelectionDiv" class="collapseHead" id="port1SelectionHref" role="button" aria-expanded="true" aria-controls="port1SelectionDiv">
+        <span class="input-group-text port1SelectionTitle" id="port1SelectionTitle">
+            <i class="fa-solid fa-plug"></i>&nbsp;<span style="font-weight:bolder">Port 1</span>
+        </span>
+    </a>
+    <div class="collapse show" id="port1SelectionDiv">
+        <div class="card card-body">
+            <div class="row p-0 m-0 mb-3">
+                <button type="button" class="btn col-3 mx-1 btn-sm btn-warning btn-square portBarBtn" aria-pressed="true" id="openPortBtn" data-tooltip="Toggle port" data-bs-toggle="tooltip" title="Toggle port">
+                    <label class="nonBreakable">No port</label>
+                </button>
+                <button type="button" class="btn col-3 mx-1 btn-sm btn-primary btn-square portBarBtn" id="clearPortBtn" disabled data-tooltip="Clear chart" data-bs-toggle="tooltip" title="Clear chart">
+                    <i class="fa-solid fa-trash-can"></i><br>Clear
+                </button>
+                <button type="button" class="btn col-3 mx-1 btn-sm btn-warning btn-square portBarBtn" id="pausePortBtn" disabled data-tooltip="Toggle plotting" data-bs-toggle="tooltip" title="Toggle plotting">
+                    <i class="fa-solid fa-pause"></i><br>Paused
+                </button>
+            </div>
+            <div class="input-group input-group-sm mb-3" data-tooltip="Select port" data-bs-toggle="tooltip" title="Select port">
+                <label class="input-group-text col-4"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
+                <select class="form-select" id="AvailablePorts" name="AvailablePorts">
+                </select>
+            </div>
+            <div class="input-group input-group-sm mb-3" data-tooltip="Select chart" data-bs-toggle="tooltip" title="Select chart">
+                <label class="input-group-text col-4"><i class="fa-solid fa-chart-line"></i>&nbsp;Chart</label>
+                <select class="form-select" id="AvailableCharts" name="AvailableCharts">
+                </select>
+            </div>
+            <div class="input-group input-group-sm mb-3" data-tooltip="Select terminal" data-bs-toggle="tooltip" title="Select terminal">
+                <label class="input-group-text col-4"><i class="fa-solid fa-display"></i>&nbsp;Terminal</label>
+                <select class="form-select" id="AvailableTerminals" name="AvailableTerminals">
+                </select>
+            </div>
+
+
+            <!--DATA FORMAT-->
+            <div class="mb-3">
+                <a data-target="#dataFormatDiv" class="collapseHead" id="dataFormatHref" role="button" aria-controls="dataFormatDiv">
+                    <span class="input-group-text" id="dataFormatTitle">
+                        <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Data Format</span>
+                    </span>
+                </a>
+                <div class="collapse show" id="dataFormatDiv">
+                    <div class="card card-body">
+                        <div class="input-group input-group-sm mb-3" id="nbChannelDiv">
+                            <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Number of data channels plotted in chart (max. 10)">
+                                <span style="font-weight:bolder">#</span>&nbsp;Channels
+                            </label>
+                            <input type="number" id="nbChannels" class="form-control" value="3" min="0" max="10">
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <label class="input-group-text col-5" for="inputGroupSelect01"><i class="fa-solid fa-filter"></i>&nbsp;Format</label>
+                            <select class="form-select" id="dataFormat" name="dataFormat">
+                                <option value="ascii" selected data-bs-toggle="tooltip" title="Data is sent in the form of ASCII text">ASCII</option>
+                                <option value="binary" data-bs-toggle="tooltip" title="Data is sent as consecutive samples in binary form">binary</option>
+                                <!-- <option value="custom">custom</option> -->
+                            </select>
+                        </div>
+                        <div id="asciiForm">
+                            <div class="input-group input-group-sm mb-3">
+                                <label class="input-group-text col-5" data-bs-toggle="tooltip" title="Enter separator character">
+                                    <i class="fa-solid fa-scissors"></i>&nbsp;Separator
+                                </label>
+                                <input type="text" id="separator" name="separator" class="form-control" maxlength=1 aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <label class="input-group-text col-5" for="inputGroupSelect01"><i class="fa-solid fa-person-running"></i>&nbsp;BaudRate</label>
+                            <select class="form-select" id="baudRateSelect" name="baudRate">
+                                <option value="1200">1200</option>
+                                <option value="2400">2400</option>
+                                <option value="4800">4800</option>
+                                <option value="9600">9600</option>
+                                <option value="19200">19200</option>
+                                <option value="38400">38400</option>
+                                <option value="57600">57600</option>
+                                <option selected="selected" value="115200">115200</option>
+                                <option value="230400">230400</option>
+                                <option value="460800">460800</option>
+                                <option value="576000">576000</option>
+                                <option value="921600">921600</option>
+                                <option value="Custom">Custom</option>
+                            </select>
+                        </div>
+                        <div id="customBaudRateForm">
+                            <div class="input-group input-group-sm mb-3">
+                                <label class="input-group-text col-5" >
+                                    <i class="fa-solid fa-person-running"></i>&nbsp;Custom
+                                </label>
+                                <input type="number" id="customBaudRateInput" name="baudrateInput" class="form-control" maxlength=9 aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                        <div id="binaryForm">
+                            <div class="input-group input-group-sm mb-3">
+                                <label class="input-group-text col-5" for="inputGroupSelect01" data-bs-toggle="tooltip" title="Select binary type">Type</label>
+                                <select class="form-select" id="nbType" name="nbType">
+                                    <option value="uint8" selected data-bs-toggle="tooltip" title="unsigned 1 byte integer">uint8</option>
+                                    <option value="uint16" data-bs-toggle="tooltip" title="unsigned 2 bytes integer">uint16</option>
+                                    <option value="uint32" data-bs-toggle="tooltip" title="unsigned 4 bytes integer">uint32</option>
+                                    <option value="int8" data-bs-toggle="tooltip" title="signed 1 byte integer">int8</option>
+                                    <option value="int16" data-bs-toggle="tooltip" title="signed 2 bytes integer">int16</option>
+                                    <option value="int32" data-bs-toggle="tooltip" title="signed 4 bytes integer">int32</option>
+                                    <option value="float" data-bs-toggle="tooltip" title="4 bytes floating point number">float</option>
+                                    <option value="double" data-bs-toggle="tooltip" title="8 bytes double precision floating point number">double</option>
+                                </select>
+                            </div>
+                            <div class="input-group input-group-sm mb-3">
+                                <label class="input-group-text col-5" for="inputGroupSelect01" data-bs-toggle="tooltip" title="Select endianness">Endianness</label>
+                                <select class="form-select" id="endianness" name="endianness">
+                                    <option value="LE" data-bs-toggle="tooltip" title="Least significant byte first">Little Endian</option>
+                                    <option value="BE" data-bs-toggle="tooltip" title="Most significant byte first">Big Endian</option>
+                                </select>
+                            </div>
+                            <button type="button" id="skipByteBtn" class="btn btn-primary col-12" data-bs-toggle="tooltip" title="Skip 1 byte while reading to correct the alignment"><i class="fa-solid fa-trash-can"></i>&nbsp;Skip Byte</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ADD BUTTON-->
+<button class="btn btn-primary col-12" id="addPortBtn"  type="button" data-bs-toggle="tooltip" title="Add a port">
+    <i class="fa-solid fa-plug-circle-plus"></i>&nbsp;Add a port
+</button>

@@ -7,115 +7,125 @@
  * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-07 13:45:14
  * @ Description:
- -->
+-->
 
 <!--This tab div allows the auto scroll to work fine when showing the tab-->
-<div>
-    <div class="input-group input-group-sm mb-3">
-        <button type="button" id="autoSendBtn" class="btn btn-warning col-4" data-bs-toggle="tooltip" title="Toggle auto-send mode (period in ms)">
-            <i class="fa-solid fa-stopwatch"></i>&nbsp;Auto-send (ms)
-        </button>
-        <input type="number" id="autoSendPeriod" name="autoSendPeriodInput" class="form-control" placeholder="1000 (default)" maxlength=9 aria-describedby="basic-addon1">
-    </div>
+<!--<div class="mb-3" id="command1Section">
+    <a data-target="#command1SelectionDiv" class="collapseHead" id="command1SelectionHref" role="button" aria-expanded="true" aria-controls="command1SelectionDiv">
+        <span class="input-group-text command1SelectionTitle" id="command1SelectionTitle">
+            <i class="fa-solid fa-paper-plane"></i>&nbsp;<span style="font-weight:bolder">Commands Manager 1</span>
+        </span>
+    </a>
+    <div class="collapse show" id="command1SelectionDiv">
+        <div class="card card-body">-->
 
-    <div class="input-group input-group-sm mb-3">
-        <button type="button" id="sendBtn" class="btn btn-primary col-4" data-bs-toggle="tooltip" title="Send a command">Send</button>
-        <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">
-    </div>
-
-
-
-    <div class="mb-3">
-        <a data-target="#configDiv" class="collapseHead" id="configs" role="button" aria-controls="configDiv">
-            <span class="input-group-text" id="configTitle">
-                <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Configurations</span>
-            </span>
-        </a>
-        <div class="collapse show" id="configDiv">
-            <div class="card card-body">
-                <div class="input-group input-group-sm mb-3">
-                    <label class="input-group-text col-4" for="buttonConfigSelect" data-bs-toggle="tooltip" title="Select configuration">Configuration</label>
-                    <select class="form-select" id="buttonConfigSelect">
-                        <option selected value="new">-- new --</option>
-                        <!-- <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option> -->
-                    </select>
-                </div>
-        
-                <div class="input-group input-group-sm mb-3" id="saveConfigInputGroup">
-                    <button class="btn btn-primary col-4" type="button" id="saveConfigButton" data-bs-toggle="tooltip" title="Enter a new configuration">New config</button>
-                    <input type="text" class="form-control" id="saveConfigName" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                </div>
-        
-                <div class="input-group input-group-sm mb-3">
-                    <button type="button" class="btn btn-danger col-12 btn-sm" id="deleteConfigButton">Delete Configuration</button>
-                </div>    
-        
-                <div class="input-group input-group-sm mb-3" id="addCommandDiv">
-                    <button type="button" id="addCommandBtn" class="btn btn-primary col-4">Add command</button>
-                    <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="" data-bs-toggle="tooltip" title="Enter command name">
-                    <input type="text" class="form-control form-control-sm col-4" id="addCommandData" placeholder="Data to send" value="" data-bs-toggle="tooltip" title="Enter command data">
-                    <!-- remove the choice of the color for now
-                    <input type="color" class="form-control form-control-sm" id="addCommandColor" value="#fffffe">        
-                    -->
-                </div>
-        
-                <div id="commandButtonContainer" class="card card-body mb-3"></div>
+            <!--<div class="input-group input-group-sm mb-3" data-tooltip="Select port" data-bs-toggle="tooltip" title="Select port">
+                <label class="input-group-text col-4"><i class="fa-solid fa-plug"></i>&nbsp;Port</label>
+                <select class="form-select" id="AvailablePortsToSend" name="AvailablePortsToSend">
+                </select>
+            </div>-->
             
-                <div class="input-group input-group-sm mb-3">
-                    <button type="button" class="btn btn-danger col-12 btn-sm" id="deleteButtonButton">Delete Buttons</button>
-                </div>
-                <div class="input-group input-group-sm">
-                    <button type="button" class="btn btn-primary col-12 btn-sm" id="saveConfigButtonButton">Save the config</button>
-                </div>
+            <div class="input-group input-group-sm mb-3">
+                <button type="button" id="autoSendBtn" class="btn btn-warning col-4" data-bs-toggle="tooltip" title="Toggle auto-send mode (period in ms)">
+                    <i class="fa-solid fa-stopwatch"></i>&nbsp;Auto-send (ms)
+                </button>
+                <input type="number" id="autoSendPeriod" name="autoSendPeriodInput" class="form-control" placeholder="1000 (default)" maxlength=9 aria-describedby="basic-addon1">
             </div>
-        </div>
-    </div>    
-
-
-
-    <div class="mb-3">
-        <a data-target="#commandHistoryDiv" class="collapseHead" id="commandHistory" role="button" aria-controls="commandHistoryDiv">
-            <span class="input-group-text" id="commandHistoryTitle">
-                <i class="fa-solid fa-eye"></i>&nbsp;<span style="font-weight:bolder">Command History</span>
-            </span>
-        </a>
-        <div class="collapse show" id="commandHistoryDiv">
-            <div class="card card-body">
-                <div class="row m-0 p-0">
-                    <button type="button" aria-pressed="false" id="commandBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-bs-toggle="tooltip" title="Toggle timestamp in command history">
-                        <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
-                    </button>
-                    <div class="col-2 px-0">
-                        <!-- Padding -->
+            <div class="input-group input-group-sm mb-3">
+                <button type="button" id="sendBtn" class="btn btn-primary col-4" data-bs-toggle="tooltip" title="Send a command">Send</button>
+                <input type="text" class="form-control" id="sendInput" placeholder="Data to send" value="">
+            </div>
+            <div class="mb-3">
+                <a data-target="#configDiv" class="collapseHead" id="configs" role="button" aria-controls="configDiv">
+                    <span class="input-group-text" id="configTitle">
+                        <i class="fa-solid fa-gears"></i>&nbsp;<span style="font-weight:bolder">Configurations</span>
+                    </span>
+                </a>
+                <div class="collapse show" id="configDiv">
+                    <div class="card card-body">
+                        <div class="input-group input-group-sm mb-3">
+                            <label class="input-group-text col-4" for="buttonConfigSelect" data-bs-toggle="tooltip" title="Select configuration">Configuration</label>
+                            <select class="form-select" id="buttonConfigSelect">
+                                <option selected value="new">-- new --</option>
+                                <!-- <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option> -->
+                            </select>
+                        </div>
+                        <div class="input-group input-group-sm mb-3" id="saveConfigInputGroup">
+                            <button class="btn btn-primary col-4" type="button" id="saveConfigButton" data-bs-toggle="tooltip" title="Enter a new configuration">New config</button>
+                            <input type="text" class="form-control" id="saveConfigName" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                            <button type="button" class="btn btn-danger col-12 btn-sm" id="deleteConfigButton">Delete Configuration</button>
+                        </div>    
+                        <div class="input-group input-group-sm mb-3" id="addCommandDiv">
+                            <button type="button" id="addCommandBtn" class="btn btn-primary col-4">Add command</button>
+                            <input type="text" class="form-control form-control-sm col-4" id="addCommandName" placeholder="Name" value="" data-bs-toggle="tooltip" title="Enter command name">
+                            <input type="text" class="form-control form-control-sm col-4" id="addCommandData" placeholder="Data to send" value="" data-bs-toggle="tooltip" title="Enter command data">
+                            <!-- remove the choice of the color for now
+                            <input type="color" class="form-control form-control-sm" id="addCommandColor" value="#fffffe">        
+                            -->
+                        </div>
+                        <div id="commandButtonContainer" class="card card-body mb-3"></div>
+                        <div class="input-group input-group-sm mb-3">
+                            <button type="button" class="btn btn-danger col-12 btn-sm" id="deleteButtonButton">Delete Buttons</button>
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <button type="button" class="btn btn-primary col-12 btn-sm" id="saveConfigButtonButton">Save the config</button>
+                        </div>
                     </div>
-                    <button type="button" class="btn btn-danger btn-sm mb-3 col-5" id="clearHistoryButton">
-                        Clear History
-                    </button>
                 </div>
-                <div id="terminalHistory"></div>
+            </div>    
+            <div class="mb-3">
+                <a data-target="#commandHistoryDiv" class="collapseHead" id="commandHistory" role="button" aria-controls="commandHistoryDiv">
+                    <span class="input-group-text" id="commandHistoryTitle">
+                        <i class="fa-solid fa-eye"></i>&nbsp;<span style="font-weight:bolder">Command History</span>
+                    </span>
+                </a>
+                <div class="collapse show" id="commandHistoryDiv">
+                    <div class="card card-body">
+                        <div class="row m-0 p-0">
+                            <button type="button" aria-pressed="false" id="commandBtnTimestamp" class="btn btn-primary btn-sm mb-3 col-5" data-bs-toggle="tooltip" title="Toggle timestamp in command history">
+                                <i class="fa-solid fa-stopwatch"></i>&nbsp;Timestamp
+                            </button>
+                            <div class="col-2 px-0">
+                                <!-- Padding -->
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm mb-3 col-5" id="clearHistoryButton">
+                                Clear History
+                            </button>
+                        </div>
+                        <div id="terminalHistory"></div>
+                    </div>
+                </div>
             </div>
-        </div>
+        <!--</div>
     </div>
-</div>
+</div>-->
+
+
+<!--ADD BUTTON-->
+<!--<button class="btn btn-primary col-12" id="addCommandsManagerBtn"  type="button" data-bs-toggle="tooltip" title="Add a commands manager">
+    <i class="fa-solid fa-circle-plus"></i>&nbsp;Add a commands manager
+</button>-->
 
 <!-- Modal HTML -->
 <div id="deleteConfigModal" class="modal">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-danger">WARNING</h5>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">WARNING</h5>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you wish to delete this configuration ?</p>
+                <p class="config-name"></p>
+                <div class="row m-0 p-0">
+                    <button type="button" class="btn btn-danger btn-sm mb-3 col-5" id="confirmDeleteConfigButton">Yes</button>
+                <div class="col-2 px-0"><!-- Padding --></div>
+                    <button type="button" class="btn btn-primary btn-sm mb-3 col-5" id="cancelDeleteConfigButton">No</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <p>Are you sure you wish to delete this configuration ?</p>
-          <p class="config-name"></p>
-          <div class="row m-0 p-0">
-            <button type="button" class="btn btn-danger btn-sm mb-3 col-5" id="confirmDeleteConfigButton">Yes</button>
-            <div class="col-2 px-0"><!-- Padding --></div>
-            <button type="button" class="btn btn-primary btn-sm mb-3 col-5" id="cancelDeleteConfigButton">No</button>
-          </div>
-        </div>
-      </div>
     </div>
 </div>

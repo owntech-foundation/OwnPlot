@@ -5,11 +5,13 @@ const buttonActions = {
   action2Btn: '#clearPortBtn',
   action3Btn: '#pausePortBtn',
   action4Btn: '#nav-command-tab',
-  action5Btn: '#nav-settings-tab',
+  action5Btn: '#nav-ports-tab',
   action6Btn: '#nav-chartConfig-tab',
-  action7Btn: '#nav-record-tab',
-  action8Btn: '#nav-mockPorts-tab',
-  action9Btn: '#nav-keyBindings-tab'
+  action7Btn: '#nav-terminal-tab',
+  action8Btn: '#nav-record-tab',
+  action9Btn: '#nav-simulation-tab',
+  action10Btn: '#nav-settings-tab',
+  action11Btn: '#nav-keyBindings-tab'
 };
 let isFirstKeyupListenerActive = false;
 
