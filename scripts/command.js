@@ -333,9 +333,9 @@ function updateCommandButtons() {
             if (deleteMode == true) {
                 buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can deleteAnnim"></i></button>';
             }
-            buttonHtml += '<div class="input-group input-group-sm" data-tooltip="Select port" data-bs-toggle="tooltip" title="Select port"><label class="input-group-text col-4"><i class="fa-solid fa-plug"></i>&nbsp;Port</label><select class="form-select" id="AvailablePortsToSend" name="AvailablePortsToSend"></select></div>';
 
             buttonHtml += '</div>';
+            buttonHtml += '<div class="input-group input-group-sm" data-tooltip="Select port" data-bs-toggle="tooltip" title="Select port"><label class="input-group-text col-4"><i class="fa-solid fa-plug"></i>&nbsp;Port</label><select class="form-select" id="AvailablePortsToSend" name="AvailablePortsToSend"></select></div>';
             buttonHtml += '</div>';
             $("#commandButtonContainer").append(buttonHtml);
             $('#cmdBtn-' + index).on('click', function() { //check if port is opened
