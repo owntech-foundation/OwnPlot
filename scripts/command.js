@@ -141,10 +141,10 @@ $(() => {
         updateNewFieldVisibility();
         const selectedConfig = $("#buttonConfigSelect option:selected").val();
         if (selectedConfig === "new") {
-          deleteConfigButton.prop("disabled", true);
+            deleteConfigButton.prop("disabled", true);
           deleteConfigButton.addClass("disabled"); // Add disabled class
         } else {
-          deleteConfigButton.prop("disabled", false);
+            deleteConfigButton.prop("disabled", false);
           deleteConfigButton.removeClass("disabled"); // Remove disabled class
         }
     });
@@ -333,6 +333,8 @@ function updateCommandButtons() {
             if (deleteMode == true) {
                 buttonHtml += '<button type="button" class="btn btn-danger removeCommandButton" id="rmvBtn' + index + '"><i class="fa-solid fa-trash-can deleteAnnim"></i></button>';
             }
+            buttonHtml += '<div class="input-group input-group-sm" data-tooltip="Select port" data-bs-toggle="tooltip" title="Select port"><label class="input-group-text col-4"><i class="fa-solid fa-plug"></i>&nbsp;Port</label><select class="form-select" id="AvailablePortsToSend" name="AvailablePortsToSend"></select></div>';
+
             buttonHtml += '</div>';
             buttonHtml += '</div>';
             $("#commandButtonContainer").append(buttonHtml);
@@ -420,17 +422,17 @@ function commandTime() {
 function deleteConfig(configName) {
     const filePath = configButtonPath + "/" + configName;
     fs.unlink(filePath, (err) => {
-      if (err) {
+        if (err) {
         console.log(`Error deleting file: ${err}`);
-      } else {
+        } else {
         console.log(`File ${configName} is deleted successfully!`);
-  
+
         // Update the configuration files list
         updateCommandFilesList("");
-  
+
         // Reset the selected option to -- new --
         buttonConfigSelect.val("new");
-      }
+        }
     });
 }
 
@@ -486,7 +488,7 @@ function handleDeleteConfig() {
     });
 }
 
-
+/*
 $(document).ready(function() {
 
 	var commandCounter = 1;
@@ -522,7 +524,7 @@ $(document).ready(function() {
 		var commandToDelete = $(this).data("command");
 		$("#command" + commandToDelete + "Section").remove();
 
-		/*// Decrement commandCounter
+		// Decrement commandCounter
 		commandCounter--;
 
 		// Update the IDs and attributes of remaining sections
@@ -536,9 +538,9 @@ $(document).ready(function() {
 			commandSection.find(".command1SelectionTitle span").text("Commands Manager " + (i - 1));
 			commandSection.find(".collapse").attr("id", "command" + (i - 1) + "SelectionDiv");
 			commandSection.find(".deleteCommandsManagerBtn").data("command", i - 1);
-		}*/
+		}
 	});
-});
+});*/
 
 
 function listAvailablePorts() {
