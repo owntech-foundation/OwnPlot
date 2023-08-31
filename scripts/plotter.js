@@ -81,6 +81,7 @@ $(() => {
 				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'monotone';
 				myChart.data.datasets[dataset.index].tension = 0.4;
 				myChart.data.datasets[dataset.index].stepped = 0;
+				dataset.lineBorderWidth = 3;
 			})
 		});
 		$('#linearInterpolationBtn').on('click', function(){
@@ -88,6 +89,7 @@ $(() => {
 				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'linear';
 				myChart.data.datasets[dataset.index].tension = 0.4;
 				myChart.data.datasets[dataset.index].stepped = 0;
+				dataset.lineBorderWidth = 3;
 			})
 		});
 		$('#stepInterpolationBtn').on('click', function(){
@@ -95,6 +97,12 @@ $(() => {
 				myChart.data.datasets[dataset.index].cubicInterpolationMode = 'standard';
 				myChart.data.datasets[dataset.index].tension = 0.4;
 				myChart.data.datasets[dataset.index].stepped = 'before';
+				dataset.lineBorderWidth = 3;
+			})
+		});
+		$('#noInterpolationBtn').on('click', function(){
+			myChart.data.datasets.forEach(dataset => {
+				dataset.lineBorderWidth = 0;
 			})
 		});
 		
