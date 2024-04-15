@@ -1,5 +1,5 @@
 # User Manual
-[Download & Setup](user/setup.md)
+[Download & Setup](setup.md)
 
 ## First Steps
 
