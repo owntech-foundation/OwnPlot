@@ -80,3 +80,5 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 		``` shell
 		chmod u+x OwnPlot-0.6.0.AppImage
 		```
+
+Great! Now that you have OwnPlot installed and all setup, we can proceed

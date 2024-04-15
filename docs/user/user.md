@@ -1,7 +1,6 @@
 # User Manual
 [Download & Setup](setup.md)
-
-## First Steps
+[My first port](first_steps.md)
 
 ## Tabs
 ### Send Tab
