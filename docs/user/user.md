@@ -42,7 +42,9 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 	This works with Intel & Apple silicon
 	1. Launch the disk image *OwnPlot-x.x.x-universal.dmg*
 	2. Drag and drop OwnPlot into your Applications folder 
-	![Mac install](imgs/OwnPlot_MacOs_install.png "MacOs Drag and Drop)
+	![Mac install](imgs/OwnPlot_MacOs_install.png)
+	3. Launch OwnPlot from your Application folder or the LaunchPad
+
 	3. Launch OwnPlot from your Application folder or the LaunchPad
 
 === "Linux (Debian based)"
@@ -53,9 +55,8 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 	```
 
 === "Linux (RedHat based)"
-	!!! Note
-
-		this install has not tested yet
+	!!! warning
+		This install has not been tested yet
 
 	1. Open a terminal
 	2. Install the package
@@ -64,11 +65,14 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 	```
 
 === "Linux (AppImage)"
-	1. Double click on the AppImage file
-	!!! If you have trouble running the AppImage
+	1. Double-click on the AppImage file
+	!!! note "If you have trouble running the AppImage"
 
 		1. Open a terminal
 		2. Allow the file to be executed by running this command
 		``` shell
 		chmod u+x OwnPlot-0.6.0.AppImage
 		```
+
+## First Steps
+
