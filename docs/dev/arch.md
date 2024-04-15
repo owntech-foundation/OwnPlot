@@ -1,5 +1,5 @@
 # Files description
-![files arch](imgs/arch.svg "OwnPlot File's Architechure")
+![files arch](imgs/arch.svg "OwnPlot File's architecture")
 
 ## Main files
 These files are located at the root of the repo.
