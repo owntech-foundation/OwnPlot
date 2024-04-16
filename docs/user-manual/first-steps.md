@@ -5,6 +5,7 @@
 2. Plug in a SPIN or an Arduino talking on the serial port.
 if you want to test this, sample programs will be available later.
 3. Select the corresponding serial port in the port dropdown
+
 	=== "Windows"
 		The port will start with *COM*
 		TODO: PIC { width="300" }
