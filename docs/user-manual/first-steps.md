@@ -19,6 +19,7 @@ if you want to test this, sample programs will be available later.
 
 
 4. Open the port by clicking the "Open" button
+
 	![Open port](imgs/OwnPlot_open_port.gif){ width="300" }
 
 5. You should observe the data coming from the serial port in the terminal and data points should appear on the graph.
