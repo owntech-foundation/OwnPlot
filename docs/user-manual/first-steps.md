@@ -8,7 +8,7 @@ if you want to test this, sample programs will be available later.
 === "Windows"
 	TODO: Dropdown menu pic windows
 
-=== "MacOs"
+=== "macOS"
 	TODO: Dropdown menu pic mac
 
 === "Linux"
@@ -16,8 +16,6 @@ if you want to test this, sample programs will be available later.
 4. Open the port by clicking the "Open" button
 5. You should observe the data coming from the serial port in the terminal and data points should appear on the graph.
 
-!!! failure "Troubleshooting"
-	* If you can't see the port you are looking for, try to unplug and plug in the dev board to another port. You can try to reflash the sample program.
+!!! warning "Troubleshooting"
+	* if you have trouble seeing the desired port, check out the [troubleshooting guide](troubleshooting.md#Port finding)
 
-	* If 
-	

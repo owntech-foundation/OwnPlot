@@ -12,7 +12,7 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 
 	Download the file *OwnPlot.Setup.{{ ownplot.version }}.exe*
 
-=== "MacOs"
+=== "macOS"
 	This works with Intel & Apple silicon
 	Download the file *OwnPlot-{{ ownplot.version }}-universal.dmg*
 
@@ -37,24 +37,24 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 	3. OwnPlot should launch itself right after the installation has been completed.
 	4. OwnPlot should be available from the start menu
 
-=== "MacOs"
+=== "macOS"
 	!!! success "Compatibility"
 		This works with Intel & Apple silicon
 	
 	1. Launch the disk image *OwnPlot-{{ ownplot.version }}-universal.dmg*
 	2. Drag and drop OwnPlot into your Applications folder 
-	![Mac install](imgs/OwnPlot_MacOs_install.png)
+	![Mac install](imgs/OwnPlot_macOS_install.png)
 	3. Launch OwnPlot from your Application folder or the LaunchPad
 
 	!!! note "If you have trouble running the app for the first time"
 		1. If you get this:
 
-		![Mac cannot run](imgs/OwnPlot_MacOs_cant_run.png){ width="300" }
+		![Mac cannot run](imgs/OwnPlot_macOS_cant_run.png){ width="300" }
 
 		2. Open System Preferences
 		3. Go to *Security & Privacy* Tab
 		4. Allow OwnPlot to run by clicking the button "Allow"
-		![Mac Allow app](imgs/OwnPlot_MacOs_open_anyways.png)
+		![Mac Allow app](imgs/OwnPlot_macOS_open_anyways.png)
 
 === "Linux (Debian based)"
 	1. Open a terminal
