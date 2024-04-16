@@ -10,29 +10,29 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 
 === "Windows"
 
-	Download the file *OwnPlot.Setup.x.x.x.exe*
+	Download the file *OwnPlot.Setup.{{ ownplot.version }}.exe*
 
 === "MacOs"
 	This works with Intel & Apple silicon
-	Download the file *OwnPlot-x.x.x-universal.dmg*
+	Download the file *OwnPlot-{{ ownplot.version }}-universal.dmg*
 
 === "Linux (Debian based)"
 
-	Download the file *OwnPlot_x.x.x_amd64.deb*
+	Download the file *OwnPlot_{{ ownplot.version }}_amd64.deb*
 
 === "Linux (RedHat based)"
 
-	Download the file *OwnPlot_x.x.x_amd64.rpm*
+	Download the file *OwnPlot_{{ ownplot.version }}_amd64.rpm*
 
 === "Linux (AppImage)"
 
-	Download the file *OwnPlot-x.x.x.AppImage*
+	Download the file *OwnPlot-{{ ownplot.version }}.AppImage*
 
 ## Installation
 
 === "Windows"
 
-	1. Launch the executable *OwnPlot.Setup.x.x.x.exe*
+	1. Launch the executable *OwnPlot.Setup.{{ ownplot.version }}.exe*
 	2. The app will automatically install in the `User\AppData\Local\Programs\OwnPlot` folder
 	3. OwnPlot should launch itself right after the installation has been completed.
 	4. OwnPlot should be available from the start menu
@@ -41,13 +41,14 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 	!!! success "Compatibility"
 		This works with Intel & Apple silicon
 	
-	1. Launch the disk image *OwnPlot-x.x.x-universal.dmg*
+	1. Launch the disk image *OwnPlot-{{ ownplot.version }}-universal.dmg*
 	2. Drag and drop OwnPlot into your Applications folder 
 	![Mac install](imgs/OwnPlot_MacOs_install.png)
 	3. Launch OwnPlot from your Application folder or the LaunchPad
 
 	!!! note "If you have trouble running the app for the first time"
-		1. If you get this
+		1. If you get this:
+
 		![Mac cannot run](imgs/OwnPlot_MacOs_cant_run.png){ width="300" }
 		2. Open System Preferences
 		3. Go to *Security & Privacy* Tab
@@ -58,7 +59,7 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 	1. Open a terminal
 	2. Install the package
 	``` shell
-	sudo dpkg -i OwnPlot_x.x.x_amd64.deb
+	sudo dpkg -i OwnPlot_{{ ownplot.version }}_amd64.deb
 	```
 
 === "Linux (RedHat based)"
@@ -68,7 +69,7 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 	1. Open a terminal
 	2. Install the package
 	``` shell
-	sudo rpm -i OwnPlot_x.x.x_amd64.rpm
+	sudo rpm -i OwnPlot_{{ ownplot.version }}_amd64.rpm
 	```
 
 === "Linux (AppImage)"
@@ -78,7 +79,7 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 		1. Open a terminal
 		2. Allow the file to be executed by running this command
 		``` shell
-		chmod u+x OwnPlot-0.6.0.AppImage
+		chmod u+x OwnPlot-{{ ownplot.version }}.AppImage
 		```
 
 Great! Now that you have OwnPlot installed and all setup, we can proceed
