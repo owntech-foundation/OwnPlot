@@ -24,7 +24,7 @@ if you want to test this, sample programs will be available later.
 
 5. You should observe the data coming from the serial port in the terminal and data points should appear on the graph.
 
+	![Open port](imgs/OwnPlot_saw_data.gif){ width="300" }
+
 !!! warning "Troubleshooting"
 	* if you have trouble seeing the desired port, check out the [troubleshooting guide](troubleshooting.md#Port finding)
-
-
