@@ -50,6 +50,7 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 		1. If you get this:
 
 		![Mac cannot run](imgs/OwnPlot_MacOs_cant_run.png){ width="300" }
+
 		2. Open System Preferences
 		3. Go to *Security & Privacy* Tab
 		4. Allow OwnPlot to run by clicking the button "Allow"
