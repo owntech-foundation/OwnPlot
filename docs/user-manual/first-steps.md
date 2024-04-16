@@ -17,6 +17,7 @@ if you want to test this, sample programs will be available later.
 	The port will most likely start with */dev/tty.usb* but your mileage may vary.
 	TODO: PIC { width="300" }
 
+
 4. Open the port by clicking the "Open" button
 ![Open port](imgs/OwnPlot_open_port.gif){ width="300" }
 
