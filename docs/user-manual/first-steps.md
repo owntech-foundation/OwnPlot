@@ -6,16 +6,23 @@
 if you want to test this, sample programs will be available later.
 3. Select the corresponding serial port in the port dropdown
 === "Windows"
-	TODO: Dropdown menu pic windows
+	The port will start with *COM*
+	TODO: PIC { width="300" }
 
 === "macOS"
-	TODO: Dropdown menu pic mac
+	The port will most likely start with */dev/tty.usbserial* but your mileage may vary.
+	![Open port](imgs/OwnPlot_macOS_select_port.gif){ width="300" }
 
 === "Linux"
-	TODO: Dropdown menu pic linux
+	The port will most likely start with */dev/tty.usb* but your mileage may vary.
+	TODO: PIC { width="300" }
+
 4. Open the port by clicking the "Open" button
+![Open port](imgs/OwnPlot_open_port.gif){ width="300" }
+
 5. You should observe the data coming from the serial port in the terminal and data points should appear on the graph.
 
 !!! warning "Troubleshooting"
 	* if you have trouble seeing the desired port, check out the [troubleshooting guide](troubleshooting.md#Port finding)
+
 
