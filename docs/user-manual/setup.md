@@ -1,10 +1,10 @@
 
 {%set base_url =  "https://github.com/owntech-foundation/OwnPlot/releases/download/release-" + {{ ownplot.version }} + "/" %}
-{%set win_exe = "OwnPlot.Setup." + {{ ownplot.version }} + ".exe" %}
-{%set mac_exe = "OwnPlot-" + {{ ownplot.version }} + "-universal.dmg" %}
-{%set deb_exe = "OwnPlot-" + {{ ownplot.version }} + "_amd64.deb" %}
-{%set rpm_exe = "OwnPlot-" + {{ ownplot.version }} + ".x86_64.rpm" %}
-{%set appi_exe = "OwnPlot-" + {{ ownplot.version }} + ".AppImage" %}
+{%set win_exe = "OwnPlot.Setup." + ownplot.version + ".exe" %}
+{%set mac_exe = "OwnPlot-" + ownplot.version + "-universal.dmg" %}
+{%set deb_exe = "OwnPlot-" + ownplot.version + "_amd64.deb" %}
+{%set rpm_exe = "OwnPlot-" + ownplot.version + ".x86_64.rpm" %}
+{%set appi_exe = "OwnPlot-" + ownplot.version + ".AppImage" %}
 
 {%set win_url = base_url + mac_exe %}
 {%set mac_url = base_url + win_exe %}
