@@ -4,11 +4,11 @@ If you find a mistake or a malfunction of OwnPlot, please report the issue [Here
 
 # Start Here
 If you are a new user of OwnPlot, please start here.
-[Download & Setup](setup.md)
-[Dev board demo code](dev-board-demo.md)
-[My first port](first-steps.md)
+1. [Download & Setup](setup.md)
+2. [Dev board demo code](dev-board-demo.md)
+3. [My first port](first-steps.md)
 
 # Components
-[Tabs](components/tabs.md)
-[Terminal](components/terminal.md)
-[Plotter](components/plotter.md)
+* [Tabs](components/tabs.md)
+* [Terminal](components/terminal.md)
+* [Plotter](components/plotter.md)
