@@ -12,9 +12,6 @@
 {%set rpm_url = base_url + rpm_exe %}
 {%set appi_url = base_url + appi_exe %}
 
-https://github.com/owntech-foundation/OwnPlot/releases/download/release-1.6.0/OwnPlot-1.6.0-universal.dmg
-https://github.com/owntech-foundation/OwnPlot/releases/download/release-0.6.0/OwnPlot-0.6.0-universal.dmg
-
 # Download
 !!! info "Releases"
 	All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases).
@@ -107,3 +104,6 @@ https://github.com/owntech-foundation/OwnPlot/releases/download/release-0.6.0/Ow
 
 Great! Now that you have OwnPlot installed and all setup, we can proceed to your [first steps](first-steps.md) with OwnPlot.
 {!troubleshooting.md!}
+test
+
+{% include 'troubleshooting.md' %}
