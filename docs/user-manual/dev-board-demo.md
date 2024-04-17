@@ -60,7 +60,7 @@ You can change the number of datasets by modifying the `#define numberOfTriangle
 	}
 	```
 
-# What's next?
+# Result
 
 ![Glorious sawteeth](imgs/OwnPlot_demo_sawteeth.png)
 
