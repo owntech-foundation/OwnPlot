@@ -8,51 +8,56 @@ This page will provide you with sample codes that will make those dev boards "ta
 # Sawtooth demo code
 This code will generate sawteeth with ASCII formatting.
 
-## OwnTech's SPIN
-TODO: SPIN demo sawteeth.
+You can change the number of datasets by modifying the defined statement **numberOfTriangles**. The default value is 3.
+=== "SPIN"
+	TODO: SPIN demo sawteeth.
+	``` C
+		#define numberOfTriangles 3
+		int main() {
+			//TODO
+			return 0;
+		}
+	```
+=== "Arduino"
+	Here is the demo code. Tested on an Arduino Uno and Mega.
+	``` arduino
+	#define numberOfTriangles 3
+	uint16_t maxValue = 256;
+	uint8_t triangles[numberOfTriangles];
+	uint8_t numberPoints = 4;
+	int incomingByte;
+	uint8_t state = 1;
 
-## Arduino
-You can change the number of datasets by modifying the defined statement _numberOfTriangles_*. The default value is 3.
+	void setup() {
+	Serial.begin(115200);
+	initTriangles();
+	}
 
-Here is the demo code. Tested on an Arduino Uno and Mega.
-``` arduino
-#define numberOfTriangles 3
-uint16_t maxValue = 256;
-uint8_t triangles[numberOfTriangles];
-uint8_t numberPoints = 4;
-int incomingByte;
-uint8_t state = 1;
+	void initTriangles() {
+	for (uint8_t i = 0; i < numberOfTriangles; i++) {
+		triangles[i] = (maxValue / numberOfTriangles) * i;
+	}
+	}
 
-void setup() {
-  Serial.begin(115200);
-  initTriangles();
-}
-
-void initTriangles() {
-  for (uint8_t i = 0; i < numberOfTriangles; i++) {
-    triangles[i] = (maxValue / numberOfTriangles) * i;
-  }
-}
-
-void loop() {
-  incomingByte = Serial.read();
-  if (incomingByte > 0) {
-    if (incomingByte == 's')
-      state ^= 1;;
-  }
-  if (state) {
-    for (uint8_t i = 0; i < numberOfTriangles - 1; i++) {
-      Serial.print(triangles[i]);
-      Serial.print(":");
-    }
-    Serial.println(triangles[numberOfTriangles - 1]);
-    for (uint8_t i = 0; i < numberOfTriangles; i++) {
-      triangles[i] = triangles[i] + numberPoints;
-    }
-  }
-  delay(100);
-}
-```
+	void loop() {
+	incomingByte = Serial.read();
+	if (incomingByte > 0) {
+		if (incomingByte == 's')
+		state ^= 1;
+	}
+	if (state) {
+		for (uint8_t i = 0; i < numberOfTriangles - 1; i++) {
+		Serial.print(triangles[i]);
+		Serial.print(":");
+		}
+		Serial.println(triangles[numberOfTriangles - 1]);
+		for (uint8_t i = 0; i < numberOfTriangles; i++) {
+		triangles[i] = triangles[i] + numberPoints;
+		}
+	}
+	delay(100);
+	}
+	```
 
 # What's next?
 
