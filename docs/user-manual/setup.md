@@ -12,11 +12,13 @@
 {%set rpm_url = base_url + rpm_exe %}
 {%set appi_url = base_url + appi_exe %}
 
-# Step 1 - Download Ownplot
-!!! info "Releases"
-	All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases).
+## Installing OwnPlot
 
 Choose your system and follow the installation procedure.
+
+### Step 1 - Download OwnPlot
+!!! info "Releases"
+	All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases).
 
 === "Windows"
 
@@ -42,14 +44,12 @@ Choose your system and follow the installation procedure.
 	Download the file [{{ appi_exe }}]({{ appi_url }})
 
 
-# Step 2 - Install OwnPlot
+### Step 2 - Install OwnPlot
 
 === "Windows"
 
 	1. Launch the executable *{{ win_exe }}*
 	2. The app will automatically install in the `User\AppData\Local\Programs\OwnPlot` folder
-	3. OwnPlot should launch itself right after the installation has been completed.
-	4. OwnPlot should be available from the start menu
 
 === "macOS"
 	!!! success "Compatibility"
@@ -58,17 +58,6 @@ Choose your system and follow the installation procedure.
 	1. Launch the disk image *{{ mac_exe }}*
 	2. Drag and drop OwnPlot into your Applications folder 
 	![mac install](imgs/OwnPlot_macOS_install.png)
-	3. Launch OwnPlot from your Application folder or the LaunchPad
-
-	!!! note "If you have trouble running the app for the first time"
-		1. If you get this:
-
-		![Mac cannot run](imgs/OwnPlot_macOS_cant_run.png){ width="300" }
-
-		2. Open System Preferences
-		3. Go to *Security & Privacy* Tab
-		4. Allow OwnPlot to run by clicking the button "Allow"
-		![mac Allow app](imgs/OwnPlot_macOS_open_anyways.png)
 
 === "Linux (Debian based)"
 	1. Open a terminal
@@ -88,16 +77,43 @@ Choose your system and follow the installation procedure.
 	```
 
 === "Linux (AppImage)"
-	1. Double-click on the AppImage file
-	!!! note "If you have trouble running the AppImage"
 
-		1. Open a terminal
-		2. Allow the file to be executed by running this command
-		``` shell
-		chmod u+x {{ appi_exe }}
-		```
+	1. Right-click on the AppImage file
+    2. Check the button to allow it to run as a program
 
 ### Step 3 - Run OwnPlot
+
+=== "Windows"
+
+	1. OwnPlot should launch itself right after the installation has been completed.
+	2. OwnPlot should be available from the start menu
+
+=== "macOS"
+
+    Launch OwnPlot from your Application folder or the LaunchPad
+
+	!!! note "If you have trouble running the app for the first time"
+		1. If you get this:
+
+		![Mac cannot run](imgs/OwnPlot_macOS_cant_run.png){ width="300" }
+
+		2. Open System Preferences
+		3. Go to *Security & Privacy* Tab
+		4. Allow OwnPlot to run by clicking the button "Allow"
+		![mac Allow app](imgs/OwnPlot_macOS_open_anyways.png)
+
+=== "Linux (Debian based)"
+
+    Type `ownplot` on the terminal.
+
+=== "Linux (RedHat based)"
+
+    Type `ownplot` on the terminal.
+
+=== "Linux (AppImage)"
+
+    Double-click on the AppImage file
+
 
 !!! warning "Performances issues"
 
@@ -109,4 +125,3 @@ Choose your system and follow the installation procedure.
 Great! Now that you have OwnPlot installed and all setup, we can proceed to your [first steps](first-steps.md) with OwnPlot.
 
 <!-- {% include '/OwnPlot/docs/user-manual/troubleshooting.md' %} -->
-{{ macros_info() }}
