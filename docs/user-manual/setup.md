@@ -1,6 +1,6 @@
 
 {%set base_url =  "https://github.com/owntech-foundation/OwnPlot/releases/download/release-{{ ownplot.version }}/" %}
-{%set win_exe = "OwnPlot.Setup.{{ ownplot.version }}.exe"}
+{%set win_exe = "OwnPlot.Setup.{{ ownplot.version }}.exe" %}
 {%set win_url = base_url + win_exe %}
 # Download
 All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases)
