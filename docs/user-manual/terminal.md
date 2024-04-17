@@ -7,13 +7,13 @@ As of today, the terminal is not independent. It relies on the graph data to sho
 Consequently, some settings are linked with the graph. Moreover, the data is coming from the port, so a lot of standard settings for this type of application are related to the port.
 
 ## Main terminal's settings section
-![Main terminal settings](imgs/OwnPlot_terminal_settings.gif){ width="300" }
+![Main terminal settings](imgs/OwnPlot_terminal_settings.png){ width="300" }
 
 Most of the terminal settings live under the **Settings** tab.
 
 ### Lines history
 To set the maximum number of lines stored in the terminal, enter a number between 0 and 1000 in the input field **# Lines**
-![terminal lines](imgs/OwnPlot_terminal_lines.gif){ width="300" }
+![terminal lines](imgs/OwnPlot_terminal_lines.png){ width="300" }
 
 ### Timestamp
 The timestamp option permits to log the time aside of the data.
