@@ -9,9 +9,6 @@ If you are a new user of OwnPlot, please start here.
 [My first port](first-steps.md)
 
 # Components
-## Terminal
-## Graph
-## Tabs
-### Send Tab
-Purpose: The send tab is dedicated to "Send" data to the selected serial port.
-The most important field is 
+[Tabs](components/tabs.md)
+[Terminal](components/terminal.md)
+[Plotter](components/plotter.md)
