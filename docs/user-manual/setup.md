@@ -108,4 +108,5 @@ Choose your system and follow the installation procedure.
 
 Great! Now that you have OwnPlot installed and all setup, we can proceed to your [first steps](first-steps.md) with OwnPlot.
 
-{% include '/OwnPlot/docs/user-manual/troubleshooting.md' %}
+<!-- {% include '/OwnPlot/docs/user-manual/troubleshooting.md' %} -->
+{{ macros_info() }}
