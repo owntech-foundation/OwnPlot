@@ -8,7 +8,7 @@ This page will provide you with sample codes that will make those dev boards "ta
 # Sawtooth demo code
 This code will generate sawteeth with ASCII formatting.
 
-You can change the number of datasets by modifying the defined statement **numberOfTriangles**. The default value is 3.
+You can change the number of datasets by modifying the `#define numberOfTriangles 3` statement. The default value is 3.
 === "SPIN"
 	TODO: SPIN demo sawteeth.
 	``` C
@@ -29,30 +29,31 @@ You can change the number of datasets by modifying the defined statement **numbe
 	uint8_t state = 1;
 
 	void setup() {
-	Serial.begin(115200);
-	initTriangles();
+		Serial.begin(115200);
+		initTriangles();
 	}
 
 	void initTriangles() {
 	for (uint8_t i = 0; i < numberOfTriangles; i++) {
 		triangles[i] = (maxValue / numberOfTriangles) * i;
-	}
+		}
 	}
 
 	void loop() {
 	incomingByte = Serial.read();
 	if (incomingByte > 0) {
-		if (incomingByte == 's')
-		state ^= 1;
+		if (incomingByte == 's') {
+			state ^= 1;
+		}
 	}
 	if (state) {
 		for (uint8_t i = 0; i < numberOfTriangles - 1; i++) {
-		Serial.print(triangles[i]);
-		Serial.print(":");
+			Serial.print(triangles[i]);
+			Serial.print(":");
 		}
 		Serial.println(triangles[numberOfTriangles - 1]);
 		for (uint8_t i = 0; i < numberOfTriangles; i++) {
-		triangles[i] = triangles[i] + numberPoints;
+			triangles[i] = triangles[i] + numberPoints;
 		}
 	}
 	delay(100);
