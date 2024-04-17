@@ -12,9 +12,11 @@
 {%set rpm_url = base_url + rpm_exe %}
 {%set appi_url = base_url + appi_exe %}
 
-# Download
+# Step 1 - Download Ownplot
 !!! info "Releases"
 	All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases).
+
+Choose your system and follow the installation procedure.
 
 === "Windows"
 
@@ -40,7 +42,7 @@
 	Download the file [{{ appi_exe }}]({{ appi_url }})
 
 
-# Installation
+# Step 2 - Install OwnPlot
 
 === "Windows"
 
@@ -95,6 +97,8 @@
 		chmod u+x {{ appi_exe }}
 		```
 
+### Step 3 - Run OwnPlot
+
 !!! warning "Performances issues"
 
 	As of today, The last version available is [v0.6.0](https://github.com/owntech-foundation/OwnPlot/releases/tag/release-0.6.0).
@@ -103,7 +107,5 @@
 
 
 Great! Now that you have OwnPlot installed and all setup, we can proceed to your [first steps](first-steps.md) with OwnPlot.
-{!troubleshooting.md!}
-test
 
-{% include 'troubleshooting.md' %}
+{% include '/OwnPlot/docs/user-manual/troubleshooting.md' %}
