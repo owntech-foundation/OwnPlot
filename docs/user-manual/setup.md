@@ -1,5 +1,5 @@
 
-{%set base_url =  "https://github.com/owntech-foundation/OwnPlot/releases/download/release-" + {{ ownplot.version }} + "/" %}
+{%set base_url =  "https://github.com/owntech-foundation/OwnPlot/releases/download/release-" + ownplot.version  + "/" %}
 {%set win_exe = "OwnPlot.Setup." + ownplot.version + ".exe" %}
 {%set mac_exe = "OwnPlot-" + ownplot.version + "-universal.dmg" %}
 {%set deb_exe = "OwnPlot-" + ownplot.version + "_amd64.deb" %}
@@ -14,7 +14,7 @@
 
 # Download
 !!! info "Releases"
-	All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases)
+	All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases).
 
 === "Windows"
 
@@ -44,7 +44,7 @@
 
 === "Windows"
 
-	1. Launch the executable *OwnPlot.Setup.{{ ownplot.version }}.exe*
+	1. Launch the executable *{{ win_exe }}*
 	2. The app will automatically install in the `User\AppData\Local\Programs\OwnPlot` folder
 	3. OwnPlot should launch itself right after the installation has been completed.
 	4. OwnPlot should be available from the start menu
@@ -53,7 +53,7 @@
 	!!! success "Compatibility"
 		This works with Intel & Apple silicon
 	
-	1. Launch the disk image *OwnPlot-{{ ownplot.version }}-universal.dmg*
+	1. Launch the disk image *{{ mac_exe }}*
 	2. Drag and drop OwnPlot into your Applications folder 
 	![mac install](imgs/OwnPlot_macOS_install.png)
 	3. Launch OwnPlot from your Application folder or the LaunchPad
@@ -72,7 +72,7 @@
 	1. Open a terminal
 	2. Install the package
 	``` shell
-	sudo dpkg -i OwnPlot_{{ ownplot.version }}_amd64.deb
+	sudo dpkg -i {{ deb_exe }}
 	```
 
 === "Linux (RedHat based)"
@@ -82,7 +82,7 @@
 	1. Open a terminal
 	2. Install the package
 	``` shell
-	sudo rpm -i OwnPlot_{{ ownplot.version }}_amd64.rpm
+	sudo rpm -i {{ rpm_exe }}
 	```
 
 === "Linux (AppImage)"
@@ -92,14 +92,14 @@
 		1. Open a terminal
 		2. Allow the file to be executed by running this command
 		``` shell
-		chmod u+x OwnPlot-{{ ownplot.version }}.AppImage
+		chmod u+x {{ appi_exe }}
 		```
 
 !!! warning "Performances issues"
 
 	As of today, The last version available is [v0.6.0](https://github.com/owntech-foundation/OwnPlot/releases/tag/release-0.6.0).
 
-	However, **v0.6.0** has been reported to have a low-performance. If you have trouble running this release, fall back on version [v0.5.1](https://github.com/owntech-foundation/OwnPlot/releases/tag/release-0.5.1)
+	However, **v0.6.0** has been reported to have a low performance. If you have trouble running this release, fall back on version [v0.5.1](https://github.com/owntech-foundation/OwnPlot/releases/tag/release-0.5.1)
 
 
 Great! Now that you have OwnPlot installed and all setup, we can proceed
