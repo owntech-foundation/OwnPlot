@@ -1,5 +1,5 @@
 
-## Download
+# Download
 OwnPlot latest releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases)
 
 !!! warning "Performances issues"
@@ -28,7 +28,7 @@ OwnPlot latest releases can be downloaded on [github](https://github.com/owntech
 
 	Download the file *OwnPlot-{{ ownplot.version }}.AppImage*
 
-## Installation
+# Installation
 
 === "Windows"
 

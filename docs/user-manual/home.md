@@ -1,5 +1,6 @@
 # User Manual
 [Download & Setup](setup.md)
+[Dev board demo code](dev-board.md)
 [My first port](first-steps.md)
 
 ## Tabs
