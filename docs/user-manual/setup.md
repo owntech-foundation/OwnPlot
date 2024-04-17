@@ -6,11 +6,14 @@
 {%set rpm_exe = "OwnPlot-" + ownplot.version + ".x86_64.rpm" %}
 {%set appi_exe = "OwnPlot-" + ownplot.version + ".AppImage" %}
 
-{%set win_url = base_url + mac_exe %}
-{%set mac_url = base_url + win_exe %}
+{%set win_url = base_url + win_exe %}
+{%set mac_url = base_url + mac_exe %}
 {%set deb_url = base_url + deb_exe %}
 {%set rpm_url = base_url + rpm_exe %}
 {%set appi_url = base_url + appi_exe %}
+
+https://github.com/owntech-foundation/OwnPlot/releases/download/release-1.6.0/OwnPlot-1.6.0-universal.dmg
+https://github.com/owntech-foundation/OwnPlot/releases/download/release-0.6.0/OwnPlot-0.6.0-universal.dmg
 
 # Download
 !!! info "Releases"
