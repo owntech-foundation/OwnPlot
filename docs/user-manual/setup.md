@@ -1,7 +1,17 @@
 
-{%set base_url =  "https://github.com/owntech-foundation/OwnPlot/releases/download/release-{{ ownplot.version }}/" %}
-{%set win_exe = "OwnPlot.Setup.{{ ownplot.version }}.exe" %}
-{%set win_url = base_url + win_exe %}
+{%set base_url =  https://github.com/owntech-foundation/OwnPlot/releases/download/release-{{ ownplot.version }}/ %}
+{%set win_exe = OwnPlot.Setup.{{ ownplot.version }}.exe %}
+{%set mac_exe = OwnPlot-{{ ownplot.version }}-universal.dmg %}
+{%set deb_exe = OwnPlot-{{ ownplot.version }}_amd64.deb %}
+{%set rpm_exe = OwnPlot-{{ ownplot.version }}.x86_64.rpm %}
+{%set appi_exe = OwnPlot-{{ ownplot.version }}.AppImage %}
+
+{%set win_url = base_url + mac_exe %}
+{%set mac_url = base_url + win_exe %}
+{%set deb_url = base_url + deb_exe %}
+{%set rpm_url = base_url + rpm_exe %}
+{%set appi_url = base_url + appi_exe %}
+
 # Download
 All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases)
 
@@ -12,19 +22,21 @@ All OwnPlot releases can be downloaded on [github](https://github.com/owntech-fo
 === "macOS"
 	This works with Intel & Apple silicon
 
-	Download the file [OwnPlot.Setup.{{ ownplot.version }}.exe](https://github.com/owntech-foundation/OwnPlot/releases/download/release-{{ ownplot.version }}/OwnPlot-{{ ownplot.version }}-universal.dmg)
+	Download the file [{{ mac_exe }}]({{ mac_url }})
 
 === "Linux (Debian based)"
 
-	Download the file [OwnPlot.Setup.{{ ownplot.version }}.exe](https://github.com/owntech-foundation/OwnPlot/releases/download/release-{{ ownplot.version }}/OwnPlot-{{ ownplot.version }}_amd64.deb)
+	Download the file [{{ deb_exe }}]({{ deb_url }})
+
 
 === "Linux (RedHat based)"
 
-	Download the file [OwnPlot.Setup.{{ ownplot.version }}.exe](https://github.com/owntech-foundation/OwnPlot/releases/download/release-{{ ownplot.version }}/OwnPlot-{{ ownplot.version }}.x86_64.rpm)
+	Download the file [{{ rpm_exe }}]({{ rpm_url }})
+
 
 === "Linux (AppImage)"
 
-	Download the file [OwnPlot.Setup.{{ ownplot.version }}.exe](https://github.com/owntech-foundation/OwnPlot/releases/download/release-{{ ownplot.version }}/OwnPlot-{{ ownplot.version }}.AppImage)
+	Download the file [{{ appi_exe }}]({{ appi_url }})
 
 
 # Installation
