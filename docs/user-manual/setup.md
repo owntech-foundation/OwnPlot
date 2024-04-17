@@ -106,3 +106,4 @@ https://github.com/owntech-foundation/OwnPlot/releases/download/release-0.6.0/Ow
 
 
 Great! Now that you have OwnPlot installed and all setup, we can proceed to your [first steps](first-steps.md) with OwnPlot.
+{!troubleshooting.md!}
