@@ -58,7 +58,7 @@ Choose your system and follow the installation procedure.
 	
 	1. Launch the disk image *{{ mac_exe }}*
 	2. Drag and drop OwnPlot into your Applications folder 
-	![mac install]({{ page_base }} imgs/OwnPlot_macOS_install.png)
+	![mac install]({{ page_base }}imgs/OwnPlot_macOS_install.png)
 
 === "Linux (Debian based)"
 	1. Open a terminal
@@ -96,12 +96,12 @@ Choose your system and follow the installation procedure.
 	!!! note "If you have trouble running the app for the first time"
 		1. If you get this:
 
-		![Mac cannot run]({{ page_base }} imgs/OwnPlot_macOS_cant_run.png){ width="300" }
+		![Mac cannot run]({{ page_base }}imgs/OwnPlot_macOS_cant_run.png){ width="300" }
 
 		2. Open System Preferences
 		3. Go to *Security & Privacy* Tab
 		4. Allow OwnPlot to run by clicking the button "Allow"
-		![mac Allow app]({{ page_base }} imgs/OwnPlot_macOS_open_anyways.png)
+		![mac Allow app]({{ page_base }}imgs/OwnPlot_macOS_open_anyways.png)
 
 === "Linux (Debian based)"
 
