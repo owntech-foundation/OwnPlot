@@ -16,5 +16,3 @@ If you are a new user of OwnPlot, please start here.
 ### [Tabs](components/tabs.md)
 ### [Terminal](components/terminal.md)
 ### [Plotter](components/plotter.md)
-
-{{ macros_info() }}
