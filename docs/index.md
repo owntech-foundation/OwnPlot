@@ -19,7 +19,7 @@ The documentation is split between the [User Manual](user-manual/home.md) and th
 </div>
 
 ### User Manual
-The User Manual will guide you through all of OwnPlot's features.
+The [User Manual](user-manual/home.md) will guide you through all of OwnPlot's features.
 
-### Development Manual
-The Dev Manual will help you understand the architecture and will permit you to add features and contribute to OwnPlot's development.
+### Developer Manual
+The [Dev Manual](dev-manual/home.md) will help you understand the architecture and will permit you to add features and contribute to OwnPlot's development.
