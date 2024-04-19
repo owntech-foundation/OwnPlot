@@ -12,11 +12,66 @@ You can change the number of datasets by modifying the `#define numberOfTriangle
 === "SPIN"
 	TODO: SPIN demo sawteeth.
 	``` C
-		#define numberOfTriangles 3
-		int main() {
-			//TODO
-			return 0;
+	#include "TaskAPI.h"
+	#include "SpinAPI.h"
+	#include "zephyr/console/console.h"
+
+	void setup_routine();
+	void loop_communication_task();
+	void initTriangles();
+	int main();
+
+	#define numberOfTriangles 3
+	uint16_t maxValue = 256;
+	uint8_t triangles[numberOfTriangles];
+	uint8_t numberPoints = 4;
+	uint8_t received_serial_char;
+	uint8_t state = 1;
+
+	void setup_routine() {
+		spin.version.setBoardVersion(SPIN_v_1_0);
+		uint32_t com_task_number = task.createBackground(loop_communication_task);
+		task.startBackground(com_task_number);
+	}
+
+	void loop_communication_task()
+	{
+		while (1) {
+			received_serial_char = console_getchar();
+			switch (received_serial_char) {
+			case 's':
+				state ^= 1;
+				break;
+			default:
+				break;
+			}
+			k_msleep(100);
 		}
+	}
+
+	void initTriangles() {
+		for (uint8_t i = 0; i < numberOfTriangles; i++) {
+			triangles[i] = (maxValue / numberOfTriangles) * i;
+		}
+	}
+
+	int main() {
+		setup_routine();
+		initTriangles();
+		while (1) {
+			if (state) {
+				for (uint8_t i = 0; i < numberOfTriangles - 1; i++) {
+					printk("%d:", triangles[i]);
+				}
+				printk("%d\n", triangles[numberOfTriangles - 1]);
+				for (uint8_t i = 0; i < numberOfTriangles; i++) {
+					triangles[i] = triangles[i] + numberPoints;
+				}
+			}
+			k_msleep(50);
+		}
+		return 0;
+	}
 	```
 === "Arduino"
 	Here is the demo code. Tested on an Arduino Uno and Mega.
