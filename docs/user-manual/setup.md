@@ -11,11 +11,7 @@
 {%set deb_url = base_url + deb_exe %}
 {%set rpm_url = base_url + rpm_exe %}
 {%set appi_url = base_url + appi_exe %}
-{%set page_base = "./" %}
-
-{{config.site_url}}
-
-![mac install]({{config.site_url}}/OwnPlot/docs/user-manual/imgs/OwnPlot_macOS_install.png)
+{%set page_base = {{config.site_url}} + "/OwnPlot/docs/user-manual/" %}
 
 ## Installing OwnPlot
 
@@ -126,5 +122,9 @@ Choose your system and follow the installation procedure.
 
 	However, **v0.6.0** has been reported to have a low performance. If you have trouble running this release, fall back on version [v0.5.1](https://github.com/owntech-foundation/OwnPlot/releases/tag/release-0.5.1)
 
+{{ page.meta }}
+{{ page.meta.title }}
 
-Great! Now that you have OwnPlot installed and all setup, we can proceed to your [first steps](first-steps.md) with OwnPlot.
+{% if page.meta.title == 'bar' %}
+	Great! Now that you have OwnPlot installed and all setup, we can proceed to your [first steps](first-steps.md) with OwnPlot.
+{% endif %}
