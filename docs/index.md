@@ -2,7 +2,7 @@
 This documentation will help you use and develop for OwnPlot.
 
 <figure markdown="span">
-  ![OwnPlot logo](imgs/icon.svg){ width="300" }
+  ![OwnPlot logo](imgs/icon_mac_style.png){ width="300" }
   <figcaption>OwnPlot is a Free and OpenSource plotter written in Electron</figcaption>
 </figure>
 
