@@ -122,9 +122,8 @@ Choose your system and follow the installation procedure.
 
 	However, **v0.6.0** has been reported to have a low performance. If you have trouble running this release, fall back on version [v0.5.1](https://github.com/owntech-foundation/OwnPlot/releases/tag/release-0.5.1)
 
-{{ page.meta }}
-{{ page.meta.title }}
+{{ page.url }}
 
-{% if page.meta.title == 'bar' %}
+{% if page.url == 'https://owntech-foundation.github.io/Documentation/OwnPlot/docs/user-manual/setup/' %}
 	Great! Now that you have OwnPlot installed and all setup, we can proceed to your [first steps](first-steps.md) with OwnPlot.
 {% endif %}
