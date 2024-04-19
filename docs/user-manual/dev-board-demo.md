@@ -1,11 +1,11 @@
-# Dev board demo code
+## Dev board demo code
 
 In order to transmit data to OwnPlot, your device must send data through a serial port.
 This serial port on dev boards is in most cases USB based.
 
 This page will provide you with sample codes that will make those dev boards "talk" in the serial port.
 
-# Sawtooth demo code
+## Sawtooth demo code
 This code will generate sawteeth with ASCII formatting.
 
 You can change the number of datasets by modifying the `#define numberOfTriangles 3` statement. The default value is 3.
@@ -60,7 +60,7 @@ You can change the number of datasets by modifying the `#define numberOfTriangle
 	}
 	```
 
-# Result
+## Result
 
 ![Glorious sawteeth](imgs/OwnPlot_demo_sawteeth.png)
 

@@ -1,6 +1,6 @@
-# First Steps
+## First Steps
 
-## Open a port
+### Open a port
 1. Select the send tab (This will spawn the graph)
 2. Plug in a SPIN or an Arduino talking on the serial port.
 if you want to test this, sample programs will be available later.
@@ -28,4 +28,4 @@ if you want to test this, sample programs will be available later.
 	![Open port](imgs/OwnPlot_saw_data.gif){ width="300" }
 
 !!! warning "Troubleshooting"
-	* if you have trouble seeing the desired port, check out the [troubleshooting guide](troubleshooting.md#Port finding)
+	* if you have trouble seeing the desired port, check out the [troubleshooting guide](troubleshooting.md##Port finding)
