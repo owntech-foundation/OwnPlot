@@ -10,7 +10,9 @@ This code will generate sawteeth with ASCII formatting.
 
 You can change the number of datasets by modifying the `#define numberOfTriangles 3` statement. The default value is 3.
 === "SPIN"
-	TODO: SPIN demo sawteeth.
+	!!! info
+		If you need to familiarize yourself with OwnTech's SDK, please start [here](../../../core/docs/environment_setup/)
+
 	``` C
 	#include "TaskAPI.h"
 	#include "SpinAPI.h"
