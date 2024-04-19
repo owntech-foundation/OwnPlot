@@ -1,9 +1,25 @@
-# Welcome to OwnPlot!
+## Welcome to OwnPlot!
 This documentation will help you use and develop for OwnPlot.
-**screenshot of OwnPlot**
 
-# User Manual
-checkout the **User Manual** Available [Here](user-manual/home.md)
+<figure markdown="span">
+  ![OwnPlot logo](imgs/icon.svg){ width="300" }
+  <figcaption>OwnPlot is a Free and OpenSource plotter written in Electron</figcaption>
+</figure>
 
-# Developpment Manual
-checkout the **Developpment Manual** Available [Here](dev-manual/home.md)
+## Documentation
+
+The documentation is splitted between the [User Manual](user-manual/home.md) and the [Developper Manual](dev-manual/home.md)
+
+<div class="grid" markdown>
+[:fontawesome-solid-user: User Manual](user-manual/home.md)
+{ .card }
+
+[:fontawesome-brands-dev: Dev Manual](dev-manual/home.md)
+{ .card }
+</div>
+
+### User Manual
+The User Manual will guide you through all of OwnPlot's features.
+
+### Development Manual
+The Dev Manual will help you understand the architecture and will permit you to add features and contribute to OwnPlot's development.
