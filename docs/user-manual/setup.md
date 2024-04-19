@@ -11,7 +11,7 @@
 {%set deb_url = base_url + deb_exe %}
 {%set rpm_url = base_url + rpm_exe %}
 {%set appi_url = base_url + appi_exe %}
-{%set page_base = {{config.site_url}} + "/OwnPlot/docs/user-manual/" %}
+{%set page_base = config.site_url + "/OwnPlot/docs/user-manual/" %}
 
 ## Installing OwnPlot
 
