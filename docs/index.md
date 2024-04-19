@@ -8,7 +8,7 @@ This documentation will help you use and develop for OwnPlot.
 
 ## Documentation
 
-The documentation is splitted between the [User Manual](user-manual/home.md) and the [Developper Manual](dev-manual/home.md)
+The documentation is split between the [User Manual](user-manual/home.md) and the [Developer Manual](dev-manual/home.md)
 
 <div class="grid" markdown>
 [:fontawesome-solid-user: User Manual](user-manual/home.md)
