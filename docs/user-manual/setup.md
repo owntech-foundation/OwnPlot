@@ -13,6 +13,9 @@
 {%set appi_url = base_url + appi_exe %}
 {%set page_base = "./" %}
 
+{{config.site_url}}
+
+![mac install]({{config.site_url}}/OwnPlot/docs/user-manual/imgs/OwnPlot_macOS_install.png)
 
 ## Installing OwnPlot
 
