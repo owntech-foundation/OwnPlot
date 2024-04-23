@@ -47,12 +47,12 @@ Choose your system and follow the installation procedure.
 
 ### Step 2 - Install OwnPlot
 
-=== "Windows"
+=== ":fontawesome-brands-windows: Windows"
 
 	1. Launch the executable *{{ win_exe }}*
 	2. The app will automatically install in the `User\AppData\Local\Programs\OwnPlot` folder
 
-=== "macOS"
+=== ":fontawesome-brands-apple: macOS"
 	!!! success "Compatibility"
 		This works with Intel & Apple silicon
 	
@@ -60,14 +60,14 @@ Choose your system and follow the installation procedure.
 	2. Drag and drop OwnPlot into your Applications folder 
 	![mac install]({{ page_base }}imgs/OwnPlot_macOS_install.png)
 
-=== "Linux (Debian based)"
+=== ":fontawesome-brands-linux::fontawesome-brands-debian: Linux (Debian based)"
 	1. Open a terminal
 	2. Install the package
 	``` shell
 	sudo dpkg -i {{ deb_exe }}
 	```
 
-=== "Linux (RedHat based)"
+=== ":fontawesome-brands-linux::fontawesome-brands-redhat: Linux (RedHat based)"
 	!!! warning
 		This install has not been tested yet
 
@@ -77,19 +77,19 @@ Choose your system and follow the installation procedure.
 	sudo rpm -i {{ rpm_exe }}
 	```
 
-=== "Linux (AppImage)"
+=== ":fontawesome-brands-linux: Linux (AppImage)"
 
 	1. Right-click on the AppImage file
     2. Check the button to allow it to run as a program
 
 ### Step 3 - Run OwnPlot
 
-=== "Windows"
+=== ":fontawesome-brands-windows: Windows"
 
 	1. OwnPlot should launch itself right after the installation has been completed.
 	2. OwnPlot should be available from the start menu
 
-=== "macOS"
+=== ":fontawesome-brands-apple: macOS"
 
     Launch OwnPlot from your Application folder or the LaunchPad
 
@@ -103,15 +103,15 @@ Choose your system and follow the installation procedure.
 		4. Allow OwnPlot to run by clicking the button "Allow"
 		![mac Allow app]({{ page_base }}imgs/OwnPlot_macOS_open_anyways.png)
 
-=== "Linux (Debian based)"
+=== ":fontawesome-brands-linux::fontawesome-brands-debian: Linux (Debian based)"
 
     Type `ownplot` on the terminal.
 
-=== "Linux (RedHat based)"
+=== ":fontawesome-brands-linux::fontawesome-brands-redhat: Linux (RedHat based)"
 
     Type `ownplot` on the terminal.
 
-=== "Linux (AppImage)"
+=== ":fontawesome-brands-linux: Linux (AppImage)"
 
     Double-click on the AppImage file
 
