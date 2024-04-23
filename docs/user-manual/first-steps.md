@@ -6,15 +6,15 @@
 if you want to test this, sample programs will be available later.
 3. Select the corresponding serial port in the port dropdown
 
-	=== "Windows"
+	=== ":fontawesome-brands-windows: Windows"
 		The port will start with *COM*
 		TODO: PIC { width="300" }
 
-	=== "macOS"
+	=== ":fontawesome-brands-apple: macOS"
 		The port will most likely start with */dev/tty.usbserial* but your mileage may vary.
 		![Open port](imgs/OwnPlot_macOS_select_port.gif){ width="300" }
 
-	=== "Linux"
+	=== ":fontawesome-brands-linux: Linux"
 		The port will most likely start with */dev/tty.usb* but your mileage may vary.
 		TODO: PIC { width="300" }
 

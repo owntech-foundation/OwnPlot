@@ -9,7 +9,7 @@ This page will provide you with sample codes that will make those dev boards "ta
 This code will generate sawteeth with ASCII formatting.
 
 You can change the number of datasets by modifying the `#define numberOfTriangles 3` statement. The default value is 3.
-=== "SPIN"
+=== ":material-power: SPIN"
 	!!! info
 		If you need to familiarize yourself with OwnTech's SDK, please start [here](../../../../core/docs/environment_setup/)
 
@@ -75,7 +75,7 @@ You can change the number of datasets by modifying the `#define numberOfTriangle
 		return 0;
 	}
 	```
-=== "Arduino"
+=== ":simple-arduino: Arduino"
 	Here is the demo code. Tested on an Arduino Uno and Mega.
 	``` arduino
 	#define numberOfTriangles 3

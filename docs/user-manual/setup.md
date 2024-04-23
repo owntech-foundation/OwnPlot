@@ -21,26 +21,26 @@ Choose your system and follow the installation procedure.
 !!! info "Releases"
 	All OwnPlot releases can be downloaded on [github](https://github.com/owntech-foundation/OwnPlot/releases).
 
-=== "Windows"
+=== ":fontawesome-brands-windows: Windows"
 
 	Download the file [{{ win_exe }}]({{ win_url }})
 
-=== "macOS"
+=== ":fontawesome-brands-apple: macOS"
 	This works with Intel & Apple silicon
 
 	Download the file [{{ mac_exe }}]({{ mac_url }})
 
-=== "Linux (Debian based)"
+=== ":fontawesome-brands-linux::fontawesome-brands-debian: Linux (Debian based)"
 
 	Download the file [{{ deb_exe }}]({{ deb_url }})
 
 
-=== "Linux (RedHat based)"
+=== ":fontawesome-brands-linux::fontawesome-brands-redhat: Linux (RedHat based)"
 
 	Download the file [{{ rpm_exe }}]({{ rpm_url }})
 
 
-=== "Linux (AppImage)"
+=== ":fontawesome-brands-linux: Linux (AppImage)"
 
 	Download the file [{{ appi_exe }}]({{ appi_url }})
 
