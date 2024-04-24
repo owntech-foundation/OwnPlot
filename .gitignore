@@ -11,3 +11,6 @@ old
 old/*
 .vscode
 .vscode/*
+.$*.bkp
+ownplot.css
+ownplot.css.map
