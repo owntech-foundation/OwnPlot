@@ -4,7 +4,7 @@
  * @ Website: https://www.owntech.org/
  * @ Mail: owntech@laas.fr
  * @ Create Time: 2022-08-30 09:31:24
- * @ Modified by: Jean Alinei
+ * @ Modified by: Guillaume Arthaud
  * @ Modified time: 2022-09-08 12:20:33
  * @ Description:
  */
@@ -314,6 +314,7 @@ function initChart(){
 					},
 				},
 			},
+			animation: false,
 			responsive: true,
 			maintainAspectRatio: false,
 			plugins: {
