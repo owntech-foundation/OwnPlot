@@ -13,8 +13,27 @@ The most important field is
 
 ### Mockports Tab
 
+The **Mockports** tab hosts the setup of the Mockport 4 (File reader).
+
+#### File reader
+
+You can upload a file recorded from the Record tab and play it back.
+![mockports](../imgs/OwnPlot_Mockports_tab_select_file.png){ width="300" }
+
+!!! Note
+	You have to select the Mockport 4 in the port selector in order to upload a record file.
+
+By default, the data will be read once and the port will automatically close.
+![mockports](../imgs/OwnPlot_Mockports_tab_loop_data.png){ width="300" }
+You can change this behavior by pressing the **Loop Data** button. This will read the available data in the provided file and restart the process every time the end file has been reached.
+
+#### Interval
+You can also change the interval of points using the **interval (ms)**.
+the smaller the number, the more data points per second will appear in the graph.
+![mockports](../imgs/OwnPlot_Mockports_tab_interval.png){ width="300" }
+
 ### Controls Tab
-The controls tab enables you to set shortcuts for common actions.
+The **Controls** tab enables you to set shortcuts for common actions.
 
 | Shortcut         | Action                         | Manual action |
 |------------------|--------------------------------|---------------|
