@@ -105,11 +105,11 @@ Choose your system and follow the installation procedure.
 
 === ":fontawesome-brands-linux::fontawesome-brands-debian: Linux (Debian based)"
 
-    Type `ownplot` on the terminal.
+    Type `ownplot` in the terminal.
 
 === ":fontawesome-brands-linux::fontawesome-brands-redhat: Linux (RedHat based)"
 
-    Type `ownplot` on the terminal.
+    Type `ownplot` in the terminal.
 
 === ":fontawesome-brands-linux: Linux (AppImage)"
 
