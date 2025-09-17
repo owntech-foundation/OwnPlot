@@ -25,7 +25,20 @@ A record feature is also available. You have to click play under the *record* ta
 
 Send command to your devboard through the *command* tab ! You can add buttons if you have to send the same data regularly.
 
-## Running the development environment
+## Install the software
+
+Download the executable for your operating system in Github releases here https://github.com/owntech-foundation/OwnPlot/releases/.
+
+Install it by launching the executable.
+
+On Linux based systems make sure the AppImage has the right to execute first.
+
+**Congrats!** 🥳 \
+A window should be opened with OwnPlot.
+
+If you are experiencing problems during the install, please post an issue and report the problem. This will greatly help us improve the user experience.
+
+## I'm interested in developping or building it myself - Running the development environment
 
 First of all, open the terminal of your choice.
 If you are using Windows, we recommand the use of git bash https://www.git-scm.com/downloads
@@ -39,11 +52,11 @@ If you are using Windows, we recommand the use of git bash https://www.git-scm.c
     *Note: version `18.7.0` is recommanded*
 
 2. Clone the repository:
-    * If you have a gitlab accound and a ssh key linked to this one, clone with this command instead: \
-    `git clone git@gitlab.laas.fr:owntech/ownplot.git`
+    * If you have a github accound and a ssh key linked to this one, clone with this command instead: \
+    `git clone git@github.com:owntech-foundation/OwnPlot.git`
 
     * Otherwise use this command: \
-    `git clone https://gitlab.laas.fr/owntech/ownplot.git`
+    `git clone [https://gitlab.laas.fr/owntech/ownplot.git](https://github.com/owntech-foundation/OwnPlot.git)`
 
 3. Go the the newly created folder: \
 `cd ownplot`
@@ -53,12 +66,6 @@ If you are using Windows, we recommand the use of git bash https://www.git-scm.c
 
 5. Run the development environment: \
 `npm start`
-
-**Congrats!** 🥳 \
-A window should be opened with OwnPlot.
-
-If you are experiencing problems during the install, please post an issue and report the problem. This will greatly help us improve the user experience.
-
 
 ## Build for your plateform
 
